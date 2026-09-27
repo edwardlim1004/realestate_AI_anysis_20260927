@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+<title>🚦 부동산 신호등 PRO — 정량 평가 모델 대시보드</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='9' y='2' width='14' height='28' rx='4' fill='%230e0e0e' stroke='%23464849'/%3E%3Ccircle cx='16' cy='9' r='3' fill='%23ff7261'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23f59e0b'/%3E%3Ccircle cx='16' cy='23' r='3' fill='%237d98ff'/%3E%3C/svg%3E">
+<script>
+(function () {
+  var t = null;
+  try { t = localStorage.getItem('re_theme'); } catch (e) {}
+  if (t !== 'light' && t !== 'dark') t = 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --buy:#7d98ff; --warning:#f59e0b; --watch:#ff7261;
+  --pos:#7d98ff; --neg:#ff7261;
+  --surface:#0e0e0e; --surface-1:#121314; --surface-2:#181a1a; --surface-3:#1e2020; --surface-4:#242627;
+  --on-surface:#e5e5e6; --on-surface-var:#aaabab; --outline:#3a3c3d; --outline-2:#242627;
+  --radius:14px;
+}
+:root[data-theme="light"]{
+  --surface:#f6f5f3; --surface-1:#ffffff; --surface-2:#f0eeeb; --surface-3:#e7e4e0; --surface-4:#dedad5;
+  --on-surface:#17181a; --on-surface-var:#5b5d5e; --outline:#d9d5cf; --outline-2:#e7e4e0;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--surface); color:var(--on-surface);
+  font-family:'Inter',-apple-system,'Pretendard',sans-serif;
+  line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.mono{font-family:'Space Grotesk','JetBrains Mono',monospace}
+.num{font-family:'JetBrains Mono',monospace; font-variant-numeric:tabular-nums}
+a{color:inherit}
+.wrap{max-width:1280px; margin:0 auto; padding:0 20px}
+header.top{
+  position:sticky; top:0; z-index:40; background:color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--outline-2);
+}
+.topbar{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+.brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px}
+.brand .lamp{width:16px;height:16px;border-radius:4px;background:linear-gradient(180deg,var(--watch),var(--warning),var(--buy))}
+.themeBtn{
+  border:1px solid var(--outline); background:var(--surface-2); color:var(--on-surface);
+  border-radius:999px; padding:6px 14px; font-size:12px; cursor:pointer;
+}
+main{padding:28px 0 80px}
+section{margin-bottom:34px}
+.badge{
+  display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:600;
+  padding:4px 10px; border-radius:999px; border:1px solid var(--outline);
+  color:var(--on-surface-var); background:var(--surface-2);
+}
+h2.section-title{font-size:15px; letter-spacing:.02em; margin:0 0 4px; display:flex; align-items:center; gap:8px}
+p.section-sub{color:var(--on-surface-var); font-size:12.5px; margin:0 0 16px; max-width:760px}
+.disclaimer{
+  border:1px dashed var(--outline); background:var(--surface-1); border-radius:12px;
+  padding:14px 16px; font-size:12.5px; color:var(--on-surface-var); margin-top:14px;
+}
+.disclaimer b{color:var(--on-surface)}
+
+/* KPI strip */
+.kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+.kpi{background:var(--surface-1); border:1px solid var(--outline-2); border-radius:var(--radius); padding:16px}
+.kpi .tag{font-size:10.5px; color:var(--on-surface-var); text-transform:uppercase; letter-spacing:.06em}
+.kpi .val{font-size:24px; font-weight:700; margin:6px 0 4px}
+.kpi .sub{font-size:11.5px; color:var(--on-surface-var)}
+
+/* card */
+.card{background:var(--surface-1); border:1px solid var(--outline-2); border-radius:var(--radius); padding:20px}
+
+/* weight bars */
+.weight-list{display:flex; flex-direction:column; gap:10px; margin-top:14px}
+.weight-row{display:grid; grid-template-columns:120px 1fr 50px; align-items:center; gap:10px; font-size:12.5px}
+.weight-track{height:8px; border-radius:6px; background:var(--surface-3); overflow:hidden}
+.weight-fill{height:100%; border-radius:6px; background:var(--buy)}
+.formula-box{
+  margin-top:16px; background:var(--surface-2); border:1px solid var(--outline-2); border-radius:10px;
+  padding:14px 16px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--on-surface-var); overflow-x:auto;
+}
+.formula-box b{color:var(--on-surface)}
+
+/* over/under grid */
+.ou-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+.rank-list{list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; gap:8px}
+.rank-item{display:grid; grid-template-columns:22px 1fr auto; align-items:center; gap:10px; padding:8px 10px; border-radius:9px; background:var(--surface-2)}
+.rank-item .rank-i{font-size:11px; color:var(--on-surface-var); font-weight:700}
+.rank-item .rname{font-size:13px; font-weight:600}
+.rank-item .rgap{font-size:13px; font-weight:700}
+.rgap.over{color:var(--watch)} .rgap.under{color:var(--buy)}
+
+.chart-card{margin-top:16px}
+canvas{max-width:100%}
+
+/* Budget gate */
+.gate-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:20px}
+.gate-form label{display:block; font-size:12px; color:var(--on-surface-var); margin:12px 0 6px}
+.gate-form input[type=range]{width:100%}
+.gate-form .rowval{display:flex; justify-content:space-between; font-size:12.5px}
+.gate-result{background:var(--surface-2); border-radius:12px; padding:16px; display:flex; flex-direction:column; gap:10px; justify-content:center}
+.gate-result .big{font-size:26px; font-weight:700}
+.gate-toggle{
+  margin-top:14px; display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+  font-size:12.5px; color:var(--on-surface-var);
+}
+
+/* board */
+.board-controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:14px}
+.board-controls input[type=search], .board-controls select{
+  background:var(--surface-2); border:1px solid var(--outline); color:var(--on-surface);
+  border-radius:9px; padding:8px 12px; font-size:12.5px;
+}
+.chip{
+  border:1px solid var(--outline); background:var(--surface-2); color:var(--on-surface-var);
+  border-radius:999px; padding:6px 12px; font-size:12px; cursor:pointer;
+}
+.chip[aria-pressed="true"]{background:var(--on-surface); color:var(--surface); border-color:var(--on-surface)}
+.table-wrap{overflow-x:auto; border:1px solid var(--outline-2); border-radius:var(--radius)}
+table{border-collapse:collapse; width:100%; min-width:920px; font-size:12.5px}
+thead th{
+  text-align:left; padding:10px 12px; background:var(--surface-2); color:var(--on-surface-var);
+  font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.03em; white-space:nowrap; cursor:pointer;
+  position:sticky; top:0;
+}
+tbody td{padding:10px 12px; border-top:1px solid var(--outline-2); white-space:nowrap}
+tbody tr{cursor:pointer; transition:background .12s}
+tbody tr:hover{background:var(--surface-2)}
+.sig-pill{display:inline-flex; align-items:center; gap:5px; font-weight:700; font-size:11.5px; padding:3px 8px; border-radius:999px}
+.sig-buy{background:color-mix(in srgb, var(--buy) 18%, transparent); color:var(--buy)}
+.sig-warning{background:color-mix(in srgb, var(--warning) 18%, transparent); color:var(--warning)}
+.sig-watch{background:color-mix(in srgb, var(--watch) 18%, transparent); color:var(--watch)}
+.gapcell.pos{color:var(--watch)} .gapcell.neg{color:var(--buy)}
+.scorebar{display:flex; align-items:center; gap:6px}
+.scorebar .track{width:52px; height:6px; border-radius:4px; background:var(--surface-3); overflow:hidden}
+.scorebar .fill{height:100%; border-radius:4px}
+
+/* modal */
+.modal-backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:80; display:none;
+  align-items:flex-start; justify-content:center; padding:40px 16px; overflow-y:auto;
+}
+.modal-backdrop.open{display:flex}
+.modal{
+  background:var(--surface-1); border:1px solid var(--outline-2); border-radius:16px;
+  max-width:880px; width:100%; padding:26px; position:relative;
+}
+.modal-close{
+  position:absolute; top:16px; right:16px; background:var(--surface-3); border:none; color:var(--on-surface);
+  width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:16px;
+}
+.modal-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+.modal-head h3{margin:0; font-size:20px}
+.modal-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:20px; margin-top:18px}
+.stat-mini{background:var(--surface-2); border-radius:10px; padding:10px 12px}
+.stat-mini .l{font-size:10.5px; color:var(--on-surface-var); text-transform:uppercase}
+.stat-mini .v{font-size:15px; font-weight:700; margin-top:2px}
+.stat-mini-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px}
+
+footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-surface-var); font-size:11.5px}
+
+@media (max-width: 860px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .ou-grid, .gate-grid, .modal-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap topbar">
+    <div class="brand"><span class="lamp"></span> 부동산 신호등 <span style="color:var(--on-surface-var); font-weight:500">PRO · 정량 평가 모델</span></div>
+    <button class="themeBtn" id="themeBtn" onclick="toggleTheme()">☀ 라이트 모드</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <h2 class="section-title">서울 25구 · 경기 31개 시·군 — 정량 밸류에이션 대시보드</h2>
+    <p class="section-sub">아래 신호는 5개 정량 지표를 가중합산한 <b style="color:var(--on-surface)">종합점수(0~100)</b>로 산출됩니다. 판단 근거는 전부 공개되어 있으며, 클릭 한 번으로 지역별 상세 수치와 과거 대비 고/저평가 그래프를 볼 수 있습니다.</p>
+    <div class="disclaimer">
+      ⚠️ <b>데이터 안내</b> — 지역별 <b>현재가(전용84㎡·전체평균), 실거래 건수, 최근 모멘텀·리스크 지표</b>는 원본 스냅샷(2026-09-19 기준) 값을 그대로 사용했습니다. 다만 <b>61개월 과거 시계열 그래프와 "적정가(추세선)" 는 실데이터가 아니라, 위 스냅샷 지표(모멘텀·리스크)를 바탕으로 방법론 시연을 위해 생성한 모델링 값</b>입니다. 실제 서비스로 운영하시려면 국토부 실거래가 API의 월별 시계열을 그대로 대입하시면 됩니다 (연동 방법은 하단 README 참고). 본 대시보드는 투자 자문이 아닙니다.
+    </div>
+  </section>
+
+  <section>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="tag">한국은행 기준금리</div><div class="val num">3.00%</div><div class="sub">최근 인상 +0.25%p · 긴축 기조</div></div>
+      <div class="kpi"><div class="tag">시중은행 주담대 평균</div><div class="val num">4.39%</div><div class="sub">이자부담 상승 → 매수심리 양극화</div></div>
+      <div class="kpi"><div class="tag">수도권 실거래 누적(7~8월)</div><div class="val num">13,540건</div><div class="sub">56개 전 지역 합산</div></div>
+      <div class="kpi"><div class="tag">치안·범죄 지표</div><div class="val num">7.8건/천명</div><div class="sub">5대 강력범죄 기준</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2 class="section-title">🧮 종합점수 산출 공식 (판단 근거 전면 공개)</h2>
+      <p class="section-sub">각 지역을 56개 지역 <b style="color:var(--on-surface)">상대 백분위(0~100)</b> 로 환산한 뒤, 아래 가중치로 합산합니다. 신호 기준: 종합점수 <span class="num">≥62</span> 매수고려 / <span class="num">42~61</span> 주의 / <span class="num">&lt;42</span> 관망.</p>
+      <div class="weight-list" id="weightList"></div>
+      <div class="formula-box">
+종합점수 = <b>0.35</b>×밸류에이션갭점수 + <b>0.15</b>×모멘텀점수 + <b>0.15</b>×거래유동성점수 + <b>0.20</b>×리스크점수 + <b>0.15</b>×전세가율점수
+<br><br>
+· <b>밸류에이션갭점수</b> = 현재가가 5년 구조적 추세선(로그회귀, 최근 12개월 제외) 대비 얼마나 낮은가의 56개 지역 내 백분위
+<br>· <b>모멘텀점수</b> = 최근 실거래 가격 변동률(트렌드 지표)의 백분위 — 단기 방향성
+<br>· <b>거래유동성점수</b> = 전월 대비 실거래 건수 증감률의 백분위 — 환금성
+<br>· <b>리스크점수</b> = 4대 리스크 지표(고점·환금성·금리·치안)를 역산한 백분위 — 낮을수록 유리
+<br>· <b>전세가율점수</b> = 전세/매매 비율의 백분위 — 높을수록 실수요 기반·갭투자 리스크 낮음
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">📊 과거 추세 대비 고평가·저평가 랭킹</h2>
+    <p class="section-sub">각 지역 현재가를 5년 구조적 추세선과 비교한 괴리율(%)입니다. 양수(+)는 추세 대비 고평가, 음수(-)는 저평가를 의미합니다.</p>
+    <div class="ou-grid">
+      <div class="card">
+        <h3 style="margin:0; font-size:14px; color:var(--watch)">🔺 추세 대비 고평가 TOP 8</h3>
+        <ul class="rank-list" id="overList"></ul>
+      </div>
+      <div class="card">
+        <h3 style="margin:0; font-size:14px; color:var(--buy)">🔻 추세 대비 저평가 TOP 8</h3>
+        <ul class="rank-list" id="underList"></ul>
+      </div>
+    </div>
+    <div class="card chart-card">
+      <h3 style="margin:0 0 4px; font-size:14px">56개 지역 분포 — 종합점수 × 밸류에이션 괴리율</h3>
+      <p class="section-sub" style="margin-bottom:10px">점을 클릭하면 해당 지역 상세 분석이 열립니다. 색상은 신호(🔵매수고려 / 🟡주의 / 🔴관망)를 의미합니다.</p>
+      <canvas id="scatterChart" height="110"></canvas>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2 class="section-title">🔒 구매력 예산 게이트 (Budget Gate)</h2>
+      <p class="section-sub">소득·자산은 브라우저 안에서만 계산되며 서버로 전송되지 않습니다. DSR 40% 한도 기준 최대 매수 가능 예산을 산출합니다.</p>
+      <div class="gate-grid">
+        <div class="gate-form">
+          <label>연소득 (부부합산, 만원) — <span class="num" id="incomeVal">8,500</span></label>
+          <input type="range" id="incomeInput" min="3000" max="30000" step="500" value="8500" oninput="calcGate()">
+          <label>보유 현금 자산 (만원) — <span class="num" id="cashVal">45,000</span></label>
+          <input type="range" id="cashInput" min="0" max="200000" step="1000" value="45000" oninput="calcGate()">
+          <label>적용 주담대 금리 (%) — <span class="num" id="rateVal">3.8</span></label>
+          <input type="range" id="rateInput" min="2.5" max="7" step="0.1" value="3.8" oninput="calcGate()">
+        </div>
+        <div class="gate-result">
+          <div>
+            <div style="font-size:11px; color:var(--on-surface-var)">DSR 40% 대출 한도</div>
+            <div class="big num" id="loanLimit">-</div>
+          </div>
+          <div>
+            <div style="font-size:11px; color:var(--on-surface-var)">최대 매수 가능 예산</div>
+            <div class="big num" id="maxBudget" style="color:var(--buy)">-</div>
+          </div>
+          <label class="gate-toggle"><input type="checkbox" id="budgetFilterChk" onchange="renderBoard()"> 내 예산 내 지역만 보기</label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">📋 지역별 종합 시세·신호 게시판</h2>
+    <p class="section-sub">헤더를 클릭하면 정렬됩니다. 행을 클릭하면 상세 분석(과거 시계열 + 지표 레이더)이 열립니다.</p>
+    <div class="board-controls">
+      <input type="search" id="searchInput" placeholder="지역 검색..." oninput="renderBoard()">
+      <select id="provinceSel" onchange="renderBoard()">
+        <option value="all">전체 지역</option>
+        <option value="seoul">서울특별시</option>
+        <option value="gyeonggi">경기도</option>
+      </select>
+      <button class="chip" data-sig="all" aria-pressed="true" onclick="setSignal('all')">전체 신호</button>
+      <button class="chip" data-sig="buy" onclick="setSignal('buy')">🔵 매수고려</button>
+      <button class="chip" data-sig="warning" onclick="setSignal('warning')">🟡 주의</button>
+      <button class="chip" data-sig="watch" onclick="setSignal('watch')">🔴 관망</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="setSort('signal')">신호</th>
+            <th onclick="setSort('name')">지역</th>
+            <th onclick="setSort('composite')">종합점수</th>
+            <th onclick="setSort('gapPct')">밸류에이션 갭</th>
+            <th onclick="setSort('avg84')">전용84 평균</th>
+            <th onclick="setSort('avgPrice')">전체 평균</th>
+            <th onclick="setSort('jeonseRate')">전세가율</th>
+            <th onclick="setSort('trades')">실거래 건수</th>
+          </tr>
+        </thead>
+        <tbody id="boardBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<div class="modal-backdrop" id="modalBackdrop" onclick="if(event.target===this) closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-head">
+      <h3 id="mName">-</h3>
+      <span class="sig-pill" id="mSignal">-</span>
+    </div>
+    <p class="section-sub" id="mVerdict" style="margin-top:8px"></p>
+    <div class="stat-mini-grid">
+      <div class="stat-mini"><div class="l">현재가 (전용84)</div><div class="v num" id="mPrice">-</div></div>
+      <div class="stat-mini"><div class="l">추세 대비 괴리율</div><div class="v num" id="mGap">-</div></div>
+      <div class="stat-mini"><div class="l">전세가율</div><div class="v num" id="mJeonse">-</div></div>
+      <div class="stat-mini"><div class="l">실거래 건수</div><div class="v num" id="mTrades">-</div></div>
+    </div>
+    <div class="modal-grid">
+      <div class="card">
+        <h3 style="margin:0 0 6px; font-size:13px">5년 시세 추이 vs 구조적 적정가</h3>
+        <canvas id="lineChart" height="180"></canvas>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 6px; font-size:13px">지표 breakdown (0~100)</h3>
+        <canvas id="radarChart" height="180"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    자체 호스팅용으로 제작된 정적 대시보드입니다. 실거래가/금리/치안 데이터를 실시간 API로 교체하려면 data.js의 ENHANCED_DATA 구조를 유지한 채 값만 갱신하면 됩니다. 본 콘텐츠는 투자 판단의 참고 자료이며, 투자 자문이 아닙니다.
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="data.js"></script>
+<script>
+const REGIONS = ENHANCED_DATA.regions;
+const MONTHS = ENHANCED_DATA.months;
+const WEIGHTS = ENHANCED_DATA.weights;
+
+const state = { province:'all', signal:'all', query:'', sortKey:'composite', sortDir:'desc', budget:null };
+
+function toggleTheme(){
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try{ localStorage.setItem('re_theme', next); }catch(e){}
+  document.getElementById('themeBtn').textContent = next === 'dark' ? '☀ 라이트 모드' : '🌙 다크 모드';
+}
+(function(){
+  const t = document.documentElement.getAttribute('data-theme');
+  document.getElementById('themeBtn').textContent = t === 'dark' ? '☀ 라이트 모드' : '🌙 다크 모드';
+})();
+
+// ---- weight bars ----
+const weightLabels = {valuation:'밸류에이션갭', momentum:'모멘텀', liquidity:'거래유동성', risk:'리스크', jeonse:'전세가율'};
+(function renderWeights(){
+  const el = document.getElementById('weightList');
+  el.innerHTML = Object.entries(WEIGHTS).map(([k,v])=>`
+    <div class="weight-row">
+      <span>${weightLabels[k]}</span>
+      <div class="weight-track"><div class="weight-fill" style="width:${v*100}%"></div></div>
+      <span class="num" style="text-align:right">${Math.round(v*100)}%</span>
+    </div>`).join('');
+})();
+
+// ---- over/under ranking ----
+(function renderRanking(){
+  const sorted = [...REGIONS].sort((a,b)=>b.gapPct - a.gapPct);
+  const over = sorted.slice(0,8);
+  const under = sorted.slice(-8).reverse();
+  const li = (r,i) => `<li class="rank-item"><span class="rank-i">${i+1}</span><span class="rname">${r.name}</span><span class="rgap ${r.gapPct>=0?'over':'under'} num">${r.gapPct>=0?'+':''}${r.gapPct.toFixed(1)}%</span></li>`;
+  document.getElementById('overList').innerHTML = over.map((r,i)=>li(r,i)).join('');
+  document.getElementById('underList').innerHTML = under.map((r,i)=>li(r,i)).join('');
+})();
+
+// ---- scatter chart ----
+const sigColor = {buy:'#7d98ff', warning:'#f59e0b', watch:'#ff7261'};
+let scatterChart;
+(function renderScatter(){
+  const ctx = document.getElementById('scatterChart');
+  const datasets = ['buy','warning','watch'].map(sig => ({
+    label: sig==='buy'?'매수고려':sig==='warning'?'주의':'관망',
+    data: REGIONS.filter(r=>r.signal===sig).map(r=>({x:r.scores.composite, y:r.gapPct, name:r.name})),
+    backgroundColor: sigColor[sig],
+    pointRadius:5, pointHoverRadius:7,
+  }));
+  scatterChart = new Chart(ctx, {
+    type:'scatter',
+    data:{datasets},
+    options:{
+      responsive:true,
+      onClick:(evt, els)=>{ if(els.length){ const d = els[0]; const point = datasets[d.datasetIndex].data[d.index]; openModal(REGIONS.find(r=>r.name===point.name)); } },
+      scales:{
+        x:{ title:{display:true, text:'종합점수'}, grid:{color:'rgba(128,128,128,.15)'} },
+        y:{ title:{display:true, text:'추세 대비 괴리율(%)'}, grid:{color:'rgba(128,128,128,.15)'} },
+      },
+      plugins:{
+        legend:{labels:{color:getComputedStyle(document.body).color}},
+        tooltip:{callbacks:{label:(c)=>`${c.raw.name}: 점수 ${c.raw.x.toFixed(1)} / 괴리율 ${c.raw.y.toFixed(1)}%`}}
+      }
+    }
+  });
+})();
+
+// ---- budget gate ----
+function calcGate(){
+  const income = +document.getElementById('incomeInput').value;
+  const cash = +document.getElementById('cashInput').value;
+  const rate = +document.getElementById('rateInput').value;
+  document.getElementById('incomeVal').textContent = income.toLocaleString();
+  document.getElementById('cashVal').textContent = cash.toLocaleString();
+  document.getElementById('rateVal').textContent = rate.toFixed(1);
+
+  const annualCapacity = income * 0.4; // DSR 40%
+  const monthlyRate = rate/100/12;
+  const n = 30*12;
+  const monthlyCapacity = annualCapacity/12;
+  const loanLimitManwon = monthlyRate>0 ? monthlyCapacity * (1-Math.pow(1+monthlyRate,-n)) / monthlyRate : monthlyCapacity*n;
+  const maxBudgetManwon = loanLimitManwon + cash;
+
+  document.getElementById('loanLimit').textContent = (loanLimitManwon/10000).toFixed(1)+'억';
+  document.getElementById('maxBudget').textContent = (maxBudgetManwon/10000).toFixed(1)+'억';
+  state.budget = maxBudgetManwon/10000;
+  renderBoard();
+}
+
+// ---- board ----
+function setSignal(sig){
+  state.signal = sig;
+  document.querySelectorAll('.chip[data-sig]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.sig===sig)));
+  renderBoard();
+}
+function setSort(key){
+  if(state.sortKey===key){ state.sortDir = state.sortDir==='desc'?'asc':'desc'; }
+  else { state.sortKey = key; state.sortDir = 'desc'; }
+  renderBoard();
+}
+function parseTradesTotal(s){
+  const m = /^(\d[\d,]*)건/.exec(s||'');
+  return m ? Number(m[1].replace(/,/g,'')) : 0;
+}
+function sigLabel(sig){ return sig==='buy'?'🔵 매수고려':sig==='warning'?'🟡 주의':'🔴 관망'; }
+
+function renderBoard(){
+  document.getElementById('provinceSel').value = state.province;
+  const provSel = document.getElementById('provinceSel').value;
+  state.province = provSel;
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const budgetOn = document.getElementById('budgetFilterChk').checked;
+
+  let rows = REGIONS.filter(r =>
+    (state.province==='all' || r.province===state.province) &&
+    (state.signal==='all' || r.signal===state.signal) &&
+    (!q || r.name.toLowerCase().includes(q)) &&
+    (!budgetOn || !state.budget || r.avg84 <= state.budget)
+  );
+
+  const key = state.sortKey;
+  rows.sort((a,b)=>{
+    let av, bv;
+    if(key==='name'){ av=a.name; bv=b.name; return state.sortDir==='asc'? av.localeCompare(bv): bv.localeCompare(av); }
+    if(key==='signal'){ av=a.signal; bv=b.signal; return state.sortDir==='asc'? av.localeCompare(bv): bv.localeCompare(av); }
+    if(key==='composite'){ av=a.scores.composite; bv=b.scores.composite; }
+    else if(key==='trades'){ av=parseTradesTotal(a.trades); bv=parseTradesTotal(b.trades); }
+    else { av=a[key]; bv=b[key]; }
+    return state.sortDir==='asc'? av-bv : bv-av;
+  });
+
+  document.getElementById('boardBody').innerHTML = rows.map(r=>`
+    <tr onclick='openModalByName("${r.name}")'>
+      <td><span class="sig-pill sig-${r.signal}">${sigLabel(r.signal)}</span></td>
+      <td><b>${r.name}</b><br><span style="color:var(--on-surface-var); font-size:10.5px">${r.zone}</span></td>
+      <td>
+        <div class="scorebar">
+          <div class="track"><div class="fill" style="width:${r.scores.composite}%; background:${sigColor[r.signal]}"></div></div>
+          <span class="num">${r.scores.composite.toFixed(1)}</span>
+        </div>
+      </td>
+      <td class="num gapcell ${r.gapPct>=0?'pos':'neg'}">${r.gapPct>=0?'+':''}${r.gapPct.toFixed(1)}%</td>
+      <td class="num">${r.avg84.toFixed(1)}억</td>
+      <td class="num">${r.avgPrice.toFixed(1)}억</td>
+      <td class="num">${r.jeonseRate.toFixed(1)}%</td>
+      <td class="num">${r.trades}</td>
+    </tr>`).join('');
+}
+
+// ---- modal / detail charts ----
+let lineChart, radarChart;
+function openModalByName(name){ openModal(REGIONS.find(r=>r.name===name)); }
+function openModal(r){
+  if(!r) return;
+  document.getElementById('mName').textContent = r.name;
+  const badge = document.getElementById('mSignal');
+  badge.textContent = sigLabel(r.signal);
+  badge.className = 'sig-pill sig-'+r.signal;
+  document.getElementById('mVerdict').textContent = `종합점수 ${r.scores.composite.toFixed(1)}점 · 추세선(구조적 적정가) 대비 ${r.gapPct>=0?'+' :''}${r.gapPct.toFixed(1)}% ${r.gapPct>=0?'고평가':'저평가'} 구간입니다.`;
+  document.getElementById('mPrice').textContent = r.avg84.toFixed(1)+'억';
+  document.getElementById('mGap').textContent = (r.gapPct>=0?'+':'')+r.gapPct.toFixed(1)+'%';
+  document.getElementById('mJeonse').textContent = r.jeonseRate.toFixed(1)+'%';
+  document.getElementById('mTrades').textContent = r.trades;
+
+  if(lineChart) lineChart.destroy();
+  if(radarChart) radarChart.destroy();
+
+  lineChart = new Chart(document.getElementById('lineChart'), {
+    type:'line',
+    data:{
+      labels: MONTHS,
+      datasets:[
+        { label:'실거래 시세(모델링)', data:r.history, borderColor:'#e5e5e6', backgroundColor:'transparent', pointRadius:0, borderWidth:2, tension:.25 },
+        { label:'구조적 적정가(추세선)', data:r.fairSeries, borderColor:'#7d98ff', backgroundColor:'transparent', pointRadius:0, borderWidth:2, borderDash:[6,4], tension:0 },
+      ]
+    },
+    options:{
+      responsive:true,
+      interaction:{mode:'index', intersect:false},
+      scales:{ x:{ ticks:{maxTicksLimit:8} }, y:{ title:{display:true, text:'억원'} } },
+      plugins:{ legend:{position:'bottom'} }
+    }
+  });
+
+  radarChart = new Chart(document.getElementById('radarChart'), {
+    type:'radar',
+    data:{
+      labels:['밸류에이션','모멘텀','유동성','리스크','전세가율'],
+      datasets:[{
+        label:r.name,
+        data:[r.scores.valuation, r.scores.momentum, r.scores.liquidity, r.scores.risk, r.scores.jeonse],
+        borderColor: sigColor[r.signal], backgroundColor: sigColor[r.signal]+'33', pointBackgroundColor: sigColor[r.signal],
+      }]
+    },
+    options:{ responsive:true, scales:{ r:{ min:0, max:100, ticks:{stepSize:20} } }, plugins:{legend:{display:false}} }
+  });
+
+  document.getElementById('modalBackdrop').classList.add('open');
+}
+function closeModal(){ document.getElementById('modalBackdrop').classList.remove('open'); }
+
+calcGate();
+renderBoard();
+</script>
+</body>
+</html>
