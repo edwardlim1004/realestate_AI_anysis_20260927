@@ -161,7 +161,8 @@ tbody tr:hover{background:var(--surface-2)}
 .stat-mini{background:var(--surface-2); border-radius:10px; padding:10px 12px}
 .stat-mini .l{font-size:10.5px; color:var(--on-surface-var); text-transform:uppercase}
 .stat-mini .v{font-size:15px; font-weight:700; margin-top:2px}
-.stat-mini-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px}
+.stat-mini-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(118px, 1fr)); gap:10px; margin-top:14px}
+.phase-badge{display:inline-block; font-size:12.5px; font-weight:700; padding:4px 10px; border-radius:999px; background:var(--surface-3)}
 
 footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-surface-var); font-size:11.5px}
 
@@ -186,7 +187,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
     <h2 class="section-title">서울 25구 · 경기 31개 시·군 — 정량 밸류에이션 대시보드</h2>
     <p class="section-sub">아래 신호는 5개 정량 지표를 가중합산한 <b style="color:var(--on-surface)">종합점수(0~100)</b>로 산출됩니다. 판단 근거는 전부 공개되어 있으며, 클릭 한 번으로 지역별 상세 수치와 과거 대비 고/저평가 그래프를 볼 수 있습니다.</p>
     <div class="disclaimer">
-      ⚠️ <b>데이터 안내</b> — 지역별 <b>현재가(전용84㎡·전체평균), 실거래 건수, 최근 모멘텀·리스크 지표</b>는 원본 스냅샷(2026-09-19 기준) 값을 그대로 사용했습니다. 다만 <b>61개월 과거 시계열 그래프와 "적정가(추세선)" 는 실데이터가 아니라, 위 스냅샷 지표(모멘텀·리스크)를 바탕으로 방법론 시연을 위해 생성한 모델링 값</b>입니다. 실제 서비스로 운영하시려면 국토부 실거래가 API의 월별 시계열을 그대로 대입하시면 됩니다 (연동 방법은 하단 README 참고). 본 대시보드는 투자 자문이 아닙니다.
+      ✅ <b>데이터 안내</b> — 지역별 <b>현재가(전용84㎡·전체평균), 61개월 과거 시계열, "적정가(추세선)"</b>는 국토교통부 실거래가 공개 API에서 직접 수집한 <b>실데이터</b>이며, 매일 자동으로 갱신됩니다. 다만 <b>전세가율</b>은 전월세 API 활용신청 승인 전까지는 과거 스냅샷 값을 임시로 유지할 수 있고, <b>모멘텀·리스크 세부 점수</b>는 아직 외부 지표(금리·치안 등)와 결합하기 전 단계라 일부 기존 값을 참고합니다. 수집·갱신 방식은 하단 README를 참고하세요. 본 대시보드는 투자 자문이 아닙니다.
     </div>
   </section>
 
@@ -205,13 +206,17 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
       <p class="section-sub">각 지역을 56개 지역 <b style="color:var(--on-surface)">상대 백분위(0~100)</b> 로 환산한 뒤, 아래 가중치로 합산합니다. 신호 기준: 종합점수 <span class="num">≥62</span> 매수고려 / <span class="num">42~61</span> 주의 / <span class="num">&lt;42</span> 관망.</p>
       <div class="weight-list" id="weightList"></div>
       <div class="formula-box">
-종합점수 = <b>0.35</b>×밸류에이션갭점수 + <b>0.15</b>×모멘텀점수 + <b>0.15</b>×거래유동성점수 + <b>0.20</b>×리스크점수 + <b>0.15</b>×전세가율점수
+종합점수 = <b>0.35</b>×밸류에이션갭점수 + <b>0.15</b>×모멘텀점수 + <b>0.15</b>×거래유동성점수 + <b>0.20</b>×리스크점수 + <b>0.15</b>×임대수익스프레드점수
 <br><br>
 · <b>밸류에이션갭점수</b> = 현재가가 5년 구조적 추세선(로그회귀, 최근 12개월 제외) 대비 얼마나 낮은가의 56개 지역 내 백분위
 <br>· <b>모멘텀점수</b> = 최근 실거래 가격 변동률(트렌드 지표)의 백분위 — 단기 방향성
 <br>· <b>거래유동성점수</b> = 전월 대비 실거래 건수 증감률의 백분위 — 환금성
 <br>· <b>리스크점수</b> = 4대 리스크 지표(고점·환금성·금리·치안)를 역산한 백분위 — 낮을수록 유리
-<br>· <b>전세가율점수</b> = 전세/매매 비율의 백분위 — 높을수록 실수요 기반·갭투자 리스크 낮음
+<br>· <b>임대수익스프레드점수</b> = 전세보증금을 전월세전환율(k)로 연간 환산 임대료로 바꾼 뒤(이현탁 2019),
+매매가 대비 내재 임대수익률을 구하고, 여기서 주담대 금리를 뺀 "스프레드"의 56개 지역 내 백분위
+(Himmelberg·Mayer·Sinai 2005의 사용자비용 모형 + Gallin 2008의 장기 평균회귀 예측력 반영).
+단순 전세가율(J/P)만 쓰지 않는 이유는, 같은 전세가율이라도 전환율·금리 환경에 따라 실제 임대가치가
+다르기 때문입니다. 상세 수식은 하단 README 참고.
       </div>
     </div>
   </section>
@@ -313,6 +318,10 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
       <div class="stat-mini"><div class="l">추세 대비 괴리율</div><div class="v num" id="mGap">-</div></div>
       <div class="stat-mini"><div class="l">전세가율</div><div class="v num" id="mJeonse">-</div></div>
       <div class="stat-mini"><div class="l">실거래 건수</div><div class="v num" id="mTrades">-</div></div>
+      <div class="stat-mini"><div class="l">전월세전환율(k)</div><div class="v num" id="mK">-</div></div>
+      <div class="stat-mini"><div class="l">내재 임대수익률</div><div class="v num" id="mYield">-</div></div>
+      <div class="stat-mini"><div class="l">금리대비 스프레드</div><div class="v num" id="mSpread">-</div></div>
+      <div class="stat-mini"><div class="l">갭 변화 국면</div><div class="v" id="mPhase"><span class="phase-badge">-</span></div></div>
     </div>
     <div class="modal-grid">
       <div class="card">
@@ -355,7 +364,7 @@ function toggleTheme(){
 })();
 
 // ---- weight bars ----
-const weightLabels = {valuation:'밸류에이션갭', momentum:'모멘텀', liquidity:'거래유동성', risk:'리스크', jeonse:'전세가율'};
+const weightLabels = {valuation:'밸류에이션갭', momentum:'모멘텀', liquidity:'거래유동성', risk:'리스크', jeonse:'임대수익 스프레드'};
 (function renderWeights(){
   const el = document.getElementById('weightList');
   el.innerHTML = Object.entries(WEIGHTS).map(([k,v])=>`
@@ -501,6 +510,15 @@ function openModal(r){
   document.getElementById('mGap').textContent = (r.gapPct>=0?'+':'')+r.gapPct.toFixed(1)+'%';
   document.getElementById('mJeonse').textContent = r.jeonseRate.toFixed(1)+'%';
   document.getElementById('mTrades').textContent = r.trades;
+  const estTag = r.jeonseEstimated ? ' (추정)' : '';
+  document.getElementById('mK').textContent = (r.kLocal!=null ? (r.kLocal*100).toFixed(2)+'%'+estTag : '-');
+  document.getElementById('mYield').textContent = (r.rentalYieldPct!=null ? r.rentalYieldPct.toFixed(2)+'%' : '-');
+  const spreadEl = document.getElementById('mSpread');
+  if(r.spreadPct!=null){
+    spreadEl.textContent = (r.spreadPct>=0?'+':'')+r.spreadPct.toFixed(2)+'%p';
+    spreadEl.style.color = r.spreadPct>=0 ? 'var(--buy)' : 'var(--watch)';
+  } else { spreadEl.textContent = '-'; }
+  document.getElementById('mPhase').innerHTML = `<span class="phase-badge">${r.gapPhase || '-'}</span>`;
 
   if(lineChart) lineChart.destroy();
   if(radarChart) radarChart.destroy();
