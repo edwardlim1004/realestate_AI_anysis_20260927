@@ -58,6 +58,38 @@ def to_label(ym):
     return f"{ym[:4]}-{ym[4:]}"
 
 
+DEFAULT_K = 0.045  # 반전세/월세 표본이 부족할 때 쓰는 기본 전월세전환율(연 4.5%, 보수적 근사치)
+MIN_WOLSE_SAMPLES = 5  # 이보다 적으면 지역 추정치 대신 기본값을 쓴다
+
+
+def estimate_conversion_rate(wolse_rows, jeonse_ref_deposit):
+    """
+    전월세전환율(k) 추정 (이현탁, 2019, 국토연구 103호, 식 2):
+        k = 12*M / (J - D)
+    - J: 비교 가능한 순수전세 보증금 (여기서는 지역 평균 전세보증금으로 근사)
+    - D: 해당 반전세/월세 계약의 실제 보증금
+    - M: 월세금액
+    표본별 k를 구해 median을 취해 이상치 영향을 줄인다.
+    """
+    if not jeonse_ref_deposit or jeonse_ref_deposit <= 0:
+        return DEFAULT_K, 0
+    ks = []
+    for r in wolse_rows:
+        D = r["deposit_manwon"] / 10000.0
+        M = r["rent_manwon"] / 10000.0
+        J = jeonse_ref_deposit
+        if J - D <= 0.01:  # 보증금이 전세가에 근접/초과하면 전환율 추정이 불안정 -> 제외
+            continue
+        k = (12 * M) / (J - D)
+        if 0.01 <= k <= 0.15:  # 연 1~15% 범위를 벗어나면 이상치로 간주하고 제외
+            ks.append(k)
+    if len(ks) < MIN_WOLSE_SAMPLES:
+        return DEFAULT_K, len(ks)
+    ks.sort()
+    median_k = ks[len(ks) // 2]
+    return median_k, len(ks)
+
+
 def fetch_month(lawd_cd, deal_ymd):
     rows = []
     page = 1
@@ -112,9 +144,9 @@ def fetch_month(lawd_cd, deal_ymd):
                 rent_manwon = float((monthly_rent or "0").replace(",", "").strip())
             except ValueError:
                 continue
-            if rent_manwon > 0:
-                continue
-            rows.append({"area": area_f, "deposit_manwon": deposit_manwon})
+            # 순수 전세(rent=0)와 반전세/월세(rent>0)를 모두 보존한다.
+            # 월세 거래는 전월세전환율(k) 추정에 쓰인다 (이현탁 2019, 식2: k = 12M / (J - D)).
+            rows.append({"area": area_f, "deposit_manwon": deposit_manwon, "rent_manwon": rent_manwon})
 
         total_count = int(root.findtext(".//totalCount", "0"))
         if page * 1000 >= total_count:
@@ -173,17 +205,24 @@ def main():
         for e in errors[:10]:
             print("  ", e)
 
+    # 전월세전환율(k) 추정용: 이번에 새로 받아온 월세/반전세 거래를 지역별로 모아둔다
+    # (캐시에는 넣지 않고, 이번 실행에서 확보한 표본만으로 매번 재추정한다 - 단순화된 근사치)
+    wolse_by_region = defaultdict(list)
+
     for name, ym in need_fetch:
         label = to_label(ym)
         key = (name, ym)
         if key not in raw and any(n == name and y == ym for n, y, *_ in errors):
             continue  # 실패했고 기존 캐시 있으면 유지
         rows = raw.get(key, [])
-        deposits = [r["deposit_manwon"] / 10000.0 for r in rows if 80 <= r["area"] <= 90]
+        jeonse_rows = [r for r in rows if r["rent_manwon"] == 0 and 80 <= r["area"] <= 90]
+        wolse_rows = [r for r in rows if r["rent_manwon"] > 0 and 80 <= r["area"] <= 90]
+        deposits = [r["deposit_manwon"] / 10000.0 for r in jeonse_rows]
         cache.setdefault(name, {})[label] = {
             "avgDeposit": (sum(deposits) / len(deposits)) if deposits else None,
             "sampleSize": len(deposits),
         }
+        wolse_by_region[name].extend(wolse_rows)
 
     valid_labels = {to_label(ym) for ym in months}
     for name in list(cache.keys()):
@@ -193,7 +232,11 @@ def main():
 
     json.dump(cache, open(CACHE_PATH, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
-    # 캐시(6개월치)를 합쳐서 지역별 전세가율 산출
+    # 한국은행 기준금리/주담대 금리 등 "자본비용" 기준점.
+    # Himmelberg·Mayer·Sinai(2005)의 사용자비용 모형에서 r_t 역할. 대시보드 KPI 카드와 동일 값으로 맞춰둔다.
+    MORTGAGE_RATE_PCT = 4.39
+
+    # 캐시(6개월치)를 합쳐서 지역별 전세가율 + 전환율 보정 스프레드 산출
     results = {}
     for name in targets:
         region_cache = cache.get(name, {})
@@ -209,12 +252,25 @@ def main():
             continue
         weighted_avg = sum(v * w for v, w in all_deposits_weighted) / total_sample
         jeonse_rate = weighted_avg / sale_avg84[name] * 100.0
+
+        # 전월세전환율(k) 추정 -> 전세를 "연간 환산 임대료"로 바꿔 임대수익률 계산
+        k_local, k_samples = estimate_conversion_rate(wolse_by_region.get(name, []), weighted_avg)
+        implied_annual_rent = weighted_avg * k_local          # 억원/년
+        rental_yield_pct = implied_annual_rent / sale_avg84[name] * 100.0
+        spread_pct = rental_yield_pct - MORTGAGE_RATE_PCT      # Gallin(2008) 식 장기 평가지표의 금리보정판
+
         results[name] = {
             "jeonseRate": round(jeonse_rate, 1),
             "jeonseAvgDeposit": round(weighted_avg, 2),
             "sampleSize": total_sample,
+            "kLocal": round(k_local, 4),
+            "kSamples": k_samples,
+            "impliedAnnualRent": round(implied_annual_rent, 3),
+            "rentalYieldPct": round(rental_yield_pct, 2),
+            "spreadPct": round(spread_pct, 2),
         }
-        print(f"[{name}] 표본 {total_sample}건 -> 전세가율 {jeonse_rate:.1f}%")
+        print(f"[{name}] 표본 {total_sample}건, k={k_local*100:.2f}%({k_samples}건 기반) "
+              f"-> 전세가율 {jeonse_rate:.1f}% / 임대수익률 {rental_yield_pct:.2f}% / 스프레드 {spread_pct:+.2f}%p")
 
     json.dump(results, open("jeonse_fetched.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"\n완료: jeonse_fetched.json 갱신 ({len(results)}개 지역, API 호출 {len(tasks)}건)")
