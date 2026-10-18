@@ -9,6 +9,7 @@ from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 from xml.etree import ElementTree as ET
 from zoneinfo import ZoneInfo
+from r2_bridge import R2Storage
 
 BASE=Path(__file__).resolve().parent
 DATA=BASE/'data'
@@ -133,6 +134,8 @@ class Collector:
 def run(mode,max_requests,delay,until=None,districts=None,collector=None):
     now=today();end=until or now.strftime('%Y%m')
     state=read_state();c=collector or Collector(os.environ['MOLIT_SERVICE_KEY'],max_requests,delay)
+    archive=R2Storage()
+    archive.migrate_legacy()
     districts=districts or list(GU)
     last_day=calendar.monthrange(now.year,now.month)[1]
     cycle=now.strftime('%Y%m') if now.day>=min(30,last_day) else None
@@ -145,7 +148,7 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None):
         refresh=[(kind,gu,ym) for ym in recent(base) for kind in ('sale','rent') for gu in districts if ym>=START[kind]]
         refresh=[x for x in refresh if '/'.join(x) not in done]
     history=[(kind,gu,ym) for ym in reversed(list(months('200601',end))) for kind in ('sale','rent')
-             for gu in districts if ym>=START[kind] and not scope(kind,gu,ym).exists()]
+             for gu in districts if ym>=START[kind] and not archive.has_scope(kind,gu,ym)]
     if mode=='test':
         refresh=[]
         month=prev(now.strftime('%Y%m'))
@@ -159,7 +162,10 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None):
         if c.calls>=c.limit:break
         try:
             records=c.fetch(kind,gu,ym)
-            save_scope(kind,gu,ym,records);success+=1
+            save_scope(kind,gu,ym,records)
+            archive.upload(scope(kind,gu,ym))
+            archive.save_manifest()
+            success+=1
             if (kind,gu,ym) in refresh:done.add('/'.join((kind,gu,ym)))
             print(f'OK {kind} {gu} {ym}: {len(records)} rows',flush=True)
         except StopSafely as error:
@@ -172,10 +178,10 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None):
         state={'refresh_cycle':None,'refresh_done':[]}
     else:state['refresh_done']=sorted(done)
     save_json(STATE,state)
-    count=sum(1 for _ in DATA.rglob('*.csv.gz')) if DATA.exists() else 0
+    count=len(archive.files)
     save_json(STATUS,{'as_of_kst':now.isoformat(),'total_completed_scopes':count,
         'last_run_requests':c.calls,'last_run_success':success,'last_run_failures':failures,
-        'refresh_cycle':state.get('refresh_cycle'),'last_run_mode':mode})
+        'refresh_cycle':state.get('refresh_cycle'),'last_run_mode':mode, **archive.stats()})
     print('RESULT',json.dumps({'requests':c.calls,'success':success,'failures':failures,'completed_scopes':count}))
     return 0 if failures==0 else 1
 
