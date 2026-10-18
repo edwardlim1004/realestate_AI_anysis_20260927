@@ -1,0 +1,24 @@
+name: Check Safe R2 Windows Sync
+on:
+  pull_request:
+    paths:
+      - "seoul-apartment-collector/windows/**"
+      - "seoul-apartment-collector/backfill_progress.py"
+      - "seoul-apartment-collector/test_safe_windows_sync.py"
+      - ".github/workflows/check-r2-windows-sync.yml"
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Python code compilation
+        run: python -m py_compile seoul-apartment-collector/windows/r2_windows_sync.py seoul-apartment-collector/backfill_progress.py seoul-apartment-collector/test_safe_windows_sync.py
+      - name: Validate read-only sync with fake S3
+        run: python seoul-apartment-collector/test_safe_windows_sync.py
