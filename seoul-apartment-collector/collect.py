@@ -15,6 +15,8 @@ BASE=Path(__file__).resolve().parent
 DATA=BASE/'data'
 STATE=BASE/'state.json'
 STATUS=BASE/'status.json'
+DAILY_MAX_REQUESTS=4800
+R2_DATA_SAFETY_CAP=8*1024*1024*1024  # 8 GiB project safety limit; not a cloud billing limit
 GU={'11110':'종로구','11140':'중구','11170':'용산구','11200':'성동구','11215':'광진구',
 '11230':'동대문구','11260':'중랑구','11290':'성북구','11305':'강북구','11320':'도봉구',
 '11350':'노원구','11380':'은평구','11410':'서대문구','11440':'마포구','11470':'양천구',
@@ -133,14 +135,25 @@ class Collector:
 
 def run(mode,max_requests,delay,until=None,districts=None,collector=None):
     now=today();end=until or now.strftime('%Y%m')
-    state=read_state();c=collector or Collector(os.environ['MOLIT_SERVICE_KEY'],max_requests,delay)
+    state=read_state()
+    run_day=now.isoformat()
+    used_today=int(state.get('daily_requests',0)) if state.get('usage_day')==run_day else 0
+    remaining=max(0,DAILY_MAX_REQUESTS-used_today)
+    actual_limit=min(max_requests,remaining)
+    c=collector or Collector(os.environ['MOLIT_SERVICE_KEY'],actual_limit,delay)
+    c.limit=min(c.limit,actual_limit)
     archive=R2Storage()
     archive.migrate_legacy()
+    if archive.stats()['r2_compressed_bytes']>=R2_DATA_SAFETY_CAP:
+        print('SAFE_STOP: R2 storage safety threshold exceeded',flush=True)
+        c.limit=0
+    if actual_limit==0:
+        print('SAFE_STOP: daily collector request budget used',flush=True)
     districts=districts or list(GU)
     last_day=calendar.monthrange(now.year,now.month)[1]
     cycle=now.strftime('%Y%m') if now.day>=min(30,last_day) else None
     if cycle and state.get('refresh_cycle')!=cycle:
-        state={'refresh_cycle':cycle,'refresh_done':[]}
+        state.update({'refresh_cycle':cycle,'refresh_done':[]})
     cycle=state.get('refresh_cycle');done=set(state.get('refresh_done',[]))
     base=dt.date(int(cycle[:4]),int(cycle[4:]),1) if cycle else now
     refresh=[]
@@ -168,6 +181,9 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None):
             success+=1
             if (kind,gu,ym) in refresh:done.add('/'.join((kind,gu,ym)))
             print(f'OK {kind} {gu} {ym}: {len(records)} rows',flush=True)
+            if archive.stats()['r2_compressed_bytes']>=R2_DATA_SAFETY_CAP:
+                print('SAFE_STOP: R2 storage safety threshold reached',flush=True)
+                break
         except StopSafely as error:
             print('SAFE_STOP',str(error),flush=True);break
         except Exception as error:
@@ -175,25 +191,29 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None):
             print(f'ERROR {kind} {gu} {ym} {type(error).__name__}',flush=True)
             if failures>=3:break
     if cycle and all('/'.join(x) in done for x in refresh):
-        state={'refresh_cycle':None,'refresh_done':[]}
+        state.update({'refresh_cycle':None,'refresh_done':[]})
     else:state['refresh_done']=sorted(done)
+    state['usage_day']=run_day
+    state['daily_requests']=used_today+c.calls
     save_json(STATE,state)
     count=len(archive.files)
     save_json(STATUS,{'as_of_kst':now.isoformat(),'total_completed_scopes':count,
         'last_run_requests':c.calls,'last_run_success':success,'last_run_failures':failures,
-        'refresh_cycle':state.get('refresh_cycle'),'last_run_mode':mode, **archive.stats()})
+        'refresh_cycle':state.get('refresh_cycle'),'last_run_mode':mode,
+        'requests_today':state['daily_requests'],'daily_cap':DAILY_MAX_REQUESTS,
+        'r2_storage_safety_cap_bytes':R2_DATA_SAFETY_CAP,**archive.stats()})
     print('RESULT',json.dumps({'requests':c.calls,'success':success,'failures':failures,'completed_scopes':count}))
     return 0 if failures==0 else 1
 
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--mode',choices=['daily','test','backfill','refresh'],default='daily')
-    parser.add_argument('--max-requests',type=int,default=180)
+    parser.add_argument('--max-requests',type=int,default=1200)
     parser.add_argument('--delay',type=float,default=3)
     parser.add_argument('--until',default=None)
     parser.add_argument('--district',choices=list(GU),action='append')
     args=parser.parse_args()
-    if not 1<=args.max_requests<=500 or args.delay<3:parser.error('1-500 requests; delay>=3')
+    if not 1<=args.max_requests<=1200 or args.delay<3:parser.error('1-1200 requests; delay>=3')
     if args.until and (len(args.until)!=6 or not args.until.isdigit()):parser.error('until YYYYMM')
     key=os.getenv('MOLIT_SERVICE_KEY','') or os.getenv('DATA_GO_KR_SERVICE_KEY','')
     if not key:
