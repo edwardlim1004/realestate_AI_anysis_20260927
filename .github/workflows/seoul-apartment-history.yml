@@ -1,0 +1,62 @@
+name: Seoul Apartment History Collector (Safe)
+on:
+  schedule:
+    - cron: "30 18 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "daily / test / backfill / refresh"
+        required: false
+        default: daily
+        type: choice
+        options: [daily, test, backfill, refresh]
+      max_requests:
+        description: "Request ceiling per run (1-500)"
+        required: false
+        default: "180"
+        type: string
+permissions:
+  contents: write
+concurrency:
+  group: seoul-apartment-collector
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Collect official apartment data slowly
+        env:
+          MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
+          REQUESTED_MODE: ${{ github.event.inputs.mode || 'daily' }}
+          REQUESTED_LIMIT: ${{ github.event.inputs.max_requests || '180' }}
+        run: |
+          python seoul-apartment-collector/collect.py --mode "$REQUESTED_MODE" --max-requests "$REQUESTED_LIMIT" --delay 3
+      - name: Commit successful monthly results
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add seoul-apartment-collector/data/ seoul-apartment-collector/state.json seoul-apartment-collector/status.json
+          if ! git diff --cached --quiet; then
+            git commit -m "data: Seoul apartment monthly archives"
+            git push origin HEAD:main
+          else
+            echo "No new data"
+          fi
+      - name: Keep sanitized diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seoul-apt-report-${{ github.run_id }}
+          path: |
+            seoul-apartment-collector/state.json
+            seoul-apartment-collector/status.json
+          if-no-files-found: ignore
+          retention-days: 30
