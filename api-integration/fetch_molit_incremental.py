@@ -28,7 +28,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import xml.etree.ElementTree as ET
 from datetime import date
 
-import requests
+try:
+    import requests
+except ImportError:  # cache-only rebuilds do not need the HTTP dependency
+    requests = None
 
 from regions_lawd import REGION_LAWD
 
@@ -46,6 +49,7 @@ def load_env_file(path=".env"):
 
 load_env_file()
 SERVICE_KEY = os.environ.get("MOLIT_SERVICE_KEY", "")
+CACHE_ONLY = os.environ.get("MOLIT_CACHE_ONLY", "").strip() == "1"
 BASE_URL = "http://apis.data.go.kr/1613000/RTMSDataSvcAptTradeDev/getRTMSDataSvcAptTradeDev"
 
 MONTHS_BACK = 61          # 유지할 전체 윈도우(5년+1개월)
@@ -182,8 +186,10 @@ def percentile_scores(values, higher_is_better=True):
 
 
 def main():
-    if not SERVICE_KEY:
+    if not SERVICE_KEY and not CACHE_ONLY:
         raise SystemExit(".env 파일에 MOLIT_SERVICE_KEY=발급받은키 를 추가해주세요.")
+    if requests is None and not CACHE_ONLY:
+        raise SystemExit("requests 패키지를 설치해주세요: pip install requests")
 
     months = month_list(MONTHS_BACK)        # 오래된 순 -> 최신 순, YYYYMM
     refresh_set = set(months[-REFRESH_WINDOW:])
@@ -197,12 +203,15 @@ def main():
 
     # 캐시에 없거나, "최근 N개월"에 해당해서 매번 새로 받아야 하는 (region, month) 만 수집 대상으로 선정
     need_fetch = []
-    for name in targets:
-        region_cache = cache.get(name, {})
-        for ym in months:
-            label = to_label(ym)
-            if ym in refresh_set or label not in region_cache:
-                need_fetch.append((name, ym))
+    if not CACHE_ONLY:
+        for name in targets:
+            region_cache = cache.get(name, {})
+            for ym in months:
+                label = to_label(ym)
+                if ym in refresh_set or label not in region_cache:
+                    need_fetch.append((name, ym))
+    else:
+        print("MOLIT_CACHE_ONLY=1: 공식 API를 호출하지 않고 기존 캐시로 파생값만 재계산합니다.")
 
     total_months_possible = len(targets) * len(months)
     print(f"전체 윈도우: {len(targets)}개 지역 x {len(months)}개월 = {total_months_possible}건")
@@ -265,12 +274,17 @@ def main():
 
         monthly_all = fill_gaps(monthly_all)
         monthly_84 = fill_gaps(monthly_84)
-        fair_series, fair_now = compute_fair_value(monthly_84)
-        gap_pct = (monthly_84[-1] - fair_now) / fair_now * 100.0
+        fair_series, _ = compute_fair_value(monthly_84)
 
-        jul_cnt = monthly_count[-2] if len(monthly_count) >= 2 else 0
-        aug_cnt = monthly_count[-1] if len(monthly_count) >= 1 else 0
-        vol_change = ((aug_cnt - jul_cnt) / jul_cnt * 100) if jul_cnt else 0
+        # 현재 달은 계약 신고가 계속 들어오는 잠정치다. 가격·괴리율은 최신
+        # 완결월(-2), 유동성은 완결된 두 달(-3/-2)끼리만 비교한다.
+        evaluation_idx = -2 if len(month_labels) >= 2 else -1
+        fair_now = fair_series[evaluation_idx]
+        gap_pct = (monthly_84[evaluation_idx] - fair_now) / fair_now * 100.0
+        older_complete = monthly_count[-3] if len(monthly_count) >= 3 else 0
+        latest_complete = monthly_count[-2] if len(monthly_count) >= 2 else 0
+        current_partial = monthly_count[-1] if monthly_count else 0
+        vol_change = ((latest_complete - older_complete) / older_complete * 100) if older_complete else 0
 
         results[name] = {
             "history": [round(v, 3) for v in monthly_84],
@@ -278,9 +292,11 @@ def main():
             "fairSeries": [round(v, 3) for v in fair_series],
             "fairValueNow": round(fair_now, 2),
             "gapPct": round(gap_pct, 2),
-            "avg84": round(monthly_84[-1], 1),
-            "avgPrice": round(monthly_all[-1], 1),
-            "trades": f"{jul_cnt + aug_cnt}건 ({months[-2][4:]}월: {jul_cnt} / {months[-1][4:]}월: {aug_cnt})",
+            "avg84": round(monthly_84[evaluation_idx], 1),
+            "avgPrice": round(monthly_all[evaluation_idx], 1),
+            "trades": f"{latest_complete + current_partial}건 ({months[-2][4:]}월 완결: {latest_complete} / {months[-1][4:]}월 잠정: {current_partial})",
+            "evaluationMonth": month_labels[evaluation_idx],
+            "currentMonthProvisional": True,
             "volChange": vol_change,
         }
 

@@ -1,0 +1,47 @@
+{
+  "checkedAtKST": "2026-10-18T20:48:40+09:00",
+  "status": "REVIEW",
+  "structuralErrors": [],
+  "qualityWarnings": [
+    {
+      "region": "양평군",
+      "code": "LOW_CONVERSION_SAMPLE",
+      "value": 6
+    },
+    {
+      "region": "포천시",
+      "code": "LOW_CONVERSION_SAMPLE",
+      "value": 8
+    },
+    {
+      "region": "여주시",
+      "code": "JEONSE_OVER_100",
+      "value": 104.2
+    },
+    {
+      "region": "여주시",
+      "code": "LOW_CONVERSION_SAMPLE",
+      "value": 9
+    },
+    {
+      "region": "가평군",
+      "code": "LOW_CONVERSION_SAMPLE",
+      "value": 3
+    },
+    {
+      "region": "동두천시",
+      "code": "LOW_CONVERSION_SAMPLE",
+      "value": 7
+    },
+    {
+      "region": "연천군",
+      "code": "LOW_CONVERSION_SAMPLE",
+      "value": 5
+    }
+  ],
+  "notes": [
+    "Warnings do not stop the update; they require source-level review.",
+    "The current calendar month is provisional and must not be compared with a completed month.",
+    "Simple monthly means are sensitive to apartment and transaction composition."
+  ]
+}

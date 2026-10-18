@@ -232,9 +232,9 @@ def main():
 
     json.dump(cache, open(CACHE_PATH, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
-    # 한국은행 기준금리/주담대 금리 등 "자본비용" 기준점.
-    # Himmelberg·Mayer·Sinai(2005)의 사용자비용 모형에서 r_t 역할. 대시보드 KPI 카드와 동일 값으로 맞춰둔다.
-    MORTGAGE_RATE_PCT = 4.39
+    # 과거 비교용 고정 주담대 금리 시나리오. 최신 공식 금리로 표시하거나
+    # 지역 상대순위 계산에 사용하지 않는다(모든 지역에 같은 값을 빼면 순위도 동일하다).
+    MORTGAGE_RATE_PCT = float(os.getenv("MORTGAGE_RATE_SCENARIO_PCT", "4.39"))
 
     # 캐시(6개월치)를 합쳐서 지역별 전세가율 + 전환율 보정 스프레드 산출
     results = {}

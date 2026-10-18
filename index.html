@@ -164,11 +164,53 @@ tbody tr:hover{background:var(--surface-2)}
 .stat-mini-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(118px, 1fr)); gap:10px; margin-top:14px}
 .phase-badge{display:inline-block; font-size:12.5px; font-weight:700; padding:4px 10px; border-radius:999px; background:var(--surface-3)}
 
+/* national risk monitor */
+.hero{display:grid; grid-template-columns:1.15fr .85fr; gap:16px; align-items:stretch}
+.risk-hero{display:grid; grid-template-columns:190px 1fr; gap:22px; align-items:center}
+.risk-dial{--score:0; --dial:#7d98ff; width:168px; height:168px; border-radius:50%; display:grid; place-items:center;
+  background:conic-gradient(var(--dial) calc(var(--score)*1%),var(--surface-3) 0); position:relative}
+.risk-dial:after{content:""; position:absolute; inset:15px; border-radius:50%; background:var(--surface-1)}
+.risk-dial-content{position:relative; z-index:1; text-align:center}
+.risk-dial-content .score{font:700 38px/1 'JetBrains Mono',monospace}
+.risk-dial-content .state{font-size:11px; font-weight:700; letter-spacing:.08em; margin-top:7px}
+.risk-copy h1{font-size:27px; line-height:1.2; margin:0 0 8px}
+.risk-copy p{margin:0; color:var(--on-surface-var); font-size:13px}
+.status-line{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px}
+.status-pill{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--outline); border-radius:999px; padding:5px 9px; font-size:11px; color:var(--on-surface-var)}
+.status-dot{width:7px; height:7px; border-radius:50%; background:var(--buy)}
+.risk-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px}
+.risk-tile{appearance:none; text-align:left; color:var(--on-surface); background:var(--surface-1); border:1px solid var(--outline-2); border-radius:12px; padding:14px; cursor:pointer; min-height:126px}
+.risk-tile:hover,.risk-tile:focus{border-color:var(--outline); transform:translateY(-1px)}
+.risk-tile .top{display:flex; justify-content:space-between; gap:8px; align-items:flex-start}
+.risk-tile .name{font-size:12px; font-weight:700}
+.risk-tile .rscore{font:700 22px/1 'JetBrains Mono',monospace}
+.risk-tile .rbar{height:6px; background:var(--surface-3); border-radius:6px; overflow:hidden; margin:13px 0 8px}
+.risk-tile .rbar span{display:block; height:100%; border-radius:6px}
+.risk-tile .rmeta{font-size:10.5px; color:var(--on-surface-var)}
+.wait{color:var(--warning)}
+.timeline-wrap{position:relative; min-height:290px}
+.audit-links{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
+.audit-links a{font-size:11px; color:var(--buy); text-decoration:none; border:1px solid var(--outline); border-radius:8px; padding:5px 8px}
+.audit-links a:hover{text-decoration:underline}
+.quality-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:12px}
+.quality-item{background:var(--surface-2); border-radius:10px; padding:10px 12px}
+.quality-item .qv{font-weight:700; margin-top:3px}
+.quality-item .ql{font-size:10px; color:var(--on-surface-var)}
+.caution-box{border-left:3px solid var(--warning); background:color-mix(in srgb,var(--warning) 8%,var(--surface-1)); padding:11px 13px; border-radius:8px; color:var(--on-surface-var); font-size:11.5px; margin-top:12px}
+.source-list{display:flex; flex-direction:column; gap:8px; margin-top:12px}
+.source-list a{color:var(--buy); font-size:12px}
+
 footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-surface-var); font-size:11.5px}
 
 @media (max-width: 860px){
   .kpi-grid{grid-template-columns:repeat(2,1fr)}
-  .ou-grid, .gate-grid, .modal-grid{grid-template-columns:1fr}
+  .ou-grid, .gate-grid, .modal-grid, .hero{grid-template-columns:1fr}
+  .risk-hero{grid-template-columns:1fr; justify-items:center; text-align:center}
+  .status-line{justify-content:center}
+  .risk-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width: 540px){
+  .risk-grid,.quality-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -176,7 +218,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
 
 <header class="top">
   <div class="wrap topbar">
-    <div class="brand"><span class="lamp"></span> 부동산 신호등 <span style="color:var(--on-surface-var); font-weight:500">PRO · 정량 평가 모델</span></div>
+    <div class="brand"><span class="lamp"></span> 부동산 위험 모니터 <span style="color:var(--on-surface-var); font-weight:500">v6 · 계산 감사형</span></div>
     <button class="themeBtn" id="themeBtn" onclick="toggleTheme()">☀ 라이트 모드</button>
   </div>
 </header>
@@ -184,39 +226,85 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
 <main class="wrap">
 
   <section>
-    <h2 class="section-title">서울 25구 · 경기 31개 시·군 — 정량 밸류에이션 대시보드</h2>
-    <p class="section-sub">아래 신호는 5개 정량 지표를 가중합산한 <b style="color:var(--on-surface)">종합점수(0~100)</b>로 산출됩니다. 판단 근거는 전부 공개되어 있으며, 클릭 한 번으로 지역별 상세 수치와 과거 대비 고/저평가 그래프를 볼 수 있습니다.</p>
-    <div class="disclaimer">
-      ✅ <b>데이터 안내</b> — 지역별 <b>현재가(전용84㎡·전체평균), 61개월 과거 시계열, "적정가(추세선)"</b>는 국토교통부 실거래가 공개 API에서 직접 수집한 <b>실데이터</b>이며, 매일 자동으로 갱신됩니다. 다만 <b>전세가율</b>은 전월세 API 활용신청 승인 전까지는 과거 스냅샷 값을 임시로 유지할 수 있고, <b>모멘텀·리스크 세부 점수</b>는 아직 외부 지표(금리·치안 등)와 결합하기 전 단계라 일부 기존 값을 참고합니다. 수집·갱신 방식은 하단 README를 참고하세요. 본 대시보드는 투자 자문이 아닙니다.
+    <div class="hero">
+      <div class="card risk-hero">
+        <div class="risk-dial" id="riskDial">
+          <div class="risk-dial-content">
+            <div class="score" id="riskScore">N/A</div>
+            <div class="state" id="riskState">DATA CHECK</div>
+          </div>
+        </div>
+        <div class="risk-copy">
+          <span class="badge">대한민국 · NATIONAL RISK MONITOR v6</span>
+          <h1>부동산 위험을 한 화면에서 확인합니다</h1>
+          <p id="riskSummaryText">OECD·BIS 공식 분기자료를 불러오는 중입니다.</p>
+          <div class="status-line">
+            <span class="status-pill"><span class="status-dot"></span><span id="riskCoverage">공식축 -</span></span>
+            <span class="status-pill" id="riskLatest">기준시점 -</span>
+            <span class="status-pill">점수 ≠ 폭락확률</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="section-title">데이터 품질·검증 상태</h2>
+        <p class="section-sub">화면의 숫자보다 먼저 확인해야 할 항목입니다.</p>
+        <div class="quality-grid">
+          <div class="quality-item"><div class="ql">공식 거시 원자료</div><div class="qv" id="qualityOfficial">OECD·BIS</div></div>
+          <div class="quality-item"><div class="ql">지역 실거래 최신월</div><div class="qv num" id="qualityLocalMonth">-</div></div>
+          <div class="quality-item"><div class="ql">최신월 상태</div><div class="qv" id="qualityPartial">-</div></div>
+          <div class="quality-item"><div class="ql">검증 대기 모듈</div><div class="qv" id="qualityWaiting">-</div></div>
+        </div>
+        <div class="caution-box" id="qualityWarning">현재월은 신고가 진행 중이므로 완결월과 직접 비교하지 않습니다.</div>
+        <div class="audit-links">
+          <a href="risk-data/risk_raw.csv" download>원자료 CSV</a>
+          <a href="risk-data/revision_history.csv" download>수정 이력</a>
+          <a href="risk-data/source_registry.csv" download>논문·출처 목록</a>
+          <a href="https://github.com/edwardlim1004/realestate_AI_anysis_20260927" target="_blank" rel="noopener">GitHub 소스</a>
+        </div>
+      </div>
     </div>
   </section>
 
   <section>
+    <h2 class="section-title">6대 위험 신호 — 항목을 누르면 산식·원자료·논문 근거가 열립니다</h2>
+    <p class="section-sub">공식자료가 연결된 항목만 점수화합니다. GSADF·HaR·유동성은 요건을 충족할 때까지 임의 점수를 만들지 않습니다.</p>
+    <div class="risk-grid" id="riskGrid"></div>
+  </section>
+
+  <section>
+    <div class="card timeline-wrap">
+      <h2 class="section-title">역사적 위험 백분위와 위기 구간 비교</h2>
+      <p class="section-sub">각 시점까지 공개된 분포로 계산한 expanding percentile입니다. 음영은 역사적 사건이며 현재의 붕괴 시점을 예언하지 않습니다.</p>
+      <canvas id="riskHistoryChart" height="105"></canvas>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">서울 25구·경기 31개 시군 — 지역 상대 비교 실험모델</h2>
+    <p class="section-sub">아래 지역점수는 전국 위험지수와 별개입니다. 56개 지역 안의 상대순위이며 매수·매도 신호나 가격예측 확률이 아닙니다.</p>
     <div class="kpi-grid">
-      <div class="kpi"><div class="tag">한국은행 기준금리</div><div class="val num">3.00%</div><div class="sub">최근 인상 +0.25%p · 긴축 기조</div></div>
-      <div class="kpi"><div class="tag">시중은행 주담대 평균</div><div class="val num">4.39%</div><div class="sub">이자부담 상승 → 매수심리 양극화</div></div>
-      <div class="kpi"><div class="tag">수도권 실거래 누적(7~8월)</div><div class="val num">13,540건</div><div class="sub">56개 전 지역 합산</div></div>
-      <div class="kpi"><div class="tag">치안·범죄 지표</div><div class="val num">7.8건/천명</div><div class="sub">5대 강력범죄 기준</div></div>
+      <div class="kpi"><div class="tag">실거래 데이터 최신월</div><div class="val num" id="localLatestMonth">-</div><div class="sub" id="localLatestNote">국토교통부 매매·전월세 API</div></div>
+      <div class="kpi"><div class="tag">서울 추세선 괴리율 중앙값</div><div class="val num" id="seoulMedianGap">-</div><div class="sub">25개 구 단순 중앙값·구성효과 주의</div></div>
+      <div class="kpi"><div class="tag">수집 지역</div><div class="val num" id="regionCoverage">-</div><div class="sub">서울 25구 + 경기 31개 시군</div></div>
+      <div class="kpi"><div class="tag">지역모델 상태</div><div class="val" style="font-size:18px">검증 중</div><div class="sub">모멘텀·리스크 고정값 제거 전 투자판단 금지</div></div>
+    </div>
+    <div class="disclaimer">
+      ⚠️ <b>해석 제한</b> — 최근월은 계약신고가 진행 중인 잠정치입니다. 월별 단순 평균은 단지·면적·거래구성 변화에 크게 흔들릴 수 있고, 로그 추세선은 이론적 적정가격이 아닙니다. 표의 색상은 오직 현재 56개 지역 안의 상대순위입니다.
     </div>
   </section>
 
   <section>
     <div class="card">
-      <h2 class="section-title">🧮 종합점수 산출 공식 (판단 근거 전면 공개)</h2>
-      <p class="section-sub">각 지역을 56개 지역 <b style="color:var(--on-surface)">상대 백분위(0~100)</b> 로 환산한 뒤, 아래 가중치로 합산합니다. 신호 기준: 종합점수 <span class="num">≥62</span> 매수고려 / <span class="num">42~61</span> 주의 / <span class="num">&lt;42</span> 관망.</p>
+      <h2 class="section-title">🧮 지역 상대점수 산출 공식</h2>
+      <p class="section-sub">각 지역을 56개 지역 <b style="color:var(--on-surface)">상대 백분위(0~100)</b>로 환산합니다. <span class="num">≥62</span> 상대우위 / <span class="num">42~61</span> 중립 / <span class="num">&lt;42</span> 재검증. 이 경계는 운영상 분류이며 논문이 제시한 매수 기준이 아닙니다.</p>
       <div class="weight-list" id="weightList"></div>
       <div class="formula-box">
-종합점수 = <b>0.35</b>×밸류에이션갭점수 + <b>0.15</b>×모멘텀점수 + <b>0.15</b>×거래유동성점수 + <b>0.20</b>×리스크점수 + <b>0.15</b>×임대수익스프레드점수
+지역 상대점수 = <b>0.35</b>×추세괴리점수 + <b>0.15</b>×모멘텀점수 + <b>0.15</b>×거래유동성점수 + <b>0.20</b>×리스크점수 + <b>0.15</b>×내재임대수익률점수
 <br><br>
-· <b>밸류에이션갭점수</b> = 현재가가 5년 구조적 추세선(로그회귀, 최근 12개월 제외) 대비 얼마나 낮은가의 56개 지역 내 백분위
-<br>· <b>모멘텀점수</b> = 최근 실거래 가격 변동률(트렌드 지표)의 백분위 — 단기 방향성
-<br>· <b>거래유동성점수</b> = 전월 대비 실거래 건수 증감률의 백분위 — 환금성
-<br>· <b>리스크점수</b> = 4대 리스크 지표(고점·환금성·금리·치안)를 역산한 백분위 — 낮을수록 유리
-<br>· <b>임대수익스프레드점수</b> = 전세보증금을 전월세전환율(k)로 연간 환산 임대료로 바꾼 뒤(이현탁 2019),
-매매가 대비 내재 임대수익률을 구하고, 여기서 주담대 금리를 뺀 "스프레드"의 56개 지역 내 백분위
-(Himmelberg·Mayer·Sinai 2005의 사용자비용 모형 + Gallin 2008의 장기 평균회귀 예측력 반영).
-단순 전세가율(J/P)만 쓰지 않는 이유는, 같은 전세가율이라도 전환율·금리 환경에 따라 실제 임대가치가
-다르기 때문입니다. 상세 수식은 하단 README 참고.
+· <b>추세괴리점수</b> = 전용 80~90㎡ 월별 단순평균의 로그추세(최근 12개월 제외) 대비 괴리율을 56개 지역 내 역백분위로 변환
+<br>· <b>거래유동성</b> = 완결월끼리 비교해야 하며 진행 중인 현재월은 점수에 쓰지 않는 것이 원칙
+<br>· <b>내재임대수익률</b> = 전세보증금×지역 전월세전환율÷매매가격. 동일 금리를 일괄 차감해도 지역순위는 같으므로 고정 주담대금리는 순위산식에서 제외
+<br>· <b>모멘텀·리스크</b> = 현재 데이터 파이프라인에서 완전 자동화되지 않아 검증 중입니다. 이 두 축이 공식자료로 교체되기 전에는 지역 상대점수를 투자행동으로 연결하지 마십시오.
       </div>
     </div>
   </section>
@@ -236,7 +324,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
     </div>
     <div class="card chart-card">
       <h3 style="margin:0 0 4px; font-size:14px">56개 지역 분포 — 종합점수 × 밸류에이션 괴리율</h3>
-      <p class="section-sub" style="margin-bottom:10px">점을 클릭하면 해당 지역 상세 분석이 열립니다. 색상은 신호(🔵매수고려 / 🟡주의 / 🔴관망)를 의미합니다.</p>
+      <p class="section-sub" style="margin-bottom:10px">점을 클릭하면 상세 분석이 열립니다. 색상은 56개 지역 내 상대분류(🔵상대우위 / 🟡중립 / 🔴재검증)를 의미합니다.</p>
       <canvas id="scatterChart" height="110"></canvas>
     </div>
   </section>
@@ -270,8 +358,8 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
   </section>
 
   <section>
-    <h2 class="section-title">📋 지역별 종합 시세·신호 게시판</h2>
-    <p class="section-sub">헤더를 클릭하면 정렬됩니다. 행을 클릭하면 상세 분석(과거 시계열 + 지표 레이더)이 열립니다.</p>
+    <h2 class="section-title">📋 지역별 실거래·상대점수 게시판</h2>
+    <p class="section-sub">헤더를 클릭하면 정렬됩니다. 행을 클릭하면 월별 단순평균과 추세선, 표본·임대지표를 확인할 수 있습니다.</p>
     <div class="board-controls">
       <input type="search" id="searchInput" placeholder="지역 검색..." oninput="renderBoard()">
       <select id="provinceSel" onchange="renderBoard()">
@@ -280,17 +368,17 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
         <option value="gyeonggi">경기도</option>
       </select>
       <button class="chip" data-sig="all" aria-pressed="true" onclick="setSignal('all')">전체 신호</button>
-      <button class="chip" data-sig="buy" onclick="setSignal('buy')">🔵 매수고려</button>
-      <button class="chip" data-sig="warning" onclick="setSignal('warning')">🟡 주의</button>
-      <button class="chip" data-sig="watch" onclick="setSignal('watch')">🔴 관망</button>
+      <button class="chip" data-sig="buy" onclick="setSignal('buy')">🔵 상대우위</button>
+      <button class="chip" data-sig="warning" onclick="setSignal('warning')">🟡 중립</button>
+      <button class="chip" data-sig="watch" onclick="setSignal('watch')">🔴 재검증</button>
     </div>
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th onclick="setSort('signal')">신호</th>
+            <th onclick="setSort('signal')">상대분류</th>
             <th onclick="setSort('name')">지역</th>
-            <th onclick="setSort('composite')">종합점수</th>
+            <th onclick="setSort('composite')">상대점수</th>
             <th onclick="setSort('gapPct')">밸류에이션 갭</th>
             <th onclick="setSort('avg84')">전용84 평균</th>
             <th onclick="setSort('avgPrice')">전체 평균</th>
@@ -320,12 +408,12 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
       <div class="stat-mini"><div class="l">실거래 건수</div><div class="v num" id="mTrades">-</div></div>
       <div class="stat-mini"><div class="l">전월세전환율(k)</div><div class="v num" id="mK">-</div></div>
       <div class="stat-mini"><div class="l">내재 임대수익률</div><div class="v num" id="mYield">-</div></div>
-      <div class="stat-mini"><div class="l">금리대비 스프레드</div><div class="v num" id="mSpread">-</div></div>
+      <div class="stat-mini"><div class="l">4.39% 시나리오 스프레드</div><div class="v num" id="mSpread">-</div></div>
       <div class="stat-mini"><div class="l">갭 변화 국면</div><div class="v" id="mPhase"><span class="phase-badge">-</span></div></div>
     </div>
     <div class="modal-grid">
       <div class="card">
-        <h3 style="margin:0 0 6px; font-size:13px">5년 시세 추이 vs 구조적 적정가</h3>
+        <h3 style="margin:0 0 6px; font-size:13px">5년 월별 단순평균 vs 로그 추세선</h3>
         <canvas id="lineChart" height="180"></canvas>
       </div>
       <div class="card">
@@ -336,20 +424,170 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
   </div>
 </div>
 
+<div class="modal-backdrop" id="auditBackdrop" onclick="if(event.target===this) closeAudit()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAudit()">✕</button>
+    <div class="modal-head">
+      <h3 id="auditTitle">위험신호 계산 감사</h3>
+      <span class="phase-badge" id="auditStatus">-</span>
+    </div>
+    <p class="section-sub" id="auditMeaning" style="margin-top:10px"></p>
+    <div class="formula-box" id="auditCalculation"></div>
+    <div class="quality-grid" id="auditValues"></div>
+    <div class="caution-box" id="auditLimit"></div>
+    <h3 style="font-size:13px; margin:18px 0 0">논문·공식자료 근거</h3>
+    <div class="source-list" id="auditSources"></div>
+    <div class="audit-links">
+      <a href="risk-data/risk_raw.csv" download>전체 원자료 CSV</a>
+      <a href="risk-data/revision_history.csv" download>공식 수정치 이력</a>
+      <a href="risk-data/source_registry.csv" download>출처 레지스트리</a>
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="wrap">
-    자체 호스팅용으로 제작된 정적 대시보드입니다. 실거래가/금리/치안 데이터를 실시간 API로 교체하려면 data.js의 ENHANCED_DATA 구조를 유지한 채 값만 갱신하면 됩니다. 본 콘텐츠는 투자 판단의 참고 자료이며, 투자 자문이 아닙니다.
+    공식 거시위험은 OECD·BIS 원자료에서, 지역 실거래는 국토교통부 API에서 수집합니다. 모든 점수는 감사 가능한 참고지표이며 투자 자문·매수추천·폭락확률이 아닙니다. 현재월과 표본이 작은 지역은 반드시 원자료를 확인하십시오.
   </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="risk-data.js"></script>
 <script src="data.js"></script>
 <script>
 const REGIONS = ENHANCED_DATA.regions;
 const MONTHS = ENHANCED_DATA.months;
 const WEIGHTS = ENHANCED_DATA.weights;
+const RISK = typeof RISK_MONITOR_DATA !== 'undefined' ? RISK_MONITOR_DATA : null;
 
 const state = { province:'all', signal:'all', query:'', sortKey:'composite', sortDir:'desc', budget:null };
+
+const riskColors = {GREEN:'#48b985', WATCH:'#7d98ff', AMBER:'#f59e0b', RED:'#ff7261', 'N/A':'#8b8d8e'};
+const metricLabels = {
+  PIR_LTA:'PIR / 장기평균', PTR_LTA:'PTR / 장기평균', CREDIT_GAP_PP:'신용/GDP 갭',
+  DSR_PCT:'가계 DSR', REAL_HPI_YOY:'실질주택가격 YoY'
+};
+const tileOrder = ['valuation','credit','momentum','liquidity','gsadf','har'];
+
+function median(values){
+  const clean = values.filter(Number.isFinite).sort((a,b)=>a-b);
+  if(!clean.length) return null;
+  const mid = Math.floor(clean.length/2);
+  return clean.length%2 ? clean[mid] : (clean[mid-1]+clean[mid])/2;
+}
+
+function renderDataQuality(){
+  const latest = MONTHS[MONTHS.length-1] || '-';
+  const nowMonth = new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit'}).slice(0,7);
+  const partial = latest === nowMonth;
+  const seoul = REGIONS.filter(r=>r.province==='seoul');
+  const gap = median(seoul.map(r=>Number(r.gapPct)));
+  document.getElementById('qualityLocalMonth').textContent = latest;
+  document.getElementById('qualityPartial').textContent = partial ? '진행 중·잠정' : '완결월 후보';
+  document.getElementById('localLatestMonth').textContent = latest;
+  document.getElementById('localLatestNote').textContent = partial ? '진행 중 월: 신고 누락·구성효과 주의' : '국토교통부 매매·전월세 API';
+  document.getElementById('seoulMedianGap').textContent = gap==null ? 'N/A' : `${gap>=0?'+':''}${gap.toFixed(1)}%`;
+  document.getElementById('regionCoverage').textContent = `${REGIONS.length}/56`;
+  if(RISK){
+    const tiles = RISK.countries.KOR.tiles;
+    const waiting = tileOrder.filter(k=>tiles[k].status!=='OK').length;
+    document.getElementById('qualityWaiting').textContent = `${waiting}개 / 6개`;
+  }
+}
+
+function renderNationalRisk(){
+  if(!RISK || !RISK.countries || !RISK.countries.KOR){
+    document.getElementById('riskSummaryText').textContent = '공식 위험 데이터 파일을 읽지 못했습니다. GitHub Actions 상태와 risk-data.js를 확인하십시오.';
+    document.getElementById('riskGrid').innerHTML = '<div class="caution-box">RISK DATA LOAD ERROR</div>';
+    return;
+  }
+  const kor = RISK.countries.KOR;
+  const composite = kor.composite;
+  const score = Number(composite.score);
+  const color = riskColors[composite.state] || riskColors['N/A'];
+  const dial = document.getElementById('riskDial');
+  dial.style.setProperty('--score', Number.isFinite(score)?score:0);
+  dial.style.setProperty('--dial', color);
+  document.getElementById('riskScore').textContent = Number.isFinite(score)?score.toFixed(1):'N/A';
+  document.getElementById('riskState').textContent = composite.state;
+  document.getElementById('riskState').style.color = color;
+  document.getElementById('riskCoverage').textContent = `공식축 ${composite.coverage}`;
+  document.getElementById('riskLatest').textContent = `기준 ${composite.latestPeriod || '-'}`;
+  document.getElementById('riskSummaryText').textContent = `${composite.meaning}. ${composite.warning}`;
+
+  document.getElementById('riskGrid').innerHTML = tileOrder.map(key=>{
+    const item = kor.tiles[key];
+    const valid = Number.isFinite(Number(item.score));
+    const itemScore = valid ? Number(item.score) : null;
+    const itemState = valid ? (itemScore>=80?'RED':itemScore>=65?'AMBER':itemScore>=50?'WATCH':'GREEN') : 'N/A';
+    const itemColor = riskColors[itemState];
+    return `<button class="risk-tile" onclick="openAudit('${key}')">
+      <div class="top"><span class="name">${item.label}</span><span class="rscore ${valid?'':'wait'}">${valid?itemScore.toFixed(1):'WAIT'}</span></div>
+      <div class="rbar"><span style="width:${valid?itemScore:0}%;background:${itemColor}"></span></div>
+      <div class="rmeta">${item.status==='OK'?'역사 백분위 · 클릭해 계산 확인':'자료·검정요건 미충족 · 임의점수 없음'}</div>
+    </button>`;
+  }).join('');
+  renderRiskHistory(kor);
+}
+
+function renderRiskHistory(kor){
+  const history = kor.history || [];
+  const labels = history.map(d=>d.period);
+  const crisisPlugin = {
+    id:'crisisBands',
+    beforeDatasetsDraw(chart){
+      const {ctx,chartArea,scales} = chart;
+      if(!chartArea || !labels.length) return;
+      ctx.save();
+      (RISK.crisisEvents||[]).forEach(event=>{
+        if(event.scope!=='GLOBAL' && event.scope!=='KOR') return;
+        const start = labels.findIndex(label=>label>=event.start);
+        let end = -1;
+        labels.forEach((label,i)=>{if(label<=event.end) end=i;});
+        if(start<0 || end<start) return;
+        const x1=scales.x.getPixelForValue(start)-4, x2=scales.x.getPixelForValue(end)+4;
+        ctx.fillStyle='rgba(245,158,11,.11)'; ctx.fillRect(x1,chartArea.top,x2-x1,chartArea.bottom-chartArea.top);
+        ctx.fillStyle=getComputedStyle(document.body).color; ctx.globalAlpha=.65; ctx.font='10px Inter';
+        ctx.fillText(event.label,x1+4,chartArea.top+12); ctx.globalAlpha=1;
+      });
+      ctx.restore();
+    }
+  };
+  new Chart(document.getElementById('riskHistoryChart'),{
+    type:'line', plugins:[crisisPlugin],
+    data:{labels,datasets:[
+      {label:'종합 위험백분위',data:history.map(d=>d.score),borderColor:'#ff7261',backgroundColor:'rgba(255,114,97,.10)',fill:true,tension:.25,pointRadius:0,borderWidth:2},
+      {label:'가격평가',data:history.map(d=>d.valuation),borderColor:'#7d98ff',pointRadius:0,borderWidth:1,borderDash:[4,4]},
+      {label:'신용',data:history.map(d=>d.credit),borderColor:'#f59e0b',pointRadius:0,borderWidth:1,borderDash:[4,4]},
+    ]},
+    options:{responsive:true,interaction:{mode:'index',intersect:false},scales:{x:{ticks:{maxTicksLimit:10}},y:{min:0,max:100,title:{display:true,text:'역사 백분위'}}},plugins:{legend:{position:'bottom'},tooltip:{callbacks:{afterBody:()=> '점수는 위기확률이 아닙니다.'}}}}
+  });
+}
+
+function openAudit(key){
+  if(!RISK) return;
+  const item = RISK.countries.KOR.tiles[key];
+  document.getElementById('auditTitle').textContent = item.label;
+  document.getElementById('auditStatus').textContent = item.status;
+  document.getElementById('auditMeaning').textContent = item.meaning;
+  document.getElementById('auditCalculation').textContent = item.calculation;
+  const values = item.value && typeof item.value==='object' ? Object.entries(item.value) : [];
+  document.getElementById('auditValues').innerHTML = values.length ? values.map(([metric,point])=>{
+    if(!point) return `<div class="quality-item"><div class="ql">${metricLabels[metric]||metric}</div><div class="qv">N/A</div></div>`;
+    return `<div class="quality-item"><div class="ql">${metricLabels[metric]||metric} · ${point.period}</div><div class="qv num">${Number(point.value).toFixed(2)} <span style="font-size:11px;color:var(--on-surface-var)">/ 점수 ${Number(point.score).toFixed(1)}</span></div><div class="ql" style="margin-top:5px;word-break:break-all">${point.sourceKey}</div></div>`;
+  }).join('') : '<div class="quality-item"><div class="ql">현재값</div><div class="qv wait">WAITING DATA</div></div>';
+  document.getElementById('auditLimit').textContent = item.limitations;
+  const sourceIds = item.literature || [];
+  document.getElementById('auditSources').innerHTML = sourceIds.length ? sourceIds.map(id=>{
+    const source = RISK.sources[id];
+    return source ? `<div><a href="${source.URL}" target="_blank" rel="noopener">${source.Reference}</a><div style="font-size:10.5px;color:var(--on-surface-var)">${source.Exact_Location}</div></div>` : '';
+  }).join('') : '<div style="font-size:12px;color:var(--on-surface-var)">원자료 연결·방법론 확정 전입니다.</div>';
+  document.getElementById('auditBackdrop').classList.add('open');
+}
+function closeAudit(){document.getElementById('auditBackdrop').classList.remove('open');}
+
+renderDataQuality();
+renderNationalRisk();
 
 function toggleTheme(){
   const cur = document.documentElement.getAttribute('data-theme');
@@ -364,7 +602,7 @@ function toggleTheme(){
 })();
 
 // ---- weight bars ----
-const weightLabels = {valuation:'밸류에이션갭', momentum:'모멘텀', liquidity:'거래유동성', risk:'리스크', jeonse:'임대수익 스프레드'};
+const weightLabels = {valuation:'추세괴리', momentum:'모멘텀(검증중)', liquidity:'거래유동성', risk:'리스크(검증중)', jeonse:'내재임대수익률'};
 (function renderWeights(){
   const el = document.getElementById('weightList');
   el.innerHTML = Object.entries(WEIGHTS).map(([k,v])=>`
@@ -391,7 +629,7 @@ let scatterChart;
 (function renderScatter(){
   const ctx = document.getElementById('scatterChart');
   const datasets = ['buy','warning','watch'].map(sig => ({
-    label: sig==='buy'?'매수고려':sig==='warning'?'주의':'관망',
+    label: sig==='buy'?'상대우위':sig==='warning'?'중립':'재검증',
     data: REGIONS.filter(r=>r.signal===sig).map(r=>({x:r.scores.composite, y:r.gapPct, name:r.name})),
     backgroundColor: sigColor[sig],
     pointRadius:5, pointHoverRadius:7,
@@ -451,7 +689,7 @@ function parseTradesTotal(s){
   const m = /^(\d[\d,]*)건/.exec(s||'');
   return m ? Number(m[1].replace(/,/g,'')) : 0;
 }
-function sigLabel(sig){ return sig==='buy'?'🔵 매수고려':sig==='warning'?'🟡 주의':'🔴 관망'; }
+function sigLabel(sig){ return sig==='buy'?'🔵 상대우위':sig==='warning'?'🟡 중립':'🔴 재검증'; }
 
 function renderBoard(){
   document.getElementById('provinceSel').value = state.province;
@@ -505,7 +743,7 @@ function openModal(r){
   const badge = document.getElementById('mSignal');
   badge.textContent = sigLabel(r.signal);
   badge.className = 'sig-pill sig-'+r.signal;
-  document.getElementById('mVerdict').textContent = `종합점수 ${r.scores.composite.toFixed(1)}점 · 추세선(구조적 적정가) 대비 ${r.gapPct>=0?'+' :''}${r.gapPct.toFixed(1)}% ${r.gapPct>=0?'고평가':'저평가'} 구간입니다.`;
+  document.getElementById('mVerdict').textContent = `56개 지역 내 상대점수 ${r.scores.composite.toFixed(1)}점 · 월별 단순평균 로그추세선 대비 ${r.gapPct>=0?'+' :''}${r.gapPct.toFixed(1)}%입니다. 적정가격이나 매수신호로 해석하지 마십시오.`;
   document.getElementById('mPrice').textContent = r.avg84.toFixed(1)+'억';
   document.getElementById('mGap').textContent = (r.gapPct>=0?'+':'')+r.gapPct.toFixed(1)+'%';
   document.getElementById('mJeonse').textContent = r.jeonseRate.toFixed(1)+'%';
@@ -528,8 +766,8 @@ function openModal(r){
     data:{
       labels: MONTHS,
       datasets:[
-        { label:'실거래 시세(모델링)', data:r.history, borderColor:'#e5e5e6', backgroundColor:'transparent', pointRadius:0, borderWidth:2, tension:.25 },
-        { label:'구조적 적정가(추세선)', data:r.fairSeries, borderColor:'#7d98ff', backgroundColor:'transparent', pointRadius:0, borderWidth:2, borderDash:[6,4], tension:0 },
+        { label:'전용80~90㎡ 월별 단순평균', data:r.history, borderColor:'#e5e5e6', backgroundColor:'transparent', pointRadius:0, borderWidth:2, tension:.25 },
+        { label:'로그회귀 추세선(적정가 아님)', data:r.fairSeries, borderColor:'#7d98ff', backgroundColor:'transparent', pointRadius:0, borderWidth:2, borderDash:[6,4], tension:0 },
       ]
     },
     options:{
@@ -543,7 +781,7 @@ function openModal(r){
   radarChart = new Chart(document.getElementById('radarChart'), {
     type:'radar',
     data:{
-      labels:['밸류에이션','모멘텀','유동성','리스크','전세가율'],
+      labels:['추세괴리','모멘텀*','유동성','리스크*','임대수익률'],
       datasets:[{
         label:r.name,
         data:[r.scores.valuation, r.scores.momentum, r.scores.liquidity, r.scores.risk, r.scores.jeonse],

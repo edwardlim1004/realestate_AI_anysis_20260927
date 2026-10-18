@@ -1,0 +1,41 @@
+name: Update Official Housing Risk Monitor
+
+on:
+  schedule:
+    - cron: "15 23 * * 0" # Monday 08:15 KST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: official-housing-risk-monitor
+  cancel-in-progress: false
+
+jobs:
+  update-risk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Upsert OECD and BIS official observations
+        run: python risk-monitor/update_risk_data.py
+
+      - name: Commit only new or revised official observations
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add risk-data.js risk-data/
+          if ! git diff --cached --quiet; then
+            git commit -m "data: update official housing risk indicators"
+            git push origin HEAD:main
+          else
+            echo "No official data changes"
+          fi
