@@ -1,0 +1,25 @@
+name: Check Kakao Self Message Integration
+on:
+  pull_request:
+    paths:
+      - "seoul-apartment-collector/kakao_self_alert.py"
+      - "seoul-apartment-collector/kakao_oauth_setup_local.py"
+      - "seoul-apartment-collector/test_kakao_self_alert.py"
+      - ".github/workflows/check-kakao-self-alert.yml"
+permissions:
+  contents: read
+jobs:
+  mock-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install isolated test libraries
+        run: python -m pip install boto3 cryptography
+      - name: Check Python syntax
+        run: python -m py_compile seoul-apartment-collector/kakao_self_alert.py seoul-apartment-collector/kakao_oauth_setup_local.py seoul-apartment-collector/test_kakao_self_alert.py
+      - name: Test mock Kakao message and token rotation
+        run: python seoul-apartment-collector/test_kakao_self_alert.py
