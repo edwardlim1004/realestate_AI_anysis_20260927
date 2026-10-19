@@ -5,6 +5,12 @@ on:
       - "seoul-apartment-collector/google_drive_backup.py"
       - "seoul-apartment-collector/google_drive_oauth_local.py"
       - "seoul-apartment-collector/test_google_drive_backup.py"
+      - "seoul-apartment-collector/r2_bridge.py"
+      - "seoul-apartment-collector/r2_gdrive_failover.py"
+      - "seoul-apartment-collector/test_storage_failover.py"
+      - "seoul-apartment-collector/backfill_progress.py"
+      - "seoul-apartment-collector/collect.py"
+      - "seoul-apartment-collector/test_quota.py"
       - ".github/workflows/check-r2-google-drive.yml"
 permissions:
   contents: read
@@ -18,6 +24,9 @@ jobs:
         with:
           python-version: "3.11"
       - name: Compile code
-        run: python -m py_compile seoul-apartment-collector/google_drive_backup.py seoul-apartment-collector/google_drive_oauth_local.py seoul-apartment-collector/test_google_drive_backup.py
+        run: python -m compileall -q seoul-apartment-collector/*.py
       - name: Exercise R2 checksum and idempotent Drive behavior without external access
-        run: python seoul-apartment-collector/test_google_drive_backup.py
+        run: |
+          python seoul-apartment-collector/test_google_drive_backup.py
+          python seoul-apartment-collector/test_storage_failover.py
+          python seoul-apartment-collector/test_quota.py
