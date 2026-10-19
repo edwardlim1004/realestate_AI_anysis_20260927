@@ -6,6 +6,7 @@ A scope is one district × contract month × transaction type.
 """
 import json
 import os
+import re
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parent
@@ -39,7 +40,19 @@ def completeness(files):
     missing=[]
     for key in required:
         entry=files.get(key,{})
-        if not isinstance(entry,dict) or not isinstance(entry.get("sha256"),str) or len(entry["sha256"])!=64 or int(entry.get("bytes",0))<=0:
+        if not isinstance(entry,dict):
+            missing.append(key);continue
+        sha=entry.get("sha256","")
+        backend=entry.get("storage","r2")
+        valid=(isinstance(sha,str) and re.fullmatch("[0-9a-f]{64}",sha)
+            and isinstance(entry.get("bytes"),int) and entry["bytes"]>0)
+        if backend=="gdrive":
+            file_id=entry.get("drive_file_id","")
+            valid=bool(valid and isinstance(file_id,str)
+                       and re.fullmatch("[A-Za-z0-9_-]{10,200}",file_id))
+        elif backend!="r2":
+            valid=False
+        if not valid:
             missing.append(key)
     target=len(required)
     return {"cutoff":CUTOFF,"expected_scopes":target,
@@ -48,7 +61,7 @@ def completeness(files):
             "percent":round((target-len(missing))*100/target,3),
             "completed":len(missing)==0,
             "missing_sample":missing[:60],
-            "verification":"R2 upload-confirmed manifest; does not independently audit underlying deeds or transaction semantics"}
+            "verification":"R2 or Google Drive upload-verified manifest; not a live reread or transaction semantic audit"}
 
 
 def main():
