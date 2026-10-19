@@ -36,16 +36,16 @@ def main():
              patch.object(collect,"STATUS",root/"status.json"), \
              patch.object(collect,"R2Storage",FakeR2), \
              patch.object(collect,"today",lambda:date(2026,10,18)):
-            collect.save_json(collect.STATE,{"usage_day":"2026-10-18","daily_requests":4799})
+            collect.save_json(collect.STATE,{"usage_day":"2026-10-18","daily_requests":7999})
             fake=FakeCollector()
             assert collect.run("test",10,3,districts=["11110"],collector=fake)==0
             status=json.loads(collect.STATUS.read_text(encoding="utf-8"))
-            assert status["requests_today"]==4800,status
-            assert status["daily_cap"]==4800,status
+            assert status["requests_today"]==8000,status
+            assert status["daily_cap"]==8000,status
             assert fake.calls==1, fake.calls
             other=FakeCollector()
             assert collect.run("test",10,3,districts=["11110"],collector=other)==0
             assert other.calls==0,other.calls
-            assert json.loads(collect.STATE.read_text(encoding="utf-8"))["daily_requests"]==4800
+            assert json.loads(collect.STATE.read_text(encoding="utf-8"))["daily_requests"]==8000
             print("PASS: shared daily cap, safe stop, status recording")
 if __name__=="__main__": main()
