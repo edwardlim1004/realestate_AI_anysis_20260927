@@ -81,14 +81,14 @@ def main():
                "R2_BUCKET_NAME":"edward-seoul-apartment-data"}
         payload2=gzip.compress(b"CHANGED scope",mtime=0)
         data.write_bytes(payload2)
-        store._r2_bytes=1024*1024-3
+        store._r2_bytes=1024*1024
         with patch.dict(os.environ,creds),patch.object(failover,"DriveRawArchive",GoodDriveArchive):
             store.upload(data,relative=REL)
         assert store.files[REL]["storage"]=="gdrive",store.files
         assert store.files[REL]["drive_file_id"]==FILE_ID
         assert store.stats()["gdrive_scopes"]==1
         assert store.stats()["r2_scopes"]==0
-        assert store.stats()["r2_compressed_bytes"]==1024*1024-3-len(payload)
+        assert store.stats()["r2_compressed_bytes"]==1024*1024-len(payload)
         assert store.client.sent==[bridge.PREFIX+REL]
 
         # Missing Drive file-id or short checksum cannot count as a verified scope.
