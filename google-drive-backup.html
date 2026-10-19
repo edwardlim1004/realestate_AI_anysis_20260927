@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Edward Seoul Apt Backup | Google Drive 백업 앱</title>
+<meta name="description" content="Edward Seoul Apt Backup 개인용 Google Drive 자동 백업 앱 설명">
+<style>body{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;line-height:1.7;color:#1f2937;background:#f7f9fc;margin:0}.page{max-width:780px;margin:40px auto;padding:32px;background:#fff;border:1px solid #e5e7eb;border-radius:14px}h1{font-size:1.9rem}h2{margin-top:32px;font-size:1.2rem}a{color:#1259b1}code{background:#f3f4f6;padding:2px 5px;border-radius:4px}.muted{color:#4b5563}footer{margin-top:36px;padding-top:20px;border-top:1px solid #e5e7eb}@media(max-width:720px){.page{margin:0;border:0;border-radius:0;padding:22px}}</style>
+</head><body><main class="page">
+<h1>Edward Seoul Apt Backup</h1>
+<p class="muted">Personal Google Drive backup utility / 개인용 구글 드라이브 자동 백업</p>
+<p>이 도구는 사용자가 보관하는 <strong>서울 아파트 매매·전월세 공공 거래자료</strong>를 Cloudflare R2 저장소에서 읽어, 사용자가 승인한 Google Drive 계정으로 <strong>연도별 CSV 백업</strong>을 수행합니다.</p>
+<p>This is a personal-use backup utility. With the owner's consent, it transfers public Korean apartment transaction archives from a private Cloudflare R2 bucket into annual CSV files in the owner's Google Drive.</p>
+<h2>작동 방식 / How it works</h2>
+<ol>
+<li>GitHub Actions가 예약 실행하여 R2에 저장된 압축 원본의 파일 크기와 SHA-256 체크섬을 검증합니다.</li>
+<li>매매·전월세를 각각 연도별 CSV 파일로 정리합니다. 완료되지 않은 수집 구간이 있는 연도는 부분 데이터일 수 있습니다.</li>
+<li>Google Drive API <code>drive.file</code> 권한으로 앱 전용 <code>Edward_부동산데이터_R2백업</code> 폴더에 생성·갱신합니다.</li>
+<li>동일한 원본이 이미 백업돼 있으면 불필요한 재업로드를 생략합니다. R2 원본이나 기존 개인 Drive 파일을 삭제하지 않습니다.</li>
+</ol>
+<h2>Google 권한 / Google permissions</h2>
+<p>이 앱은 <code>https://www.googleapis.com/auth/drive.file</code>만 요청하며, 자신이 만들거나 사용자에게 명시적으로 선택된 Drive 파일을 관리할 수 있습니다. Google Drive 전체 접근 권한, Gmail, 연락처 및 캘린더 권한은 요청하지 않습니다.</p>
+<p>The app only requests the Google Drive <code>drive.file</code> scope to create and maintain files it creates. It does not request general access to all Drive files, Gmail, contacts, or calendars.</p>
+<h2>소유자 제어 / Owner control</h2>
+<p>앱은 소유자 본인만 사용하는 비상업적 도구입니다. Google 계정의 보안 설정에서 접근 권한을 언제든 철회할 수 있으며, GitHub 저장소의 <code>GDRIVE_BACKUP_ENABLED</code> 변수를 <code>false</code>로 변경하면 예약 백업을 중지할 수 있습니다.</p>
+<p>The owner can revoke authorization in their Google Account or disable scheduled backups in GitHub Actions at any time.</p>
+<p><a href="google-drive-backup-privacy.html"><strong>개인정보처리방침 / Privacy Policy</strong></a></p>
+<footer><p>Project: <a href="https://github.com/edwardlim1004/realestate_AI_anysis_20260927">Seoul Apartment Data Analysis (GitHub)</a></p><p class="muted">Last updated: 2026-10-20</p></footer>
+</main></body></html>
