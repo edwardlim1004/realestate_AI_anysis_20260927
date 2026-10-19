@@ -174,7 +174,7 @@ def build_year_csv(s3,entries,out):
                         if None in record:raise ValueError("Invalid CSV columns")
                         writer.writerow({k:escape_cell(v) for k,v in record.items()})
                         rows+=1;scope_rows+=1
-                        if out.tell()>MAX_YEAR_BYTES or rows>3000000 or scope_rows>300000:
+                        if csvout.tell()>MAX_YEAR_BYTES or rows>3000000 or scope_rows>300000:
                             raise ValueError("Annual CSV safety size/row limit exceeded")
             finally:
                 if src.exists():src.unlink()
