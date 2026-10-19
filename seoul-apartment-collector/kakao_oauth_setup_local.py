@@ -7,6 +7,8 @@ The refresh token will be shown once in the terminal; paste only in GitHub Secre
 """
 import getpass
 import http.server
+import re
+import urllib.error
 import json
 import secrets
 import sys
@@ -45,7 +47,7 @@ def main():
             self.send_response(200)
             self.send_header("Content-Type","text/html;charset=utf-8")
             self.end_headers()
-            self.wfile.write("<html><body>카카오 인증을 받았습니다. 이 브라우저를 닫고 명령창을 확인하세요.</body></html>".encode("utf-8"))
+            self.wfile.write("<html><body>인가코드 수신 완료. 실제 토큰 발급 결과는 명령창에서 확인하세요.</body></html>".encode("utf-8"))
             signal.set()
     try:
         server=http.server.HTTPServer(("127.0.0.1",8769),Handler)
@@ -79,8 +81,41 @@ def main():
             "Content-Type":"application/x-www-form-urlencoded;charset=utf-8"})
         with urllib.request.urlopen(req,timeout=20) as resp:
             payload=json.load(resp)
-    except Exception:
-        print("카카오 토큰 발급 실패. 앱 설정과 Redirect URI, Client Secret을 확인하세요.")
+    except urllib.error.HTTPError as exc:
+        # Show only sanctioned error classifications, never an authorization code,
+        # access token, client secret, or full request/response body.
+        try:
+            fault=json.loads(exc.read(8192).decode("utf-8"))
+        except (ValueError,UnicodeError):
+            fault={}
+        kind=str(fault.get("error","unknown"))
+        description=str(fault.get("error_description",""))
+        code_match=re.search(r"KOE\d{3}",description+" "+str(fault.get("error_code","")))
+        koe=code_match.group(0) if code_match else "(확인 불가)"
+        explanations={
+            "KOE010":"새 REST API 키와 연결된 Client Secret이 다르거나 누락되었습니다. 카카오 플랫폼 키에서 해당 키의 Client Secret을 다시 복사하세요.",
+            "KOE101":"앱 키가 잘못되었거나 REST API 키 이외의 키를 입력했습니다.",
+            "KOE114":"인가코드 발급에 사용한 REST API 키와 토큰 요청의 키가 일치하지 않습니다.",
+            "KOE303":"인가코드 발급과 토큰 교환에 사용한 Redirect URI가 일치하지 않습니다.",
+            "KOE320":"인가코드가 만료되었거나 이미 사용됐습니다. 프로그램을 다시 실행해 새 인가코드를 받으세요.",
+            "KOE237":"토큰 발급 요청 제한입니다. 잠시 후 다시 실행하세요.",
+            "KOE009":"카카오 앱 플랫폼 또는 등록 도메인 설정을 확인하세요.",
+        }
+        if koe=="(확인 불가)" and kind=="invalid_client":
+            tip="REST API 키와 Client Secret 조합을 확인하세요."
+        elif koe=="(확인 불가)" and kind=="invalid_grant":
+            tip="Redirect URI 일치 여부와 인증코드 만료/재사용 여부를 확인하세요."
+        else:
+            tip=explanations.get(koe,"카카오 앱 로그인 설정 및 승인 상태를 확인하세요.")
+        print(f"카카오 서버에서 토큰 발급 거부: HTTP {exc.code}, OAuth 오류={kind}, 코드={koe}")
+        print("가능한 원인:",tip)
+        print("API 키, Client Secret, 인증코드는 이 메시지에 출력되지 않습니다.")
+        return 1
+    except (urllib.error.URLError, TimeoutError, OSError):
+        print("토큰 발급 서버 연결에 실패했습니다. 인터넷/방화벽/프록시를 확인하세요.")
+        return 1
+    except (ValueError,TypeError):
+        print("카카오의 토큰 발급 응답을 읽을 수 없습니다. 잠시 후 다시 실행하세요.")
         return 1
     refresh=payload.get("refresh_token")
     if not isinstance(refresh,str) or not refresh:
