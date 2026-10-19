@@ -144,8 +144,9 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None):
     c.limit=min(c.limit,actual_limit)
     archive=R2Storage()
     archive.migrate_legacy()
-    if archive.stats()['r2_compressed_bytes']>=R2_DATA_SAFETY_CAP:
-        print('SAFE_STOP: R2 storage safety threshold exceeded',flush=True)
+    storage_cap=int(os.environ.get('R2_STORAGE_SOFT_CAP_BYTES',str(R2_DATA_SAFETY_CAP)))
+    if archive.stats()['r2_compressed_bytes']>=storage_cap and not archive.fallback_enabled():
+        print('SAFE_STOP: R2 soft cap reached; Google Drive failover unavailable',flush=True)
         c.limit=0
     if actual_limit==0:
         print('SAFE_STOP: daily collector request budget used',flush=True)
@@ -181,14 +182,22 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None):
             success+=1
             if (kind,gu,ym) in refresh:done.add('/'.join((kind,gu,ym)))
             print(f'OK {kind} {gu} {ym}: {len(records)} rows',flush=True)
-            if archive.stats()['r2_compressed_bytes']>=R2_DATA_SAFETY_CAP:
-                print('SAFE_STOP: R2 storage safety threshold reached',flush=True)
+            if archive.stats()['r2_compressed_bytes']>=storage_cap and not archive.fallback_enabled():
+                print('SAFE_STOP: R2 storage soft cap reached; Drive failover unavailable',flush=True)
                 break
         except StopSafely as error:
             print('SAFE_STOP',str(error),flush=True);break
         except Exception as error:
             failures+=1
             print(f'ERROR {kind} {gu} {ym} {type(error).__name__}',flush=True)
+            # Fail closed: if an archive fails to confirm receipt, avoid
+            # wasting more official API requests in the same run.
+            if isinstance(error,(RuntimeError,ValueError)) and (
+                    'failover' in str(error).lower() or
+                    'google drive' in str(error).lower() or
+                    'google raw' in str(error).lower()):
+                print('SAFE_STOP: secondary archive not verified',flush=True)
+                break
             if failures>=3:break
     if cycle and all('/'.join(x) in done for x in refresh):
         state.update({'refresh_cycle':None,'refresh_done':[]})
@@ -201,7 +210,9 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None):
         'last_run_requests':c.calls,'last_run_success':success,'last_run_failures':failures,
         'refresh_cycle':state.get('refresh_cycle'),'last_run_mode':mode,
         'requests_today':state['daily_requests'],'daily_cap':DAILY_MAX_REQUESTS,
-        'r2_storage_safety_cap_bytes':R2_DATA_SAFETY_CAP,**archive.stats()})
+        'r2_storage_safety_cap_bytes':storage_cap,
+        'google_drive_fallback_enabled':archive.fallback_enabled(),
+        **archive.stats()})
     print('RESULT',json.dumps({'requests':c.calls,'success':success,'failures':failures,'completed_scopes':count}))
     return 0 if failures==0 else 1
 
