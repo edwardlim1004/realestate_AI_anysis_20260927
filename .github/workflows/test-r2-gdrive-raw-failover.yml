@@ -1,5 +1,9 @@
 name: Test Cloudflare R2 to Google Raw Archive Failover
 on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/test-r2-gdrive-raw-failover.yml"
   workflow_dispatch:
 permissions:
   contents: read
