@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy Policy | Edward Seoul Apt Backup</title>
+<meta name="description" content="Edward Seoul Apt Backup Google Drive 백업 앱의 개인정보 및 Google 사용자 데이터 처리 방침">
+<style>body{font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;line-height:1.7;color:#1f2937;background:#f7f9fc;margin:0}.page{max-width:790px;margin:40px auto;padding:32px;background:white;border:1px solid #e5e7eb;border-radius:14px}h1{font-size:1.8rem}h2{margin-top:27px;font-size:1.15rem}a{color:#1259b1}code{background:#f3f4f6;padding:2px 5px;border-radius:4px}.muted{color:#4b5563}@media(max-width:720px){.page{margin:0;border:0;border-radius:0;padding:22px}}</style>
+</head><body><main class="page">
+<h1>Edward Seoul Apt Backup — 개인정보처리방침 / Privacy Policy</h1>
+<p>최종 수정 / Last updated: 2026-10-20</p>
+<h2>1. 앱의 목적 / Purpose</h2>
+<p>개인 소유자가 Cloudflare R2에서 관리하는 서울 아파트 공공 거래자료를 본인 Google Drive에 연도별 CSV 파일로 백업하기 위한 앱입니다. 다른 사용자에게 제공하는 상용 서비스가 아닙니다.</p>
+<p>This personal-use app backs up the owner's Korean public apartment transaction archives from Cloudflare R2 to the same owner's Google Drive. It is not offered as a commercial multi-user service.</p>
+<h2>2. Google 데이터 접근 범위 / Google user data accessed</h2>
+<p>Google OAuth <code>https://www.googleapis.com/auth/drive.file</code> 권한을 요청합니다. 이 권한으로 앱이 만든 전용 폴더 및 파일을 조회·생성·수정하고, 체크섬·파일 크기·관리용 메타데이터를 확인합니다. 다른 Google Drive 개인 파일이나 Gmail·연락처·캘린더 데이터는 요청하거나 수집하지 않습니다.</p>
+<p>We request only <code>drive.file</code>. We create, read metadata for, and update app-created backup folders/files, including checksums, file size, and synchronization metadata. We do not request access to unrelated personal Drive files or to Gmail, contacts, or calendars.</p>
+<h2>3. 데이터 사용 및 저장 / Use and storage</h2>
+<p>승인된 Google Drive 계정의 앱 전용 폴더에 백업 CSV를 보관합니다. 자동화는 GitHub Actions에서 실행하며 백업 원본은 소유자의 비공개 Cloudflare R2에 남아 있습니다. Google OAuth Refresh Token은 최초 GitHub Secrets에 주입되며 이후 비공개 R2에 암호화하여 저장하고, 액세스 토큰은 백업 실행 중 API 인증에 사용합니다. 워크플로 로그와 진단 결과에는 구간 수·행 수·파일 크기 등 운영 정보만 기록하도록 구현되어 있습니다.</p>
+<p>Backup CSVs are stored in an app-created folder in the owner's Google Drive. Source archives remain in the owner's private Cloudflare R2 bucket. Automation runs on GitHub Actions. Refresh tokens are bootstrapped through GitHub Secrets and stored encrypted in private R2; access tokens authenticate API calls. Logs and backup reports contain operational statistics rather than OAuth secret values.</p>
+<h2>4. 제3자 제공 / Sharing and service providers</h2>
+<p>Google 사용자 데이터를 광고·분석·마케팅 목적으로 사용하거나 판매하지 않습니다. 승인 없이 Google Drive 파일을 다른 사용자에게 공유하지 않습니다. 백업 기능 수행을 위해 Google Drive, GitHub Actions, Cloudflare R2 서비스를 사용합니다.</p>
+<p>We do not sell or use Google user data for advertising, marketing, or profiling, and the app does not share Drive backup files with other Google users. Google Drive, GitHub Actions, and Cloudflare R2 are technical service providers supporting the backup workflow.</p>
+<h2>5. 보존 및 삭제 / Retention and deletion</h2>
+<p>백업 파일은 소유자가 Google Drive에서 직접 삭제할 때까지 유지됩니다. GitHub에서 자동 백업을 중지해도 기존 파일은 자동으로 삭제되지 않습니다. Google 계정 보안 설정에서 앱 접근권한을 철회하면 추후 Drive API 접근을 막을 수 있습니다. 저장된 암호화 토큰과 원본 R2 파일은 자동 삭제되지 않으며, 소유자가 GitHub Secrets·Cloudflare R2에서 별도로 폐기할 수 있습니다. GitHub Actions 진단 아티팩트는 설정된 보존 기간에 따라 관리됩니다.</p>
+<p>Files remain until the owner deletes them in Google Drive. Disabling backups does not erase existing files. The owner may revoke OAuth access in Google Account settings; encrypted stored tokens and source R2 files must be separately deleted by the owner if desired. GitHub Actions report retention follows repository workflow settings.</p>
+<h2>6. 보안 / Security</h2>
+<p>앱은 Google Drive의 전용 폴더에서만 파일을 생성·갱신하고 파일 공개 설정이나 공유 설정을 변경하지 않습니다. R2 원본 압축파일의 SHA-256을 검증하며 Drive에 저장한 백업은 MD5와 길이를 비교합니다. OAuth 인증정보를 공개 GitHub 소스에 넣지 않습니다.</p>
+<p>The app does not set Drive file permissions or create share links. It validates R2 source SHA-256 hashes and uploaded Drive file checksums and sizes. OAuth tokens and client secrets are not committed to public source files.</p>
+<h2>7. 연락 / Contact</h2>
+<p>앱 소유자에게 연락이 필요한 경우 <a href="https://github.com/edwardlim1004/realestate_AI_anysis_20260927/issues">프로젝트 GitHub Issues</a>를 통해 문의할 수 있습니다. Google OAuth 승인화면에도 사용자 지원 이메일이 표시됩니다.</p>
+<p>For inquiries, use the <a href="https://github.com/edwardlim1004/realestate_AI_anysis_20260927/issues">project's GitHub Issues</a>. The OAuth consent screen also lists the user-support email.</p>
+<p><a href="google-drive-backup.html">← 앱 홈페이지 / Application home page</a></p>
+</main></body></html>
