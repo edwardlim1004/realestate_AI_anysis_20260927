@@ -15,7 +15,7 @@ BASE=Path(__file__).resolve().parent
 DATA=BASE/'data'
 STATE=BASE/'state.json'
 STATUS=BASE/'status.json'
-DAILY_MAX_REQUESTS=4800
+DAILY_MAX_REQUESTS=8000
 R2_DATA_SAFETY_CAP=8*1024*1024*1024  # 8 GiB project safety limit; not a cloud billing limit
 GU={'11110':'종로구','11140':'중구','11170':'용산구','11200':'성동구','11215':'광진구',
 '11230':'동대문구','11260':'중랑구','11290':'성북구','11305':'강북구','11320':'도봉구',

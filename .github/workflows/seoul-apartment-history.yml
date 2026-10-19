@@ -1,7 +1,7 @@
 name: Seoul Apartment History Collector (Safe)
 on:
   schedule:
-    - cron: "30 3,9,15,21 * * *" # KST 12:30/18:30/00:30/06:30
+    - cron: "30 0,3,6,9,12,15,18,21 * * *" # KST 09:30/12:30/15:30/18:30/21:30/00:30/03:30/06:30
   workflow_dispatch:
     inputs:
       mode:
