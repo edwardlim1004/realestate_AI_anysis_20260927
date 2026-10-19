@@ -1,9 +1,9 @@
 {
   "cutoff": "202610",
   "expected_scopes": 11000,
-  "verified_manifest_scopes": 4307,
-  "missing_scopes": 6693,
-  "percent": 39.155,
+  "verified_manifest_scopes": 5420,
+  "missing_scopes": 5580,
+  "percent": 49.273,
   "completed": false,
   "missing_sample": [
     "sale/2006/11110/200601.csv.gz",
@@ -67,5 +67,5 @@
     "sale/2006/11305/200603.csv.gz",
     "sale/2006/11320/200603.csv.gz"
   ],
-  "verification": "R2 upload-confirmed manifest; does not independently audit underlying deeds or transaction semantics"
+  "verification": "R2 or Google Drive upload-verified manifest; not a live reread or transaction semantic audit"
 }
