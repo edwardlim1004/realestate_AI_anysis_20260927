@@ -52,7 +52,8 @@ def main():
             assert b.fingerprint(annuals[("sale","2026")])==b.fingerprint(annuals[("sale","2026")])
             r2=FakeR2(blobs)
             year_file=p/"sale-2026.csv"
-            md5,n,size=b.build_year_csv(r2,annuals[("sale","2026")],year_file)
+            with patch.dict(os.environ,{"R2_BUCKET_NAME":"edward-seoul-apartment-data"}):
+                md5,n,size=b.build_year_csv(r2,annuals[("sale","2026")],year_file)
             assert n==1 and size>0 and md5==hashlib.md5(year_file.read_bytes()).hexdigest()
             with year_file.open("r",encoding="utf-8-sig",newline="") as f:
                 row=list(csv.DictReader(f))[0]
@@ -60,7 +61,9 @@ def main():
             corrupted=scope_rows.copy()
             k="sale/2026/11710/202610.csv.gz"
             corrupted[k]={"sha256":"f"*64,"bytes":scope_rows[k]["bytes"]}
-            try:b.build_year_csv(r2,[(k,corrupted[k]["sha256"],corrupted[k]["bytes"])],p/"bad.csv")
+            try:
+                with patch.dict(os.environ,{"R2_BUCKET_NAME":"edward-seoul-apartment-data"}):
+                    b.build_year_csv(r2,[(k,corrupted[k]["sha256"],corrupted[k]["bytes"])],p/"bad.csv")
             except ValueError as exc:
                 assert "checksum" in str(exc)
             else:raise AssertionError("R2 corrupted archive was accepted")
