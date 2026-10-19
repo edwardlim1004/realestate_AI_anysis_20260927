@@ -1,0 +1,29 @@
+name: Test Cloudflare R2 to Google Raw Archive Failover
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: r2-to-google-drive
+  cancel-in-progress: false
+jobs:
+  verify-one-raw-file:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install SDKs
+        run: python -m pip install boto3 google-api-python-client google-auth google-auth-oauthlib cryptography
+      - name: Upload one existing verified R2 source to private Google Drive folder
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
+        run: python seoul-apartment-collector/failover_selfcheck.py
