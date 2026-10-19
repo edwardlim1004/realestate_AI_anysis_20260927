@@ -45,6 +45,10 @@ class R2Storage:
             self.files = {}
         self.uploaded = 0
         self.skipped = 0
+        self._r2_bytes = sum(int(v.get("bytes",0)) for v in self.files.values()
+                             if v.get("storage","r2")=="r2")
+        self.drive_archived = 0
+        self._drive_archive = None
 
     @staticmethod
     def relpath(kind, district, ym):
@@ -61,26 +65,68 @@ class R2Storage:
                 h.update(chunk)
         return h.hexdigest()
 
-    def upload(self, local_path, relative=None):
-        path = Path(local_path)
-        relative = relative or path.relative_to(DATA).as_posix()
-        digest = self.checksum(path)
-        if self.files.get(relative, {}).get("sha256") == digest:
-            self.skipped += 1
+    def fallback_enabled(self):
+        from r2_gdrive_failover import is_enabled, have_credentials
+        return is_enabled() and have_credentials()
+
+    def _to_google_drive(self, path, relative, digest, size, old):
+        from r2_gdrive_failover import DriveRawArchive
+        if not self.fallback_enabled():
+            raise RuntimeError("R2 safety limit reached; Google Drive verified failover is not configured")
+        if self._drive_archive is None:
+            self._drive_archive = DriveRawArchive(self.client)
+        file_id=self._drive_archive.upload(relative,path,digest,
+             old_file_id=old.get("drive_file_id") if old.get("storage")=="gdrive" else None)
+        # Only count a scope as completed AFTER Drive verified its MD5 and byte count.
+        self.files[relative]={"sha256":digest,"bytes":size,
+                               "storage":"gdrive","drive_file_id":file_id}
+        if old.get("storage","r2")=="r2":
+            self._r2_bytes-=int(old.get("bytes",0))
+        self.uploaded+=1
+        self.drive_archived+=1
+        return True
+
+    def upload(self,local_path,relative=None):
+        path=Path(local_path)
+        relative=relative or path.relative_to(DATA).as_posix()
+        digest=self.checksum(path)
+        old=self.files.get(relative,{})
+        if old.get("sha256")==digest:
+            self.skipped+=1
             return False
-        key = PREFIX + relative
-        self.client.upload_file(
-            str(path),
-            self.bucket,
-            key,
-            ExtraArgs={"ContentType": "application/gzip"},
-        )
-        # A successful upload is the prerequisite for recording a completed scope.
-        self.files[relative] = {
-            "sha256": digest,
-            "bytes": path.stat().st_size,
-        }
-        self.uploaded += 1
+        size=path.stat().st_size
+        if not 1<=size<=50*1024*1024:
+            raise ValueError("Unexpected scope file size")
+        from r2_gdrive_failover import KEY_RE
+        if not KEY_RE.fullmatch(relative):
+            raise ValueError("Invalid scope relative name")
+        new_r2_bytes=self._r2_bytes-(int(old.get("bytes",0))
+                       if old.get("storage","r2")=="r2" else 0)+size
+        safety_cap=int(os.environ.get("R2_STORAGE_SOFT_CAP_BYTES",str(8*1024*1024*1024)))
+        if not 1024*1024 <= safety_cap <= 10*1024*1024*1024*1024:
+            raise ValueError("R2 safety cap outside allowed range")
+        if new_r2_bytes>safety_cap or old.get("storage")=="gdrive":
+            print("R2_GDRIVE_FAILOVER_BEGIN",relative,flush=True)
+            result=self._to_google_drive(path,relative,digest,size,old)
+            print("R2_GDRIVE_FAILOVER_VERIFIED",relative,flush=True)
+            return result
+        try:
+            self.client.upload_file(str(path),self.bucket,PREFIX+relative,
+                                    ExtraArgs={"ContentType":"application/gzip"})
+        except Exception as exc:
+            # Other failures remain errors; do not misclassify transient outages
+            # or credential failures as an R2 storage quota condition.
+            from botocore.exceptions import ClientError
+            if not isinstance(exc,ClientError):raise
+            code=str(exc.response.get("Error",{}).get("Code",""))
+            status=exc.response.get("ResponseMetadata",{}).get("HTTPStatusCode")
+            if code not in ("QuotaExceeded","StorageQuotaExceeded","InsufficientStorage") and status!=507:
+                raise
+            print("R2_STORAGE_QUOTA_FAILOVER",relative,flush=True)
+            return self._to_google_drive(path,relative,digest,size,old)
+        self._r2_bytes=new_r2_bytes
+        self.files[relative]={"sha256":digest,"bytes":size,"storage":"r2"}
+        self.uploaded+=1
         return True
 
     def migrate_legacy(self):
@@ -109,9 +155,12 @@ class R2Storage:
 
     def stats(self):
         return {
-            "r2_scopes": len(self.files),
-            "r2_compressed_bytes": sum(int(v.get("bytes", 0)) for v in self.files.values()),
-            "r2_objects_uploaded": self.uploaded,
+            "total_scopes":len(self.files),
+            "r2_scopes":sum(1 for v in self.files.values() if v.get("storage","r2")=="r2"),
+            "gdrive_scopes":sum(1 for v in self.files.values() if v.get("storage")=="gdrive"),
+            "r2_compressed_bytes":self._r2_bytes,
+            "r2_objects_uploaded":self.uploaded-self.drive_archived,
+            "gdrive_objects_uploaded":self.drive_archived,
         }
 
 

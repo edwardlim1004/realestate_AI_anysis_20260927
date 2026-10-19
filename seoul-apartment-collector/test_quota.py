@@ -15,6 +15,7 @@ spec.loader.exec_module(collect)
 class FakeR2:
     files={}
     def has_scope(self,kind,gu,ym):return False
+    def fallback_enabled(self):return False
     def migrate_legacy(self):pass
     def stats(self):return {"r2_compressed_bytes":0,"r2_scopes":0,"r2_objects_uploaded":0}
     def upload(self,*args):pass

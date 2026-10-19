@@ -124,13 +124,23 @@ def load_source_manifest():
         size=value.get("bytes",0)
         if not isinstance(sha,str) or not re.fullmatch("[0-9a-f]{64}",sha) or not isinstance(size,int) or not 1<=size<=MAX_SRC_BYTES:
             raise ValueError("Invalid R2 scope digest/size: "+key)
-        output.setdefault((kind,year),[]).append((key,sha,size))
+        storage=value.get("storage","r2")
+        if storage=="gdrive":
+            drive_id=value.get("drive_file_id","")
+            if not isinstance(drive_id,str) or not re.fullmatch(r"[A-Za-z0-9_-]{10,200}",drive_id):
+                raise ValueError("Unverified Google Drive source entry: "+key)
+            output.setdefault((kind,year),[]).append((key,sha,size,drive_id))
+        elif storage=="r2":
+            output.setdefault((kind,year),[]).append((key,sha,size))
+        else:
+            raise ValueError("Unknown archive storage backend: "+key)
     return {year:sorted(rows) for year,rows in output.items()}
 
 
 def fingerprint(entries):
     h=hashlib.sha256()
-    for key,sha,size in entries:
+    for entry in entries:
+        key,sha,size=entry[:3]
         h.update((key+"|"+sha+"|"+str(size)+"\n").encode("utf-8"))
     return h.hexdigest()
 
@@ -140,25 +150,39 @@ def escape_cell(v):
     return "'"+value if value.lstrip().startswith(("=","+","-","@")) else value
 
 
-def build_year_csv(s3,entries,out):
-    """Download + integrity check each gzip archive; stream data to one annual CSV."""
+def build_year_csv(s3,entries,out,drive=None):
+    """Download and SHA256-verify mixed R2/Drive raw sources before writing annual CSV."""
     bucket=os.environ["R2_BUCKET_NAME"]
     md5=hashlib.md5()
     rows=0;fields=None
     with out.open("w",encoding="utf-8-sig",newline="") as csvout:
         writer=None
-        for idx,(key,expected,size) in enumerate(entries):
+        for idx,entry in enumerate(entries):
+            key,expected,size=entry[:3]
             src=out.with_name("scope_"+str(idx)+".gz")
             try:
-                s3.download_file(bucket,PREFIX+key,str(src))
-                if src.stat().st_size!=size:raise ValueError("R2 file size does not match manifest")
+                if len(entry)==4:
+                    if drive is None:raise RuntimeError("Google Drive source connection is required")
+                    from googleapiclient.http import MediaIoBaseDownload
+                    with src.open("wb") as local:
+                        downloader=MediaIoBaseDownload(local,
+                            drive.files().get_media(fileId=entry[3]),
+                            chunksize=8*1024*1024)
+                        finished=False
+                        while not finished:
+                            _,finished=downloader.next_chunk(num_retries=3)
+                            if local.tell()>MAX_SRC_BYTES:
+                                raise ValueError("Drive source exceeds maximum archive size")
+                else:
+                    s3.download_file(bucket,PREFIX+key,str(src))
+                if src.stat().st_size!=size:raise ValueError("Source size does not match manifest")
                 h=hashlib.sha256()
                 with src.open("rb") as handle:
                     while True:
                         chunk=handle.read(1024*1024)
                         if not chunk:break
                         h.update(chunk)
-                if h.hexdigest()!=expected:raise ValueError("R2 gzip checksum mismatch; no upload")
+                if h.hexdigest()!=expected:raise ValueError("Source gzip SHA256 mismatch; no upload")
                 with gzip.open(src,"rt",encoding="utf-8-sig",newline="") as readerfile:
                     reader=csv.DictReader(readerfile)
                     if not reader.fieldnames or not all(v in reader.fieldnames for v in ("계약일","자료종류","원본항목JSON")):
@@ -283,7 +307,7 @@ def backup(mode="sync",max_years=12):
         if report["uploaded_years"]>=max_years:break
         with tempfile.TemporaryDirectory(prefix="edward_r2_gdrive_") as tmp:
             target=Path(tmp)/f"{key}.csv"
-            md5,rows,bytes_count=build_year_csv(r2,entries,target)
+            md5,rows,bytes_count=build_year_csv(r2,entries,target,drive=drive)
             upload_annual(drive,folders[kind],kind,year,entries,target,md5,bytes_count,rows,file)
         report["events"].append({"year":year,"kind":kind,"rows":rows,
                      "source_scopes":len(entries),"bytes":bytes_count,"result":"verified"})

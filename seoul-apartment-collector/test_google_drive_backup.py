@@ -65,7 +65,7 @@ def main():
                 with patch.dict(os.environ,{"R2_BUCKET_NAME":"edward-seoul-apartment-data"}):
                     b.build_year_csv(r2,[(k,corrupted[k]["sha256"],corrupted[k]["bytes"])],p/"bad.csv")
             except ValueError as exc:
-                assert "checksum" in str(exc)
+                assert "SHA256" in str(exc) or "checksum" in str(exc)
             else:raise AssertionError("R2 corrupted archive was accepted")
 
             remote={}
