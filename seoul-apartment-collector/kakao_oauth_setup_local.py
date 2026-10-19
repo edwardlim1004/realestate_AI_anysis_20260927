@@ -58,9 +58,9 @@ def main():
         "client_id":api_key,"redirect_uri":CALLBACK,"response_type":"code",
         "scope":"talk_message","state":state})
     print("\n이제 Kakao 계정으로 로그인하고 '카카오톡 메시지 전송'에 동의하세요.")
-    print("브라우저가 열리지 않으면 아래 URL을 직접 열 수 있습니다 (외부 공유 금지):")
-    print(url)
-    webbrowser.open(url)
+    if not webbrowser.open(url):
+        print("브라우저 자동 실행에 실패했습니다. 기본 브라우저 설정을 확인하고 다시 실행하세요.")
+        return 1
     with server:
         server.timeout=5
         for _ in range(36):
