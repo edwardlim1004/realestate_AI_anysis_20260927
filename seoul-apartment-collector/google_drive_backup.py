@@ -65,13 +65,13 @@ def remote_refresh_token(s3,crypto):
     except ClientError as exc:
         code=str(exc.response.get("Error",{}).get("Code"))
         if code in ("404","NoSuchKey","NotFound"):
-            return os.environ.get("GOOGLE_OAUTH_REFRESH_TOKEN","")
+            return os.environ.get("GOOGLE_OAUTH_REFRESH_TOKEN",""), False
         raise RuntimeError("Encrypted R2 token lookup failed") from None
     try:
         encrypted=result["Body"].read(8192)
         token=crypto.decrypt(encrypted).decode("utf-8")
         if not 8<=len(token)<=2048:raise ValueError()
-        return token
+        return token, True
     except Exception:
         raise RuntimeError("Encrypted Google token unreadable; check unchanged R2 and Google secrets") from None
 
@@ -88,7 +88,7 @@ def authorized_drive(s3):
     from googleapiclient.discovery import build
     env_required("GOOGLE_OAUTH_CLIENT_ID","GOOGLE_OAUTH_CLIENT_SECRET")
     crypt=cipher()
-    refresh=remote_refresh_token(s3,crypt)
+    refresh, already_persisted=remote_refresh_token(s3,crypt)
     if not refresh:raise RuntimeError("Missing initial GOOGLE_OAUTH_REFRESH_TOKEN secret")
     credentials=Credentials(token=None,refresh_token=refresh,
         token_uri="https://oauth2.googleapis.com/token",
@@ -100,8 +100,9 @@ def authorized_drive(s3):
         raise RuntimeError("Google OAuth refresh failed: check OAuth consent, publication status and credentials") from None
     if not credentials.token:raise RuntimeError("Google did not issue access token")
     new_refresh=credentials.refresh_token or refresh
-    if new_refresh!=refresh or os.environ.get("GOOGLE_BACKUP_SAVE_BOOTSTRAP","1")=="1":
-        # Do not acknowledge auth success until the safe long-term token is persisted.
+    if new_refresh!=refresh or not already_persisted:
+        # Persist initial/rotated tokens, but never rewrite an unchanged token.
+        # This lets Drive failover keep working even if R2 rejects new writes.
         save_refresh_token(s3,crypt,new_refresh)
     return build("drive","v3",credentials=credentials,cache_discovery=False)
 
