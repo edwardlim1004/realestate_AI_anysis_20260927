@@ -88,7 +88,7 @@ def main():
         assert store.files[REL]["drive_file_id"]==FILE_ID
         assert store.stats()["gdrive_scopes"]==1
         assert store.stats()["r2_scopes"]==0
-        assert store.stats()["r2_compressed_bytes"]==1024*1024-len(payload)
+        assert store.stats()["r2_compressed_bytes"]==1024*1024  # old R2 object was NOT deleted
         assert store.client.sent==[bridge.PREFIX+REL]
 
         # Missing Drive file-id or short checksum cannot count as a verified scope.
