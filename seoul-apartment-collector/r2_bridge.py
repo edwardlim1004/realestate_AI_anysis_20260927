@@ -80,8 +80,9 @@ class R2Storage:
         # Only count a scope as completed AFTER Drive verified its MD5 and byte count.
         self.files[relative]={"sha256":digest,"bytes":size,
                                "storage":"gdrive","drive_file_id":file_id}
-        if old.get("storage","r2")=="r2":
-            self._r2_bytes-=int(old.get("bytes",0))
+        # Keep accounting the old R2 object: failover does NOT delete it.
+        # Otherwise an update switched to Drive would incorrectly free space
+        # and allow new R2 writes above the configured soft capacity.
         self.uploaded+=1
         self.drive_archived+=1
         return True
