@@ -2,7 +2,7 @@
   "schema": 1,
   "bucket": "edward-seoul-apartment-data",
   "prefix": "seoul-apartments/v1/",
-  "updated_at_utc": "2026-10-20T22:47:34.250807+00:00",
+  "updated_at_utc": "2026-10-21T06:00:27.170016+00:00",
   "files": {
     "rent/2011/11110/201101.csv.gz": {
       "sha256": "a6697b6f2e0ddc59fcf7d163a8c6bf4da0602e9bb7af281c184e0639f2295301",
@@ -21604,6 +21604,4531 @@
       "sha256": "4c6a4ee12aa90b2472eb00a64c2e28d4a4286378151958bb66a9e6d1ded43064",
       "bytes": 23578
     },
+    "sale/2006/11110/200601.csv.gz": {
+      "sha256": "f3404d3d0738693467f8b6314b624ce76f6b8bb7ca30e30d1c196b0ef88fdc4b",
+      "bytes": 1976,
+      "storage": "r2"
+    },
+    "sale/2006/11110/200602.csv.gz": {
+      "sha256": "4f5bedd11d274ed0f8c505d77d2d004025565435efe646563df74f0e5a4cb138",
+      "bytes": 2881,
+      "storage": "r2"
+    },
+    "sale/2006/11110/200603.csv.gz": {
+      "sha256": "5a6ca25aabf42e7f9577b16439f690ca8cdcdd1d7f9a0aaadf68ccd02044e8de",
+      "bytes": 3712,
+      "storage": "r2"
+    },
+    "sale/2006/11110/200604.csv.gz": {
+      "sha256": "b517ecbd23bd04521c002f9878e55d2039637553002f3bc0970ff1bde05574b8",
+      "bytes": 3087,
+      "storage": "r2"
+    },
+    "sale/2006/11110/200605.csv.gz": {
+      "sha256": "019b625a031b3e00a4f563a416a1a649ee6a33067718447e46cd89ac38357971",
+      "bytes": 3376,
+      "storage": "r2"
+    },
+    "sale/2006/11110/200606.csv.gz": {
+      "sha256": "4476bc9111e0df020d615fb20861acba087ef3f786645cdac05614f49bafda27",
+      "bytes": 2520,
+      "storage": "r2"
+    },
+    "sale/2006/11110/200607.csv.gz": {
+      "sha256": "1fcb605260b5ba8aad9cf43514795c79b628641a35d773bd9f09ec694dce8892",
+      "bytes": 2693,
+      "storage": "r2"
+    },
+    "sale/2006/11110/200608.csv.gz": {
+      "sha256": "4c91cd84b0e8f03cf011453c3666a51718c50e7bfd6f302699e1315a6764db11",
+      "bytes": 3360,
+      "storage": "r2"
+    },
+    "sale/2006/11110/200609.csv.gz": {
+      "sha256": "c5fe4bf40f269d7ac926b840f5cbd2a942aee7ecff8834d05d6846b26d229419",
+      "bytes": 4702,
+      "storage": "r2"
+    },
+    "sale/2006/11110/200610.csv.gz": {
+      "sha256": "6a9f6218e6233154309b74ac0f2632a612fa1c8055b11f8a5afa3bc876c26e2f",
+      "bytes": 5382,
+      "storage": "r2"
+    },
+    "sale/2006/11110/200611.csv.gz": {
+      "sha256": "d564aa42b099843a9b8f9d04c0fa042d39c7863ae31ad1ab2d7e90f75ad4cef6",
+      "bytes": 5733,
+      "storage": "r2"
+    },
+    "sale/2006/11110/200612.csv.gz": {
+      "sha256": "5b8fc9e2af633a3bd6d92594f3426fdec7ee510092ff380c5e86fdf1445b99b9",
+      "bytes": 4258,
+      "storage": "r2"
+    },
+    "sale/2006/11140/200601.csv.gz": {
+      "sha256": "742e9a9e0e1ac64eb7b045553804f356fe1f263b9baee31827f386898bc63581",
+      "bytes": 2454,
+      "storage": "r2"
+    },
+    "sale/2006/11140/200602.csv.gz": {
+      "sha256": "cba505ad4676f00205135ebb31ede62169ac18604f8d5fc514b5620379b7c6fe",
+      "bytes": 3305,
+      "storage": "r2"
+    },
+    "sale/2006/11140/200603.csv.gz": {
+      "sha256": "31f231df38513021b17ed474d0de5ff04fe9503e919b51cda920ce6edc542c5f",
+      "bytes": 4267,
+      "storage": "r2"
+    },
+    "sale/2006/11140/200604.csv.gz": {
+      "sha256": "1b731ef174fdc88305a0254754e035e8f6cc8173c9e9da23bafee38284ea2c52",
+      "bytes": 3397,
+      "storage": "r2"
+    },
+    "sale/2006/11140/200605.csv.gz": {
+      "sha256": "5a7a0d296806bac6f2becbb71a85750c44fbf00af1c8b8b1dec564f7637975f2",
+      "bytes": 2899,
+      "storage": "r2"
+    },
+    "sale/2006/11140/200606.csv.gz": {
+      "sha256": "97e3c93d07b3061a92256da4f521f0ee097453ebfac47b39a46250fec5378234",
+      "bytes": 2991,
+      "storage": "r2"
+    },
+    "sale/2006/11140/200607.csv.gz": {
+      "sha256": "d5d49af5e9df8db9db918cb4b73e2b70161449094c27126c58b865d8ad9b76de",
+      "bytes": 2641,
+      "storage": "r2"
+    },
+    "sale/2006/11140/200608.csv.gz": {
+      "sha256": "7985fe67cada4b742ba09f9964d908452b6d943ac29f05e2ea6d9cd4d471d51c",
+      "bytes": 3917,
+      "storage": "r2"
+    },
+    "sale/2006/11140/200609.csv.gz": {
+      "sha256": "d1d92a808fcf61076e75d70ef6d34f8f0d87df8fb28dfc2397db9f56f3c1bd77",
+      "bytes": 4650,
+      "storage": "r2"
+    },
+    "sale/2006/11140/200610.csv.gz": {
+      "sha256": "d766bad45b8ed8fd2cc60d0272bbef470cca86755c05b509ccd975e4fefcf481",
+      "bytes": 6485,
+      "storage": "r2"
+    },
+    "sale/2006/11140/200611.csv.gz": {
+      "sha256": "cb54ed8e44e0303ffa020b8af698c575675b2c1494a2d2fcea190f82fd3b0f9f",
+      "bytes": 6946,
+      "storage": "r2"
+    },
+    "sale/2006/11140/200612.csv.gz": {
+      "sha256": "70c0f3bbc4613fef36c6091195214adca1f70fa110dede0576eb1a6ca0800b35",
+      "bytes": 5627,
+      "storage": "r2"
+    },
+    "sale/2006/11170/200601.csv.gz": {
+      "sha256": "144e6040c1ffa4bdfcced48a3c7d77af0aabd44fc44a523d9392fbef48ee6a75",
+      "bytes": 2636,
+      "storage": "r2"
+    },
+    "sale/2006/11170/200602.csv.gz": {
+      "sha256": "c9791eec3af7948dcff3900333a4c141ab467c074769e4a45d2e3ec6f2175f96",
+      "bytes": 3885,
+      "storage": "r2"
+    },
+    "sale/2006/11170/200603.csv.gz": {
+      "sha256": "ca9eb09a7d6c02dce57e70570877bf13c0b250bc7d485a57164731dadda90a42",
+      "bytes": 9697,
+      "storage": "r2"
+    },
+    "sale/2006/11170/200604.csv.gz": {
+      "sha256": "88f03684db7b8f586153a2cc5aefa9a006f98c8796aecd7d36ccc2a1f6d07685",
+      "bytes": 8872,
+      "storage": "r2"
+    },
+    "sale/2006/11170/200605.csv.gz": {
+      "sha256": "e8444a5f0bbebef40a7acea854dd02095a27bb6aa1b4b18feb9bd7a97552b748",
+      "bytes": 11899,
+      "storage": "r2"
+    },
+    "sale/2006/11170/200606.csv.gz": {
+      "sha256": "a4558934d67b51ba48b547f06c8aecba026e02881d6d4b020e65d93c025d7aca",
+      "bytes": 6913,
+      "storage": "r2"
+    },
+    "sale/2006/11170/200607.csv.gz": {
+      "sha256": "b5c12c4847536a4a67dd0f58c73706f96bb7a15b4d469aac5a21a65d446f45c9",
+      "bytes": 6292,
+      "storage": "r2"
+    },
+    "sale/2006/11170/200608.csv.gz": {
+      "sha256": "e914e5d099c58f591a94101aca580928206cfce7fb4a7fc1062421c8ff20cb0b",
+      "bytes": 8115,
+      "storage": "r2"
+    },
+    "sale/2006/11170/200609.csv.gz": {
+      "sha256": "d1912034d9846d90caa5e8db16e4c568b841296f154056486b36d9c59dc00069",
+      "bytes": 12877,
+      "storage": "r2"
+    },
+    "sale/2006/11170/200610.csv.gz": {
+      "sha256": "57b481e972fe1ca64b3f0b8c0d0d5e96bb8be14af234b005dfab6924b05132c7",
+      "bytes": 15208,
+      "storage": "r2"
+    },
+    "sale/2006/11170/200611.csv.gz": {
+      "sha256": "5e0b48f81acff6550c360f351c80ce8d36b331d613ace124de3e9f85c7d2741e",
+      "bytes": 12572,
+      "storage": "r2"
+    },
+    "sale/2006/11170/200612.csv.gz": {
+      "sha256": "a0907e2b0bbe6f75da72fb5c5bef425d54c310a789831dc4b33be65e63602bed",
+      "bytes": 8852,
+      "storage": "r2"
+    },
+    "sale/2006/11200/200601.csv.gz": {
+      "sha256": "71eee2db962f596fc619fd3db69dd32d3bf46fed006df17a39c8b963e829895d",
+      "bytes": 6193,
+      "storage": "r2"
+    },
+    "sale/2006/11200/200602.csv.gz": {
+      "sha256": "59dc3a18f6de223aea67e4503c11d81f658598712bdebd1dc8a13c8e1141918e",
+      "bytes": 10773,
+      "storage": "r2"
+    },
+    "sale/2006/11200/200603.csv.gz": {
+      "sha256": "b444559e57cc8830ab3906776dc3d74e167a4c11001c3ef2c82fa30fd6fdb702",
+      "bytes": 19517,
+      "storage": "r2"
+    },
+    "sale/2006/11200/200604.csv.gz": {
+      "sha256": "32cd3a9d614f7224d25cb1c987120d6ec5979ecb3a32e8f6d19e158467ea4ab9",
+      "bytes": 19379,
+      "storage": "r2"
+    },
+    "sale/2006/11200/200605.csv.gz": {
+      "sha256": "57ef9b85cac6f864dcc0b01f0bccf3d9bc44405377d510478f56036ea03c8871",
+      "bytes": 18122,
+      "storage": "r2"
+    },
+    "sale/2006/11200/200606.csv.gz": {
+      "sha256": "84865b5e5decca778d2eab74ff4966063e47ee9013c0af6132dbf243e61662b0",
+      "bytes": 11875,
+      "storage": "r2"
+    },
+    "sale/2006/11200/200607.csv.gz": {
+      "sha256": "7da9583ba6db229c088bd505744bcfd72d13b33834fcd8eb1d4273f808052b7f",
+      "bytes": 12265,
+      "storage": "r2"
+    },
+    "sale/2006/11200/200608.csv.gz": {
+      "sha256": "98f370da1ec3dd5b6e9caca90726af7b644cc2aca366a255412b71e06f046e74",
+      "bytes": 14207,
+      "storage": "r2"
+    },
+    "sale/2006/11200/200609.csv.gz": {
+      "sha256": "92f9d944c4af11985e21024ebcf6b81210f603f88b4fcf70451a2f744d8e2c6f",
+      "bytes": 25818,
+      "storage": "r2"
+    },
+    "sale/2006/11200/200610.csv.gz": {
+      "sha256": "0787e71406d2bc78e6375793755ca5a24f62d5c31e7668cc16ef94db00d7e09f",
+      "bytes": 37699,
+      "storage": "r2"
+    },
+    "sale/2006/11200/200611.csv.gz": {
+      "sha256": "f784c23a32b29714f244b820c47cd678add97a83abf4f4f35abf22678442eb04",
+      "bytes": 25384,
+      "storage": "r2"
+    },
+    "sale/2006/11200/200612.csv.gz": {
+      "sha256": "3029a7a1217e008b3a855159ea1e27bf798d4d99800e4cf8ac6c4ef62dd1277c",
+      "bytes": 13871,
+      "storage": "r2"
+    },
+    "sale/2006/11215/200601.csv.gz": {
+      "sha256": "cc0f9aadb9149b29baaa3befc5366c394ed994723599887ed7133f96d93c93e5",
+      "bytes": 5994,
+      "storage": "r2"
+    },
+    "sale/2006/11215/200602.csv.gz": {
+      "sha256": "5f0b23e4dd8da45c96b4b437e15fbe31a3664a9bbd8d5535d3dbadfe48b8d341",
+      "bytes": 10134,
+      "storage": "r2"
+    },
+    "sale/2006/11215/200603.csv.gz": {
+      "sha256": "d4a89af0536925d4a1c402ce1f6071ba2b492d96cb22b49fde678fe465b2afc4",
+      "bytes": 14251,
+      "storage": "r2"
+    },
+    "sale/2006/11215/200604.csv.gz": {
+      "sha256": "c25767f15d34cffd60bd59b32112c3b2979800f2f533337955163c7c677ac7b7",
+      "bytes": 13460,
+      "storage": "r2"
+    },
+    "sale/2006/11215/200605.csv.gz": {
+      "sha256": "0b4fc1bc6eef6d2f4b0a15eb79ca7e5a2564dea00e0db5079179a1ea8df0365e",
+      "bytes": 14960,
+      "storage": "r2"
+    },
+    "sale/2006/11215/200606.csv.gz": {
+      "sha256": "b547bbcd84da8b08fcf313e47d3265a52f0a081147dfa2f398c3d8da5c4d36c6",
+      "bytes": 9128,
+      "storage": "r2"
+    },
+    "sale/2006/11215/200607.csv.gz": {
+      "sha256": "d8a2cb6113bed3cf8ffd3ff89ba6a29ee4aff7eb97fbb01900522f9ab7e15489",
+      "bytes": 7769,
+      "storage": "r2"
+    },
+    "sale/2006/11215/200608.csv.gz": {
+      "sha256": "4cf3531edb15304c0010127ee86043ffcd5c2f712219079c407ca55bcdd9bf26",
+      "bytes": 11982,
+      "storage": "r2"
+    },
+    "sale/2006/11215/200609.csv.gz": {
+      "sha256": "d0f52dff7bb821da2976292998366d6625c58baac199dd370fa0b861bd5ac3fa",
+      "bytes": 19176,
+      "storage": "r2"
+    },
+    "sale/2006/11215/200610.csv.gz": {
+      "sha256": "47fa004eb7d5cd7779796d26123c6ce5dd974a74654b63c845d421e738a2a036",
+      "bytes": 21638,
+      "storage": "r2"
+    },
+    "sale/2006/11215/200611.csv.gz": {
+      "sha256": "e811aa3336d8a4fb68c319fe944e495d445fcfee7a93a29533e57287d4c97cd6",
+      "bytes": 12387,
+      "storage": "r2"
+    },
+    "sale/2006/11215/200612.csv.gz": {
+      "sha256": "02b8a2606e97b9bff07f64014da1453990548f73b7a7bb69742c81fa4ba07f8c",
+      "bytes": 6863,
+      "storage": "r2"
+    },
+    "sale/2006/11230/200601.csv.gz": {
+      "sha256": "1e20d8afdb7e58600ed1db7cdfb13e1c2251b19aa9e56f17860e34ebcab5feba",
+      "bytes": 6022,
+      "storage": "r2"
+    },
+    "sale/2006/11230/200602.csv.gz": {
+      "sha256": "2fba804df099c2bc4f4f37578afe6a5c6cd72d9ab6bf18da5320b68f0eea151e",
+      "bytes": 10973,
+      "storage": "r2"
+    },
+    "sale/2006/11230/200603.csv.gz": {
+      "sha256": "7997ed0394544e8d7839701f1f80b23971c0782fa6137b730e237c47cd071579",
+      "bytes": 16848,
+      "storage": "r2"
+    },
+    "sale/2006/11230/200604.csv.gz": {
+      "sha256": "45ab9328d07522b343efd31e34ddb815ba2c34c2ec53705237d28d4ff1a2f40c",
+      "bytes": 14200,
+      "storage": "r2"
+    },
+    "sale/2006/11230/200605.csv.gz": {
+      "sha256": "8fbcc45cafea72bcda84156c03b1fae3086887c537d217d936cf5581e780d0d8",
+      "bytes": 13234,
+      "storage": "r2"
+    },
+    "sale/2006/11230/200606.csv.gz": {
+      "sha256": "9cef1640e1a7f62c42393e00980937cac623a91541861a9a69a7770c444f1f89",
+      "bytes": 9435,
+      "storage": "r2"
+    },
+    "sale/2006/11230/200607.csv.gz": {
+      "sha256": "cead0adcc7b2281ceb75bb4daefb119811c0cab21e7c9884cc443d797612d084",
+      "bytes": 9776,
+      "storage": "r2"
+    },
+    "sale/2006/11230/200608.csv.gz": {
+      "sha256": "d47a071af9003292f26d1e60e943268a6fc701760e40ad6eec2a8ca12d1c85d8",
+      "bytes": 13213,
+      "storage": "r2"
+    },
+    "sale/2006/11230/200609.csv.gz": {
+      "sha256": "4c263da424de06ef0fac9257a3850bf68cdc4f2f657059cac7365e0fed3fb172",
+      "bytes": 25708,
+      "storage": "r2"
+    },
+    "sale/2006/11230/200610.csv.gz": {
+      "sha256": "fa3a07436e0aa2d953ed85f1e99971da1d9f856fa89329a6285a734cf3a6333b",
+      "bytes": 32887,
+      "storage": "r2"
+    },
+    "sale/2006/11230/200611.csv.gz": {
+      "sha256": "8cfb3b1759d0ef4595539953bce15084a0aa7baa8c3e86d0dd0a859b952d3729",
+      "bytes": 31757,
+      "storage": "r2"
+    },
+    "sale/2006/11230/200612.csv.gz": {
+      "sha256": "31f997d87ea5131d1c7dbc2cc0f042753b6ccee252ae038000c59109d4281c95",
+      "bytes": 19137,
+      "storage": "r2"
+    },
+    "sale/2006/11260/200601.csv.gz": {
+      "sha256": "62fdd179e9fdebb6d43ab5609ea05af4408a37038b8c8cfa3048a90b9bee1e1a",
+      "bytes": 6062,
+      "storage": "r2"
+    },
+    "sale/2006/11260/200602.csv.gz": {
+      "sha256": "a24ab163c22af53aebe743d8fac24a440469fbf4903faab46a6e02fd8e9a0290",
+      "bytes": 10886,
+      "storage": "r2"
+    },
+    "sale/2006/11260/200603.csv.gz": {
+      "sha256": "7c470c4b62db0c3d03621829c5a0f6fc00138b38d0c96c54cd18129a57b2526e",
+      "bytes": 19340,
+      "storage": "r2"
+    },
+    "sale/2006/11260/200604.csv.gz": {
+      "sha256": "d1d66c7c1c0b968bee7d910f060895d69bc08c475cf386fa3d130009c312e4b8",
+      "bytes": 16605,
+      "storage": "r2"
+    },
+    "sale/2006/11260/200605.csv.gz": {
+      "sha256": "db7b52303096748f330f4e1be05eb43362442dc8ec1c3ee27e417bd53bd132a4",
+      "bytes": 13583,
+      "storage": "r2"
+    },
+    "sale/2006/11260/200606.csv.gz": {
+      "sha256": "9a90e86b94ecc8b9f0d93cca544b6856f75b9ab4541a18d69472026b1db84078",
+      "bytes": 10737,
+      "storage": "r2"
+    },
+    "sale/2006/11260/200607.csv.gz": {
+      "sha256": "a4587d6af4aec571d2c88afc3a4131c2abf47e01f91b972db74a97d0aee8019a",
+      "bytes": 9836,
+      "storage": "r2"
+    },
+    "sale/2006/11260/200608.csv.gz": {
+      "sha256": "af512a464171852158760d8987d7b85e034439ae2f9491eeb308826b88ca580d",
+      "bytes": 15976,
+      "storage": "r2"
+    },
+    "sale/2006/11260/200609.csv.gz": {
+      "sha256": "1249aab446cd01706287ae0217a2058b9097d827f265b007c301eb7cd5261030",
+      "bytes": 21538,
+      "storage": "r2"
+    },
+    "sale/2006/11260/200610.csv.gz": {
+      "sha256": "792c1830e95c4a3f148cf4ddb13fa53349981482600015bf01cd309374726776",
+      "bytes": 34396,
+      "storage": "r2"
+    },
+    "sale/2006/11260/200611.csv.gz": {
+      "sha256": "e46519284cfec89c3070445d4e45c91769e8937d433a4e86df274f6e435b342c",
+      "bytes": 36144,
+      "storage": "r2"
+    },
+    "sale/2006/11260/200612.csv.gz": {
+      "sha256": "23a87b24fcdf1691ca6ff994220b31808b42464c6bff056499a477441b31779d",
+      "bytes": 22475,
+      "storage": "r2"
+    },
+    "sale/2006/11290/200601.csv.gz": {
+      "sha256": "261d813871be8faab10a32f514e4a90462e7e82dbb4ec4e9f6e40b7cd12beda1",
+      "bytes": 6989,
+      "storage": "r2"
+    },
+    "sale/2006/11290/200602.csv.gz": {
+      "sha256": "c2b39d66dfe58d680a69da1d619ae529f9081c34551011a6e3f45511bed10ff1",
+      "bytes": 14016,
+      "storage": "r2"
+    },
+    "sale/2006/11290/200603.csv.gz": {
+      "sha256": "c375d7f81c17b5c870208ec84de736e912f3880fe1dc15059a948c3d2d97c857",
+      "bytes": 18044,
+      "storage": "r2"
+    },
+    "sale/2006/11290/200604.csv.gz": {
+      "sha256": "acedbc9170342a3291394e4436e75aede426984e714cd9d80d1311dbfc49b660",
+      "bytes": 14518,
+      "storage": "r2"
+    },
+    "sale/2006/11290/200605.csv.gz": {
+      "sha256": "1fa5721641fc8cc25b59c66ee98b92ac67d32659ca55bd66fb8228aa91a8711a",
+      "bytes": 18173,
+      "storage": "r2"
+    },
+    "sale/2006/11290/200606.csv.gz": {
+      "sha256": "b4d05c1bcee12265afba2ccba14a856aea1ecf1aad9780aff609d29b9ecb3f47",
+      "bytes": 12298,
+      "storage": "r2"
+    },
+    "sale/2006/11290/200607.csv.gz": {
+      "sha256": "0985823dd97972da624965a2fdc52f7df8baa45d8df66f48f356fbf5bb7479a0",
+      "bytes": 17139,
+      "storage": "r2"
+    },
+    "sale/2006/11290/200608.csv.gz": {
+      "sha256": "980e34a6a5d66c3cba0a67e3daa9d5fd3603d054c4e0c46eba41e7dcbf7da920",
+      "bytes": 20401,
+      "storage": "r2"
+    },
+    "sale/2006/11290/200609.csv.gz": {
+      "sha256": "53cca4ac4f5e6908fa170ab24bc13a80690904327d323d118305a9d6d1c304fe",
+      "bytes": 38252,
+      "storage": "r2"
+    },
+    "sale/2006/11290/200610.csv.gz": {
+      "sha256": "b87af577f8993f8211b25607dfc8a2ee109777cec9f9751ab128dfc09dd6f090",
+      "bytes": 42594,
+      "storage": "r2"
+    },
+    "sale/2006/11290/200611.csv.gz": {
+      "sha256": "f8b51ac214401de0755b9c98820e4a36a833d30b1afb107c9542b87337accc4f",
+      "bytes": 33680,
+      "storage": "r2"
+    },
+    "sale/2006/11290/200612.csv.gz": {
+      "sha256": "79895cff8dc1f01c8d5dfdeef363cc0fbfe4dd01bd2796eea2f8adfe5e0ac899",
+      "bytes": 18615,
+      "storage": "r2"
+    },
+    "sale/2006/11305/200601.csv.gz": {
+      "sha256": "15549d691adabea5322492b3ad36dd10bf3bce03cc1bc6c0d2a56e6aa1f67de7",
+      "bytes": 3415,
+      "storage": "r2"
+    },
+    "sale/2006/11305/200602.csv.gz": {
+      "sha256": "aef623995f51de39ed8fc18c65a0f80b55012b4849899a627ce4e01ce6465569",
+      "bytes": 5128,
+      "storage": "r2"
+    },
+    "sale/2006/11305/200603.csv.gz": {
+      "sha256": "6904661a4afd86f1fdb1d1d0f1812022dcd926596f71f4c1aa9ebb4949554690",
+      "bytes": 8210,
+      "storage": "r2"
+    },
+    "sale/2006/11305/200604.csv.gz": {
+      "sha256": "fe2f14f6a2d7e2dda3c3c5c500eb0b2e1ae69a6825e7955a4f4cd12f4b734ee1",
+      "bytes": 7282,
+      "storage": "r2"
+    },
+    "sale/2006/11305/200605.csv.gz": {
+      "sha256": "c60c80b975ba163eed40b5093d40db9375510a4de4d1c4268fc0995549cdd3e8",
+      "bytes": 8586,
+      "storage": "r2"
+    },
+    "sale/2006/11305/200606.csv.gz": {
+      "sha256": "b0bc10b120acb425ea2c487b84de3fe44a32c4145e89c9c63f229b7c5ec2c34d",
+      "bytes": 6983,
+      "storage": "r2"
+    },
+    "sale/2006/11305/200607.csv.gz": {
+      "sha256": "75c4adad2cbacc0c46f00cd6fa43da27de10419d422fed039e342ff99d4ffff3",
+      "bytes": 6901,
+      "storage": "r2"
+    },
+    "sale/2006/11305/200608.csv.gz": {
+      "sha256": "ee27876a3f04d94f14b4cae70fdd71652619f93988b32c8fd9377d54c8fb703a",
+      "bytes": 9444,
+      "storage": "r2"
+    },
+    "sale/2006/11305/200609.csv.gz": {
+      "sha256": "c941bd1d07f82ae8106b56bd330e128757c6a34ea812d4908edff131016e0c94",
+      "bytes": 16494,
+      "storage": "r2"
+    },
+    "sale/2006/11305/200610.csv.gz": {
+      "sha256": "802a71ed7867e5835c8cf72bc5c179ed7e0e18371fb72c02fadab21926dfc52e",
+      "bytes": 19182,
+      "storage": "r2"
+    },
+    "sale/2006/11305/200611.csv.gz": {
+      "sha256": "b80ea36e22647e3cecef78a491c1a0244884db630dc5f38f11e68f01f0123b80",
+      "bytes": 15124,
+      "storage": "r2"
+    },
+    "sale/2006/11305/200612.csv.gz": {
+      "sha256": "658c2452f26f1686f9d84b53a6519d6581631938e54ef8704899f81a09001808",
+      "bytes": 9023,
+      "storage": "r2"
+    },
+    "sale/2006/11320/200601.csv.gz": {
+      "sha256": "2ffab9a092b370dab2522343c4f78f77c647e15e9077435b7199947ed05c8aa5",
+      "bytes": 8893,
+      "storage": "r2"
+    },
+    "sale/2006/11320/200602.csv.gz": {
+      "sha256": "66bca2d59e0a52a1524ad024f0e8c9c190bcdc7e02c4d5f24834c313931823eb",
+      "bytes": 20265,
+      "storage": "r2"
+    },
+    "sale/2006/11320/200603.csv.gz": {
+      "sha256": "971e24064c42bd8e2bc3a46285dfba0b14dd2cb8bd0dac41c9de501e1b14b06f",
+      "bytes": 24332,
+      "storage": "r2"
+    },
+    "sale/2006/11320/200604.csv.gz": {
+      "sha256": "8d9fef69af34b7fcb0913a8ea3501f59f3ab2109a8b9e68c7eedde13c2ed87ca",
+      "bytes": 21290,
+      "storage": "r2"
+    },
+    "sale/2006/11320/200605.csv.gz": {
+      "sha256": "746eab52236756f0b76414d92e78f0849ca4a4235375d876aae32bda293956e4",
+      "bytes": 21033,
+      "storage": "r2"
+    },
+    "sale/2006/11320/200606.csv.gz": {
+      "sha256": "ec802354fd9a11f7c2559dc14fda2381411ffc0431d6246a34486aa8adf92383",
+      "bytes": 17501,
+      "storage": "r2"
+    },
+    "sale/2006/11320/200607.csv.gz": {
+      "sha256": "410e12f9ca2b6b9d374c89b255466b0d1f17d6943be6917f81c8b83f6d937962",
+      "bytes": 16731,
+      "storage": "r2"
+    },
+    "sale/2006/11320/200608.csv.gz": {
+      "sha256": "4a8299346284db9adbe427da4719b37a79ced55ea08a8efe6f8fe81109239e58",
+      "bytes": 23049,
+      "storage": "r2"
+    },
+    "sale/2006/11320/200609.csv.gz": {
+      "sha256": "23d93d7832696b4b2be2ba636d51da87f4ec01e49e33aff8fe45139e5c017026",
+      "bytes": 41247,
+      "storage": "r2"
+    },
+    "sale/2006/11320/200610.csv.gz": {
+      "sha256": "5967507d9883040e8b32f9a0cb612d2a062221bc873739c510e638c20f19fd74",
+      "bytes": 52446,
+      "storage": "r2"
+    },
+    "sale/2006/11320/200611.csv.gz": {
+      "sha256": "500cda7f5c194027df0243d10b34238a06a2a91907dd4a0d7e439ffb33b40eb3",
+      "bytes": 74817,
+      "storage": "r2"
+    },
+    "sale/2006/11320/200612.csv.gz": {
+      "sha256": "be34a0189e9547d21871644d3013eee60a9d8d1c0b227c5ade88246bd14c39a4",
+      "bytes": 40991,
+      "storage": "r2"
+    },
+    "sale/2006/11350/200601.csv.gz": {
+      "sha256": "c1c6a48e4adfa945ef547088b7f811b3d98ada98ea4e75c03e5904448bc1e88f",
+      "bytes": 30833,
+      "storage": "r2"
+    },
+    "sale/2006/11350/200602.csv.gz": {
+      "sha256": "ac3dc987a6010bb9f5f11298255d8edbdbf053310c5dc0017b30b9024dbbb626",
+      "bytes": 46565,
+      "storage": "r2"
+    },
+    "sale/2006/11350/200603.csv.gz": {
+      "sha256": "c8ac8e78820439a791f35946267f6271b0622b1cb34b763f67cf1b915947a642",
+      "bytes": 66852,
+      "storage": "r2"
+    },
+    "sale/2006/11350/200604.csv.gz": {
+      "sha256": "cbf77a094bec35d12e8c6f5c8832b9a5153a7871a0736259700591de1289272a",
+      "bytes": 57221,
+      "storage": "r2"
+    },
+    "sale/2006/11350/200605.csv.gz": {
+      "sha256": "f5dd125889a5f55c4318d2c9bc5c339087079b149d658f0eca6f9bacfec6d76d",
+      "bytes": 54917,
+      "storage": "r2"
+    },
+    "sale/2006/11350/200606.csv.gz": {
+      "sha256": "8a42baa4c9622e63b433e5245b1ac559e1099eb0122920f6ef9d7fe33e05dbfb",
+      "bytes": 39732,
+      "storage": "r2"
+    },
+    "sale/2006/11350/200607.csv.gz": {
+      "sha256": "47b28af4728c11452959a92101aa34775f20f7382a01389aab583eab8e779f37",
+      "bytes": 39727,
+      "storage": "r2"
+    },
+    "sale/2006/11350/200608.csv.gz": {
+      "sha256": "8821e12748e304a301083145515d7831cca7827192921f627c1413f3870e805d",
+      "bytes": 66670,
+      "storage": "r2"
+    },
+    "sale/2006/11350/200609.csv.gz": {
+      "sha256": "0b2593817c1b04e6472a5c200e00fe426631003aa7520e05e441e6ac0d2c5132",
+      "bytes": 115685,
+      "storage": "r2"
+    },
+    "sale/2006/11350/200610.csv.gz": {
+      "sha256": "d9124d916bfdd6603422f7b250a8bb1300fce99cc27c017f1c368fba31c42442",
+      "bytes": 149253,
+      "storage": "r2"
+    },
+    "sale/2006/11350/200611.csv.gz": {
+      "sha256": "64d84fcf717ac8921a9c90a17278668982bb6fadc0818a2ed35cbcbbf7b0c102",
+      "bytes": 177927,
+      "storage": "r2"
+    },
+    "sale/2006/11350/200612.csv.gz": {
+      "sha256": "e8a2fcd9f9490b2feea8e401eb2f7bb72e76116c1dcb1e8fb29b0641aac645ef",
+      "bytes": 99909,
+      "storage": "r2"
+    },
+    "sale/2006/11380/200601.csv.gz": {
+      "sha256": "a6b3a88330d4c7cdd03f497a31f950783382f6c421e1978cecd5826c84543044",
+      "bytes": 4165,
+      "storage": "r2"
+    },
+    "sale/2006/11380/200602.csv.gz": {
+      "sha256": "c4079dcaac08f722f5332e58be4741d56ed4624fa1b90aeb98c68918d277810d",
+      "bytes": 8944,
+      "storage": "r2"
+    },
+    "sale/2006/11380/200603.csv.gz": {
+      "sha256": "74dc8f2d4c4379ec1532e5fa07f33131a0c6581838f5aedadcffca4f7ddeb4ae",
+      "bytes": 10675,
+      "storage": "r2"
+    },
+    "sale/2006/11380/200604.csv.gz": {
+      "sha256": "8bd89170d302775f6909c6f99a8910e36f82b0a5d51f10e49a3d2df2f38283b2",
+      "bytes": 9161,
+      "storage": "r2"
+    },
+    "sale/2006/11380/200605.csv.gz": {
+      "sha256": "212a6bfed7833f22b3b39c91846c3428c88ec3d84cee7c306c0ec64342767b87",
+      "bytes": 9896,
+      "storage": "r2"
+    },
+    "sale/2006/11380/200606.csv.gz": {
+      "sha256": "2ce67aa61572f38204bf1c5bf00b617f244d4714f45193b67f79aa3aa46294c1",
+      "bytes": 8841,
+      "storage": "r2"
+    },
+    "sale/2006/11380/200607.csv.gz": {
+      "sha256": "7cfa5afbee55f14722c408b1309876a7432c881413650a479cc796e420863b32",
+      "bytes": 8477,
+      "storage": "r2"
+    },
+    "sale/2006/11380/200608.csv.gz": {
+      "sha256": "ee4280f085466ae47e72f516b515d2e80aa99ca700a8bb9b1927b38170d2b101",
+      "bytes": 10991,
+      "storage": "r2"
+    },
+    "sale/2006/11380/200609.csv.gz": {
+      "sha256": "04d033d2b99d1dfb4ecd6598b633b77d8a6a5bf6c6a11cfd346ece46e07e8ac5",
+      "bytes": 19085,
+      "storage": "r2"
+    },
+    "sale/2006/11380/200610.csv.gz": {
+      "sha256": "3ac0f298df22c35c5ee8920f1d18311b4da50203168ce62ed19f5bbfca593f93",
+      "bytes": 20923,
+      "storage": "r2"
+    },
+    "sale/2006/11380/200611.csv.gz": {
+      "sha256": "8a9a32e9920e3f2a7ffe4e212ad9b0acd84ed6101414f5a27177fbf5ee74cecb",
+      "bytes": 22545,
+      "storage": "r2"
+    },
+    "sale/2006/11380/200612.csv.gz": {
+      "sha256": "79d26c4c5a9adabbd5db2d1634546aee0c5a0777e0f1493e56ab50de7b98509f",
+      "bytes": 14962,
+      "storage": "r2"
+    },
+    "sale/2006/11410/200601.csv.gz": {
+      "sha256": "4252a44c8c0747d58f07d5c0f5d589ec856658c0bb2c0c6ac8418aa31332e1d5",
+      "bytes": 5202,
+      "storage": "r2"
+    },
+    "sale/2006/11410/200602.csv.gz": {
+      "sha256": "4922c9bb2492601fc3265fed8154d3faae308760764eb1aba8bf68e84a9f2e78",
+      "bytes": 6554,
+      "storage": "r2"
+    },
+    "sale/2006/11410/200603.csv.gz": {
+      "sha256": "7af1ef620f10464ab868db45749c8f3e241d721c6b51a04c027f85a5a8c58d47",
+      "bytes": 13727,
+      "storage": "r2"
+    },
+    "sale/2006/11410/200604.csv.gz": {
+      "sha256": "f27f48faf9256b741968624f38ba04717a511e3f14f7961fc022da07a652f4cd",
+      "bytes": 12631,
+      "storage": "r2"
+    },
+    "sale/2006/11410/200605.csv.gz": {
+      "sha256": "943e93f71bf84fc24a26333ded67a751cdc59499c9481c2a5beb082a27d88cc1",
+      "bytes": 11613,
+      "storage": "r2"
+    },
+    "sale/2006/11410/200606.csv.gz": {
+      "sha256": "576d9e265d91fa0846ff13b39a4c278f6b564cb0d03a34678a37c37c45498925",
+      "bytes": 10515,
+      "storage": "r2"
+    },
+    "sale/2006/11410/200607.csv.gz": {
+      "sha256": "a60cf44f551586d1ac73662087f25730f3f30bccb842c20c2af27b9b7cb0a79d",
+      "bytes": 11285,
+      "storage": "r2"
+    },
+    "sale/2006/11410/200608.csv.gz": {
+      "sha256": "672186caaa88676aef6872918fbb0f8525bd55efb8d63ea213ec71b9b888254e",
+      "bytes": 11226,
+      "storage": "r2"
+    },
+    "sale/2006/11410/200609.csv.gz": {
+      "sha256": "f41ce73be1bed8827d93e85880188341d44e01f9c83842e7d7d6076b9709780e",
+      "bytes": 18912,
+      "storage": "r2"
+    },
+    "sale/2006/11410/200610.csv.gz": {
+      "sha256": "d4469541aafc68aaf36018d239602475806ce4a4d05bddb9b879fc62db953acf",
+      "bytes": 27410,
+      "storage": "r2"
+    },
+    "sale/2006/11410/200611.csv.gz": {
+      "sha256": "3465e02efa3e75f54d6bc2880052f1e401ec5815f2466d572f52d7280af4782c",
+      "bytes": 27208,
+      "storage": "r2"
+    },
+    "sale/2006/11410/200612.csv.gz": {
+      "sha256": "e4a3b8e7a0b1ab1a50be2266eca6b4f27beeeb44687e66685769a6acfa79f4c1",
+      "bytes": 16008,
+      "storage": "r2"
+    },
+    "sale/2006/11440/200601.csv.gz": {
+      "sha256": "b776cc4ade1ae67e221f7487f936358c59d0b3e0cc64480296f7d22b22011702",
+      "bytes": 7089,
+      "storage": "r2"
+    },
+    "sale/2006/11440/200602.csv.gz": {
+      "sha256": "1ae17b54d6c4bd70381d6f8f6b60e1d4f504ad39d9e4bd4d67fe46a89d49c54b",
+      "bytes": 9884,
+      "storage": "r2"
+    },
+    "sale/2006/11440/200603.csv.gz": {
+      "sha256": "908aa3e7855178482b8ed0bd6f2a3e1c1bb20f5d6a8ff0c2725645bf153a0460",
+      "bytes": 15847,
+      "storage": "r2"
+    },
+    "sale/2006/11440/200604.csv.gz": {
+      "sha256": "e2a088c5228c81ca7148526a30ce3dfd17d5f172d9256dd8d54d9fdb935eb792",
+      "bytes": 14644,
+      "storage": "r2"
+    },
+    "sale/2006/11440/200605.csv.gz": {
+      "sha256": "93bec7c28ac6490a0194441449d45f590d7e26480718ef17ab28a5bb04e2b735",
+      "bytes": 15591,
+      "storage": "r2"
+    },
+    "sale/2006/11440/200606.csv.gz": {
+      "sha256": "c924544d26783aa3ec59790799cc702a3567a2dcdc7960384005745748b8cbdf",
+      "bytes": 10807,
+      "storage": "r2"
+    },
+    "sale/2006/11440/200607.csv.gz": {
+      "sha256": "251d95e25478615f0086be4a60f766d18092f52734521a2fb080e61afbe12d7c",
+      "bytes": 10962,
+      "storage": "r2"
+    },
+    "sale/2006/11440/200608.csv.gz": {
+      "sha256": "7aac151c517b37bbc018b1a754ed033fb9977a820b60d657e00f8e4017755d8f",
+      "bytes": 15865,
+      "storage": "r2"
+    },
+    "sale/2006/11440/200609.csv.gz": {
+      "sha256": "37bb925e2458ae42d280b1be236906662198141792c72e23fbf4db1e9935267d",
+      "bytes": 30757,
+      "storage": "r2"
+    },
+    "sale/2006/11440/200610.csv.gz": {
+      "sha256": "fecaa90a92209a8ba4d236f0eab3a5cff1041bf687f8f9d73218e1c12fc55652",
+      "bytes": 34512,
+      "storage": "r2"
+    },
+    "sale/2006/11440/200611.csv.gz": {
+      "sha256": "53f32a34b96942ff3bb0064db88afb4492c076f5ca0625a0c1e0d36fec6c3f26",
+      "bytes": 22800,
+      "storage": "r2"
+    },
+    "sale/2006/11440/200612.csv.gz": {
+      "sha256": "17cd38c8948fe6f14aa6ff8e2e5bebedf33ae891a5e083dcf73c7af66c13b893",
+      "bytes": 16598,
+      "storage": "r2"
+    },
+    "sale/2006/11470/200601.csv.gz": {
+      "sha256": "9f3a9d98fef181e2ec3ab10ace2f079622b702e501d184d52e8ac0265be1193a",
+      "bytes": 10075,
+      "storage": "r2"
+    },
+    "sale/2006/11470/200602.csv.gz": {
+      "sha256": "656156b07fddc61f9f48cf2ebd9d5fa8313a5b142d543699451ee0e9c19008bc",
+      "bytes": 15460,
+      "storage": "r2"
+    },
+    "sale/2006/11470/200603.csv.gz": {
+      "sha256": "4286899a6faf53a567af9b09c6633a82e9825d6879bc1d3a5455ce4ac9cdb4ec",
+      "bytes": 38856,
+      "storage": "r2"
+    },
+    "sale/2006/11470/200604.csv.gz": {
+      "sha256": "d31b40d9562c9704841b0860f096a4d482252f1f4dba06e9c0950828b5dc6cd7",
+      "bytes": 35252,
+      "storage": "r2"
+    },
+    "sale/2006/11470/200605.csv.gz": {
+      "sha256": "4c27c045667d117de9c94143f786f3938dc2683aff9de56068ceabe424ad75d4",
+      "bytes": 25977,
+      "storage": "r2"
+    },
+    "sale/2006/11470/200606.csv.gz": {
+      "sha256": "6aa318c5ecb44404cab7ddac21e781afd7194992cc86ce564d046d223dfae437",
+      "bytes": 14069,
+      "storage": "r2"
+    },
+    "sale/2006/11470/200607.csv.gz": {
+      "sha256": "1113e480d17b100f7fae84a2f0f5c7ed849ca14a9147938a148a26c13eca18a0",
+      "bytes": 16455,
+      "storage": "r2"
+    },
+    "sale/2006/11470/200608.csv.gz": {
+      "sha256": "1a9f3852c38b79396c2c5981b2d42d1211c87da236a039c2fb9128eeb2dfe908",
+      "bytes": 19435,
+      "storage": "r2"
+    },
+    "sale/2006/11470/200609.csv.gz": {
+      "sha256": "c53ba7ad60e17e8b40caa0e37244246b01d4d4d59ca788b81cd36092bb8a3fcb",
+      "bytes": 35407,
+      "storage": "r2"
+    },
+    "sale/2006/11470/200610.csv.gz": {
+      "sha256": "660f2fe2957bc44a4f33fddc6f358c0ce0b6a5ecc9a363ac632c2f984dd05de4",
+      "bytes": 52688,
+      "storage": "r2"
+    },
+    "sale/2006/11470/200611.csv.gz": {
+      "sha256": "289b595747531379d2d837c3cb3bd2e07f0b617cf43fe92dfcc6df2842007a4a",
+      "bytes": 37537,
+      "storage": "r2"
+    },
+    "sale/2006/11470/200612.csv.gz": {
+      "sha256": "760e29aee56cb025fdd3a54b3b429dc1c50d31bbc6f8d2dda9c45d8db62438b4",
+      "bytes": 21970,
+      "storage": "r2"
+    },
+    "sale/2006/11500/200601.csv.gz": {
+      "sha256": "04c5e1929caa6a20ebfd44ad8635b09d97e5d0f593935ee49e4b82e8b2c07cc9",
+      "bytes": 21470,
+      "storage": "r2"
+    },
+    "sale/2006/11500/200602.csv.gz": {
+      "sha256": "8f887a553e70aad8631adb60eb1d49ed2db829f1793c6b13a45a6e00980fcc7d",
+      "bytes": 29850,
+      "storage": "r2"
+    },
+    "sale/2006/11500/200603.csv.gz": {
+      "sha256": "cc9eddfd209406bd63495b31be631646500f867c292e36ee4ddeea484ac500f4",
+      "bytes": 46185,
+      "storage": "r2"
+    },
+    "sale/2006/11500/200604.csv.gz": {
+      "sha256": "1a6e3e3a9d36e9f0dc9310f53458cff3cd3b515082432360d5312e301f34e39b",
+      "bytes": 49134,
+      "storage": "r2"
+    },
+    "sale/2006/11500/200605.csv.gz": {
+      "sha256": "689f0245fb7d6c52880a6594e8d857835caab7e2a80ab89adcf5ac24b2b49f1e",
+      "bytes": 38757,
+      "storage": "r2"
+    },
+    "sale/2006/11500/200606.csv.gz": {
+      "sha256": "d0c06951c951077dc45d5c681494a8c4a587f6650bc0f90f2ace759a65b32b52",
+      "bytes": 26654,
+      "storage": "r2"
+    },
+    "sale/2006/11500/200607.csv.gz": {
+      "sha256": "5940780c52991efcd8db4dfb37e391f951571052dfebe7f8c8155fef1977eb43",
+      "bytes": 24404,
+      "storage": "r2"
+    },
+    "sale/2006/11500/200608.csv.gz": {
+      "sha256": "b3232df86b82bc31f7ef8302c38d5874f8bd590349b5c4cf6fcfbb145024b59d",
+      "bytes": 32687,
+      "storage": "r2"
+    },
+    "sale/2006/11500/200609.csv.gz": {
+      "sha256": "70b8e80459b792d6ba996d4d9a1a05ec76eef435867c22f1ebf8d877fbfaca88",
+      "bytes": 54148,
+      "storage": "r2"
+    },
+    "sale/2006/11500/200610.csv.gz": {
+      "sha256": "3b97ce75f711b3b32268866114845e3257332b3519fe0742368d8e5212a8254f",
+      "bytes": 59504,
+      "storage": "r2"
+    },
+    "sale/2006/11500/200611.csv.gz": {
+      "sha256": "ac96810a2bd18061e571e6bdb365340b2f60d376cce89ec7c11a591a32ecdf44",
+      "bytes": 45211,
+      "storage": "r2"
+    },
+    "sale/2006/11500/200612.csv.gz": {
+      "sha256": "3d5456dffb20bca618370b9fdd5f00ac3bef34101c430377deaa656ecb047ce1",
+      "bytes": 29606,
+      "storage": "r2"
+    },
+    "sale/2006/11530/200601.csv.gz": {
+      "sha256": "0681e715700f905b042bb31e3ab039a92fc172475b3a572a70329559ce09f60f",
+      "bytes": 12457,
+      "storage": "r2"
+    },
+    "sale/2006/11530/200602.csv.gz": {
+      "sha256": "fe9c68883e9be8f2aae6df00ce06acca2356654c69315676084a5cb9769dd890",
+      "bytes": 24516,
+      "storage": "r2"
+    },
+    "sale/2006/11530/200603.csv.gz": {
+      "sha256": "5974a44d799dd57c92bba2d9d9710e8660fd384cb30d7bff55583811ed698aec",
+      "bytes": 34909,
+      "storage": "r2"
+    },
+    "sale/2006/11530/200604.csv.gz": {
+      "sha256": "3ac3c2527bcf8c7f4844f17dee555b26ddacbe0cd7bf7000588583f7eacf3266",
+      "bytes": 28540,
+      "storage": "r2"
+    },
+    "sale/2006/11530/200605.csv.gz": {
+      "sha256": "6e6058dc61c3d5f022d0d9d38fd1eeac3c63e4d9cd7bfe735e266717747e0dab",
+      "bytes": 27944,
+      "storage": "r2"
+    },
+    "sale/2006/11530/200606.csv.gz": {
+      "sha256": "ea9694106693b72faf8c16038cc54e4f1494a41d335a7374ae2ed84b6ccdcc12",
+      "bytes": 17200,
+      "storage": "r2"
+    },
+    "sale/2006/11530/200607.csv.gz": {
+      "sha256": "b6dbcc20fda82152547969ba3c77efc4f1bb0df843454fd267303ffb3a8b5b26",
+      "bytes": 20318,
+      "storage": "r2"
+    },
+    "sale/2006/11530/200608.csv.gz": {
+      "sha256": "a40967eccec3139b90c803f8b5add588efb7d0ac480c72cf10a04f7931791ba0",
+      "bytes": 27489,
+      "storage": "r2"
+    },
+    "sale/2006/11530/200609.csv.gz": {
+      "sha256": "838203e6a274a35de5b6f87af8923f3b2837154df91a9c53819bdf890af9839a",
+      "bytes": 46095,
+      "storage": "r2"
+    },
+    "sale/2006/11530/200610.csv.gz": {
+      "sha256": "bf83eaad3ff9bdcb8b5d21f86da25acfbb63649529fa3945dee2e42360e3643f",
+      "bytes": 59740,
+      "storage": "r2"
+    },
+    "sale/2006/11530/200611.csv.gz": {
+      "sha256": "0b924b6a747e5e11c6d3f3ddb1fcc6c4efac380dc3a2cb4224be794e38907f85",
+      "bytes": 47324,
+      "storage": "r2"
+    },
+    "sale/2006/11530/200612.csv.gz": {
+      "sha256": "1fd5c5ebcbf5c516e8930443ebb7f3430eaf8a4d81342c2f57341f629b3afe74",
+      "bytes": 29160,
+      "storage": "r2"
+    },
+    "sale/2006/11545/200601.csv.gz": {
+      "sha256": "4e689f5d20a1766e0f1bee6e3e16a61cae8733f2da2d039bb5ab1e6bd116d145",
+      "bytes": 4741,
+      "storage": "r2"
+    },
+    "sale/2006/11545/200602.csv.gz": {
+      "sha256": "a1f124996d4db16cb951b3eefe6d17415acb23933ee7701d283c1ef5dc3c252a",
+      "bytes": 7704,
+      "storage": "r2"
+    },
+    "sale/2006/11545/200603.csv.gz": {
+      "sha256": "b553815b423daf2bde48be34fd0394d6bb68c2ac9032bc1eb99c815ed337c32b",
+      "bytes": 8263,
+      "storage": "r2"
+    },
+    "sale/2006/11545/200604.csv.gz": {
+      "sha256": "10fd2c961f0d16896a6128f9fa8b6308af6641aedfa33426bc081622bbc4a00f",
+      "bytes": 8774,
+      "storage": "r2"
+    },
+    "sale/2006/11545/200605.csv.gz": {
+      "sha256": "fddd151d3062ab80f8f7c2d65d4f83c8370c5eae9f9e76b7a1aae1ca11126a7e",
+      "bytes": 8052,
+      "storage": "r2"
+    },
+    "sale/2006/11545/200606.csv.gz": {
+      "sha256": "028948d28220b3b167491dcae8d7efe62e513880d1d57dcbbd5432e8d9499e6d",
+      "bytes": 5637,
+      "storage": "r2"
+    },
+    "sale/2006/11545/200607.csv.gz": {
+      "sha256": "40dcd208e9542a0bc1ce3762d56dd8031dbd549fa557624c807d4c6eff62bb54",
+      "bytes": 6020,
+      "storage": "r2"
+    },
+    "sale/2006/11545/200608.csv.gz": {
+      "sha256": "48eab7ddfe5809280c82d57f069033e75057b8c0d0a336ae085f94f8dafd9f05",
+      "bytes": 7794,
+      "storage": "r2"
+    },
+    "sale/2006/11545/200609.csv.gz": {
+      "sha256": "3fc20fc4d4b8a68f067b0caf64d05a53e5198a21e278336c48745457e0e7af8e",
+      "bytes": 12231,
+      "storage": "r2"
+    },
+    "sale/2006/11545/200610.csv.gz": {
+      "sha256": "e2ccb4bac0faa21d1ed52ebd61eb754f98f79ad9b4a9e1ea8fc2c7c03f92e141",
+      "bytes": 18250,
+      "storage": "r2"
+    },
+    "sale/2006/11545/200611.csv.gz": {
+      "sha256": "83ff9ca630cb9b9638a36c0509552207d3123c397c6f70c56ff92afd95673bf1",
+      "bytes": 17164,
+      "storage": "r2"
+    },
+    "sale/2006/11545/200612.csv.gz": {
+      "sha256": "e2ed5d9c250896b6a23febf0724795f798a5e57479b3fa95c3d3a6343838fe07",
+      "bytes": 9793,
+      "storage": "r2"
+    },
+    "sale/2006/11560/200601.csv.gz": {
+      "sha256": "0a87d0cdbdf8ed55aec33d937c26623f7c523e1066a4563e34851ec1084c9696",
+      "bytes": 16530,
+      "storage": "r2"
+    },
+    "sale/2006/11560/200602.csv.gz": {
+      "sha256": "9c70e485067b12aaf6673c0881b56653727b78879e8203eafe6a8191673cde73",
+      "bytes": 21008,
+      "storage": "r2"
+    },
+    "sale/2006/11560/200603.csv.gz": {
+      "sha256": "784c5b3c088dd4bc52c3a82e2521fbba4bb869742695be05575945fe9eb100ee",
+      "bytes": 34600,
+      "storage": "r2"
+    },
+    "sale/2006/11560/200604.csv.gz": {
+      "sha256": "cf22ca3ae65d2777c758973fd814408f226959c4fbff53cffedd8f29ec91ae25",
+      "bytes": 25518,
+      "storage": "r2"
+    },
+    "sale/2006/11560/200605.csv.gz": {
+      "sha256": "0fa6713042f1bb297b783a77f6d23ff6382d5bab4e8fa5512c23ad5789d6f5a2",
+      "bytes": 23680,
+      "storage": "r2"
+    },
+    "sale/2006/11560/200606.csv.gz": {
+      "sha256": "d23be296b23e51d9dbb40113587228ced6af4a9dca8148e5246102f43226127c",
+      "bytes": 16944,
+      "storage": "r2"
+    },
+    "sale/2006/11560/200607.csv.gz": {
+      "sha256": "d5ede6f5e6c66d6cfedce22cee700718e5d97b7a320f847779dd771b9bae33ce",
+      "bytes": 15475,
+      "storage": "r2"
+    },
+    "sale/2006/11560/200608.csv.gz": {
+      "sha256": "afe4c1815efcfc1d04714213767e00a37011c9aa0453738aaa1461c7a57546b2",
+      "bytes": 18737,
+      "storage": "r2"
+    },
+    "sale/2006/11560/200609.csv.gz": {
+      "sha256": "abf602556729c66df535cb90b3d119cc6837552f6b349d6d8fe13e9c2e9fbcde",
+      "bytes": 31911,
+      "storage": "r2"
+    },
+    "sale/2006/11560/200610.csv.gz": {
+      "sha256": "45d5c23117c8e1e3257f52215031ab54a557168b150aa006c0f2cf64a6f80ce9",
+      "bytes": 46274,
+      "storage": "r2"
+    },
+    "sale/2006/11560/200611.csv.gz": {
+      "sha256": "5059ca778d4e3ce6e37f6ec212fe9b0378ddc0e1d6b87e4455ba7246a51aa051",
+      "bytes": 33238,
+      "storage": "r2"
+    },
+    "sale/2006/11560/200612.csv.gz": {
+      "sha256": "20fe13228e8e9a08976516247c30f72c647ee1665bf4cee5408a9ea1866f1e06",
+      "bytes": 19226,
+      "storage": "r2"
+    },
+    "sale/2006/11590/200601.csv.gz": {
+      "sha256": "7ff22e9c0a55cb8c289a56b5b2d020bd257a0d8805ac1001839dcb7422142c3a",
+      "bytes": 10209,
+      "storage": "r2"
+    },
+    "sale/2006/11590/200602.csv.gz": {
+      "sha256": "799c8b773847b2336b7fdcaa60583eb1658552d25a1ac23dca57425975165c45",
+      "bytes": 16189,
+      "storage": "r2"
+    },
+    "sale/2006/11590/200603.csv.gz": {
+      "sha256": "d010adf5462ece8664facdae7a2bfe242205ccfcec25c5158c541a69b56952f0",
+      "bytes": 21627,
+      "storage": "r2"
+    },
+    "sale/2006/11590/200604.csv.gz": {
+      "sha256": "ce8d9793d9614525a30adfe47658ce21706819d992906ecf08b2f460c9efa8d4",
+      "bytes": 21117,
+      "storage": "r2"
+    },
+    "sale/2006/11590/200605.csv.gz": {
+      "sha256": "d6b590510ab16044781c3cf3f1a99ddc59f56b37cbf5bc812e70773b3e80e6d3",
+      "bytes": 16335,
+      "storage": "r2"
+    },
+    "sale/2006/11590/200606.csv.gz": {
+      "sha256": "e1c2848b2949c7a091b3db53599e84b12ff05442e50559145c5a0ade9d426138",
+      "bytes": 8806,
+      "storage": "r2"
+    },
+    "sale/2006/11590/200607.csv.gz": {
+      "sha256": "f0c24324081138afb684aadf4295776c57a6f9f56f75a8a2f929f8c20314f310",
+      "bytes": 10152,
+      "storage": "r2"
+    },
+    "sale/2006/11590/200608.csv.gz": {
+      "sha256": "c2ec35e2bd22843ebd6fae29881dfbee59148245c5a3ffbbdfd97156dbd7e156",
+      "bytes": 12746,
+      "storage": "r2"
+    },
+    "sale/2006/11590/200609.csv.gz": {
+      "sha256": "1611860551941aa607deaf73cb0d9e19db6cf1abb2b62bd44b97c3eab611474c",
+      "bytes": 20305,
+      "storage": "r2"
+    },
+    "sale/2006/11590/200610.csv.gz": {
+      "sha256": "52d3a26884b93b7480441311a8b24a6e2ae5ad7af20932b6baaf9d107855704c",
+      "bytes": 30419,
+      "storage": "r2"
+    },
+    "sale/2006/11590/200611.csv.gz": {
+      "sha256": "295838ff3706de46eca1988f471ccbf63d9027a3598cb3e1ac6eacd04a02da23",
+      "bytes": 20341,
+      "storage": "r2"
+    },
+    "sale/2006/11590/200612.csv.gz": {
+      "sha256": "a4fff1cdf3a4d0c5bcbdc3c6bfdbd18c33f1c25e2ef63ed7def666deb5ea6c9e",
+      "bytes": 13772,
+      "storage": "r2"
+    },
+    "sale/2006/11620/200601.csv.gz": {
+      "sha256": "2bb22d20999056074e79237f68279580541d9ca975b8d95094f134c2010a5c75",
+      "bytes": 9238,
+      "storage": "r2"
+    },
+    "sale/2006/11620/200602.csv.gz": {
+      "sha256": "7d8365e8ed7663055faeb9ecbd77d33c3b94f51ba405d3e6eb23c10d87b0234b",
+      "bytes": 15626,
+      "storage": "r2"
+    },
+    "sale/2006/11620/200603.csv.gz": {
+      "sha256": "de6c9334ce723fbfa065f74bafcbc7fd1f1234c08a8e65a5c5b87cbd2156e858",
+      "bytes": 20271,
+      "storage": "r2"
+    },
+    "sale/2006/11620/200604.csv.gz": {
+      "sha256": "eba332b56feb2f9056a7147236cf37a926ea91b788b927fad31fbd1b3ebee98e",
+      "bytes": 19783,
+      "storage": "r2"
+    },
+    "sale/2006/11620/200605.csv.gz": {
+      "sha256": "14cc5bc0c56bbb3d63cd1e2cd1edd1653a702c8fc91cfb047a68ecb6355cf204",
+      "bytes": 17914,
+      "storage": "r2"
+    },
+    "sale/2006/11620/200606.csv.gz": {
+      "sha256": "d11ce92860a47e6df1f5cf870e0cee7a7e07d9aa5a4d8fff379ffc98bf59a091",
+      "bytes": 11355,
+      "storage": "r2"
+    },
+    "sale/2006/11620/200607.csv.gz": {
+      "sha256": "5bd65c51976426b4cf167baa80d60eae422427f1d492625c8b9a022c8865ec43",
+      "bytes": 9916,
+      "storage": "r2"
+    },
+    "sale/2006/11620/200608.csv.gz": {
+      "sha256": "61ac27fd3db3e30cf1fcdfa3b34768a3c3e4dd95355d1e3c054b1141c0d0986a",
+      "bytes": 14934,
+      "storage": "r2"
+    },
+    "sale/2006/11620/200609.csv.gz": {
+      "sha256": "2842bbb73e9380f1ad009d1c9f48fe31c786b39823c9cb3cfec1de9eb89be1e5",
+      "bytes": 28741,
+      "storage": "r2"
+    },
+    "sale/2006/11620/200610.csv.gz": {
+      "sha256": "3ff2cd96c6293fdd558ad86ece8016120f335568d1f9708d915dbf7b73bb2071",
+      "bytes": 34229,
+      "storage": "r2"
+    },
+    "sale/2006/11620/200611.csv.gz": {
+      "sha256": "f8d904b5bbe412c098288e224ba61267f79108b74f60e7592f6dfcd305b3cd0c",
+      "bytes": 26146,
+      "storage": "r2"
+    },
+    "sale/2006/11620/200612.csv.gz": {
+      "sha256": "c8f7f80b062d8336875a9e2402ec060ad80dc08cc9143e28a2ac86f34405bfd3",
+      "bytes": 16608,
+      "storage": "r2"
+    },
+    "sale/2006/11650/200601.csv.gz": {
+      "sha256": "b91118250ecc90b8d5196dd0dfe1ec22ad4be2dc3e1e908f414f1a36b196ae4f",
+      "bytes": 8001,
+      "storage": "r2"
+    },
+    "sale/2006/11650/200602.csv.gz": {
+      "sha256": "3ace8df31afda537b8d660a85b1549b01a30583828ab1cf1750719d5bfab9d65",
+      "bytes": 4823,
+      "storage": "r2"
+    },
+    "sale/2006/11650/200603.csv.gz": {
+      "sha256": "53890d5fed036f58c164ca0ee3ec9fcbd5c4d2672e6dab6a60a959f821b68397",
+      "bytes": 18105,
+      "storage": "r2"
+    },
+    "sale/2006/11650/200604.csv.gz": {
+      "sha256": "c9cac05bc460d4e083e5a6a7729d0a315a4671f967d65bb17399e34f98bcabc5",
+      "bytes": 20057,
+      "storage": "r2"
+    },
+    "sale/2006/11650/200605.csv.gz": {
+      "sha256": "cf45c2c7bf3b2b5a7395076bf73d26cf66f45647f9842eaad420d5e8d29a5c27",
+      "bytes": 14823,
+      "storage": "r2"
+    },
+    "sale/2006/11650/200606.csv.gz": {
+      "sha256": "19df9d28b4fbd4fbee6a5c2e5f8d3322fe1220309635c60471129b2eb5b19125",
+      "bytes": 9820,
+      "storage": "r2"
+    },
+    "sale/2006/11650/200607.csv.gz": {
+      "sha256": "8f752305376eafa6e352d2c691a5a67105a67b177cdb023dc9d5023c29356e81",
+      "bytes": 10267,
+      "storage": "r2"
+    },
+    "sale/2006/11650/200608.csv.gz": {
+      "sha256": "85884783e1c3509b9ffcaff40ad145253514b783fefb441fd06b5399c9398612",
+      "bytes": 13049,
+      "storage": "r2"
+    },
+    "sale/2006/11650/200609.csv.gz": {
+      "sha256": "b35d8f87c1d146832d43298b6b09aac0fa400d5884a23c6abe624de018e80ef3",
+      "bytes": 25922,
+      "storage": "r2"
+    },
+    "sale/2006/11650/200610.csv.gz": {
+      "sha256": "f0698850af4b73c5dc1b4e00ea0708be956fbb330bcefeb969017c82b77d8f94",
+      "bytes": 57040,
+      "storage": "r2"
+    },
+    "sale/2006/11650/200611.csv.gz": {
+      "sha256": "ddea1eee02ce90cfd06aef33957570a0e7c3ce18f91c96cf7ddfd9c3e6542d6e",
+      "bytes": 30561,
+      "storage": "r2"
+    },
+    "sale/2006/11650/200612.csv.gz": {
+      "sha256": "5990be5dfd804be23e7c9531a760232833bcbbcd944db0df6c46eab190cfc56b",
+      "bytes": 24346,
+      "storage": "r2"
+    },
+    "sale/2006/11680/200601.csv.gz": {
+      "sha256": "3775229c8a0c3ceab525181dcfc40ae5b4f593f9e0aa8cf21a4d9ddcd6504c56",
+      "bytes": 12853,
+      "storage": "r2"
+    },
+    "sale/2006/11680/200602.csv.gz": {
+      "sha256": "541530d66bc034ac4554a7a55598250b434f369ba942c3069e54407f5470c5d9",
+      "bytes": 13037,
+      "storage": "r2"
+    },
+    "sale/2006/11680/200603.csv.gz": {
+      "sha256": "f58d22ada693a16a90e8f24be174a2a8792a298300d46b0704bbc634a79448a0",
+      "bytes": 45683,
+      "storage": "r2"
+    },
+    "sale/2006/11680/200604.csv.gz": {
+      "sha256": "67284d4f7cf4e49247a9c9fc648b1775fd10dee405b0dd78a0560350a2b9d69d",
+      "bytes": 32927,
+      "storage": "r2"
+    },
+    "sale/2006/11680/200605.csv.gz": {
+      "sha256": "b5cae336250bb632dc7145c777656f5b05f4f882fdd46c9055dbbb70aa378d98",
+      "bytes": 21777,
+      "storage": "r2"
+    },
+    "sale/2006/11680/200606.csv.gz": {
+      "sha256": "d8ac82ef5c22d6ab3316331d36f0056d1e1569fdffb51edf7c763cb12198ef03",
+      "bytes": 14084,
+      "storage": "r2"
+    },
+    "sale/2006/11680/200607.csv.gz": {
+      "sha256": "1e749b2f0f3a126b8ff866806a942dce6a2cdc8566202fcb0c6451fe66036935",
+      "bytes": 9716,
+      "storage": "r2"
+    },
+    "sale/2006/11680/200608.csv.gz": {
+      "sha256": "29e924cdf2f86f04db1ca4c1b0b264818bd12ddbf172babc1430944bb2832ae5",
+      "bytes": 17334,
+      "storage": "r2"
+    },
+    "sale/2006/11680/200609.csv.gz": {
+      "sha256": "7ebe34690d778ab7182877922cc0720c7981cef69a693652717448ed0bc1d3db",
+      "bytes": 39151,
+      "storage": "r2"
+    },
+    "sale/2006/11680/200610.csv.gz": {
+      "sha256": "7df28a995e584ced35adb2b558b148d696451f038b0402b80e4fb321ecec6f17",
+      "bytes": 69430,
+      "storage": "r2"
+    },
+    "sale/2006/11680/200611.csv.gz": {
+      "sha256": "2c7aa5ab9c2bdb27691b3571ae91184ba89f672dca99f429a9e59f82da5c19b6",
+      "bytes": 43717,
+      "storage": "r2"
+    },
+    "sale/2006/11680/200612.csv.gz": {
+      "sha256": "024736b3adb95cafb8ffbbedf2b0679bb28d5a08930380a8bd0343000ec8b30d",
+      "bytes": 35782,
+      "storage": "r2"
+    },
+    "sale/2006/11710/200601.csv.gz": {
+      "sha256": "aed5208a18cd77d62ad2364e664f0795fe4081c10e82d55b70f87c0ac810d3bf",
+      "bytes": 13062,
+      "storage": "r2"
+    },
+    "sale/2006/11710/200602.csv.gz": {
+      "sha256": "baeb4e06888e681b73ac800dd9752673ebca83ac11f552802f039cb1f6f56455",
+      "bytes": 9622,
+      "storage": "r2"
+    },
+    "sale/2006/11710/200603.csv.gz": {
+      "sha256": "6cd81361e3700e72843c966bd665014cc6d7e13169945e013f7d629c4e2a33a5",
+      "bytes": 32607,
+      "storage": "r2"
+    },
+    "sale/2006/11710/200604.csv.gz": {
+      "sha256": "6b57367c33aff6ef71b3238476664597231ee0b52ce5957d9d5c8599300565ff",
+      "bytes": 25666,
+      "storage": "r2"
+    },
+    "sale/2006/11710/200605.csv.gz": {
+      "sha256": "ef2a8f28bb4f2a9e4946a03f59a632b5d2c5859f2939de710af4daba7f691f14",
+      "bytes": 21079,
+      "storage": "r2"
+    },
+    "sale/2006/11710/200606.csv.gz": {
+      "sha256": "1083d5de8d45ee74e5f83a8286ee3b20c436b2f111ba7cda48cf0cb751f94e05",
+      "bytes": 11275,
+      "storage": "r2"
+    },
+    "sale/2006/11710/200607.csv.gz": {
+      "sha256": "6ce577192c485dd73bf60b5eacae71b051f3130208c622a648bfe01c6ecc1c34",
+      "bytes": 10591,
+      "storage": "r2"
+    },
+    "sale/2006/11710/200608.csv.gz": {
+      "sha256": "2a6c356a8aebea055e0de6ba6f135e75ed89febd0245b17b9a65f7c9ba1084ca",
+      "bytes": 15693,
+      "storage": "r2"
+    },
+    "sale/2006/11710/200609.csv.gz": {
+      "sha256": "a30d522a653d3df7aeeb6b462a394b6c47a585123fb972a64362776c12d9eddb",
+      "bytes": 39812,
+      "storage": "r2"
+    },
+    "sale/2006/11710/200610.csv.gz": {
+      "sha256": "f63848d0cb4a7766fa9896d11e918ed61536f49345bc5904c2a8fd23abc381f0",
+      "bytes": 71061,
+      "storage": "r2"
+    },
+    "sale/2006/11710/200611.csv.gz": {
+      "sha256": "2513ffeae95089e08663acf332abff50e76d3c32e2657e658ad17d651c1bca05",
+      "bytes": 41070,
+      "storage": "r2"
+    },
+    "sale/2006/11710/200612.csv.gz": {
+      "sha256": "1809dfb039ab288873298b318f67b39bec313f3719b3dfb8947b1509024ec08e",
+      "bytes": 24019,
+      "storage": "r2"
+    },
+    "sale/2006/11740/200601.csv.gz": {
+      "sha256": "9763b856c48541c137aba2164d2f1f4a30dcd6b44763865139ce312cefbd072c",
+      "bytes": 13246,
+      "storage": "r2"
+    },
+    "sale/2006/11740/200602.csv.gz": {
+      "sha256": "17e5fc4db8891b7c305313af7d8c80988450b573e3535ad8e77253d7304201a2",
+      "bytes": 11701,
+      "storage": "r2"
+    },
+    "sale/2006/11740/200603.csv.gz": {
+      "sha256": "ac6999d6a65acd624eb390c18db4a40590bc938d35de075f3d83357c879fbdf6",
+      "bytes": 24974,
+      "storage": "r2"
+    },
+    "sale/2006/11740/200604.csv.gz": {
+      "sha256": "6e0a46d33e86eacbb38935ce31d2a3bd7ef4cc36c213d3903d83425f3fa210e9",
+      "bytes": 25162,
+      "storage": "r2"
+    },
+    "sale/2006/11740/200605.csv.gz": {
+      "sha256": "1ae354c6f186b16c8db1bb82dd4b5709ddb5ce91e680ddb86fa0ca52e4e14c56",
+      "bytes": 22477,
+      "storage": "r2"
+    },
+    "sale/2006/11740/200606.csv.gz": {
+      "sha256": "0e9a4ab4f2b048f818d4e265fbe04f75e6ef3bba4a39fc7064aa2e84866ee2a6",
+      "bytes": 14365,
+      "storage": "r2"
+    },
+    "sale/2006/11740/200607.csv.gz": {
+      "sha256": "f02d9a161d5f6c4d6b8772ce89c0d042c26211295b7c066a70c58fd64173f63b",
+      "bytes": 12432,
+      "storage": "r2"
+    },
+    "sale/2006/11740/200608.csv.gz": {
+      "sha256": "2bb0a83983168be0d3fc21f0b2ce83e32cfe8860fda3385e15656826d6a5fdc0",
+      "bytes": 20147,
+      "storage": "r2"
+    },
+    "sale/2006/11740/200609.csv.gz": {
+      "sha256": "7e1c00e835f55d8fd59ac99be4a338202c9018bfe2a9b2b0fe7fe2248da8f897",
+      "bytes": 44951,
+      "storage": "r2"
+    },
+    "sale/2006/11740/200610.csv.gz": {
+      "sha256": "59b026b616ccb8ec538626fc0b6adf0f52e62bb38c2f9a092e89c9c3a3d3bdef",
+      "bytes": 69388,
+      "storage": "r2"
+    },
+    "sale/2006/11740/200611.csv.gz": {
+      "sha256": "37021d7087e769574460e90059e193dd96af09263fd806c9373a377fb6e20c97",
+      "bytes": 43889,
+      "storage": "r2"
+    },
+    "sale/2006/11740/200612.csv.gz": {
+      "sha256": "54f43daf7625c5a3df5cc85b29a9173376f4fee15935ae1a6c630293394e2ac6",
+      "bytes": 35296,
+      "storage": "r2"
+    },
+    "sale/2007/11110/200701.csv.gz": {
+      "sha256": "3c86bb52d76aed856f4760a34fefa4cf1587944985cb1b42304c116d0372dedd",
+      "bytes": 2719,
+      "storage": "r2"
+    },
+    "sale/2007/11110/200702.csv.gz": {
+      "sha256": "e86b6c8d9dfbac674bae49c7bc5b9ef2074106562b57a1c80c14ace580608413",
+      "bytes": 2936,
+      "storage": "r2"
+    },
+    "sale/2007/11110/200703.csv.gz": {
+      "sha256": "abaf1584d3efddfecef24fd34a996a30365438fe552ff49442b5b6ae88d824bf",
+      "bytes": 3577,
+      "storage": "r2"
+    },
+    "sale/2007/11110/200704.csv.gz": {
+      "sha256": "7a93cfde7212286f43e12d1e24602392b40345b7ee69475896f2a400aa2c54d5",
+      "bytes": 2558,
+      "storage": "r2"
+    },
+    "sale/2007/11110/200705.csv.gz": {
+      "sha256": "b3c98a2ba98fb5281703f5000f4b9a6ad0289764f9110bd123754b7fda5d4415",
+      "bytes": 2266,
+      "storage": "r2"
+    },
+    "sale/2007/11110/200706.csv.gz": {
+      "sha256": "6fb0e674da96fe7337d4b8fe2fe2114f8bda72a98a6f484804fa23f2cc4047f4",
+      "bytes": 2525,
+      "storage": "r2"
+    },
+    "sale/2007/11110/200707.csv.gz": {
+      "sha256": "59a40064a0b336ad72b8fd1377bbda085334b3b83c45cd896bbf9fb4868c7427",
+      "bytes": 2795,
+      "storage": "r2"
+    },
+    "sale/2007/11110/200708.csv.gz": {
+      "sha256": "ed52563fd8a7101225a3e32a36305d544b7c1d5dcbb25a5aa72d5064a891e127",
+      "bytes": 3092,
+      "storage": "r2"
+    },
+    "sale/2007/11110/200709.csv.gz": {
+      "sha256": "c228c073e71ff330b0bb5cf5396a312a85de2ba3a7194e6599d139d192b9b906",
+      "bytes": 2022,
+      "storage": "r2"
+    },
+    "sale/2007/11110/200710.csv.gz": {
+      "sha256": "601cf08c4dc4169da3b984fc0389aad628ee12071464da188a1287794c84ac87",
+      "bytes": 3788,
+      "storage": "r2"
+    },
+    "sale/2007/11110/200711.csv.gz": {
+      "sha256": "2a47a12f9168ad7b9da5d6d6ff453800addf35933fd76e4ef1176f65abfa97d6",
+      "bytes": 2779,
+      "storage": "r2"
+    },
+    "sale/2007/11110/200712.csv.gz": {
+      "sha256": "11dd3dd19419daed746b00ed5b7284045880f1b467516c45729296b40287a6fa",
+      "bytes": 3109,
+      "storage": "r2"
+    },
+    "sale/2007/11140/200701.csv.gz": {
+      "sha256": "0d594cae65a8c57c52c1261122e889fa716475f96cdac1d111eed88ea38a7641",
+      "bytes": 3344,
+      "storage": "r2"
+    },
+    "sale/2007/11140/200702.csv.gz": {
+      "sha256": "d2acbec9ee18e8e4abf5ff6a32b568d0f0b601810ee3539746c1f65b121d39f2",
+      "bytes": 2851,
+      "storage": "r2"
+    },
+    "sale/2007/11140/200703.csv.gz": {
+      "sha256": "7b0363929a1e27455abe98145a9354f217f91d89c352a4cf4d62861ca655e4da",
+      "bytes": 3110,
+      "storage": "r2"
+    },
+    "sale/2007/11140/200704.csv.gz": {
+      "sha256": "6cd294a25c6b37844ae89d7486230c504ba3f7f798958ee71b1dcc88f8e778a4",
+      "bytes": 3155,
+      "storage": "r2"
+    },
+    "sale/2007/11140/200705.csv.gz": {
+      "sha256": "1ec4c914fb448dc467b381cf61385a57588a4725789f1f152f2a6d63f877e055",
+      "bytes": 2376,
+      "storage": "r2"
+    },
+    "sale/2007/11140/200706.csv.gz": {
+      "sha256": "256c7938ba8269141a87a10b8b3b8f171f72c9086eaf2e44f3c5d6be8db83807",
+      "bytes": 2720,
+      "storage": "r2"
+    },
+    "sale/2007/11140/200707.csv.gz": {
+      "sha256": "1dc2cc5a60e11d04f9481532b175516435fdfb07c91304cb107b8a98cfc06e0a",
+      "bytes": 3061,
+      "storage": "r2"
+    },
+    "sale/2007/11140/200708.csv.gz": {
+      "sha256": "830f705d07c1ddb2624ffae039272e9e7c1f620c8d816d959489ed93b58184ff",
+      "bytes": 2837,
+      "storage": "r2"
+    },
+    "sale/2007/11140/200709.csv.gz": {
+      "sha256": "591af23980a3d97d558292b7389b26954ba354e5312ac751154fda927b2d6404",
+      "bytes": 3179,
+      "storage": "r2"
+    },
+    "sale/2007/11140/200710.csv.gz": {
+      "sha256": "356573b477905b494a5ebda76f5f71fd62c05866b3448e17c74c9bb59d4e966a",
+      "bytes": 3389,
+      "storage": "r2"
+    },
+    "sale/2007/11140/200711.csv.gz": {
+      "sha256": "b3029a4451b76f633ce3a396c0b3a6999fef26d5f33832f830ccaffefaf0f4ef",
+      "bytes": 3213,
+      "storage": "r2"
+    },
+    "sale/2007/11140/200712.csv.gz": {
+      "sha256": "ed436fafcaedb3244745220d1be92eaee71bfb265be0adcb97c4907ddecd7e69",
+      "bytes": 3288,
+      "storage": "r2"
+    },
+    "sale/2007/11170/200701.csv.gz": {
+      "sha256": "fc79ebf4a42e2e0aeb24ef83bdfde62ab5be85c45c64b586681374f4f5b619eb",
+      "bytes": 4647,
+      "storage": "r2"
+    },
+    "sale/2007/11170/200702.csv.gz": {
+      "sha256": "bdcb31ff632351df62dbc2061516ef34952fd97fb22c53f07a15becd86c1fcdd",
+      "bytes": 3580,
+      "storage": "r2"
+    },
+    "sale/2007/11170/200703.csv.gz": {
+      "sha256": "eb47c60ff602f10ea6e1ebec7768cce551a657f564207e9ce5070b33f583b1f7",
+      "bytes": 3108,
+      "storage": "r2"
+    },
+    "sale/2007/11170/200704.csv.gz": {
+      "sha256": "8006b67312916a33b9d359417b7fc1873ef2d15fc325a5c3f211e0239a593b77",
+      "bytes": 4358,
+      "storage": "r2"
+    },
+    "sale/2007/11170/200705.csv.gz": {
+      "sha256": "7819859c50ac7a84053b1e1f1dbcbbdf3e90a083debdb7f1288e3d1a13f581f5",
+      "bytes": 2729,
+      "storage": "r2"
+    },
+    "sale/2007/11170/200706.csv.gz": {
+      "sha256": "df4c4a661788ef6e011f0e3df1cb12932a531ef9993365b2d2ffd54f54b809cb",
+      "bytes": 2434,
+      "storage": "r2"
+    },
+    "sale/2007/11170/200707.csv.gz": {
+      "sha256": "0a9e4d25f79ccd4d2d1e764b60f605f9be7af8ebe2604fd4c629c9ee25f21d2c",
+      "bytes": 2873,
+      "storage": "r2"
+    },
+    "sale/2007/11170/200708.csv.gz": {
+      "sha256": "554736151205a017113c75de80ce5fe87801c1c3394657f0c9f4309907ecf449",
+      "bytes": 3461,
+      "storage": "r2"
+    },
+    "sale/2007/11170/200709.csv.gz": {
+      "sha256": "e6af7badf684d9837e98207037f85ac6bcf0d406cf632740fe2df63caa048a80",
+      "bytes": 3394,
+      "storage": "r2"
+    },
+    "sale/2007/11170/200710.csv.gz": {
+      "sha256": "cd24257ee94337d108593c70decc9e9c22564fc1cabf319c89aecd632d92c174",
+      "bytes": 3595,
+      "storage": "r2"
+    },
+    "sale/2007/11170/200711.csv.gz": {
+      "sha256": "1f3d41700c6318410290692ebabd1b1169815bc39e0ea7aef5e9637ff4f50b9c",
+      "bytes": 3349,
+      "storage": "r2"
+    },
+    "sale/2007/11170/200712.csv.gz": {
+      "sha256": "0529e5e78585132bdc5d5818c3ca5d3ab54134baae8a2f866889a5750f320947",
+      "bytes": 2670,
+      "storage": "r2"
+    },
+    "sale/2007/11200/200701.csv.gz": {
+      "sha256": "e857f55606cc4b9de26a6f5bc871c1f407a7de746e16eb1869bba3c780ce81bd",
+      "bytes": 7112,
+      "storage": "r2"
+    },
+    "sale/2007/11200/200702.csv.gz": {
+      "sha256": "06d37cea3a371a1db7714f77f54f830f4917aab60ffb1d547dee46ab711b51ad",
+      "bytes": 5991,
+      "storage": "r2"
+    },
+    "sale/2007/11200/200703.csv.gz": {
+      "sha256": "d95a2b8668d8fdcea28c60e757836eb13952cf754c7df45d09a0a6dcbc455a1b",
+      "bytes": 6797,
+      "storage": "r2"
+    },
+    "sale/2007/11200/200704.csv.gz": {
+      "sha256": "c354c83029fe7a9c19a3f7ff731f9b95ac608dac40054316cf2196d0128e9867",
+      "bytes": 5255,
+      "storage": "r2"
+    },
+    "sale/2007/11200/200705.csv.gz": {
+      "sha256": "586c9b81d1b30aa5a386d60b95e09cc450f723293d03cc4397ebd963277e51b0",
+      "bytes": 5228,
+      "storage": "r2"
+    },
+    "sale/2007/11200/200706.csv.gz": {
+      "sha256": "14cc737667837862ec8cdc7d589c705e0060a5334cd3a57b9697c7ad2a3cadc1",
+      "bytes": 7098,
+      "storage": "r2"
+    },
+    "sale/2007/11200/200707.csv.gz": {
+      "sha256": "e4211b601c0aadc57fe730da70feabddf0bd3b0f35509ae1e75fae9940e57f0e",
+      "bytes": 6404,
+      "storage": "r2"
+    },
+    "sale/2007/11200/200708.csv.gz": {
+      "sha256": "afae753f4b7b4bd90fcf62875ee039ef3b46f3f338e7a2a27480983cc06109ce",
+      "bytes": 5820,
+      "storage": "r2"
+    },
+    "sale/2007/11200/200709.csv.gz": {
+      "sha256": "a2397b789061c774364afc97e35183413b1a5ed7bce5277562df9deaa9399507",
+      "bytes": 5554,
+      "storage": "r2"
+    },
+    "sale/2007/11200/200710.csv.gz": {
+      "sha256": "35ad753ab3a81cd91c417930d8242db561e49128a6eb4c9224fcaa058de82bc1",
+      "bytes": 6019,
+      "storage": "r2"
+    },
+    "sale/2007/11200/200711.csv.gz": {
+      "sha256": "20933c6d7f0260cca9ca0dec73144458668c1a395ff98f7dd7cca735f65d56f7",
+      "bytes": 6947,
+      "storage": "r2"
+    },
+    "sale/2007/11200/200712.csv.gz": {
+      "sha256": "a4618c89353514cc614c84d66285eba7247c35acaac9aac01a7884ed77fa4abd",
+      "bytes": 6645,
+      "storage": "r2"
+    },
+    "sale/2007/11215/200701.csv.gz": {
+      "sha256": "98fdf8a40ecd9369fa8e6a30bc132b9a2d5440753f363900ce91a9fc7d0f4183",
+      "bytes": 3014,
+      "storage": "r2"
+    },
+    "sale/2007/11215/200702.csv.gz": {
+      "sha256": "8bce217cbca025c66f941544e3566034301441eec27bc1f7548eaf688434120b",
+      "bytes": 3761,
+      "storage": "r2"
+    },
+    "sale/2007/11215/200703.csv.gz": {
+      "sha256": "9f1f0fbe9de8ffe558e358cbc6444b0a49764da5d6fe5558a129e569e3a38ba0",
+      "bytes": 4092,
+      "storage": "r2"
+    },
+    "sale/2007/11215/200704.csv.gz": {
+      "sha256": "318228a59dc3f5ccd13bc8431ede83888edbfec7f404a8be6a42b2f4408acd63",
+      "bytes": 3863,
+      "storage": "r2"
+    },
+    "sale/2007/11215/200705.csv.gz": {
+      "sha256": "d955538a2e63c2058cc747adbdf643bb7da6d678f79250fd6e71b2112a3cdcde",
+      "bytes": 3428,
+      "storage": "r2"
+    },
+    "sale/2007/11215/200706.csv.gz": {
+      "sha256": "8dc798c92dffc26a9b01fcd2eaa46213c770fdc97c5bbb7f3dcf8e372e6ad23f",
+      "bytes": 3928,
+      "storage": "r2"
+    },
+    "sale/2007/11215/200707.csv.gz": {
+      "sha256": "d69a973ba25c9bfdfadb78cd2a582d0c97f7a362e40c7f1d59e6c2d553c051b1",
+      "bytes": 4514,
+      "storage": "r2"
+    },
+    "sale/2007/11215/200708.csv.gz": {
+      "sha256": "d301a08e5d8bc3727a1611e6d5f3bcc3a75259699214905305a61c61663c16a3",
+      "bytes": 4460,
+      "storage": "r2"
+    },
+    "sale/2007/11215/200709.csv.gz": {
+      "sha256": "a64468ab1d81456d6bc7aae7bff8ae35863df8a8344afca45780730d0095e484",
+      "bytes": 3630,
+      "storage": "r2"
+    },
+    "sale/2007/11215/200710.csv.gz": {
+      "sha256": "7a69c64f34711991b75a677bc858bf24b10e09ad31c9b8338600e33cee415d4f",
+      "bytes": 4464,
+      "storage": "r2"
+    },
+    "sale/2007/11215/200711.csv.gz": {
+      "sha256": "9123ce110ec82bc9204dc99b699e339c577173612e1595d1e7c506ec329a3e2f",
+      "bytes": 4148,
+      "storage": "r2"
+    },
+    "sale/2007/11215/200712.csv.gz": {
+      "sha256": "c6d218a101e5c71f6091f94548930f9bd4a1e932954a71f749baf3aa53a69c2f",
+      "bytes": 4413,
+      "storage": "r2"
+    },
+    "sale/2007/11230/200701.csv.gz": {
+      "sha256": "c0eb247d155c37f622fd553c25a1f5ef6862a2890f42f11b21cb552294b4e29f",
+      "bytes": 10380,
+      "storage": "r2"
+    },
+    "sale/2007/11230/200702.csv.gz": {
+      "sha256": "8697c0ac6921f70798d8afceebf10c869be15b6dd6608a4093fde97a76d66c07",
+      "bytes": 10622,
+      "storage": "r2"
+    },
+    "sale/2007/11230/200703.csv.gz": {
+      "sha256": "ace07dc9d4425027cf2fe51bf10e2caa5c62cf3e215caee7c562fe11fdddb957",
+      "bytes": 17227,
+      "storage": "r2"
+    },
+    "sale/2007/11230/200704.csv.gz": {
+      "sha256": "0d08f419fbc5145159890fe5cba600350a08f35ca0fb28f5fe712e45c51fe319",
+      "bytes": 13432,
+      "storage": "r2"
+    },
+    "sale/2007/11230/200705.csv.gz": {
+      "sha256": "d0b25fa6fcb0fcc322af1442ad090324e84e14ae68000cd64abcdd2ab1ed7cb0",
+      "bytes": 9182,
+      "storage": "r2"
+    },
+    "sale/2007/11230/200706.csv.gz": {
+      "sha256": "b2acb5ccaad4802d28b09cbe7cd863924e631f5fb4183d83b1a578f2529f6921",
+      "bytes": 10010,
+      "storage": "r2"
+    },
+    "sale/2007/11230/200707.csv.gz": {
+      "sha256": "775783132298e5e3aafa4a0a1be289362145c9c4c2c8bb4e11af7b8b6ebbbf10",
+      "bytes": 11759,
+      "storage": "r2"
+    },
+    "sale/2007/11230/200708.csv.gz": {
+      "sha256": "6494aa74656e268dc2f9e137213d593dbc3e5107c6375e2c455afba6e6a7a5f0",
+      "bytes": 11233,
+      "storage": "r2"
+    },
+    "sale/2007/11230/200709.csv.gz": {
+      "sha256": "314d826c86345d8684ee952a582dc384ac9c85c757648084aae6cc5df0590a5c",
+      "bytes": 12171,
+      "storage": "r2"
+    },
+    "sale/2007/11230/200710.csv.gz": {
+      "sha256": "95f0488f2cb67a178c12f357a0d745960caa4f2b4695431377a9de982731ddb7",
+      "bytes": 16549,
+      "storage": "r2"
+    },
+    "sale/2007/11230/200711.csv.gz": {
+      "sha256": "715648a56e3c50cbf0ad277d7ecfdece563095cdc5bfa5ae12d3eee41fcd0097",
+      "bytes": 11605,
+      "storage": "r2"
+    },
+    "sale/2007/11230/200712.csv.gz": {
+      "sha256": "b6ef38def37de402a978f4ffc27341586886e5799c711bd0137969753c12edbd",
+      "bytes": 13307,
+      "storage": "r2"
+    },
+    "sale/2007/11260/200701.csv.gz": {
+      "sha256": "c393ce00c462eca51b0babaf478d235be17b68058fb0f5608164b3cef46f0e39",
+      "bytes": 13152,
+      "storage": "r2"
+    },
+    "sale/2007/11260/200702.csv.gz": {
+      "sha256": "8145067637fdda495c65535ef1e5af497c4aa2ed1037962abff2a67672d3fa29",
+      "bytes": 11207,
+      "storage": "r2"
+    },
+    "sale/2007/11260/200703.csv.gz": {
+      "sha256": "b63bb7c4c42584591bcb3a9491aa532ade5c0092e7d9e5d1511c267e05a0a5fa",
+      "bytes": 20503,
+      "storage": "r2"
+    },
+    "sale/2007/11260/200704.csv.gz": {
+      "sha256": "2d41eef05c50d0995b554f84aed2951540c41ef9bc03e5b6b43842b174d31e78",
+      "bytes": 16458,
+      "storage": "r2"
+    },
+    "sale/2007/11260/200705.csv.gz": {
+      "sha256": "5b8e90557f6b0349119e99a2af83a6305a614716e0e0977108a7ae21f8eba17c",
+      "bytes": 12281,
+      "storage": "r2"
+    },
+    "sale/2007/11260/200706.csv.gz": {
+      "sha256": "5b81121ac45cbedf0b95d16c135164005f77c69ce77f3e671234159854d8137f",
+      "bytes": 15775,
+      "storage": "r2"
+    },
+    "sale/2007/11260/200707.csv.gz": {
+      "sha256": "7632aea413a6b9912c502cb157557a28e519cb6a6700dcbd75ec7e99890450f7",
+      "bytes": 18425,
+      "storage": "r2"
+    },
+    "sale/2007/11260/200708.csv.gz": {
+      "sha256": "38221ac4397a4ef99cfd326f18bdd639d9605d628c8c29b6ec37da7e9521d921",
+      "bytes": 12050,
+      "storage": "r2"
+    },
+    "sale/2007/11260/200709.csv.gz": {
+      "sha256": "bd31151b0e25c916bfa24049166a6adfd39f12e36d46c35ad261588eee4e684a",
+      "bytes": 12868,
+      "storage": "r2"
+    },
+    "sale/2007/11260/200710.csv.gz": {
+      "sha256": "c4800a29a0146b4227f7977c8cd09d495c1c2e0615c15db66d41ad1fd366c9bc",
+      "bytes": 16240,
+      "storage": "r2"
+    },
+    "sale/2007/11260/200711.csv.gz": {
+      "sha256": "6f62ace8c932964fa2eaaa120c96cf86f6c606c5f50c8c93e3b0081d2c0d30a7",
+      "bytes": 14168,
+      "storage": "r2"
+    },
+    "sale/2007/11260/200712.csv.gz": {
+      "sha256": "27edd2fa0674fb00cac79db9f01d3fc024190e6a3266b74b6113032d72f868dc",
+      "bytes": 10378,
+      "storage": "r2"
+    },
+    "sale/2007/11290/200701.csv.gz": {
+      "sha256": "739ae46f0ee8f56aa902552eb62d9c48efb36c96bb7514ecf26179a757f88847",
+      "bytes": 14143,
+      "storage": "r2"
+    },
+    "sale/2007/11290/200702.csv.gz": {
+      "sha256": "aa62f8300cfc0ae0cbf31df3bc01a331f06ddcde6091f47a5e11759ba006f59a",
+      "bytes": 10866,
+      "storage": "r2"
+    },
+    "sale/2007/11290/200703.csv.gz": {
+      "sha256": "6e18d85b48a091d929121c17bf3e6fa75169538af0905f068c9564e3ef9b088f",
+      "bytes": 15219,
+      "storage": "r2"
+    },
+    "sale/2007/11290/200704.csv.gz": {
+      "sha256": "fb4fb1cf07532cf498b434d0c67a3bbb802d9705c89510795961a104c11a2fd5",
+      "bytes": 10901,
+      "storage": "r2"
+    },
+    "sale/2007/11290/200705.csv.gz": {
+      "sha256": "fd7f4878e0ab3093f561c74fcf4cba14fdab1feb4a7c38f7eabf950b621e102b",
+      "bytes": 8674,
+      "storage": "r2"
+    },
+    "sale/2007/11290/200706.csv.gz": {
+      "sha256": "d6b3816d08850b268828370cc051634fd54ab616f75be5733682cb50d9ad4ccc",
+      "bytes": 11482,
+      "storage": "r2"
+    },
+    "sale/2007/11290/200707.csv.gz": {
+      "sha256": "1b440da660422731c621e29d67ad16f55f405f95e8af7608431eb2fb630f0d0f",
+      "bytes": 14606,
+      "storage": "r2"
+    },
+    "sale/2007/11290/200708.csv.gz": {
+      "sha256": "f74c7dda2e22eea143f931ee4820aaeb5052ad857abffbf3ee0d5faa70a5d977",
+      "bytes": 12506,
+      "storage": "r2"
+    },
+    "sale/2007/11290/200709.csv.gz": {
+      "sha256": "1ecc593a73567adcf0c5af5416062124829733cced91036376642e787a7ba373",
+      "bytes": 11014,
+      "storage": "r2"
+    },
+    "sale/2007/11290/200710.csv.gz": {
+      "sha256": "63b53b3d2c1340b0da6a459add671cc5656b4a47edb9557b9cd4895526465f48",
+      "bytes": 15743,
+      "storage": "r2"
+    },
+    "sale/2007/11290/200711.csv.gz": {
+      "sha256": "7fa3730115322878632a96f4bd322970495487b8677a3275123adbb83d4b4b07",
+      "bytes": 14277,
+      "storage": "r2"
+    },
+    "sale/2007/11290/200712.csv.gz": {
+      "sha256": "674e9702afa6b65c66ced11fdfeba38d2807c50914ebf68cf18aa2af0bc07d57",
+      "bytes": 11705,
+      "storage": "r2"
+    },
+    "sale/2007/11305/200701.csv.gz": {
+      "sha256": "2ae3f3523f73d3baa34a217a185b90214410d48cbafa90907ac675da3189872c",
+      "bytes": 5470,
+      "storage": "r2"
+    },
+    "sale/2007/11305/200702.csv.gz": {
+      "sha256": "4fee695745a68592262295a964a752a3b9039914ae81baf792786337577e395b",
+      "bytes": 6179,
+      "storage": "r2"
+    },
+    "sale/2007/11305/200703.csv.gz": {
+      "sha256": "45c927c2cfe2baeb4c026da4bc739aeee3b818132e9e2d425f16ad6ef7314f5c",
+      "bytes": 8342,
+      "storage": "r2"
+    },
+    "sale/2007/11305/200704.csv.gz": {
+      "sha256": "bd0724ec9b432fa9c26218d00cf8bbb9cb7d4a4fea5d6a809ed2506b884d7e3a",
+      "bytes": 6731,
+      "storage": "r2"
+    },
+    "sale/2007/11305/200705.csv.gz": {
+      "sha256": "c0c90fc7b3326934dd63447e102d2ce2fd7ec855a9224b26eba78c73a380ed11",
+      "bytes": 5627,
+      "storage": "r2"
+    },
+    "sale/2007/11305/200706.csv.gz": {
+      "sha256": "b5a6f341c1d10535bc014e4eb0f52de53612c39d43afdd2d6916b33e8a8f5dc2",
+      "bytes": 5734,
+      "storage": "r2"
+    },
+    "sale/2007/11305/200707.csv.gz": {
+      "sha256": "e9b548ecd469e8cfdbdc105f848cfdbb8f8408d83b2bc85c242865d33c8a2140",
+      "bytes": 7204,
+      "storage": "r2"
+    },
+    "sale/2007/11305/200708.csv.gz": {
+      "sha256": "ce5218101423c74573bc8e51d0fabae8773536dfa8e0ac3e073ba234d83d7618",
+      "bytes": 6469,
+      "storage": "r2"
+    },
+    "sale/2007/11305/200709.csv.gz": {
+      "sha256": "9024ad4e51f394e08813632c3a4b3f1bfa6fa49b8006c185a5a682d3c9200305",
+      "bytes": 5802,
+      "storage": "r2"
+    },
+    "sale/2007/11305/200710.csv.gz": {
+      "sha256": "67af18f15fe566697f04943785b7c52bbae5404fe1e3f8b0cf1ee2507612f8c5",
+      "bytes": 9221,
+      "storage": "r2"
+    },
+    "sale/2007/11305/200711.csv.gz": {
+      "sha256": "a921e28a8182026c5da8640c43e54230b4616353d0ac60fbb6948f6f9ffb61ee",
+      "bytes": 5519,
+      "storage": "r2"
+    },
+    "sale/2007/11305/200712.csv.gz": {
+      "sha256": "9b74dbc5b55c1ffc47f51ef5c009605084767cd2f9df96b046697b427c56ba8a",
+      "bytes": 5271,
+      "storage": "r2"
+    },
+    "sale/2007/11320/200701.csv.gz": {
+      "sha256": "1fd8e0185a99d3b46786ae9c8f7b1879afa26a2f08c80c2b4c42fab36b05dbc8",
+      "bytes": 21493,
+      "storage": "r2"
+    },
+    "sale/2007/11320/200702.csv.gz": {
+      "sha256": "1be6c41ff9c4de1e930c5d3654bf7df0842d9810dfca8f0ba9ad64d777e7e4b6",
+      "bytes": 16769,
+      "storage": "r2"
+    },
+    "sale/2007/11320/200703.csv.gz": {
+      "sha256": "1ede24ef2af7707fe0f84d95ecd1ad918bf4928217b16cdf763541ec1732ac6c",
+      "bytes": 22980,
+      "storage": "r2"
+    },
+    "sale/2007/11320/200704.csv.gz": {
+      "sha256": "686adc7b5d77638f93dbf6acef38c7074a3d0037f6295e3598fccc61af306db6",
+      "bytes": 19576,
+      "storage": "r2"
+    },
+    "sale/2007/11320/200705.csv.gz": {
+      "sha256": "876b32e85435aa14b63233dcd8bfde372f64b51e340997a0f298c5f7c8c05710",
+      "bytes": 13667,
+      "storage": "r2"
+    },
+    "sale/2007/11320/200706.csv.gz": {
+      "sha256": "1c35b382ee5af09748051e102f30ec55330a6b60a628fd51ce116bea5b8ea49a",
+      "bytes": 18492,
+      "storage": "r2"
+    },
+    "sale/2007/11320/200707.csv.gz": {
+      "sha256": "24f56ced20236b30fe0eb46a813155f74a68a3dc0d1ab4f243ec7a018beb73e7",
+      "bytes": 24590,
+      "storage": "r2"
+    },
+    "sale/2007/11320/200708.csv.gz": {
+      "sha256": "2edb893b29636c861f8156061a96624adccfff768ac67862e53c969d35aa2056",
+      "bytes": 19445,
+      "storage": "r2"
+    },
+    "sale/2007/11320/200709.csv.gz": {
+      "sha256": "7fdfe1b2ee033ef24ab8dcee9064298e1e1138aa5cb3df2e82aee3f2ad76899c",
+      "bytes": 18589,
+      "storage": "r2"
+    },
+    "sale/2007/11320/200710.csv.gz": {
+      "sha256": "9cf1b32712a29cbe9bf20a564a7952647bd927a30bb6611f3b83dadaf0fc6fc9",
+      "bytes": 24833,
+      "storage": "r2"
+    },
+    "sale/2007/11320/200711.csv.gz": {
+      "sha256": "26c1bc9b80f170a89f6b7c7e79b69245b58eaf243619854fb07127cf14d6edbf",
+      "bytes": 21697,
+      "storage": "r2"
+    },
+    "sale/2007/11320/200712.csv.gz": {
+      "sha256": "7f48834b685997890a8219c3441e884f3ffe84bf82e792d1806b5827f7e99c33",
+      "bytes": 21097,
+      "storage": "r2"
+    },
+    "sale/2007/11350/200701.csv.gz": {
+      "sha256": "a465342f78d565acc682236b1c3a7cf9d56e5a34bea510d6bbef8da928f5babd",
+      "bytes": 40797,
+      "storage": "r2"
+    },
+    "sale/2007/11350/200702.csv.gz": {
+      "sha256": "2f2d52f50efe3739194e2feb112204f4a53d382d4bff51956df2e49e4294be96",
+      "bytes": 32849,
+      "storage": "r2"
+    },
+    "sale/2007/11350/200703.csv.gz": {
+      "sha256": "a8de92da0e0f89ac4bb1a19ac43e37b7a6ba0a3823392c126dbc205e707b2666",
+      "bytes": 55286,
+      "storage": "r2"
+    },
+    "sale/2007/11350/200704.csv.gz": {
+      "sha256": "d18322e9ff557d8368d3db8a87604cf88ac229022f6c214da4783f1663bc62c4",
+      "bytes": 44670,
+      "storage": "r2"
+    },
+    "sale/2007/11350/200705.csv.gz": {
+      "sha256": "8dba2c8b63abdb2d759b74c9ea85a9e0ce00964c41b15eb1eec1b5368d915dfc",
+      "bytes": 28720,
+      "storage": "r2"
+    },
+    "sale/2007/11350/200706.csv.gz": {
+      "sha256": "1157d239ed6cc344748f8940db5a4906da854d4209e5444d4bd2972c1eed8b26",
+      "bytes": 48014,
+      "storage": "r2"
+    },
+    "sale/2007/11350/200707.csv.gz": {
+      "sha256": "67f8b2d39d1f383016a5c677aca13f1b8dcaf05180583e6a153dfd6623d2ae1a",
+      "bytes": 53477,
+      "storage": "r2"
+    },
+    "sale/2007/11350/200708.csv.gz": {
+      "sha256": "98ff94984faed3f94f975a044ff783163fb63bd0a7a30eb388f2988d5d127ec2",
+      "bytes": 48739,
+      "storage": "r2"
+    },
+    "sale/2007/11350/200709.csv.gz": {
+      "sha256": "c33122dcaec8996982f9e5a787d6342c2ba3719fbd654c1744d5ffd8252a3c7c",
+      "bytes": 42992,
+      "storage": "r2"
+    },
+    "sale/2007/11350/200710.csv.gz": {
+      "sha256": "f7cb7c89654f508749ce6da2ff801915ce3eff9ecf09ad91a31526c5866d9725",
+      "bytes": 67750,
+      "storage": "r2"
+    },
+    "sale/2007/11350/200711.csv.gz": {
+      "sha256": "fdc45c49a7473c404ebff87c8d4b6846f2fe18db9c9d7d22389463a23fb47962",
+      "bytes": 61137,
+      "storage": "r2"
+    },
+    "sale/2007/11350/200712.csv.gz": {
+      "sha256": "bdc22802a2b21ad91232fb3cc374c530fb8309998ee3df71cd639e2456b0e588",
+      "bytes": 53202,
+      "storage": "r2"
+    },
+    "sale/2007/11380/200701.csv.gz": {
+      "sha256": "e5bb5cefdee1ad43e9e336a04b1c51c8577b5a1fea54a8df3a589b4b2d9c2db6",
+      "bytes": 8030,
+      "storage": "r2"
+    },
+    "sale/2007/11380/200702.csv.gz": {
+      "sha256": "1bd53e2c46e401b9652e87cb218c76aaf0bd107eeaf688019f3f3ebb23e09a32",
+      "bytes": 8418,
+      "storage": "r2"
+    },
+    "sale/2007/11380/200703.csv.gz": {
+      "sha256": "e2994508dd8a1736f73675b2c3c757d805efd5f933ece9a632701ba0e30e4e8b",
+      "bytes": 12050,
+      "storage": "r2"
+    },
+    "sale/2007/11380/200704.csv.gz": {
+      "sha256": "be87b02021d4c449585d96728951f4fcda219b8bc483c1fa7367b6dce25be12c",
+      "bytes": 9318,
+      "storage": "r2"
+    },
+    "sale/2007/11380/200705.csv.gz": {
+      "sha256": "648b56318d31fe413634341c843391b944fde73a6ff28f575928d66635924a82",
+      "bytes": 8837,
+      "storage": "r2"
+    },
+    "sale/2007/11380/200706.csv.gz": {
+      "sha256": "27697fc14aad8ff15ca2753f9533138362919bb380d23471661484ec2bb53d48",
+      "bytes": 10052,
+      "storage": "r2"
+    },
+    "sale/2007/11380/200707.csv.gz": {
+      "sha256": "eb4ff24c1c5786a7ded7c1ee268726021f6cfa05ab75e9de5f0a61ccb11a4404",
+      "bytes": 12049,
+      "storage": "r2"
+    },
+    "sale/2007/11380/200708.csv.gz": {
+      "sha256": "af2fe9e2d971deeb588c0f7b51b20d8c5bb0e3a4b897e8c18a71d3f93a2c0ffc",
+      "bytes": 11685,
+      "storage": "r2"
+    },
+    "sale/2007/11380/200709.csv.gz": {
+      "sha256": "6d308393f66a560a7a1a2196c336b79e577d009b2192d0d6290c7433fd040f57",
+      "bytes": 9700,
+      "storage": "r2"
+    },
+    "sale/2007/11380/200710.csv.gz": {
+      "sha256": "88541c0bb3ab647801c4b11c446c0685f83c8340a9a8f8b2a0b87e677156fd28",
+      "bytes": 11694,
+      "storage": "r2"
+    },
+    "sale/2007/11380/200711.csv.gz": {
+      "sha256": "b6d737a2a51536eaefe44e7d650c0238f9a1e0235e2d305718fbeb3e2e53b7ab",
+      "bytes": 10097,
+      "storage": "r2"
+    },
+    "sale/2007/11380/200712.csv.gz": {
+      "sha256": "099ee779739a3d3ebcf1351fc66be7ad2ca233e71a424cf301159357da4a02a8",
+      "bytes": 10843,
+      "storage": "r2"
+    },
+    "sale/2007/11410/200701.csv.gz": {
+      "sha256": "6cac6321ba1ea23a32e502292f1b4048ff322af5933b8233e9ad79644b61a38b",
+      "bytes": 10175,
+      "storage": "r2"
+    },
+    "sale/2007/11410/200702.csv.gz": {
+      "sha256": "afe5eb3f4b3c8a539d116a8aa57e90a53082209189d3687f913e23502888e935",
+      "bytes": 8872,
+      "storage": "r2"
+    },
+    "sale/2007/11410/200703.csv.gz": {
+      "sha256": "2daec1915a9ebc68fb597cd425430ecd6d1eb896589908899ff16b3f5690dd03",
+      "bytes": 12362,
+      "storage": "r2"
+    },
+    "sale/2007/11410/200704.csv.gz": {
+      "sha256": "b8876616c7cb1fa9dfcf75e8b85feadb04af363e2a830e8ff41db8c863c3785d",
+      "bytes": 11546,
+      "storage": "r2"
+    },
+    "sale/2007/11410/200705.csv.gz": {
+      "sha256": "19364fbebc5c83e7795d3283e7fbf445d5c6bed06e3bc13b1a85c87d376b3f89",
+      "bytes": 8964,
+      "storage": "r2"
+    },
+    "sale/2007/11410/200706.csv.gz": {
+      "sha256": "6fbc4f5c682cb3e3ef4c17a0f9f2900ca86512b13bae1b412062894758352267",
+      "bytes": 11479,
+      "storage": "r2"
+    },
+    "sale/2007/11410/200707.csv.gz": {
+      "sha256": "395f41ce2d8ad5c6a8e3f4aca6c48bde09171edcbbcbeb5882cf996ae2234d99",
+      "bytes": 12098,
+      "storage": "r2"
+    },
+    "sale/2007/11410/200708.csv.gz": {
+      "sha256": "a5429081ffc965a16cf70ba81e21016b09ac95bb890d0f6a940ab53a124b141b",
+      "bytes": 11440,
+      "storage": "r2"
+    },
+    "sale/2007/11410/200709.csv.gz": {
+      "sha256": "1bb081f8d78719243721dd95848e5c7b8274d4acf19aa04ee3c54999c2a5d34b",
+      "bytes": 9828,
+      "storage": "r2"
+    },
+    "sale/2007/11410/200710.csv.gz": {
+      "sha256": "3f46107111c2d87b135b0de4b98a491adca5a1ecc70b85d339761d128d1bf910",
+      "bytes": 14315,
+      "storage": "r2"
+    },
+    "sale/2007/11410/200711.csv.gz": {
+      "sha256": "16ec436b429317b889287b0d45d9ff36e7f9e5985e3177ce899b7dd0948a8594",
+      "bytes": 10335,
+      "storage": "r2"
+    },
+    "sale/2007/11410/200712.csv.gz": {
+      "sha256": "ff87b7455d5d0c4ca2b69985afe0bf20b6398f5a9ee9f8fede9df095b7e08c6c",
+      "bytes": 9288,
+      "storage": "r2"
+    },
+    "sale/2007/11440/200701.csv.gz": {
+      "sha256": "f343b362145b1b0ab073d623e0986922b2fa00c0d5cd4107e2c512626570be5f",
+      "bytes": 8445,
+      "storage": "r2"
+    },
+    "sale/2007/11440/200702.csv.gz": {
+      "sha256": "fbc83b8fa9f3c6c1c652b22c5a977f43caf587600df2a1b1d6b27b8a8cc91f48",
+      "bytes": 7340,
+      "storage": "r2"
+    },
+    "sale/2007/11440/200703.csv.gz": {
+      "sha256": "0362f1235a7ee5129951765d0255b998b0a040fe8cc48a76957b35cf6539c578",
+      "bytes": 11625,
+      "storage": "r2"
+    },
+    "sale/2007/11440/200704.csv.gz": {
+      "sha256": "502e6ba58e5d26390fa7211e33bf0adb9a721292809a2ce5ee4fcebb0100f3d5",
+      "bytes": 8060,
+      "storage": "r2"
+    },
+    "sale/2007/11440/200705.csv.gz": {
+      "sha256": "71d27fc7c6e57199c00be4ec0d1d4fbd038796bbbf709ce61bfd18e4653d1c36",
+      "bytes": 7314,
+      "storage": "r2"
+    },
+    "sale/2007/11440/200706.csv.gz": {
+      "sha256": "7ad81bc6cd539fa5bf8a225776c6500f18587c36bdf377055e1f6925329f6d09",
+      "bytes": 9805,
+      "storage": "r2"
+    },
+    "sale/2007/11440/200707.csv.gz": {
+      "sha256": "6d5c408fe2c390c86e5b7da65072fb45e047914ddee6bc8fe657b6c83504a5d4",
+      "bytes": 13861,
+      "storage": "r2"
+    },
+    "sale/2007/11440/200708.csv.gz": {
+      "sha256": "2f59e2f649053dd82911129216b00a8fc6b68d44d8fc0f50e85bedc733f77da4",
+      "bytes": 9525,
+      "storage": "r2"
+    },
+    "sale/2007/11440/200709.csv.gz": {
+      "sha256": "ec2d4fe30af9043fb00af828fd0bfdc6743935b87b0c1c587ee1e9fc62786c3f",
+      "bytes": 9089,
+      "storage": "r2"
+    },
+    "sale/2007/11440/200710.csv.gz": {
+      "sha256": "136fd2ae81a5ffe5086847748b1631e785dc1cd566d40a92f35eff3f4306d432",
+      "bytes": 11965,
+      "storage": "r2"
+    },
+    "sale/2007/11440/200711.csv.gz": {
+      "sha256": "b7b5f4d0bd8223e2fd6c9c10a79df716186d586742994ed859d5a8b150fe338d",
+      "bytes": 10288,
+      "storage": "r2"
+    },
+    "sale/2007/11440/200712.csv.gz": {
+      "sha256": "5b09a003c203d3dc5df2a6827b329a76363ac5ab8cc96e1e246e17a5b18ca622",
+      "bytes": 10898,
+      "storage": "r2"
+    },
+    "sale/2007/11470/200701.csv.gz": {
+      "sha256": "4003318f56c56e3cc1c5bb79bd8e77513083e88abf4bea9c713058d2792c4d64",
+      "bytes": 10706,
+      "storage": "r2"
+    },
+    "sale/2007/11470/200702.csv.gz": {
+      "sha256": "cd2c514fdddd171d2d687984228852aa461287a741761bf17fc113df1db9034c",
+      "bytes": 8362,
+      "storage": "r2"
+    },
+    "sale/2007/11470/200703.csv.gz": {
+      "sha256": "9081e042cdd40d36afb1bbaebb88e505bbbc5e20a51a21a2e2c132d09c4ae3cb",
+      "bytes": 9803,
+      "storage": "r2"
+    },
+    "sale/2007/11470/200704.csv.gz": {
+      "sha256": "c464f1d879775bd6f5ebebce75643f3085b4cce948453ec340103efc48576d5d",
+      "bytes": 8090,
+      "storage": "r2"
+    },
+    "sale/2007/11470/200705.csv.gz": {
+      "sha256": "8857accd87319745ba654f7fca6ac2c203731478bf340f7fbb46679eeaf96540",
+      "bytes": 6241,
+      "storage": "r2"
+    },
+    "sale/2007/11470/200706.csv.gz": {
+      "sha256": "a630a1dfdc46edcac864ccd18d2dc931b071d0a17295d47628e038ef41342735",
+      "bytes": 7565,
+      "storage": "r2"
+    },
+    "sale/2007/11470/200707.csv.gz": {
+      "sha256": "e2ef1d81bab726992c49eafdd6c25cef410959d7ebbe5dc8fa3f033f792a3128",
+      "bytes": 12091,
+      "storage": "r2"
+    },
+    "sale/2007/11470/200708.csv.gz": {
+      "sha256": "01596231424e158203adfba1c2da8e38eb9f1882bdff916523c28529461518e9",
+      "bytes": 8771,
+      "storage": "r2"
+    },
+    "sale/2007/11470/200709.csv.gz": {
+      "sha256": "2a49c566ebe25ae42106532c8629c63fa456f5140a1970ba0211f17b4cfa3221",
+      "bytes": 7813,
+      "storage": "r2"
+    },
+    "sale/2007/11470/200710.csv.gz": {
+      "sha256": "77c7aea6d90bfb82d657357b4381f7defbc72de83273adeb2d4fdff72bbf2659",
+      "bytes": 10205,
+      "storage": "r2"
+    },
+    "sale/2007/11470/200711.csv.gz": {
+      "sha256": "3b42b55b52752d83ff6cf8f5a379814e3e069897693173a427e1d8053feff0fb",
+      "bytes": 8663,
+      "storage": "r2"
+    },
+    "sale/2007/11470/200712.csv.gz": {
+      "sha256": "6b4f08ddb06e5825f0d2bda15c37a70d47280e6283a31a644eabed1a3ca6cc82",
+      "bytes": 7424,
+      "storage": "r2"
+    },
+    "sale/2007/11500/200701.csv.gz": {
+      "sha256": "015db79ae0c81e5889e39d00ed34eeeb159ad7c7b5216668d6195775fdc22123",
+      "bytes": 13857,
+      "storage": "r2"
+    },
+    "sale/2007/11500/200702.csv.gz": {
+      "sha256": "19d4a996b7a463c6450e382c350da8ddb9743d994c9ad19edad196f5dd1a961d",
+      "bytes": 11535,
+      "storage": "r2"
+    },
+    "sale/2007/11500/200703.csv.gz": {
+      "sha256": "8d4a74ba1424f4ae979f11e6b0036607f0abe8b9f7ed9608845b1aaf3e943a32",
+      "bytes": 15146,
+      "storage": "r2"
+    },
+    "sale/2007/11500/200704.csv.gz": {
+      "sha256": "bc07e9a6aef82490a79c81d3d9b4d3bd0e9992663b23ff8ba5fc432d4883ae7c",
+      "bytes": 11778,
+      "storage": "r2"
+    },
+    "sale/2007/11500/200705.csv.gz": {
+      "sha256": "f84d058627789323454bf385c024cb2fc3f08c1e849e2c36162fa358f32d9bcd",
+      "bytes": 10390,
+      "storage": "r2"
+    },
+    "sale/2007/11500/200706.csv.gz": {
+      "sha256": "90540a49e9a37009e647be7fc708c05780a71d5b49aec5d388ee5e91275bb305",
+      "bytes": 13964,
+      "storage": "r2"
+    },
+    "sale/2007/11500/200707.csv.gz": {
+      "sha256": "ac89cbffd9f9ddb69cd136d11db1acd9a01cffe9ee7f7409f84ce8748b7f19c0",
+      "bytes": 15369,
+      "storage": "r2"
+    },
+    "sale/2007/11500/200708.csv.gz": {
+      "sha256": "bede68b67b4f3d09c5c1133bebe65039631ddac5888f294ac8e38f3ba9abc478",
+      "bytes": 15263,
+      "storage": "r2"
+    },
+    "sale/2007/11500/200709.csv.gz": {
+      "sha256": "53ed22367b5c5d806b6c98612b60fb9ef76933987ec6513a6bb600e24e52b4ae",
+      "bytes": 13830,
+      "storage": "r2"
+    },
+    "sale/2007/11500/200710.csv.gz": {
+      "sha256": "8c0629c7eed3e03cddc93d6304194e0e17144d2f8aa426b2c6355819ec6a5371",
+      "bytes": 21048,
+      "storage": "r2"
+    },
+    "sale/2007/11500/200711.csv.gz": {
+      "sha256": "82ca3dfc442004506b78bac7d294bca7ab5630380257c3ac22fc11a6ee62b0f4",
+      "bytes": 15900,
+      "storage": "r2"
+    },
+    "sale/2007/11500/200712.csv.gz": {
+      "sha256": "7559c37016f69a44ac0a1a0dcf72d4317ee62c9e24d32ed8272a261c92c2ebe7",
+      "bytes": 14487,
+      "storage": "r2"
+    },
+    "sale/2007/11530/200701.csv.gz": {
+      "sha256": "937163508a5bc279f6aaee33423ac6c11572d65832a193c744774eef87d24d3a",
+      "bytes": 18840,
+      "storage": "r2"
+    },
+    "sale/2007/11530/200702.csv.gz": {
+      "sha256": "451b333cd5169a59bf78168e8cd28715ad7ca21d06eac692de00e2c4e755ea14",
+      "bytes": 13850,
+      "storage": "r2"
+    },
+    "sale/2007/11530/200703.csv.gz": {
+      "sha256": "324d9fc98d383b26a74a75d4926312db5d217d188c1c02cd4b6038c370913bec",
+      "bytes": 20284,
+      "storage": "r2"
+    },
+    "sale/2007/11530/200704.csv.gz": {
+      "sha256": "5f61ce239964e4acff3c3d81301f721aa6c195453527fb503edd892f628e8bc8",
+      "bytes": 15032,
+      "storage": "r2"
+    },
+    "sale/2007/11530/200705.csv.gz": {
+      "sha256": "bbb88a699388cb0f0562053089d084cc657a146866f062f45ecdc8cffd406027",
+      "bytes": 13805,
+      "storage": "r2"
+    },
+    "sale/2007/11530/200706.csv.gz": {
+      "sha256": "39c11ee5a1e3401890b0daabaf45017dcc20544a377873a2133cdbcea4a7070b",
+      "bytes": 17138,
+      "storage": "r2"
+    },
+    "sale/2007/11530/200707.csv.gz": {
+      "sha256": "a1c170cf800cfac3e8fc72cada7d820e71a0333a8cb0ca42bdf952a017cdf8a7",
+      "bytes": 20294,
+      "storage": "r2"
+    },
+    "sale/2007/11530/200708.csv.gz": {
+      "sha256": "79d11db682069774e8d5ce43d61f365631be2119e9b45a8ffa7e7bfa3257025e",
+      "bytes": 17312,
+      "storage": "r2"
+    },
+    "sale/2007/11530/200709.csv.gz": {
+      "sha256": "99f811c77267f35fa5ba97f1e6e6193db6c119aa92d21e7d011c7636c3e72836",
+      "bytes": 17773,
+      "storage": "r2"
+    },
+    "sale/2007/11530/200710.csv.gz": {
+      "sha256": "3677f652913864b7b73888254c1208c578c4a57252b70020d9b755bfe875c436",
+      "bytes": 22476,
+      "storage": "r2"
+    },
+    "sale/2007/11530/200711.csv.gz": {
+      "sha256": "ecef3315d529d36fef04df5f7d7c1b738e12bee60a96bbdaae4e010f2274055b",
+      "bytes": 16870,
+      "storage": "r2"
+    },
+    "sale/2007/11530/200712.csv.gz": {
+      "sha256": "d15be1361b2d7778601acee98e58ddd8d77c3843641a6a4b66b03a463c41004b",
+      "bytes": 18081,
+      "storage": "r2"
+    },
+    "sale/2007/11545/200701.csv.gz": {
+      "sha256": "8b84a8b1bb9c0d60a5e3dc7243ffc49739cd04407158f8873079b416a6e52632",
+      "bytes": 5881,
+      "storage": "r2"
+    },
+    "sale/2007/11545/200702.csv.gz": {
+      "sha256": "85940a49de90b242e813936fd779e157e6aa8efa148c4c5dd22896f56ca659d4",
+      "bytes": 6104,
+      "storage": "r2"
+    },
+    "sale/2007/11545/200703.csv.gz": {
+      "sha256": "6272e6e5e23bb32e87a62844df0b2a826138d7ee346778612eb4d298afd36a2b",
+      "bytes": 8034,
+      "storage": "r2"
+    },
+    "sale/2007/11545/200704.csv.gz": {
+      "sha256": "5bb89d55f3fceb81748a7d216357f90db7bfc9154373d96cf17322061cebc7bc",
+      "bytes": 5823,
+      "storage": "r2"
+    },
+    "sale/2007/11545/200705.csv.gz": {
+      "sha256": "bf51b0d78e180a3cc3ff112cae0e7a973576c226d3faa2bdf16f79c8029b2831",
+      "bytes": 5354,
+      "storage": "r2"
+    },
+    "sale/2007/11545/200706.csv.gz": {
+      "sha256": "bcc2e62966375c5d9ba3810f1638739423352de9fff356348436cee9115021de",
+      "bytes": 5994,
+      "storage": "r2"
+    },
+    "sale/2007/11545/200707.csv.gz": {
+      "sha256": "a1125496a6fcf83b6c3a4fb89298d85db52d0232ed3bf1363c69adc1eee870c3",
+      "bytes": 5766,
+      "storage": "r2"
+    },
+    "sale/2007/11545/200708.csv.gz": {
+      "sha256": "382cc1607a2923fe38a8ce27d9236f65d0aff182b1d93e01fb9d4f17f8f8cfc9",
+      "bytes": 6529,
+      "storage": "r2"
+    },
+    "sale/2007/11545/200709.csv.gz": {
+      "sha256": "abda6b67666dd8c728caea799e17e8748b0d41264fd788ddfae423ce30833c07",
+      "bytes": 5950,
+      "storage": "r2"
+    },
+    "sale/2007/11545/200710.csv.gz": {
+      "sha256": "4a0c3d6fcd5764632fa05fae145792b94785be0f2ed215c5cd46eaa3e25f0b3c",
+      "bytes": 9384,
+      "storage": "r2"
+    },
+    "sale/2007/11545/200711.csv.gz": {
+      "sha256": "d5253cffc5afada1dc1a823ad0716a99d7eb66de161ca4861eaab1bdc969c448",
+      "bytes": 7421,
+      "storage": "r2"
+    },
+    "sale/2007/11545/200712.csv.gz": {
+      "sha256": "5fa347c58575167cecf8b7a9587c8c86a12bcace5328651c4727ab21ae4b0c33",
+      "bytes": 5796,
+      "storage": "r2"
+    },
+    "sale/2007/11560/200701.csv.gz": {
+      "sha256": "3360ca2a80224517352f1bdda08286190d931d725778a6ef52123a0059800f4b",
+      "bytes": 9120,
+      "storage": "r2"
+    },
+    "sale/2007/11560/200702.csv.gz": {
+      "sha256": "15baa8540ace162ff4b5ecbbbb0100ccbac8b65ba3c7f3089ef9a9224183eaae",
+      "bytes": 9199,
+      "storage": "r2"
+    },
+    "sale/2007/11560/200703.csv.gz": {
+      "sha256": "aa4fa24c7c824a654e529d9a4af5b7302ba87a744005137d1c60977113888eef",
+      "bytes": 13474,
+      "storage": "r2"
+    },
+    "sale/2007/11560/200704.csv.gz": {
+      "sha256": "a59f9808400b513396172ad17afa16f20a907f6889438d531dd8c98b34b18fb1",
+      "bytes": 9828,
+      "storage": "r2"
+    },
+    "sale/2007/11560/200705.csv.gz": {
+      "sha256": "a238d12a3a449afe237727cf07e7cfec36ee46031d942bf733a02b0cf8bd176e",
+      "bytes": 8956,
+      "storage": "r2"
+    },
+    "sale/2007/11560/200706.csv.gz": {
+      "sha256": "f73107251a73afd5403d6259f4f68897c78982a04b82317d9761c1aa7abd606f",
+      "bytes": 10426,
+      "storage": "r2"
+    },
+    "sale/2007/11560/200707.csv.gz": {
+      "sha256": "79fe2a64619ba0f1eda3af228ffce4629fbf43f646bb625c764fb709e9570731",
+      "bytes": 13217,
+      "storage": "r2"
+    },
+    "sale/2007/11560/200708.csv.gz": {
+      "sha256": "36a35ae81fc959529b2773c60e89d860638c33b9c2d5f754f1617e8209eec0f3",
+      "bytes": 11584,
+      "storage": "r2"
+    },
+    "sale/2007/11560/200709.csv.gz": {
+      "sha256": "48120f532bf92405b298cb833dfdab1af5f3c2859631013469e2b08fc1bd84d8",
+      "bytes": 10659,
+      "storage": "r2"
+    },
+    "sale/2007/11560/200710.csv.gz": {
+      "sha256": "b6a08d669515d0d1ce76a35435cfd1868168e74f523f4d4573d6a883a4f8bc9b",
+      "bytes": 14604,
+      "storage": "r2"
+    },
+    "sale/2007/11560/200711.csv.gz": {
+      "sha256": "78c977e0bf6f607f6c107e4f21365d4ff02cfbbc43c3de44704fbd6a9e67dc40",
+      "bytes": 13883,
+      "storage": "r2"
+    },
+    "sale/2007/11560/200712.csv.gz": {
+      "sha256": "ab9e21b18a82cdc8adbef3fce0eb0acd177a9ef7eee120b3b7284eff4551b1fa",
+      "bytes": 11655,
+      "storage": "r2"
+    },
+    "sale/2007/11590/200701.csv.gz": {
+      "sha256": "7122c87e0400c75aa00f6421a21d0e15188cb30c91181cfefacc982de2447afe",
+      "bytes": 6162,
+      "storage": "r2"
+    },
+    "sale/2007/11590/200702.csv.gz": {
+      "sha256": "c4198f2f3ecfb51730b595e96bd3a7bd1f7edc0903f2662fb7cee0aecca4ce6e",
+      "bytes": 6946,
+      "storage": "r2"
+    },
+    "sale/2007/11590/200703.csv.gz": {
+      "sha256": "853a1d11ee25fed5b274ee3f30c82ed3bceead2879505ae528be7fb74f0277c2",
+      "bytes": 8653,
+      "storage": "r2"
+    },
+    "sale/2007/11590/200704.csv.gz": {
+      "sha256": "2586c4bc19d6a858f0b1cb3b49efb48d96ed8afbfaf9a2f5d27bf81f9a792ca7",
+      "bytes": 6175,
+      "storage": "r2"
+    },
+    "sale/2007/11590/200705.csv.gz": {
+      "sha256": "bbeefc0dda523dcf5d5bc62d2629b046f4ed2bb344b575f55155c381ff77759b",
+      "bytes": 6391,
+      "storage": "r2"
+    },
+    "sale/2007/11590/200706.csv.gz": {
+      "sha256": "09d70ff575b5ef567f9186790dba9e362f4a469213b713626bb148d74c943377",
+      "bytes": 8458,
+      "storage": "r2"
+    },
+    "sale/2007/11590/200707.csv.gz": {
+      "sha256": "677705d180e400f91cffcc1577ac6b26c73dce4cc6fa43ed4f8d2f442eb7f286",
+      "bytes": 11011,
+      "storage": "r2"
+    },
+    "sale/2007/11590/200708.csv.gz": {
+      "sha256": "02e6327a5a71cf9fc27d1615f598101baa7ea36cf3e7915ab509308fe7860b3d",
+      "bytes": 9576,
+      "storage": "r2"
+    },
+    "sale/2007/11590/200709.csv.gz": {
+      "sha256": "53aee4c81a656ecb91329769d82d2a9aa2bc653595a494b09ba2cdf13ddf58be",
+      "bytes": 8112,
+      "storage": "r2"
+    },
+    "sale/2007/11590/200710.csv.gz": {
+      "sha256": "c750452a13795566d81a39f308946d5c2363fc83a2c5098799a83686e9507092",
+      "bytes": 11374,
+      "storage": "r2"
+    },
+    "sale/2007/11590/200711.csv.gz": {
+      "sha256": "4734a37a955d26d1f823cd22a5f6ea8c8adb7dc763d835081c83be2de08f7387",
+      "bytes": 8552,
+      "storage": "r2"
+    },
+    "sale/2007/11590/200712.csv.gz": {
+      "sha256": "3846c2ad0ae71ef225623e7b3fd2a7c9a118eb92afca1e026021854d901dbc03",
+      "bytes": 9396,
+      "storage": "r2"
+    },
+    "sale/2007/11620/200701.csv.gz": {
+      "sha256": "9490ac832124427004598de27af972ae60f1959eff8b6dfc5ac74f300afb2bf7",
+      "bytes": 8812,
+      "storage": "r2"
+    },
+    "sale/2007/11620/200702.csv.gz": {
+      "sha256": "4f2a74300146462644440a43df5d1e651a72ad6f07f5335386a9c9c88dca59ce",
+      "bytes": 7901,
+      "storage": "r2"
+    },
+    "sale/2007/11620/200703.csv.gz": {
+      "sha256": "69a0ccaea03ddc3856149633f662255abc971f517ad81377bb8ad75821a5af9d",
+      "bytes": 13273,
+      "storage": "r2"
+    },
+    "sale/2007/11620/200704.csv.gz": {
+      "sha256": "e8caadcc04b5343c10ce386645d25416b1bfc54686f894435ad95c7fec0b49d5",
+      "bytes": 9093,
+      "storage": "r2"
+    },
+    "sale/2007/11620/200705.csv.gz": {
+      "sha256": "2b9a9f514d28b758157643309967291f07458f42832c6ff963adac549639b8de",
+      "bytes": 7700,
+      "storage": "r2"
+    },
+    "sale/2007/11620/200706.csv.gz": {
+      "sha256": "8ee714406e2dc983aec23739c207cd815ed436aa00e6283c9b27341d195ca704",
+      "bytes": 10397,
+      "storage": "r2"
+    },
+    "sale/2007/11620/200707.csv.gz": {
+      "sha256": "03df36bddb93964dc19d1e44621f19d9fe9239bb322da8d85f472529817780bf",
+      "bytes": 11420,
+      "storage": "r2"
+    },
+    "sale/2007/11620/200708.csv.gz": {
+      "sha256": "de531ec343c3099e9565d96e9e31b85d8396d12fec9d91dd696c7b9df121613c",
+      "bytes": 10491,
+      "storage": "r2"
+    },
+    "sale/2007/11620/200709.csv.gz": {
+      "sha256": "ace9b359236fa5a7b8c381b42ec62338b67e71ff3001bfb4b0f35e4319c28821",
+      "bytes": 8501,
+      "storage": "r2"
+    },
+    "sale/2007/11620/200710.csv.gz": {
+      "sha256": "a32d1a70d123f9f3b65c737bbf2105871e773d47904198c3e926fee7a8f0896a",
+      "bytes": 12448,
+      "storage": "r2"
+    },
+    "sale/2007/11620/200711.csv.gz": {
+      "sha256": "9c5eb991b070240018c593928481eee0eea7bf4821893d2177fda71c0d10d8f1",
+      "bytes": 8532,
+      "storage": "r2"
+    },
+    "sale/2007/11620/200712.csv.gz": {
+      "sha256": "4a7ef00b9bc1c94642ee7f92a85e7177ec21be65c19c11f374846fa6aaa73e14",
+      "bytes": 10916,
+      "storage": "r2"
+    },
+    "sale/2007/11650/200701.csv.gz": {
+      "sha256": "7c62e72104427cadfcd255d0bd7a8b9e26454449ff99881462a629addd00657c",
+      "bytes": 7565,
+      "storage": "r2"
+    },
+    "sale/2007/11650/200702.csv.gz": {
+      "sha256": "4a37f621c1f9228ec10124317e1c885d52071523eba17b5ac2ade13a2e28a9f1",
+      "bytes": 8405,
+      "storage": "r2"
+    },
+    "sale/2007/11650/200703.csv.gz": {
+      "sha256": "2c298d8244ba0a1fa379eddaacd0d32313ab7c1e4f14887bc1d3bb08eddf43ab",
+      "bytes": 4614,
+      "storage": "r2"
+    },
+    "sale/2007/11650/200704.csv.gz": {
+      "sha256": "cf055c3846a890fcfd07de5efd2f9f1e567ed5666ba76dfb104e1ddc1cc1f139",
+      "bytes": 4395,
+      "storage": "r2"
+    },
+    "sale/2007/11650/200705.csv.gz": {
+      "sha256": "097a1affa0b21f253db0985255d44c99d9c0f6909378681a5c039af4ba418be2",
+      "bytes": 4350,
+      "storage": "r2"
+    },
+    "sale/2007/11650/200706.csv.gz": {
+      "sha256": "14b34af433d8abea3aee062e1b48b46258058f7c57c739c32470dfc4af3d8a05",
+      "bytes": 3687,
+      "storage": "r2"
+    },
+    "sale/2007/11650/200707.csv.gz": {
+      "sha256": "64bb9f77442e87f1cef9281b1928c1b451572aa81c9eb7f6adc456e0a17c8a00",
+      "bytes": 5185,
+      "storage": "r2"
+    },
+    "sale/2007/11650/200708.csv.gz": {
+      "sha256": "f88fb466acbe18e7970d9d51f5b8622024df136f5dadb1fc338a780acd889590",
+      "bytes": 4233,
+      "storage": "r2"
+    },
+    "sale/2007/11650/200709.csv.gz": {
+      "sha256": "487b6732d7ebed9b124534f40ef81397b1717efed5866218703733be26e2d5a9",
+      "bytes": 3237,
+      "storage": "r2"
+    },
+    "sale/2007/11650/200710.csv.gz": {
+      "sha256": "69f4f67f4a0573e92c57493794d1f42ccdc0bbcf8753890560dd7a98452b3751",
+      "bytes": 5408,
+      "storage": "r2"
+    },
+    "sale/2007/11650/200711.csv.gz": {
+      "sha256": "1355b8d1241be55d462d58060ce01f17eb318ac225cdeaf297cac622cd519587",
+      "bytes": 4732,
+      "storage": "r2"
+    },
+    "sale/2007/11650/200712.csv.gz": {
+      "sha256": "a00a1380a8a9a75fe1fb4d35c9932b9b891875a2ab144b08bff24be1de5c8037",
+      "bytes": 5270,
+      "storage": "r2"
+    },
+    "sale/2007/11680/200701.csv.gz": {
+      "sha256": "c68bdf17ea09c7cf393c2f72884f9c469681e2ffcf74a4237ee8f511bdc4f7c0",
+      "bytes": 12618,
+      "storage": "r2"
+    },
+    "sale/2007/11680/200702.csv.gz": {
+      "sha256": "7100626cb074893e08460f26c357c8e96ab20bbb5d8ec4d21c9765e1fda50285",
+      "bytes": 10560,
+      "storage": "r2"
+    },
+    "sale/2007/11680/200703.csv.gz": {
+      "sha256": "acabcb2438df2a1431983e0db723d15471c23f3e1ae98416d5907ebb2f4d4324",
+      "bytes": 9261,
+      "storage": "r2"
+    },
+    "sale/2007/11680/200704.csv.gz": {
+      "sha256": "be20aa0dfdb95ee3d7dac6b957648e51503978903543b50377a042e7fca81ae2",
+      "bytes": 6981,
+      "storage": "r2"
+    },
+    "sale/2007/11680/200705.csv.gz": {
+      "sha256": "e10d7e1693483a4374fa9cfc1e96de895bb6cc53b1acc763b1a26a1d98aa76ea",
+      "bytes": 7596,
+      "storage": "r2"
+    },
+    "sale/2007/11680/200706.csv.gz": {
+      "sha256": "95550e823f2dae9dcbe803b545a9636094544bcd583efb4b930c2f3a66360114",
+      "bytes": 15910,
+      "storage": "r2"
+    },
+    "sale/2007/11680/200707.csv.gz": {
+      "sha256": "f5c9bc03ab3b1b0bf8ee1f15085e385c2fd86291c93ed4db35c23ae35580e50d",
+      "bytes": 17251,
+      "storage": "r2"
+    },
+    "sale/2007/11680/200708.csv.gz": {
+      "sha256": "dde31706d6e58dcee2a1a5588d6c5ea1ac08aace5b6713b22e43d9e233896e7a",
+      "bytes": 12497,
+      "storage": "r2"
+    },
+    "sale/2007/11680/200709.csv.gz": {
+      "sha256": "ab6234b41c208f9fb9b467b2a40a3bd3d1b1fc48c8358e31e5574649e36a2c21",
+      "bytes": 10546,
+      "storage": "r2"
+    },
+    "sale/2007/11680/200710.csv.gz": {
+      "sha256": "e0c2b204585ed3e55dff5573757a728b512def5add091e5d3a28001a6992024f",
+      "bytes": 16974,
+      "storage": "r2"
+    },
+    "sale/2007/11680/200711.csv.gz": {
+      "sha256": "4e565b4293312368e206a5e67a999a5c0911e38647055f923a193584e7e53d78",
+      "bytes": 15284,
+      "storage": "r2"
+    },
+    "sale/2007/11680/200712.csv.gz": {
+      "sha256": "caa4fb34d3d8b6584328fa389727c7c91646306e1bb5e210d5a6094ae8ffb084",
+      "bytes": 15069,
+      "storage": "r2"
+    },
+    "sale/2007/11710/200701.csv.gz": {
+      "sha256": "83819a3ed93881eba8e73b5992feeb8176632a1f82637b5558b6b23e2b888484",
+      "bytes": 9225,
+      "storage": "r2"
+    },
+    "sale/2007/11710/200702.csv.gz": {
+      "sha256": "dfbcd285204075c88029c11b34322995b5e1636b7c4f29ce9da2c2e310cc047a",
+      "bytes": 8172,
+      "storage": "r2"
+    },
+    "sale/2007/11710/200703.csv.gz": {
+      "sha256": "8f07f06531af7541adb760c2f0fac632909e46938c0b07ba2d57bdba2cddc717",
+      "bytes": 6846,
+      "storage": "r2"
+    },
+    "sale/2007/11710/200704.csv.gz": {
+      "sha256": "4362c587c40bc55745a1c4521bfd00d919771bb045c161d7bda5c17beca4bc4a",
+      "bytes": 3860,
+      "storage": "r2"
+    },
+    "sale/2007/11710/200705.csv.gz": {
+      "sha256": "18a7500b82cdc23e940da92f2f1864a011e7da7be8bee19588c58b505e6f4844",
+      "bytes": 4745,
+      "storage": "r2"
+    },
+    "sale/2007/11710/200706.csv.gz": {
+      "sha256": "405b7fe925f9d6c057e43215cd106e7dfd432f37239bc388bfa5ab145c8a5d94",
+      "bytes": 6870,
+      "storage": "r2"
+    },
+    "sale/2007/11710/200707.csv.gz": {
+      "sha256": "30a252fd8c4076c335fb3886b6975708b583a4630b671ec11d2e69d01e257ec7",
+      "bytes": 7052,
+      "storage": "r2"
+    },
+    "sale/2007/11710/200708.csv.gz": {
+      "sha256": "ef1cce577e56e4d5a9927318576a8c48669010f10972ad908cb508f2ec268f08",
+      "bytes": 5770,
+      "storage": "r2"
+    },
+    "sale/2007/11710/200709.csv.gz": {
+      "sha256": "6e1eca4c6309143f7edf1b132533a420a4385f9917a6c822667ab850b8a07486",
+      "bytes": 5200,
+      "storage": "r2"
+    },
+    "sale/2007/11710/200710.csv.gz": {
+      "sha256": "568a23a62afe85a0ffe75e95d96eb37df7f909929c7264f704df6059ed75a1c8",
+      "bytes": 7500,
+      "storage": "r2"
+    },
+    "sale/2007/11710/200711.csv.gz": {
+      "sha256": "8c768a6a8cb0527e6f79be75b4ad802a4d43484c0b1effb5b2e162ce01f5f503",
+      "bytes": 6106,
+      "storage": "r2"
+    },
+    "sale/2007/11710/200712.csv.gz": {
+      "sha256": "79e12d98cb41080a6780d5ac072488e96bebdc9ab76fbca362cfa5191c14f536",
+      "bytes": 6773,
+      "storage": "r2"
+    },
+    "sale/2007/11740/200701.csv.gz": {
+      "sha256": "9576789880e0f1438136abfd6008d5401cd354898c2fd28e705825222e5fbcfe",
+      "bytes": 17609,
+      "storage": "r2"
+    },
+    "sale/2007/11740/200702.csv.gz": {
+      "sha256": "d43accd02c6eb618523c25cb66c14c9b6a5079bfe8758d13ec84ca4c269f3c47",
+      "bytes": 13785,
+      "storage": "r2"
+    },
+    "sale/2007/11740/200703.csv.gz": {
+      "sha256": "5a2343e71a7ca396b0e95f40946ee5df24b8ec8f106572442742f40fec78d0f8",
+      "bytes": 11659,
+      "storage": "r2"
+    },
+    "sale/2007/11740/200704.csv.gz": {
+      "sha256": "f706e43c8a598e5fbdec5ec1017db9ae938c1811396d8384496f9405406c4fe9",
+      "bytes": 9720,
+      "storage": "r2"
+    },
+    "sale/2007/11740/200705.csv.gz": {
+      "sha256": "277cf5863f3ee06c254eacbbc0aaa5b97d873aee1947d86529e75f426c5b5dbc",
+      "bytes": 7096,
+      "storage": "r2"
+    },
+    "sale/2007/11740/200706.csv.gz": {
+      "sha256": "4fb9957433118beeb6adfbbb9f6ac8dbde40cd07bc07c0b5129154c29112369d",
+      "bytes": 10295,
+      "storage": "r2"
+    },
+    "sale/2007/11740/200707.csv.gz": {
+      "sha256": "fc667d54300a89c0d996517b5ed90161940578b51cc4121136c4de69677b14d2",
+      "bytes": 9045,
+      "storage": "r2"
+    },
+    "sale/2007/11740/200708.csv.gz": {
+      "sha256": "dc507ec829cb0b7c3877ac66ba27ad382f6fbeb9e46b5974331f863b5a12cae1",
+      "bytes": 8060,
+      "storage": "r2"
+    },
+    "sale/2007/11740/200709.csv.gz": {
+      "sha256": "fa6b1d911df38f1cb61d68f7aca4bbfd9b3e1f82a75635d40cde4e9d4d64cd8e",
+      "bytes": 8400,
+      "storage": "r2"
+    },
+    "sale/2007/11740/200710.csv.gz": {
+      "sha256": "f56eab7a35ebbe08594c8414153d69a3e211741bfffae69e3321f5516da14ef4",
+      "bytes": 11854,
+      "storage": "r2"
+    },
+    "sale/2007/11740/200711.csv.gz": {
+      "sha256": "050f5b60f51b775ccb5a128a89489fba30b0975cef6d15b63e71c1768c563cf4",
+      "bytes": 10114,
+      "storage": "r2"
+    },
+    "sale/2007/11740/200712.csv.gz": {
+      "sha256": "89455e81869d75ea414172e59581200a177e38c0616aff4a201111a9d4ec6d38",
+      "bytes": 9066,
+      "storage": "r2"
+    },
+    "sale/2008/11110/200801.csv.gz": {
+      "sha256": "0f04a51b71afa176978612fc6eae523c8d18db5a7352c0621ffa55be0e81ad6a",
+      "bytes": 3122,
+      "storage": "r2"
+    },
+    "sale/2008/11110/200802.csv.gz": {
+      "sha256": "4224fce201f839d9ce6c94fc900b69e7e71a6214bc9e3e62ae0240e693936fb9",
+      "bytes": 3587,
+      "storage": "r2"
+    },
+    "sale/2008/11110/200803.csv.gz": {
+      "sha256": "afbb6ad60cab928123b3e2a479b062201dad4861f702a348270735911e4ba8a2",
+      "bytes": 4321,
+      "storage": "r2"
+    },
+    "sale/2008/11110/200804.csv.gz": {
+      "sha256": "75bfdf4f9e7ca4f3dc1a9fbb0b3d082061c6a5cae456c196bfcf3fe3dce7ab7b",
+      "bytes": 4256,
+      "storage": "r2"
+    },
+    "sale/2008/11110/200805.csv.gz": {
+      "sha256": "d9f690b73c108bd5fd208a24067aac0033767fcb24efce2e24def76ab87b38aa",
+      "bytes": 3247,
+      "storage": "r2"
+    },
+    "sale/2008/11110/200806.csv.gz": {
+      "sha256": "294654c735ae7fefc0561e6f76da5f86fc61f27abf6fcc51156c55168f16bf8e",
+      "bytes": 3311,
+      "storage": "r2"
+    },
+    "sale/2008/11110/200807.csv.gz": {
+      "sha256": "59ef34bdb4436fe684e55aee4630c07f120fade87ba9ea58c5bde8d536a1b319",
+      "bytes": 2608,
+      "storage": "r2"
+    },
+    "sale/2008/11110/200808.csv.gz": {
+      "sha256": "eb8dcf1ac7b5b7c203c263a3904e8dca16f626181962beae274135cd5f64a1bd",
+      "bytes": 2404,
+      "storage": "r2"
+    },
+    "sale/2008/11110/200809.csv.gz": {
+      "sha256": "a7ab42ba1f0c9248578ce78220a5d8045b4e3a0c738c10436be1c51e2a5a4b01",
+      "bytes": 2077,
+      "storage": "r2"
+    },
+    "sale/2008/11110/200810.csv.gz": {
+      "sha256": "12423024281a1b69a08ac65a7dd21b6d56617719d0fa8c389d47a1649483b0a1",
+      "bytes": 2182,
+      "storage": "r2"
+    },
+    "sale/2008/11110/200811.csv.gz": {
+      "sha256": "1c23f9a11628c640c742e76c27694de2193dd4cef0b3fd8c533c4f7a4274b7a3",
+      "bytes": 1538,
+      "storage": "r2"
+    },
+    "sale/2008/11110/200812.csv.gz": {
+      "sha256": "d40a1439ee10fb3b5044da9edd3b52a748a9c395d7e459d40ef086b67b5d36e6",
+      "bytes": 1491,
+      "storage": "r2"
+    },
+    "sale/2008/11140/200801.csv.gz": {
+      "sha256": "22d8f5a3dd4d72922774d86573b68b05fdc701f89218829e2b3cdf4b57ac8236",
+      "bytes": 3166,
+      "storage": "r2"
+    },
+    "sale/2008/11140/200802.csv.gz": {
+      "sha256": "da63eff7080f35fb45231d7e0e4a252b0805b1d31cc95dccf85eb273de68cf5a",
+      "bytes": 3012,
+      "storage": "r2"
+    },
+    "sale/2008/11140/200803.csv.gz": {
+      "sha256": "a09f47ef8a51d6fa4e57b12a138aec3cc753f68b7bdf7c8980f4ef6fa6e9481b",
+      "bytes": 4887,
+      "storage": "r2"
+    },
+    "sale/2008/11140/200804.csv.gz": {
+      "sha256": "d90f29160e04ab933e886cb4db313a5a5e82a6187e704c1baa5bac46f3128250",
+      "bytes": 4479,
+      "storage": "r2"
+    },
+    "sale/2008/11140/200805.csv.gz": {
+      "sha256": "866a5d0241a38fc6b27ea2632697165a4b61c878caa2d8693b656e84e49bc961",
+      "bytes": 3997,
+      "storage": "r2"
+    },
+    "sale/2008/11140/200806.csv.gz": {
+      "sha256": "1339b110139dc5b452c34343099eb07416f1bcb76a1b56f238c57e49862e560d",
+      "bytes": 3357,
+      "storage": "r2"
+    },
+    "sale/2008/11140/200807.csv.gz": {
+      "sha256": "5508873feac5e754190a8f3c6b66153d9def62922c5e79f8c4d8e9502512020c",
+      "bytes": 2196,
+      "storage": "r2"
+    },
+    "sale/2008/11140/200808.csv.gz": {
+      "sha256": "8d141cc715982ccc63260d6932749d5f90bac2cf625e16b5ecebb324beaaaa52",
+      "bytes": 2092,
+      "storage": "r2"
+    },
+    "sale/2008/11140/200809.csv.gz": {
+      "sha256": "e190230d8b09d07ac5e0a21b1b75361e234c629e949956009b39f7e9c5998f85",
+      "bytes": 1625,
+      "storage": "r2"
+    },
+    "sale/2008/11140/200810.csv.gz": {
+      "sha256": "6e5897ac4f81800eb22eed744cc88a496a8361978239a70fec3b18463e46c1d8",
+      "bytes": 1582,
+      "storage": "r2"
+    },
+    "sale/2008/11140/200811.csv.gz": {
+      "sha256": "23a4ca4d9dfe094686cad7c9d208894a930e60953bf47adb3b3b867b584a1e0a",
+      "bytes": 1084,
+      "storage": "r2"
+    },
+    "sale/2008/11140/200812.csv.gz": {
+      "sha256": "bec1d7ed1cfac341be254c66df3f7d05dc2a00c9091534430a78fe6544e56042",
+      "bytes": 1840,
+      "storage": "r2"
+    },
+    "sale/2008/11170/200801.csv.gz": {
+      "sha256": "4e5b4ee467806c95069a2120921201009e632dbcff0c3aa617565e54a40b5bb9",
+      "bytes": 3332,
+      "storage": "r2"
+    },
+    "sale/2008/11170/200802.csv.gz": {
+      "sha256": "555671589cc9ffbd42dea51d39fe0cc75a1166f128bac1edabe11e219deacde8",
+      "bytes": 2820,
+      "storage": "r2"
+    },
+    "sale/2008/11170/200803.csv.gz": {
+      "sha256": "ec76c0a483ce06aa9430e06bcb722d74ab25e48ff4632fb84da2f9a9697d9d41",
+      "bytes": 3789,
+      "storage": "r2"
+    },
+    "sale/2008/11170/200804.csv.gz": {
+      "sha256": "57af2284a22139cee0e06f37a1b9e6978e1e15071fe94ba3129e7260299f3c3f",
+      "bytes": 3086,
+      "storage": "r2"
+    },
+    "sale/2008/11170/200805.csv.gz": {
+      "sha256": "04a2bffa794c234e99b8572e73fbd9b28baea76adc780365f864da9d80a314cf",
+      "bytes": 3418,
+      "storage": "r2"
+    },
+    "sale/2008/11170/200806.csv.gz": {
+      "sha256": "c25f8ad944d463d601b63017421b4c7e5432b2bee6be93f9828b064ef3cda44d",
+      "bytes": 2488,
+      "storage": "r2"
+    },
+    "sale/2008/11170/200807.csv.gz": {
+      "sha256": "0881edde28ab2f9e6a8c88f4adb415804dabe03fe5112b63409b01dcde517a52",
+      "bytes": 3457,
+      "storage": "r2"
+    },
+    "sale/2008/11170/200808.csv.gz": {
+      "sha256": "47205c970e9d090a1708792a77c3e6197dc41d5560539efccdfbbecb5c1e0837",
+      "bytes": 2624,
+      "storage": "r2"
+    },
+    "sale/2008/11170/200809.csv.gz": {
+      "sha256": "21f650c6b4223b0b08a5737d773d0e06c53333a77dec5b3e2955ad864143d8d3",
+      "bytes": 2684,
+      "storage": "r2"
+    },
+    "sale/2008/11170/200810.csv.gz": {
+      "sha256": "2c32a9e863d9e349e8b14c27ee31b4a3fe5de07ae223dfa047b104ff641178f5",
+      "bytes": 3359,
+      "storage": "r2"
+    },
+    "sale/2008/11170/200811.csv.gz": {
+      "sha256": "fba36b034489f1610d5846755da14e165e1c98e98d18f1a14ef09fa53992a55b",
+      "bytes": 2524,
+      "storage": "r2"
+    },
+    "sale/2008/11170/200812.csv.gz": {
+      "sha256": "5c99544119a5ebf0a384bdcc1404dc456fc5763838d5880719308ff58358e069",
+      "bytes": 2387,
+      "storage": "r2"
+    },
+    "sale/2008/11200/200801.csv.gz": {
+      "sha256": "1543f5346a93cb038a441e4ed08bb78b628265b46ca4ee6b840793d7a35011da",
+      "bytes": 8553,
+      "storage": "r2"
+    },
+    "sale/2008/11200/200802.csv.gz": {
+      "sha256": "49166153415d49a53f50d96ed48c5fc1359e383d97940942c5b3327c4c5a944e",
+      "bytes": 10035,
+      "storage": "r2"
+    },
+    "sale/2008/11200/200803.csv.gz": {
+      "sha256": "121045a1f09ad519455197c64f3c721d36cf7ac8cac5ef52a76ee02a5655556e",
+      "bytes": 15687,
+      "storage": "r2"
+    },
+    "sale/2008/11200/200804.csv.gz": {
+      "sha256": "776a14f6bdccf347a6fe9fdc95660b829b019670aadd13034ab8faddf07ddccb",
+      "bytes": 11717,
+      "storage": "r2"
+    },
+    "sale/2008/11200/200805.csv.gz": {
+      "sha256": "d77275aeed8446d2373cf5a480b747b8cbd0ceba108501ac7a9502f8197a3252",
+      "bytes": 11008,
+      "storage": "r2"
+    },
+    "sale/2008/11200/200806.csv.gz": {
+      "sha256": "23de5672c9025ac821b7be247ec0f247dcfe8f781e294574badfc2c4a29ce96b",
+      "bytes": 9656,
+      "storage": "r2"
+    },
+    "sale/2008/11200/200807.csv.gz": {
+      "sha256": "d53da32e6c8a30851716fac7e55ef06161bb4e6310781dba35dae873807094cf",
+      "bytes": 6559,
+      "storage": "r2"
+    },
+    "sale/2008/11200/200808.csv.gz": {
+      "sha256": "6383d85b491f4fad66e5a50dd17a5d64a924cde862a1b579c4bd4eef648531da",
+      "bytes": 4415,
+      "storage": "r2"
+    },
+    "sale/2008/11200/200809.csv.gz": {
+      "sha256": "42d2edb756f43b928ea51bfcdeece019e42177345c384d221a4970630f525a73",
+      "bytes": 3652,
+      "storage": "r2"
+    },
+    "sale/2008/11200/200810.csv.gz": {
+      "sha256": "02ecbf15785da94ae8558d90f73892438bbfa38bc4f451ca7d0636393f729fe7",
+      "bytes": 2871,
+      "storage": "r2"
+    },
+    "sale/2008/11200/200811.csv.gz": {
+      "sha256": "47b0ff9f3cad1ceaeeab42a6ffa6d5202c6d340be8d597e6a3a3586216be8724",
+      "bytes": 1923,
+      "storage": "r2"
+    },
+    "sale/2008/11200/200812.csv.gz": {
+      "sha256": "10e47666f7082a319784ce3744ed68909aab80273e57baba08dd88879dcd4186",
+      "bytes": 2490,
+      "storage": "r2"
+    },
+    "sale/2008/11215/200801.csv.gz": {
+      "sha256": "692232d38214c1fac73cdd3c1de1b0215bf65e6682fbce1813cd2ac4b8915b3b",
+      "bytes": 5056,
+      "storage": "r2"
+    },
+    "sale/2008/11215/200802.csv.gz": {
+      "sha256": "d483ec7ae788b050298ce6753cd963ecf96d10fd0d4e18f9d75016adfc93e7d6",
+      "bytes": 5147,
+      "storage": "r2"
+    },
+    "sale/2008/11215/200803.csv.gz": {
+      "sha256": "5e3b2c0750b2382ed273d2b9e18fa289ad91a5117543c5e7b240123b6684da9d",
+      "bytes": 9033,
+      "storage": "r2"
+    },
+    "sale/2008/11215/200804.csv.gz": {
+      "sha256": "5ce49a77305e9eb3c9d4005327430e210d356afb5a716314ef1152e36b64619b",
+      "bytes": 8726,
+      "storage": "r2"
+    },
+    "sale/2008/11215/200805.csv.gz": {
+      "sha256": "9757ab0b0dc876fa77d92afa13d2d6a50b37da08789e016ee06288ffd60a1528",
+      "bytes": 7311,
+      "storage": "r2"
+    },
+    "sale/2008/11215/200806.csv.gz": {
+      "sha256": "cd6e4e1d037a50f45b6c2c6606104d93a9cf8bd6bd48109707473aa35caf0489",
+      "bytes": 6216,
+      "storage": "r2"
+    },
+    "sale/2008/11215/200807.csv.gz": {
+      "sha256": "46855bf91fd5928e077a656574af433a7cf7aed61733a8a5fe0642beedda9f8d",
+      "bytes": 4549,
+      "storage": "r2"
+    },
+    "sale/2008/11215/200808.csv.gz": {
+      "sha256": "624474fdaa6bae37ba3ddc8458c2c931eec1a01ceaa128b881a9e07e7401e4d6",
+      "bytes": 4134,
+      "storage": "r2"
+    },
+    "sale/2008/11215/200809.csv.gz": {
+      "sha256": "aab0576e933b4c907454445327ef89c1ba14135cf897dd50263273b29275aff4",
+      "bytes": 2618,
+      "storage": "r2"
+    },
+    "sale/2008/11215/200810.csv.gz": {
+      "sha256": "71ba239f87f79ce6c13536df63c6c0155a6d119648c2b0269466c9093aa24924",
+      "bytes": 2598,
+      "storage": "r2"
+    },
+    "sale/2008/11215/200811.csv.gz": {
+      "sha256": "fbe69441f8d385a5da19cbf6b6dd74f8ebd053f0348173a829d8698f77c58b14",
+      "bytes": 2236,
+      "storage": "r2"
+    },
+    "sale/2008/11215/200812.csv.gz": {
+      "sha256": "df45184d9e2226484ff58ba247576c8beed3458d99aa6ff8d98211368694dbf7",
+      "bytes": 3036,
+      "storage": "r2"
+    },
+    "sale/2008/11230/200801.csv.gz": {
+      "sha256": "3d6ca5e1b191a95d3d6efa26058ca0b4884010fedd6f028549756517683a9095",
+      "bytes": 12874,
+      "storage": "r2"
+    },
+    "sale/2008/11230/200802.csv.gz": {
+      "sha256": "1e47a82c231bc79ed9d78e485e3a5defe7f3f253b7d119ba5017115b80b95847",
+      "bytes": 14983,
+      "storage": "r2"
+    },
+    "sale/2008/11230/200803.csv.gz": {
+      "sha256": "e8df56b0d8227d1556e554b437fc75dd545a6d210fa1638f4a1db08d9ab483a4",
+      "bytes": 23366,
+      "storage": "r2"
+    },
+    "sale/2008/11230/200804.csv.gz": {
+      "sha256": "d951aeb818c2eb0fbacc36acf3d64c8a78cb50a6bea28e2ff2271233459a3e92",
+      "bytes": 14538,
+      "storage": "r2"
+    },
+    "sale/2008/11230/200805.csv.gz": {
+      "sha256": "9b0c19acbc99e5f309b47e53004d4256f5464aeb80f4b5159c25d9b19bedb936",
+      "bytes": 6285,
+      "storage": "r2"
+    },
+    "sale/2008/11230/200806.csv.gz": {
+      "sha256": "7561d880df5503c7adff6ba620e7a3bf1bb677d1d191818a11036e4064de08bb",
+      "bytes": 5576,
+      "storage": "r2"
+    },
+    "sale/2008/11230/200807.csv.gz": {
+      "sha256": "6ddb2dad07cd08968e22513330678855c81911cace30b702218a35bd78ccfba9",
+      "bytes": 8120,
+      "storage": "r2"
+    },
+    "sale/2008/11230/200808.csv.gz": {
+      "sha256": "79b77e41ebde95de627ed4df1255fa64c4ca8c0ed50803ae7e023ab1cd0bbd6b",
+      "bytes": 4833,
+      "storage": "r2"
+    },
+    "sale/2008/11230/200809.csv.gz": {
+      "sha256": "39214400995a439d4151398b268ce48261de7980e0018b99650b4c8d1487b868",
+      "bytes": 3794,
+      "storage": "r2"
+    },
+    "sale/2008/11230/200810.csv.gz": {
+      "sha256": "0f1023a88277c3cf45cf912c0e47d53d8eaf19d1959f8bf7c045f97eb8047cbd",
+      "bytes": 3305,
+      "storage": "r2"
+    },
+    "sale/2008/11230/200811.csv.gz": {
+      "sha256": "8c4c2fef4f18748df5e9f21aa4dfc7e8dd6de11164a61b23804a83ff916f8918",
+      "bytes": 2743,
+      "storage": "r2"
+    },
+    "sale/2008/11230/200812.csv.gz": {
+      "sha256": "790e698fbf00c846fdae3a50b3d27e6546f5a045510016bf23a8e2853505a734",
+      "bytes": 2372,
+      "storage": "r2"
+    },
+    "sale/2008/11260/200801.csv.gz": {
+      "sha256": "a0389919eb42c8bd882feca159ee266b8a72716c0e2ee816feebf51b4ff1e4eb",
+      "bytes": 13509,
+      "storage": "r2"
+    },
+    "sale/2008/11260/200802.csv.gz": {
+      "sha256": "8423b29fba55c26704df1ce3d63b7d6a5759c2573c1f9e5af6e5280767bd9e14",
+      "bytes": 17186,
+      "storage": "r2"
+    },
+    "sale/2008/11260/200803.csv.gz": {
+      "sha256": "a745d77e96ce69e65f51a2a6968ddb6b39953c8a394318079725ca65462fd82e",
+      "bytes": 29064,
+      "storage": "r2"
+    },
+    "sale/2008/11260/200804.csv.gz": {
+      "sha256": "eeb10d0193ceed70da4d07955a6c5b379dbbcc0085d7e09bd6b52c96b50c5b54",
+      "bytes": 16684,
+      "storage": "r2"
+    },
+    "sale/2008/11260/200805.csv.gz": {
+      "sha256": "75105477568cda9354de72b84abc56cdc74d9dd48e6f0c3d1609e79aeb8acdd3",
+      "bytes": 5811,
+      "storage": "r2"
+    },
+    "sale/2008/11260/200806.csv.gz": {
+      "sha256": "75bdf7acd699730055228d8b4cbe68add546a5e5a65b79c3a9b7a15d3d323e65",
+      "bytes": 5323,
+      "storage": "r2"
+    },
+    "sale/2008/11260/200807.csv.gz": {
+      "sha256": "a39f7fb45d40692badedb5793d27110761a1e56a2b858af8a2ef22829288566b",
+      "bytes": 6642,
+      "storage": "r2"
+    },
+    "sale/2008/11260/200808.csv.gz": {
+      "sha256": "b0db0ae30b0da6158fab86c1b02a5542533978d6e3da5b7c5c14a48ac82ded8c",
+      "bytes": 5303,
+      "storage": "r2"
+    },
+    "sale/2008/11260/200809.csv.gz": {
+      "sha256": "815188d2c97f14f37baa36e320688e14b6c87397101eb85714912f6af6919118",
+      "bytes": 3755,
+      "storage": "r2"
+    },
+    "sale/2008/11260/200810.csv.gz": {
+      "sha256": "b57aa038fe9b6450565f3d1ab79329a5998df27072da124279e4f79042748054",
+      "bytes": 2226,
+      "storage": "r2"
+    },
+    "sale/2008/11260/200811.csv.gz": {
+      "sha256": "338df46233b8715588b09e52e8cfc19db8963478dd6e54cc344ddc46474d0eae",
+      "bytes": 2257,
+      "storage": "r2"
+    },
+    "sale/2008/11260/200812.csv.gz": {
+      "sha256": "8a5c628097a3c2dcec2e7e7b621ea4eb133500dbaa92352f445da56c1b2bcaef",
+      "bytes": 2068,
+      "storage": "r2"
+    },
+    "sale/2008/11290/200801.csv.gz": {
+      "sha256": "42fb8ffd1c44b62b30c2a1027940ecb3d1de8c41a9e819be09c1cdcce1364087",
+      "bytes": 15830,
+      "storage": "r2"
+    },
+    "sale/2008/11290/200802.csv.gz": {
+      "sha256": "a7a521d0f8e6c1c402dc0ac536390687b4dfac68b0cbaa20ed3e5080b96548cc",
+      "bytes": 17122,
+      "storage": "r2"
+    },
+    "sale/2008/11290/200803.csv.gz": {
+      "sha256": "679572e206aef4c239bc300b100ca90762d3df30f742fa353bf174547f2c388e",
+      "bytes": 24608,
+      "storage": "r2"
+    },
+    "sale/2008/11290/200804.csv.gz": {
+      "sha256": "922408c0ccf99a1e82ac3fed53dfdea30b3d44471f0173e10c5bfaf2b58a8e2b",
+      "bytes": 17329,
+      "storage": "r2"
+    },
+    "sale/2008/11290/200805.csv.gz": {
+      "sha256": "b12e45ff8a8e17e2e71b1b27544be2c8c19fbf6e1f1509cb490fb2e4476092f1",
+      "bytes": 11746,
+      "storage": "r2"
+    },
+    "sale/2008/11290/200806.csv.gz": {
+      "sha256": "beeffcdb0cb496db96e62ecec6c689798e18c4a3eef5abfe265a766de96487e1",
+      "bytes": 9066,
+      "storage": "r2"
+    },
+    "sale/2008/11290/200807.csv.gz": {
+      "sha256": "398c49f4d9942a3cbd44b492e97928310b131536e42ee2a63eec8fcb48e9c2a0",
+      "bytes": 10411,
+      "storage": "r2"
+    },
+    "sale/2008/11290/200808.csv.gz": {
+      "sha256": "890bf1f96690383ef5f8c638c029d6c2a3b8d8b2d928d8e0364daece85f59776",
+      "bytes": 7614,
+      "storage": "r2"
+    },
+    "sale/2008/11290/200809.csv.gz": {
+      "sha256": "5f4b07f5bb6541f682be910bd4c23fa7263c8f6b48a193833b7af51bcf851d77",
+      "bytes": 5993,
+      "storage": "r2"
+    },
+    "sale/2008/11290/200810.csv.gz": {
+      "sha256": "bd81478ad081d91524c3f67679ae55fa7ff96f55921657e62071a969f83636d7",
+      "bytes": 3656,
+      "storage": "r2"
+    },
+    "sale/2008/11290/200811.csv.gz": {
+      "sha256": "d5a066db960259869c19d6658ee401ae8d212c9a84b5434add5323ca2679591c",
+      "bytes": 3811,
+      "storage": "r2"
+    },
+    "sale/2008/11290/200812.csv.gz": {
+      "sha256": "ceb52e8251861f133fd4dc5f55150c8f1a74f04231ee1b70f5584be08117b90b",
+      "bytes": 3723,
+      "storage": "r2"
+    },
+    "sale/2008/11305/200801.csv.gz": {
+      "sha256": "a2a167f908c7758b584d8f911916074c79f0cbb7b462f252a8731180318a71e1",
+      "bytes": 6193,
+      "storage": "r2"
+    },
+    "sale/2008/11305/200802.csv.gz": {
+      "sha256": "85ef939c2b2ce116932a836c68eb5e07d87491c7760a4f4a356c7aae6d00e236",
+      "bytes": 6137,
+      "storage": "r2"
+    },
+    "sale/2008/11305/200803.csv.gz": {
+      "sha256": "10d028db4d051ababcbd3550e46c4bd9520d48ff915993d94ad204812f070969",
+      "bytes": 8708,
+      "storage": "r2"
+    },
+    "sale/2008/11305/200804.csv.gz": {
+      "sha256": "37cd0a8e0868ed521693ffc3c65f82351fc4520aa595c776a43c393601241ef9",
+      "bytes": 6013,
+      "storage": "r2"
+    },
+    "sale/2008/11305/200805.csv.gz": {
+      "sha256": "b6c3ade08000f30ae8ec97a06cc047876867a3959c17b1d9470baa1682bca199",
+      "bytes": 3363,
+      "storage": "r2"
+    },
+    "sale/2008/11305/200806.csv.gz": {
+      "sha256": "c9ee5936e92dc7febe224bb98b9cf14485c5a148961b611da5de9bca55f42a84",
+      "bytes": 3082,
+      "storage": "r2"
+    },
+    "sale/2008/11305/200807.csv.gz": {
+      "sha256": "ec0a135655f24ac4f876c43265330d2ea9679896a34f14cdf994f0059f7d1017",
+      "bytes": 3795,
+      "storage": "r2"
+    },
+    "sale/2008/11305/200808.csv.gz": {
+      "sha256": "4393b15ca81deb0bc57a983b8b2ad1b00042474e39678928853be67d60345953",
+      "bytes": 4175,
+      "storage": "r2"
+    },
+    "sale/2008/11305/200809.csv.gz": {
+      "sha256": "eecf3b9262564e72c3c9c2e42cb8ae0abcd27b468d97d462756058dbc177c097",
+      "bytes": 2805,
+      "storage": "r2"
+    },
+    "sale/2008/11305/200810.csv.gz": {
+      "sha256": "c51a98957ff068297852bbea78c4f17c605bd66c529780e191b65053f6fb36e1",
+      "bytes": 1494,
+      "storage": "r2"
+    },
+    "sale/2008/11305/200811.csv.gz": {
+      "sha256": "2181d94ce629b0a2fe90dbeca5d55c3d0cb3ef032ebea7564bfb318b87b6aa70",
+      "bytes": 1338,
+      "storage": "r2"
+    },
+    "sale/2008/11305/200812.csv.gz": {
+      "sha256": "78cd943a933376eacf1de72733b321523284f5a2f65679b2987ae6b5fc799de7",
+      "bytes": 1157,
+      "storage": "r2"
+    },
+    "sale/2008/11320/200801.csv.gz": {
+      "sha256": "40802b06b818c343fa8bc620b1efe4736cde59c24ba1c4d830ae4eead2bfea91",
+      "bytes": 26966,
+      "storage": "r2"
+    },
+    "sale/2008/11320/200802.csv.gz": {
+      "sha256": "fc83bcbe660351ace672b21dce074cab8143ee039f96e2f2ac43a2c7a6885f7a",
+      "bytes": 36590,
+      "storage": "r2"
+    },
+    "sale/2008/11320/200803.csv.gz": {
+      "sha256": "972ca935838472f88655d482446020628f516602e0a14346e6a2c10a91234c51",
+      "bytes": 50171,
+      "storage": "r2"
+    },
+    "sale/2008/11320/200804.csv.gz": {
+      "sha256": "c5f7d694108b6c2da99dc3216817a26c930cabacb1b7928c8a703aceabcd1e78",
+      "bytes": 25501,
+      "storage": "r2"
+    },
+    "sale/2008/11320/200805.csv.gz": {
+      "sha256": "6be88d8456dd0471486d33ee73052dcb0a44078a252637e80f579ab655f9688b",
+      "bytes": 8482,
+      "storage": "r2"
+    },
+    "sale/2008/11320/200806.csv.gz": {
+      "sha256": "7e45d5ceaf4066221e3b06d1334eb3240786e593178fb094340ad6d1c900e3f5",
+      "bytes": 6886,
+      "storage": "r2"
+    },
+    "sale/2008/11320/200807.csv.gz": {
+      "sha256": "051b08ee2ca6cf092c14ada4c46d7fe158c303cca36f49f5b876fe63c47ca3d3",
+      "bytes": 8314,
+      "storage": "r2"
+    },
+    "sale/2008/11320/200808.csv.gz": {
+      "sha256": "0dc6c0280497eae2f35528b9ad4bef9b976c72e6709f94f4a390ecc67fa52565",
+      "bytes": 5666,
+      "storage": "r2"
+    },
+    "sale/2008/11320/200809.csv.gz": {
+      "sha256": "1b70e2721371ddb95818ad5b790cca80604783189cf43eb5df00b54b3c10d692",
+      "bytes": 5044,
+      "storage": "r2"
+    },
+    "sale/2008/11320/200810.csv.gz": {
+      "sha256": "628e038e1a7f3ab9d942916c706f61a7c39af406914082780bfa2791b23a6b98",
+      "bytes": 3873,
+      "storage": "r2"
+    },
+    "sale/2008/11320/200811.csv.gz": {
+      "sha256": "8b0926ece03c9a2bae5fdae4df5747e2b07dd66b192b71dbc257583ba416979b",
+      "bytes": 2664,
+      "storage": "r2"
+    },
+    "sale/2008/11320/200812.csv.gz": {
+      "sha256": "894406b09b2fef35ae14398bb6902b4b9ec606d109b2ce9625ab5fc09ecdadf8",
+      "bytes": 3280,
+      "storage": "r2"
+    },
+    "sale/2008/11350/200801.csv.gz": {
+      "sha256": "70f14d32cdd2a8448f7e57bd0cfdf22eca36b0d6affa11d3e15f805d853441f2",
+      "bytes": 57653,
+      "storage": "r2"
+    },
+    "sale/2008/11350/200802.csv.gz": {
+      "sha256": "e915a67b7a0cab7e73221257048c808d67bf6404174b886175f98ea8d8b667ef",
+      "bytes": 60142,
+      "storage": "r2"
+    },
+    "sale/2008/11350/200803.csv.gz": {
+      "sha256": "f196fe761f9f6b080949eb6e084cbcb20a63bcbe1000d3f3e7f8d9f3c3976ed8",
+      "bytes": 88326,
+      "storage": "r2"
+    },
+    "sale/2008/11350/200804.csv.gz": {
+      "sha256": "a5ff126683c26a8d8ae69b0152b6585015135245bc8374fb83335bcd97d661f0",
+      "bytes": 42202,
+      "storage": "r2"
+    },
+    "sale/2008/11350/200805.csv.gz": {
+      "sha256": "6b10634a03185068b819b911eb801e81d1b00dd740a573066135b573be64d629",
+      "bytes": 17942,
+      "storage": "r2"
+    },
+    "sale/2008/11350/200806.csv.gz": {
+      "sha256": "627691f8b3fd572c3204ee2117d29b4a26709cf7fabf91dc1ebf09232ac71af6",
+      "bytes": 13647,
+      "storage": "r2"
+    },
+    "sale/2008/11350/200807.csv.gz": {
+      "sha256": "f42865f7b90148a75ab5b24ce332823fc865d39b98da98fb773e6d5e2ca8eb9f",
+      "bytes": 12496,
+      "storage": "r2"
+    },
+    "sale/2008/11350/200808.csv.gz": {
+      "sha256": "da2a2ce157d807de91df0088a4c02356b3cb1a6cd4ffc2ee8242ac66c278dc2e",
+      "bytes": 9525,
+      "storage": "r2"
+    },
+    "sale/2008/11350/200809.csv.gz": {
+      "sha256": "31ab769e9854a46df48073e3e85b37a9f714615579bbf8c218783d3aa74493ef",
+      "bytes": 8446,
+      "storage": "r2"
+    },
+    "sale/2008/11350/200810.csv.gz": {
+      "sha256": "5f244f0cc25c23b82a7b55461793255e357b5a7c6054210a79e6f9d8991a484e",
+      "bytes": 6832,
+      "storage": "r2"
+    },
+    "sale/2008/11350/200811.csv.gz": {
+      "sha256": "af559a16a5152e881c0b8913cef0be281d764ac5a7d9a585deb5f8f2ed4d507f",
+      "bytes": 5616,
+      "storage": "r2"
+    },
+    "sale/2008/11350/200812.csv.gz": {
+      "sha256": "76706c9d6cbe6d7395c02edc5959b286455e0ab8e74225dc6f89ce18aeacd4fe",
+      "bytes": 6720,
+      "storage": "r2"
+    },
+    "sale/2008/11380/200801.csv.gz": {
+      "sha256": "de61cc5377a0fd880ca24e0944e676e1060554ce97a55bdd1ef6f7a088c7433f",
+      "bytes": 10742,
+      "storage": "r2"
+    },
+    "sale/2008/11380/200802.csv.gz": {
+      "sha256": "e6f117b89c9f09a050c93995e3199e912b062b9e9bbd443ac44b33bcd5d74c21",
+      "bytes": 11488,
+      "storage": "r2"
+    },
+    "sale/2008/11380/200803.csv.gz": {
+      "sha256": "8445556015823efa4cb94fe632685ba0876eb832ddfe2b6b6f0962608e3993fd",
+      "bytes": 15743,
+      "storage": "r2"
+    },
+    "sale/2008/11380/200804.csv.gz": {
+      "sha256": "fa4c04f510bb35500d31576c8b386735e168325173a242218f123a732bd8ecd4",
+      "bytes": 17375,
+      "storage": "r2"
+    },
+    "sale/2008/11380/200805.csv.gz": {
+      "sha256": "ac5c81b759a068e39293a2cd5109d1719f1d2cb96e938885cf4f9672fc927d5a",
+      "bytes": 14066,
+      "storage": "r2"
+    },
+    "sale/2008/11380/200806.csv.gz": {
+      "sha256": "82dd6deadfcdd89bacdc092cba4afedd9b911a9db4f3335ca5806c9b426c619a",
+      "bytes": 13485,
+      "storage": "r2"
+    },
+    "sale/2008/11380/200807.csv.gz": {
+      "sha256": "3c899f7854e250a1dd9d49d804e8acb6795826c3a9cccba6bed52080beb5f4db",
+      "bytes": 10568,
+      "storage": "r2"
+    },
+    "sale/2008/11380/200808.csv.gz": {
+      "sha256": "b0ef73d42694e0dc9ca3539a16a4acf3873da9735c56065e3ad13fabe70b4aa9",
+      "bytes": 9768,
+      "storage": "r2"
+    },
+    "sale/2008/11380/200809.csv.gz": {
+      "sha256": "8810e09371c16bfd323c5800a3fed2ccc210b61f37dba65c0c1864ea2844d804",
+      "bytes": 9428,
+      "storage": "r2"
+    },
+    "sale/2008/11380/200810.csv.gz": {
+      "sha256": "4eb4f3bca858ba4939589891eaf438bb47d874097ba85bdb04d2715b895984d4",
+      "bytes": 10261,
+      "storage": "r2"
+    },
+    "sale/2008/11380/200811.csv.gz": {
+      "sha256": "3c7251e78ef1660af0d2fe671b799fcec3572a1ffebfea754da70d42e52c524b",
+      "bytes": 4673,
+      "storage": "r2"
+    },
+    "sale/2008/11380/200812.csv.gz": {
+      "sha256": "1e1984082328635c348ad3009d72f16f25df8f696d1ab9e53665edf2840012b7",
+      "bytes": 4331,
+      "storage": "r2"
+    },
+    "sale/2008/11410/200801.csv.gz": {
+      "sha256": "ec4e5115e4e6f7f58f873dc17686874c38ff2cca29d840c76f0eef707dd7d940",
+      "bytes": 11794,
+      "storage": "r2"
+    },
+    "sale/2008/11410/200802.csv.gz": {
+      "sha256": "9430ae3706b341a08bb2942a1a7804ebc75ddf438f104d663ff3517deba2f573",
+      "bytes": 12547,
+      "storage": "r2"
+    },
+    "sale/2008/11410/200803.csv.gz": {
+      "sha256": "b4f4828c61706776af4d96db2e5efac08f5aa361198f77b6363d736e8d5b8b73",
+      "bytes": 17810,
+      "storage": "r2"
+    },
+    "sale/2008/11410/200804.csv.gz": {
+      "sha256": "617cb7e1a7eba46c56e10714397e9da5636926d97469c72a75f5343e15b7f804",
+      "bytes": 16168,
+      "storage": "r2"
+    },
+    "sale/2008/11410/200805.csv.gz": {
+      "sha256": "68c1b14ed284c6929abd5e5d83ca147b4bd520b451776f99c36dbce32b61afd8",
+      "bytes": 13714,
+      "storage": "r2"
+    },
+    "sale/2008/11410/200806.csv.gz": {
+      "sha256": "defc29bcafd9bef58bef033ceb9aabaa1f13a629956b88d3fad13c318df9db99",
+      "bytes": 10916,
+      "storage": "r2"
+    },
+    "sale/2008/11410/200807.csv.gz": {
+      "sha256": "1df572170dde57e98b75706422d09fc9226348aa12d7e2537164ae8ba4442d08",
+      "bytes": 6479,
+      "storage": "r2"
+    },
+    "sale/2008/11410/200808.csv.gz": {
+      "sha256": "f42cc1c333cc5cfd7ef9994b7c534772ebb17abd1871b0da07dd535f696e7846",
+      "bytes": 4741,
+      "storage": "r2"
+    },
+    "sale/2008/11410/200809.csv.gz": {
+      "sha256": "b5ba9e1eb0a937b705c286d7ef1bbd5a8681ffac6fdd0c5e623fc9ce14273745",
+      "bytes": 4402,
+      "storage": "r2"
+    },
+    "sale/2008/11410/200810.csv.gz": {
+      "sha256": "bf61f8fb1b53941c09066d52ddd2337667ee02a22d33477526bc8e230aa10ddf",
+      "bytes": 3928,
+      "storage": "r2"
+    },
+    "sale/2008/11410/200811.csv.gz": {
+      "sha256": "0fa4f30c43f9e1b3ab46d0aaaf975b140bd9ec83c719edcd81e38ab573d349ae",
+      "bytes": 2520,
+      "storage": "r2"
+    },
+    "sale/2008/11410/200812.csv.gz": {
+      "sha256": "84b81bd04cfa342f79853f1bb3545a128e1daf0c97296961fcf6e218b0c8c62f",
+      "bytes": 2427,
+      "storage": "r2"
+    },
+    "sale/2008/11440/200801.csv.gz": {
+      "sha256": "dba015d47ce2b243b4cef618239c6f813c6d1a17e9815b034844388af2035eeb",
+      "bytes": 13877,
+      "storage": "r2"
+    },
+    "sale/2008/11440/200802.csv.gz": {
+      "sha256": "4be657c19ad1bcb476fea17bcd6596d77bb77790225c0b1f7f5177c154b4d50c",
+      "bytes": 12942,
+      "storage": "r2"
+    },
+    "sale/2008/11440/200803.csv.gz": {
+      "sha256": "9b0ff8bc29c0c0f1702c5e3c96beb454bb323b31b85d16e2d23f75fe7f73a45e",
+      "bytes": 19253,
+      "storage": "r2"
+    },
+    "sale/2008/11440/200804.csv.gz": {
+      "sha256": "a5295539c41eee5f675647e81881a74cd7dac711212356ee03faa61c0cf48ec0",
+      "bytes": 15563,
+      "storage": "r2"
+    },
+    "sale/2008/11440/200805.csv.gz": {
+      "sha256": "eac15dead78c2bbb7fceaaa25c9f7d93a3e093a47dafc92514c49172c7ec4987",
+      "bytes": 11823,
+      "storage": "r2"
+    },
+    "sale/2008/11440/200806.csv.gz": {
+      "sha256": "a426dcc10a6fde9f14ee23090c3b0fbb88171c8185f95b1e911445d0f4fdb89f",
+      "bytes": 8669,
+      "storage": "r2"
+    },
+    "sale/2008/11440/200807.csv.gz": {
+      "sha256": "dca750a538bf24c18aeb52d92541efc156a12e844583464e6e8dab1c8feee0ab",
+      "bytes": 7701,
+      "storage": "r2"
+    },
+    "sale/2008/11440/200808.csv.gz": {
+      "sha256": "530e2fcefa91aa706b6834d77fbe3135a2c5b9bb9b41ee3cf508ffd64a4107ee",
+      "bytes": 4916,
+      "storage": "r2"
+    },
+    "sale/2008/11440/200809.csv.gz": {
+      "sha256": "8a3bc921165006b4bd2567c3c3c39aac6dcd83f2e60acf7582c27963b0ca9def",
+      "bytes": 4630,
+      "storage": "r2"
+    },
+    "sale/2008/11440/200810.csv.gz": {
+      "sha256": "6e410e44eed7c2ff2bc6a5018ab9ed8de6e582f5bdb0b8ddfc18446b5bb7083c",
+      "bytes": 4000,
+      "storage": "r2"
+    },
+    "sale/2008/11440/200811.csv.gz": {
+      "sha256": "30d262571d71dc70dff9db553063585f9583f6a5a231191efbf90a455b2a815c",
+      "bytes": 3314,
+      "storage": "r2"
+    },
+    "sale/2008/11440/200812.csv.gz": {
+      "sha256": "2b0d0ef4bc078146e62b2e874562a87778a4b3154f8294f6536f9e03d19ba423",
+      "bytes": 3569,
+      "storage": "r2"
+    },
+    "sale/2008/11470/200801.csv.gz": {
+      "sha256": "870be8d0f620841f7c5e40f69f8995d3bb8848b8b7235b1b0d638da0c08f5943",
+      "bytes": 8100,
+      "storage": "r2"
+    },
+    "sale/2008/11470/200802.csv.gz": {
+      "sha256": "bb4c08ddc01b74ec855349c8282111e3a7d5d5f31753feabe0d07786ea326992",
+      "bytes": 10481,
+      "storage": "r2"
+    },
+    "sale/2008/11470/200803.csv.gz": {
+      "sha256": "50e178cb69b9559f01f4eab5cf701a6c09e4b97bb5f98aa240f0c15fc4d53764",
+      "bytes": 17057,
+      "storage": "r2"
+    },
+    "sale/2008/11470/200804.csv.gz": {
+      "sha256": "321a2a39b99511e61d7de8b3c77b291bc5499cdb9f867716df184bea3a74b1de",
+      "bytes": 17219,
+      "storage": "r2"
+    },
+    "sale/2008/11470/200805.csv.gz": {
+      "sha256": "fa1e5a9b6fadcfa746b2b29c811978fc80df8842ee9d13c7c4853f156a6ecc49",
+      "bytes": 16500,
+      "storage": "r2"
+    },
+    "sale/2008/11470/200806.csv.gz": {
+      "sha256": "9dd9a0a2bead161253624ab9126bd59f54767eeb769a3657c6b9b79aa0d2320b",
+      "bytes": 15392,
+      "storage": "r2"
+    },
+    "sale/2008/11470/200807.csv.gz": {
+      "sha256": "cbca1609f47bc6979bf495d6cb90cfeefc0ae597f7f93010cc359ebee38c0513",
+      "bytes": 11767,
+      "storage": "r2"
+    },
+    "sale/2008/11470/200808.csv.gz": {
+      "sha256": "9e179355c7040ac97aea39c474735a9f8f57e5c2f9a01a3b66ad2c29ea66eb2d",
+      "bytes": 8698,
+      "storage": "r2"
+    },
+    "sale/2008/11470/200809.csv.gz": {
+      "sha256": "6339d5f02969bc508b49638d8f728b3c3e355d79eee37c1a618bbfb93d53d1ed",
+      "bytes": 5576,
+      "storage": "r2"
+    },
+    "sale/2008/11470/200810.csv.gz": {
+      "sha256": "1bfd0341cab59fe9cbaa6da3c8e01ea79e2b5e2e41f8a58dd7a74c729a2360b2",
+      "bytes": 4420,
+      "storage": "r2"
+    },
+    "sale/2008/11470/200811.csv.gz": {
+      "sha256": "08986f788bd5f69cd3f94398361722ff1ea7657085f78530ca7b3753fb6b138a",
+      "bytes": 5727,
+      "storage": "r2"
+    },
+    "sale/2008/11470/200812.csv.gz": {
+      "sha256": "48e0b4404e43495bfdf5a6565595c44cfc0df5630fceb0e0eb1a1681aebf4dc7",
+      "bytes": 6979,
+      "storage": "r2"
+    },
+    "sale/2008/11500/200801.csv.gz": {
+      "sha256": "0dee198d4e697a03f2272c65b2f2a62d13af99c3a142558adbacea82bc6bb404",
+      "bytes": 17409,
+      "storage": "r2"
+    },
+    "sale/2008/11500/200802.csv.gz": {
+      "sha256": "7a9f20850bd0d4ea2cd1a9966a00560cfb187f4a1a088459b6ef53fd4fb0ab45",
+      "bytes": 21677,
+      "storage": "r2"
+    },
+    "sale/2008/11500/200803.csv.gz": {
+      "sha256": "197831732f8e3f838405e1a7ce3ff53df5076118a4ac633e3a3e3b8171836fa5",
+      "bytes": 36652,
+      "storage": "r2"
+    },
+    "sale/2008/11500/200804.csv.gz": {
+      "sha256": "a58bbd60d2e2612dd1f5edfd78323a29cc06fc37d139769100f59c99fbbcd61f",
+      "bytes": 36796,
+      "storage": "r2"
+    },
+    "sale/2008/11500/200805.csv.gz": {
+      "sha256": "4d30e742a96853744390c5f1208d2005b6942ceb62927722e2d350fa4e285349",
+      "bytes": 31370,
+      "storage": "r2"
+    },
+    "sale/2008/11500/200806.csv.gz": {
+      "sha256": "60436d9881ee0868ceb5742fe8e4fd1ebc9ba665da167808c294d01c1356cf1a",
+      "bytes": 23964,
+      "storage": "r2"
+    },
+    "sale/2008/11500/200807.csv.gz": {
+      "sha256": "8efec35d10da5540d6a5e9a5f43110c4f40e69f4cae900c36bcb86c194da8d8c",
+      "bytes": 16384,
+      "storage": "r2"
+    },
+    "sale/2008/11500/200808.csv.gz": {
+      "sha256": "662b47d5b80ff20957979fef43efb665166af9f13da038a80367066d9418c98f",
+      "bytes": 13120,
+      "storage": "r2"
+    },
+    "sale/2008/11500/200809.csv.gz": {
+      "sha256": "4fb4537512e4779026a60bc5713d77ace3436f22c906c3a6fd9f0ae21021962a",
+      "bytes": 7095,
+      "storage": "r2"
+    },
+    "sale/2008/11500/200810.csv.gz": {
+      "sha256": "812c6519c120bbe88f95f9269d12106abbff54f8e69cbdc94edf385cfdefad81",
+      "bytes": 6418,
+      "storage": "r2"
+    },
+    "sale/2008/11500/200811.csv.gz": {
+      "sha256": "47bc183293f96fe375f9a45c1df6cd3e5d7e9735a5ff98282796cd17fbf7718b",
+      "bytes": 4353,
+      "storage": "r2"
+    },
+    "sale/2008/11500/200812.csv.gz": {
+      "sha256": "d68d03aba590b736421d18e74fe99f3ad31513a1f07065f52dda52e7295701bf",
+      "bytes": 4735,
+      "storage": "r2"
+    },
+    "sale/2008/11530/200801.csv.gz": {
+      "sha256": "94c241b7b015de466709609fdbdbbe4bb67a6c3de4314e0c460bcbed9b8dbfc0",
+      "bytes": 19309,
+      "storage": "r2"
+    },
+    "sale/2008/11530/200802.csv.gz": {
+      "sha256": "d814a54875ffa41a50a085e2cacdc522d99082b9122ff4b66baee8bbd20176db",
+      "bytes": 22841,
+      "storage": "r2"
+    },
+    "sale/2008/11530/200803.csv.gz": {
+      "sha256": "bdaaa4d6cd826955e903b1d8e7c2794b47f30ed72fce7ac0f7622ec9bba3c01c",
+      "bytes": 34566,
+      "storage": "r2"
+    },
+    "sale/2008/11530/200804.csv.gz": {
+      "sha256": "838fee695a669a90072925d6e7e2de28507d00f6e5c86ee9a0101ea4891ce72d",
+      "bytes": 32369,
+      "storage": "r2"
+    },
+    "sale/2008/11530/200805.csv.gz": {
+      "sha256": "afabb9f2f2910d0e02938e6d6546ddcbad64fde1262099c700fa95d19e71897f",
+      "bytes": 28160,
+      "storage": "r2"
+    },
+    "sale/2008/11530/200806.csv.gz": {
+      "sha256": "780ec8f01b392d9cc6a8d60d9eac01394ea272df09e8741f00983f4ff0d905da",
+      "bytes": 22006,
+      "storage": "r2"
+    },
+    "sale/2008/11530/200807.csv.gz": {
+      "sha256": "c3cb3e742420dbbcdd5e2446ea535b899fbeeb864f34fd221eb206b5930f0e0f",
+      "bytes": 13423,
+      "storage": "r2"
+    },
+    "sale/2008/11530/200808.csv.gz": {
+      "sha256": "7139d0d815edad76d6e462992fddcc25dea4938a3c8aa129093c4bf7bd6c5f9b",
+      "bytes": 9618,
+      "storage": "r2"
+    },
+    "sale/2008/11530/200809.csv.gz": {
+      "sha256": "ddc25d7ed5dab58e92df0725c8f102c7753dff724e26b48eae0a98817dc0f604",
+      "bytes": 7234,
+      "storage": "r2"
+    },
+    "sale/2008/11530/200810.csv.gz": {
+      "sha256": "8da6ca85c93545e1e2198d42c06ee67bc435e4982bbdf44a6b22c2c2f18fe5bf",
+      "bytes": 5293,
+      "storage": "r2"
+    },
+    "sale/2008/11530/200811.csv.gz": {
+      "sha256": "2e7843935d217478dbbd5c0385ee173d9f21de1e4809fd77ff18f94905c41c9f",
+      "bytes": 3512,
+      "storage": "r2"
+    },
+    "sale/2008/11530/200812.csv.gz": {
+      "sha256": "fa34266faa00c38a0d906c17926b4f7b0dfc7a9f969aec98470e6fa3e128cb37",
+      "bytes": 2937,
+      "storage": "r2"
+    },
+    "sale/2008/11545/200801.csv.gz": {
+      "sha256": "fd42d85f92397b29ce9b90258e42726e4fb902509977e405a5e2fa9daffee2f9",
+      "bytes": 8011,
+      "storage": "r2"
+    },
+    "sale/2008/11545/200802.csv.gz": {
+      "sha256": "860aa118c3f301a3eeab2df014a01d2678d9bb8748060acc09a990bdc3694d38",
+      "bytes": 7030,
+      "storage": "r2"
+    },
+    "sale/2008/11545/200803.csv.gz": {
+      "sha256": "e0215ad080924b5b58387ba61a607c768dbccf217705766be706b631082f9035",
+      "bytes": 9848,
+      "storage": "r2"
+    },
+    "sale/2008/11545/200804.csv.gz": {
+      "sha256": "8c1ba1fa3313c9277aa6e0df6d67e80e51e2775e68b00a58f016fcb5fa62a4c7",
+      "bytes": 7307,
+      "storage": "r2"
+    },
+    "sale/2008/11545/200805.csv.gz": {
+      "sha256": "6d08cdfcd5e28d96399b402e8f920e403003482a6346a3580f45841609d04c62",
+      "bytes": 5043,
+      "storage": "r2"
+    },
+    "sale/2008/11545/200806.csv.gz": {
+      "sha256": "af0a0a9041e3dc6d425f70c10e11b11f51e69c780648056f9d949c8f83aba658",
+      "bytes": 4044,
+      "storage": "r2"
+    },
+    "sale/2008/11545/200807.csv.gz": {
+      "sha256": "057428d216d50bac92aaef67164f9f2f1cdc34cb0981b8bc6d5ace5cd6d82484",
+      "bytes": 3731,
+      "storage": "r2"
+    },
+    "sale/2008/11545/200808.csv.gz": {
+      "sha256": "d73d8b281d429cd235f15d4da71e738e4ae28597c8ed31935b591678bb62a093",
+      "bytes": 2723,
+      "storage": "r2"
+    },
+    "sale/2008/11545/200809.csv.gz": {
+      "sha256": "1e31bc33bc56699b39aafde33dba3458541157fb822cef36fd05b3d6573136ff",
+      "bytes": 2181,
+      "storage": "r2"
+    },
+    "sale/2008/11545/200810.csv.gz": {
+      "sha256": "64acd2f843e2226de909273306b1345746eb4e6a1ed47e98c1de70ee47ede92d",
+      "bytes": 2290,
+      "storage": "r2"
+    },
+    "sale/2008/11545/200811.csv.gz": {
+      "sha256": "b05eb64fa229de61150d05bd157a848e168a8ff9997f8b5fad245827046a88b3",
+      "bytes": 1121,
+      "storage": "r2"
+    },
+    "sale/2008/11545/200812.csv.gz": {
+      "sha256": "a26a842a55eb602c173bdecaf9675c174a5b8d1012a98cb816d740bd5d38dd30",
+      "bytes": 1327,
+      "storage": "r2"
+    },
+    "sale/2008/11560/200801.csv.gz": {
+      "sha256": "3e9f8a440f9a9b0aa3bc6e2dfb4ac21918702e7b2a574a46ec65fb4013dfea60",
+      "bytes": 14993,
+      "storage": "r2"
+    },
+    "sale/2008/11560/200802.csv.gz": {
+      "sha256": "b95e08ff1f37915ad1824c7030985348c70d4f99b54de1f8fcbdcc19ac9bbdc7",
+      "bytes": 14737,
+      "storage": "r2"
+    },
+    "sale/2008/11560/200803.csv.gz": {
+      "sha256": "f93a959908fece05f0908345cc8fd36b7f54cfe7db563b816e853eed49bd2c8d",
+      "bytes": 22586,
+      "storage": "r2"
+    },
+    "sale/2008/11560/200804.csv.gz": {
+      "sha256": "04ac885493efcb671e400eeb553c1e564910648ff41f7069107792c16af63ffb",
+      "bytes": 25059,
+      "storage": "r2"
+    },
+    "sale/2008/11560/200805.csv.gz": {
+      "sha256": "e76600a38e09487920890bac58b491bc228a77774d2255abff12f90ba003d60a",
+      "bytes": 22288,
+      "storage": "r2"
+    },
+    "sale/2008/11560/200806.csv.gz": {
+      "sha256": "1db3631864aa5ac41f63d5157064da69057babddc78fd129de26b776b0e9e4c9",
+      "bytes": 18791,
+      "storage": "r2"
+    },
+    "sale/2008/11560/200807.csv.gz": {
+      "sha256": "3d8a36cdca03169c949cc408a805c1e2dcb9ad6b7c96d8559d282551de8dd8c9",
+      "bytes": 14686,
+      "storage": "r2"
+    },
+    "sale/2008/11560/200808.csv.gz": {
+      "sha256": "af1901d37a684cd2541b0ac357a86e2fc72902623f42d95f8ebb28f379ad1b1a",
+      "bytes": 9786,
+      "storage": "r2"
+    },
+    "sale/2008/11560/200809.csv.gz": {
+      "sha256": "d9fba978c03dfc72fccd509c1f3090776ca548162c94f6cae9fad920adde4566",
+      "bytes": 6416,
+      "storage": "r2"
+    },
+    "sale/2008/11560/200810.csv.gz": {
+      "sha256": "90e3ef4d130a9286edc3f6d880ac50c4a1670be4805f76248da04139e27038b4",
+      "bytes": 3751,
+      "storage": "r2"
+    },
+    "sale/2008/11560/200811.csv.gz": {
+      "sha256": "f38f329074153e366ca97e5f0427f9c11eaa6e9878ba36ea555066856650e430",
+      "bytes": 4110,
+      "storage": "r2"
+    },
+    "sale/2008/11560/200812.csv.gz": {
+      "sha256": "74bc3fc84a229c8e7550ce6eac86b03b0bcbcf2a84a21a6b81a6527137c8cf63",
+      "bytes": 3625,
+      "storage": "r2"
+    },
+    "sale/2008/11590/200801.csv.gz": {
+      "sha256": "3211534a24bd790b77d2968a4d774896dce9001307921ff9b6ed71ca002f840d",
+      "bytes": 9559,
+      "storage": "r2"
+    },
+    "sale/2008/11590/200802.csv.gz": {
+      "sha256": "e19fc9c5e186f3309786b48be65001b93833cfa229cd3d51b56f4c0c76b04838",
+      "bytes": 10711,
+      "storage": "r2"
+    },
+    "sale/2008/11590/200803.csv.gz": {
+      "sha256": "5b0d57ce85121159fa9b4f6ce2ea6336d92c90c9bb6bd448c42fce50009f783f",
+      "bytes": 17329,
+      "storage": "r2"
+    },
+    "sale/2008/11590/200804.csv.gz": {
+      "sha256": "680273d8fee7d6c591c811ae8092557b1f16c9ec819333cd8efade981ecb8bd7",
+      "bytes": 17002,
+      "storage": "r2"
+    },
+    "sale/2008/11590/200805.csv.gz": {
+      "sha256": "7521f173567395d458b87a5b6a04abf248850b7ca2349a8abf4a22f944f20a6a",
+      "bytes": 15715,
+      "storage": "r2"
+    },
+    "sale/2008/11590/200806.csv.gz": {
+      "sha256": "7b3d908798a98b0c38e6991ec2a5411a678ff1e6a28e6d098aa3dc6a63da04af",
+      "bytes": 11029,
+      "storage": "r2"
+    },
+    "sale/2008/11590/200807.csv.gz": {
+      "sha256": "d7ccda80fffbbb6d4c74d2b133b112b01655bc98b702d95ead40b05c0fd7f40e",
+      "bytes": 7779,
+      "storage": "r2"
+    },
+    "sale/2008/11590/200808.csv.gz": {
+      "sha256": "71d77d2b6419c14ef609183ddd8cb8f8e3f0603735638f8f6a09f4138e663692",
+      "bytes": 4474,
+      "storage": "r2"
+    },
+    "sale/2008/11590/200809.csv.gz": {
+      "sha256": "eca217509480d9d859669afff92587f6ed6fe9cc353b14d2f3e37ac39aaa35f2",
+      "bytes": 4821,
+      "storage": "r2"
+    },
+    "sale/2008/11590/200810.csv.gz": {
+      "sha256": "eecb82b97350c26995c6aa934712adde3a98ac76d6f7959529517aac60bf381c",
+      "bytes": 4317,
+      "storage": "r2"
+    },
+    "sale/2008/11590/200811.csv.gz": {
+      "sha256": "62595ba61aeeab368cc31802cdcb05bfa44d791faa0ecbc48b744bf01d97ebaa",
+      "bytes": 3054,
+      "storage": "r2"
+    },
+    "sale/2008/11590/200812.csv.gz": {
+      "sha256": "e40bb955dac2169c9d61ee54fd66496d0696ebe91f2f7238a6a404d31a5316c8",
+      "bytes": 2848,
+      "storage": "r2"
+    },
+    "sale/2008/11620/200801.csv.gz": {
+      "sha256": "679d145753ff15b5f4df5fc9919f016d309888199c7a2f07c7ca37636b87f7d2",
+      "bytes": 10297,
+      "storage": "r2"
+    },
+    "sale/2008/11620/200802.csv.gz": {
+      "sha256": "9ccbb8bf65c50d0a7ec82d5da4d1b3f974713b187a46d39605685db0c6d26dc6",
+      "bytes": 10975,
+      "storage": "r2"
+    },
+    "sale/2008/11620/200803.csv.gz": {
+      "sha256": "75d024d30fc7a2ad08b16caf41ce5caffaa14930df6bf2807c65eae0eac4361e",
+      "bytes": 18108,
+      "storage": "r2"
+    },
+    "sale/2008/11620/200804.csv.gz": {
+      "sha256": "df5765807b45ba7d7a5d6b5cd3a0f6cf85f4ff83fda2b961f0dc1e61abd6eca8",
+      "bytes": 18653,
+      "storage": "r2"
+    },
+    "sale/2008/11620/200805.csv.gz": {
+      "sha256": "6d261f6df861aecebf2509ca86032ed7d15d2d6085687334813eff836358c14b",
+      "bytes": 16415,
+      "storage": "r2"
+    },
+    "sale/2008/11620/200806.csv.gz": {
+      "sha256": "efd1d1322aaa1f9f568eb78d39d2017a9155f43d66904bc420da4550083022e8",
+      "bytes": 11870,
+      "storage": "r2"
+    },
+    "sale/2008/11620/200807.csv.gz": {
+      "sha256": "10cb4a24e8f5078400f741291068443f03ddc3f147e3beb161070246a8c757a9",
+      "bytes": 7480,
+      "storage": "r2"
+    },
+    "sale/2008/11620/200808.csv.gz": {
+      "sha256": "c266cd3386be2ac3d34f2abdb4d754c734aeb27ca5a39f11d2bea186b08ce128",
+      "bytes": 5464,
+      "storage": "r2"
+    },
+    "sale/2008/11620/200809.csv.gz": {
+      "sha256": "4e55ea30cfc18d80055fb00fc365eead1e000b087399cf0ccb3163064a00feb5",
+      "bytes": 4331,
+      "storage": "r2"
+    },
+    "sale/2008/11620/200810.csv.gz": {
+      "sha256": "646bba146acfc05280759974a58d19e41e55622a88cec2e8445c0ca6a6c05358",
+      "bytes": 3509,
+      "storage": "r2"
+    },
+    "sale/2008/11620/200811.csv.gz": {
+      "sha256": "1785a7024809090fb17ec094c718a2800988dff4a7e779a1f708102e549e6dfe",
+      "bytes": 2330,
+      "storage": "r2"
+    },
+    "sale/2008/11620/200812.csv.gz": {
+      "sha256": "2d0885072a5a6cd1c3121353aee2ecce2bb50d6e36d3a14d635f0ec816804a11",
+      "bytes": 2464,
+      "storage": "r2"
+    },
+    "sale/2008/11650/200801.csv.gz": {
+      "sha256": "68c7dfab6f34d1c3638e8d3ee39b6c966fe6e138ec580ccdbbacc68d351939a4",
+      "bytes": 5495,
+      "storage": "r2"
+    },
+    "sale/2008/11650/200802.csv.gz": {
+      "sha256": "eb78390334bf03f8069e3e1ecd6ce054392bd6146bfe2c917ae5a7a41e94eb71",
+      "bytes": 4572,
+      "storage": "r2"
+    },
+    "sale/2008/11650/200803.csv.gz": {
+      "sha256": "aa1e1b506bc14aed6652555c351322e2ab778ae6481322b6befc7ad00ac22d79",
+      "bytes": 8018,
+      "storage": "r2"
+    },
+    "sale/2008/11650/200804.csv.gz": {
+      "sha256": "acd6d22dcc0fea60da662eda751c582fdff9face0e852b180b73dd6bfa015288",
+      "bytes": 6714,
+      "storage": "r2"
+    },
+    "sale/2008/11650/200805.csv.gz": {
+      "sha256": "d507aefbaefbe8ccbaf41966b90d2ddec39e62f1073add8141b9a3c360d462e9",
+      "bytes": 8616,
+      "storage": "r2"
+    },
+    "sale/2008/11650/200806.csv.gz": {
+      "sha256": "bc254cfa492ef654409746a5df17d7355fde0a1a0f786f74f81f2e41030103ce",
+      "bytes": 6339,
+      "storage": "r2"
+    },
+    "sale/2008/11650/200807.csv.gz": {
+      "sha256": "35130c923d9d3ae20beba0035141b2a7694ba6d3a7f6f1c101b6a53b0fe73625",
+      "bytes": 10118,
+      "storage": "r2"
+    },
+    "sale/2008/11650/200808.csv.gz": {
+      "sha256": "370efc8919195c190428aec99f681cdd66c36b892b87feadf9b03bf00727bffb",
+      "bytes": 7432,
+      "storage": "r2"
+    },
+    "sale/2008/11650/200809.csv.gz": {
+      "sha256": "81c7934728510cb98a806ae9540eb962fd5cf0a4e5314fe5f53e4edec53c9239",
+      "bytes": 6523,
+      "storage": "r2"
+    },
+    "sale/2008/11650/200810.csv.gz": {
+      "sha256": "cf3b77becec879cf2a60d245253c044d041e766c571a54b878bc05e7252ab53c",
+      "bytes": 5232,
+      "storage": "r2"
+    },
+    "sale/2008/11650/200811.csv.gz": {
+      "sha256": "7e5d26c0bcc35d5855ef8d353570186a022a31f5f525f760c841c444f56efe49",
+      "bytes": 6569,
+      "storage": "r2"
+    },
+    "sale/2008/11650/200812.csv.gz": {
+      "sha256": "bef49227da6fe1b3b6e89ffd725366d04738f9372c32682d18b4efbd022138ea",
+      "bytes": 7495,
+      "storage": "r2"
+    },
+    "sale/2008/11680/200801.csv.gz": {
+      "sha256": "73b740b41577c33f68a26ac933abe7ab6dcf60ac4bdd186d61515f400ad49080",
+      "bytes": 15253,
+      "storage": "r2"
+    },
+    "sale/2008/11680/200802.csv.gz": {
+      "sha256": "527c63fc6fb87fe7d3078a74702deca57576cbf8a43df6ea949c5d40a27ba83e",
+      "bytes": 15775,
+      "storage": "r2"
+    },
+    "sale/2008/11680/200803.csv.gz": {
+      "sha256": "b8b61d1600045b637867d6d3e9a2ccb126639cb034811f0cf25ced30735f107f",
+      "bytes": 25278,
+      "storage": "r2"
+    },
+    "sale/2008/11680/200804.csv.gz": {
+      "sha256": "bf2578047716f2fcd9e1c1f2b27f33265986f33b847b75fe503352d5273cdd1c",
+      "bytes": 23930,
+      "storage": "r2"
+    },
+    "sale/2008/11680/200805.csv.gz": {
+      "sha256": "5b359cf50da1401856ecba3a00b1df397770e31c59288aa2cced289c156a7c28",
+      "bytes": 18706,
+      "storage": "r2"
+    },
+    "sale/2008/11680/200806.csv.gz": {
+      "sha256": "9bd3851c6961204f642d94f659f61a9bac2d382b557c6de3ef0f6536f0eb05d7",
+      "bytes": 14516,
+      "storage": "r2"
+    },
+    "sale/2008/11680/200807.csv.gz": {
+      "sha256": "6b94f6ee8058497ed3ea823f578d2c263371cd0c4d265e3ab3e067ab23b85901",
+      "bytes": 11573,
+      "storage": "r2"
+    },
+    "sale/2008/11680/200808.csv.gz": {
+      "sha256": "368f76b3d8597d0a3ee91800a12ebf252e42dd711a09de8315e63b86f237af5d",
+      "bytes": 8274,
+      "storage": "r2"
+    },
+    "sale/2008/11680/200809.csv.gz": {
+      "sha256": "3b7e42f3df28460cda25a03a5e9299d5a74fd9f23f7fc3ad758766481533066b",
+      "bytes": 7684,
+      "storage": "r2"
+    },
+    "sale/2008/11680/200810.csv.gz": {
+      "sha256": "eeb72b9d2e55c8be677857f864489c3e431e69186f49c0e073f6c9b47ffd79cc",
+      "bytes": 6548,
+      "storage": "r2"
+    },
+    "sale/2008/11680/200811.csv.gz": {
+      "sha256": "ef9d85920540e15c58aca5d3b2679dfdf638443d412f09a316ab9375a9b1c2d6",
+      "bytes": 6821,
+      "storage": "r2"
+    },
+    "sale/2008/11680/200812.csv.gz": {
+      "sha256": "d626557cd816df6f462cec3eb56633426031cc1f5d1b3ca601d9aad1f653d389",
+      "bytes": 12070,
+      "storage": "r2"
+    },
+    "sale/2008/11710/200801.csv.gz": {
+      "sha256": "071abcebc5371c28993065e4d8a82c5f6447daf91abbc219fba8f854fbfbdc47",
+      "bytes": 6998,
+      "storage": "r2"
+    },
+    "sale/2008/11710/200802.csv.gz": {
+      "sha256": "61109de28aa62d847e1a93ab006de54796f17f4ece4cd8ebdb79a41a80116809",
+      "bytes": 7085,
+      "storage": "r2"
+    },
+    "sale/2008/11710/200803.csv.gz": {
+      "sha256": "4b8ec964def752fee745e3fd70df627c09a3897365836f4f60b8a3e84de1cf95",
+      "bytes": 10657,
+      "storage": "r2"
+    },
+    "sale/2008/11710/200804.csv.gz": {
+      "sha256": "5fb676fcc65af2d1387687fac9d794f1a96cc02030ea3c1357d2c512837c2906",
+      "bytes": 11374,
+      "storage": "r2"
+    },
+    "sale/2008/11710/200805.csv.gz": {
+      "sha256": "90e2819f5075865b89551de7577962baa04e56655ea3127f15f3d3270dd8405b",
+      "bytes": 13157,
+      "storage": "r2"
+    },
+    "sale/2008/11710/200806.csv.gz": {
+      "sha256": "79a92ca69e3530eb4b643bf2eb91e4640f2baecb4720003e9f0ae33def38dd63",
+      "bytes": 11617,
+      "storage": "r2"
+    },
+    "sale/2008/11710/200807.csv.gz": {
+      "sha256": "12bd334f670887202e5aab0ba7474e410cde2a688036eaf06c6cbcdb01a8724f",
+      "bytes": 11848,
+      "storage": "r2"
+    },
+    "sale/2008/11710/200808.csv.gz": {
+      "sha256": "ad781e70061d075ce8af6a373ed126ad3a63b236de4cbf9e3092b0e324d0c7b6",
+      "bytes": 11110,
+      "storage": "r2"
+    },
+    "sale/2008/11710/200809.csv.gz": {
+      "sha256": "bcabe3cc31ec18259620ad96cee609ca1b90d170f736cbd6de16f3ab8543a9ba",
+      "bytes": 9015,
+      "storage": "r2"
+    },
+    "sale/2008/11710/200810.csv.gz": {
+      "sha256": "2b17ef2eacce0f3959d44b4f3f42a0378cec3a2d4350d4eaebc10cb17f1335c1",
+      "bytes": 6950,
+      "storage": "r2"
+    },
+    "sale/2008/11710/200811.csv.gz": {
+      "sha256": "a919f826fb7373e4ae8baa06e2354557db604c230fe1ba96715c71ddb6187d95",
+      "bytes": 7962,
+      "storage": "r2"
+    },
+    "sale/2008/11710/200812.csv.gz": {
+      "sha256": "6499f737ef6b39b5d066144a0aed80b3d24898effef8e03486800cf2116ab94b",
+      "bytes": 12218,
+      "storage": "r2"
+    },
+    "sale/2008/11740/200801.csv.gz": {
+      "sha256": "db7d8c1012ee2a4855bea1b99f43b62f37eb34a3d152b601b0af6847bc895b5a",
+      "bytes": 11484,
+      "storage": "r2"
+    },
+    "sale/2008/11740/200802.csv.gz": {
+      "sha256": "57b195cff0e283a6b48c96574c1b1529c208472098296ad26eb021b50b9c0b34",
+      "bytes": 13053,
+      "storage": "r2"
+    },
+    "sale/2008/11740/200803.csv.gz": {
+      "sha256": "463d0a6a4fe0cd6d528ed169e79865681326ff3af323db6daa00d92f4b3a951e",
+      "bytes": 21098,
+      "storage": "r2"
+    },
+    "sale/2008/11740/200804.csv.gz": {
+      "sha256": "759f3a4b13b8c9b76c706b1000c625a381714c83f3c80b73bf2a1b445988c220",
+      "bytes": 17171,
+      "storage": "r2"
+    },
+    "sale/2008/11740/200805.csv.gz": {
+      "sha256": "db225e63ed1e557ecf99692cc95a0c283e5aa7959485e3b4d3e7c9bf59041bd5",
+      "bytes": 14644,
+      "storage": "r2"
+    },
+    "sale/2008/11740/200806.csv.gz": {
+      "sha256": "a5f048966441c5b36202623587fea4967d1c10994ab3640e9f47b2e57b0467b3",
+      "bytes": 13098,
+      "storage": "r2"
+    },
+    "sale/2008/11740/200807.csv.gz": {
+      "sha256": "5e5cafaf4d60c3843775d15fe5de92328449c9c7d8b1a0b616de28fa53364fad",
+      "bytes": 14307,
+      "storage": "r2"
+    },
+    "sale/2008/11740/200808.csv.gz": {
+      "sha256": "79253545865198114b2944f0fd445ef4d4d91ca67ce3a13253c14c6dcf8f9eb4",
+      "bytes": 10935,
+      "storage": "r2"
+    },
+    "sale/2008/11740/200809.csv.gz": {
+      "sha256": "de6b3971c10bfb785488bcfcba806c6450c60c0abbf04ee7a1553b5bc30bd16e",
+      "bytes": 8434,
+      "storage": "r2"
+    },
+    "sale/2008/11740/200810.csv.gz": {
+      "sha256": "d7af6c0d910df2a838c44997d81701063d7993427f63aef8ce4eb49f03ffaff3",
+      "bytes": 6299,
+      "storage": "r2"
+    },
+    "sale/2008/11740/200811.csv.gz": {
+      "sha256": "51e03d2feccc923d9b2063bb965bfce2188d6903ae195f17b30145e858d4e1d3",
+      "bytes": 5824,
+      "storage": "r2"
+    },
+    "sale/2008/11740/200812.csv.gz": {
+      "sha256": "aff4a6d0b41d460d080ada3dbf1345e99092f81566bfa38cb25744d8211a6c66",
+      "bytes": 8363,
+      "storage": "r2"
+    },
+    "sale/2009/11110/200901.csv.gz": {
+      "sha256": "4f42976a38fea29ac0c89f74cb84766e6270a9c6609464ea55dab69f4ada0a51",
+      "bytes": 2131,
+      "storage": "r2"
+    },
+    "sale/2009/11110/200902.csv.gz": {
+      "sha256": "49458b0163a19c4e3f598b9569a9f15dae08ad33b952ec093e76da54e28d3872",
+      "bytes": 3093,
+      "storage": "r2"
+    },
+    "sale/2009/11110/200903.csv.gz": {
+      "sha256": "18b340d4e85f000309a8ba3aaf820036310efbf3920505f394461daf79e44c0c",
+      "bytes": 3044,
+      "storage": "r2"
+    },
+    "sale/2009/11110/200904.csv.gz": {
+      "sha256": "aa49e0d92526d28818a4c6d35746f4bf2a215f93adee1af3fa1d84062a8139ff",
+      "bytes": 3928,
+      "storage": "r2"
+    },
+    "sale/2009/11110/200905.csv.gz": {
+      "sha256": "8e345f0e591f537aeea96018fd5f3702dfe6b77fe970c8aa2ac10b7a6c164fc4",
+      "bytes": 4383,
+      "storage": "r2"
+    },
     "sale/2009/11110/200906.csv.gz": {
       "sha256": "250ad533daa4942a2d6848bb5fd9fa65792db55a8123c46c551a5001876e5a44",
       "bytes": 4455,
@@ -21637,6 +26162,31 @@
     "sale/2009/11110/200912.csv.gz": {
       "sha256": "eb8d4d7ad6eacdc6b969d4f93dab94abbf98afb57ca2ae8592b1dd48884d2224",
       "bytes": 2683,
+      "storage": "r2"
+    },
+    "sale/2009/11140/200901.csv.gz": {
+      "sha256": "41319f57356ec4bd5277154aec296bc0ab16f6c43a42b7a491ef5be3ea33bd5b",
+      "bytes": 1918,
+      "storage": "r2"
+    },
+    "sale/2009/11140/200902.csv.gz": {
+      "sha256": "2444e0b6d22bebaafd88f9ff6150d32626c96b5bd4d1dc4c3755a882966ddd29",
+      "bytes": 2719,
+      "storage": "r2"
+    },
+    "sale/2009/11140/200903.csv.gz": {
+      "sha256": "3c48731185db49d6ef2b1e9729589ede66f851de8bd6fe9cf176bfaba59f8cd1",
+      "bytes": 3077,
+      "storage": "r2"
+    },
+    "sale/2009/11140/200904.csv.gz": {
+      "sha256": "1db3ca5ca70d2093d571d2b6725d567041d3ebf1fa3cf6265d576523e6a57ada",
+      "bytes": 4317,
+      "storage": "r2"
+    },
+    "sale/2009/11140/200905.csv.gz": {
+      "sha256": "97e7bdb0604afea456fb11a3797b32b11486e4a2e02c16a83fe0835f596749a4",
+      "bytes": 3656,
       "storage": "r2"
     },
     "sale/2009/11140/200906.csv.gz": {
@@ -21674,6 +26224,31 @@
       "bytes": 2685,
       "storage": "r2"
     },
+    "sale/2009/11170/200901.csv.gz": {
+      "sha256": "3c608a5566bce8fd14bef23e674c3d328adaa34f9743227a8eae61b79a0be25f",
+      "bytes": 5104,
+      "storage": "r2"
+    },
+    "sale/2009/11170/200902.csv.gz": {
+      "sha256": "0615528a088bbb7a087eb729282f46796600fb73247e79270af581b42f8f51e4",
+      "bytes": 6055,
+      "storage": "r2"
+    },
+    "sale/2009/11170/200903.csv.gz": {
+      "sha256": "88f8e9518bb8486e4f05288e1e809295313a227a7959d402d506592b89624db3",
+      "bytes": 6605,
+      "storage": "r2"
+    },
+    "sale/2009/11170/200904.csv.gz": {
+      "sha256": "3b476fe83faa10381e0a6c0c3cbafcf4791f4f9a51e91b7428dee87bce40c6f9",
+      "bytes": 9781,
+      "storage": "r2"
+    },
+    "sale/2009/11170/200905.csv.gz": {
+      "sha256": "249e0d200c383ef92407f84176a5dd154bb4238432e4d3aa1b1084e8b9913877",
+      "bytes": 8710,
+      "storage": "r2"
+    },
     "sale/2009/11170/200906.csv.gz": {
       "sha256": "a69222c5ade3593bb1b4634323c2f4f681c4dd89463932d6827753e4ef7733c6",
       "bytes": 8206,
@@ -21707,6 +26282,31 @@
     "sale/2009/11170/200912.csv.gz": {
       "sha256": "67e9b5e963b427edb1aa0cae49e34184bd584534dcc2bd70dc60977489fd8ac8",
       "bytes": 6113,
+      "storage": "r2"
+    },
+    "sale/2009/11200/200901.csv.gz": {
+      "sha256": "6bf4a9e6a18827bd2827b5f97e12cff20c6aae03420df6bb061329f255432fdf",
+      "bytes": 6456,
+      "storage": "r2"
+    },
+    "sale/2009/11200/200902.csv.gz": {
+      "sha256": "b91d3a8e9e0a20f2a124b9da4ccb85f11d01158620da3a617990e57b128ffaad",
+      "bytes": 7391,
+      "storage": "r2"
+    },
+    "sale/2009/11200/200903.csv.gz": {
+      "sha256": "de41c927ced24f942fcd851cf3fb10f6d5b58c495ff76a62496832fee66b7f49",
+      "bytes": 8219,
+      "storage": "r2"
+    },
+    "sale/2009/11200/200904.csv.gz": {
+      "sha256": "968e34b8fd100e3b2cc59c801cecf5d7a87cae64cf0db88412fd4e74812b6f23",
+      "bytes": 15932,
+      "storage": "r2"
+    },
+    "sale/2009/11200/200905.csv.gz": {
+      "sha256": "b2be49c59716445644953b7b851c506d24f8262f9eaf03660156ac6f5dd66345",
+      "bytes": 13173,
       "storage": "r2"
     },
     "sale/2009/11200/200906.csv.gz": {
@@ -21744,6 +26344,31 @@
       "bytes": 7239,
       "storage": "r2"
     },
+    "sale/2009/11215/200901.csv.gz": {
+      "sha256": "b981e2c06686f7e16965df4898dc273dc9ce8822c21e2e59402ea1be28d94e2c",
+      "bytes": 4817,
+      "storage": "r2"
+    },
+    "sale/2009/11215/200902.csv.gz": {
+      "sha256": "bf18687fef52d22304169b94e83d12d436dbcd1c716a1f5e0f30d294dac5b619",
+      "bytes": 8587,
+      "storage": "r2"
+    },
+    "sale/2009/11215/200903.csv.gz": {
+      "sha256": "ac324c78fc6ae80005872273c92d9e1ea6e0cb7d76a6078413f1a41940b2dc36",
+      "bytes": 6961,
+      "storage": "r2"
+    },
+    "sale/2009/11215/200904.csv.gz": {
+      "sha256": "6b4d0097d9ecf47fe7563bf9165b908f5869af5f3d5a7ccc9056f4ecdc807d0f",
+      "bytes": 12419,
+      "storage": "r2"
+    },
+    "sale/2009/11215/200905.csv.gz": {
+      "sha256": "589bbe2c6d2fb87772b9f1b4333054b28c6f12723dc53842b1764773162b7a42",
+      "bytes": 8912,
+      "storage": "r2"
+    },
     "sale/2009/11215/200906.csv.gz": {
       "sha256": "8ae87b9fad5e67ec62607349f3241dfd858c7e20d6697bc9a798ba05c13e26da",
       "bytes": 13459,
@@ -21777,6 +26402,31 @@
     "sale/2009/11215/200912.csv.gz": {
       "sha256": "312db606fab59fea27672e3a78a8320b89a5d40abf806319f217708cb63a025c",
       "bytes": 5503,
+      "storage": "r2"
+    },
+    "sale/2009/11230/200901.csv.gz": {
+      "sha256": "c3858725b38e697ff7bb88befa7db813183ec872f42de36eb26c1353ab0e563a",
+      "bytes": 3935,
+      "storage": "r2"
+    },
+    "sale/2009/11230/200902.csv.gz": {
+      "sha256": "d87f8880a12959f3da4d0ba06a19850a4f613f41e45c305fc38e1c4891e0a1ec",
+      "bytes": 8772,
+      "storage": "r2"
+    },
+    "sale/2009/11230/200903.csv.gz": {
+      "sha256": "95f0ef9048ffc592c1f216af9cbc03ae99c11b33f8ab405253d5b067b047386c",
+      "bytes": 8249,
+      "storage": "r2"
+    },
+    "sale/2009/11230/200904.csv.gz": {
+      "sha256": "c416a7007c4cb40d5b782c4433aed7c42c61a18b86fa06c384903c8c6f621084",
+      "bytes": 11993,
+      "storage": "r2"
+    },
+    "sale/2009/11230/200905.csv.gz": {
+      "sha256": "7f1b21384eccbe0e769096344cf68564b1c43cfe04f2527ec5bb82cbe69cd4db",
+      "bytes": 10655,
       "storage": "r2"
     },
     "sale/2009/11230/200906.csv.gz": {
@@ -21814,6 +26464,31 @@
       "bytes": 8576,
       "storage": "r2"
     },
+    "sale/2009/11260/200901.csv.gz": {
+      "sha256": "b361e03ac5dfab4f596ce6797dcc0a38794b196ccd95317a8e24ad3f1ea9165d",
+      "bytes": 3474,
+      "storage": "r2"
+    },
+    "sale/2009/11260/200902.csv.gz": {
+      "sha256": "5d0b951cab85c64ebc30ccf3592728aeee99a13b1bd60acc86ee590a10f7ea38",
+      "bytes": 5155,
+      "storage": "r2"
+    },
+    "sale/2009/11260/200903.csv.gz": {
+      "sha256": "bd0c8182bf654ed7c6327ead35fcd5460867b6194c8969f0a0980881ff010f2e",
+      "bytes": 5460,
+      "storage": "r2"
+    },
+    "sale/2009/11260/200904.csv.gz": {
+      "sha256": "134741db288fa0b89c80fba8c41e02fc34ba5c7f9b6432bc7036c5bec86a6032",
+      "bytes": 10243,
+      "storage": "r2"
+    },
+    "sale/2009/11260/200905.csv.gz": {
+      "sha256": "633dc0751c11d54caf12565ea76dc6873b9ea886a356372f23c2d3d474dd5c99",
+      "bytes": 8544,
+      "storage": "r2"
+    },
     "sale/2009/11260/200906.csv.gz": {
       "sha256": "da03ac4631c3dd1bd55f864a864a722e4f5e987fd8dfa2d6156dccb9959275a6",
       "bytes": 11724,
@@ -21847,6 +26522,31 @@
     "sale/2009/11260/200912.csv.gz": {
       "sha256": "0de610385bdd6168c00a2793906417e527a9c1cffdbcf1c68f32b281fb240637",
       "bytes": 4995,
+      "storage": "r2"
+    },
+    "sale/2009/11290/200901.csv.gz": {
+      "sha256": "bb95b8cc3ffece7445bfd57b6ac5c3552dccd71767deea0ebe6b282f95016a5e",
+      "bytes": 6134,
+      "storage": "r2"
+    },
+    "sale/2009/11290/200902.csv.gz": {
+      "sha256": "5daa50efb3934d3368eee0115d53ef1f5cc81ed24db67be3f9eef2b8581eceb3",
+      "bytes": 10992,
+      "storage": "r2"
+    },
+    "sale/2009/11290/200903.csv.gz": {
+      "sha256": "5243d766f11507e00eb2586506cd43d09dc90af5a4addfeea1f0e1ec5897ac35",
+      "bytes": 13149,
+      "storage": "r2"
+    },
+    "sale/2009/11290/200904.csv.gz": {
+      "sha256": "a51001f19f01a3b0318b73949cfcc52ac9467120cebd1cdb93190c5b75572f66",
+      "bytes": 15255,
+      "storage": "r2"
+    },
+    "sale/2009/11290/200905.csv.gz": {
+      "sha256": "f85e93b295bac0e11f53c8c99eebc3d3a06889764e378a58c2530b06142298fb",
+      "bytes": 16224,
       "storage": "r2"
     },
     "sale/2009/11290/200906.csv.gz": {
@@ -21884,6 +26584,31 @@
       "bytes": 9203,
       "storage": "r2"
     },
+    "sale/2009/11305/200901.csv.gz": {
+      "sha256": "e3ebc3a0409ca8742d9396b092f510edc87ad478b364f3b764408f8af893758f",
+      "bytes": 2523,
+      "storage": "r2"
+    },
+    "sale/2009/11305/200902.csv.gz": {
+      "sha256": "af1076788bacc3f3cb82fe8b2191525591ab865f1c17485f98df9f6adf9f8ef5",
+      "bytes": 3356,
+      "storage": "r2"
+    },
+    "sale/2009/11305/200903.csv.gz": {
+      "sha256": "7b5f03548584f1877de3c67fa0e48a598a25fcf859043eb33f83b652a9f9aab1",
+      "bytes": 3751,
+      "storage": "r2"
+    },
+    "sale/2009/11305/200904.csv.gz": {
+      "sha256": "4ff91d197704e02c593ed2c50f6995e403809a16d5b06bb538bde1edba6b1b17",
+      "bytes": 5187,
+      "storage": "r2"
+    },
+    "sale/2009/11305/200905.csv.gz": {
+      "sha256": "946cb7c1920aac8f104dc881ba1b9ad9a7c7c179b89514a41289f0c83dd6eb57",
+      "bytes": 4377,
+      "storage": "r2"
+    },
     "sale/2009/11305/200906.csv.gz": {
       "sha256": "5c79bb2241c1cb6565c0f2f83c400adad080c922afc8b7bb1ae4755c8db4894e",
       "bytes": 5726,
@@ -21917,6 +26642,31 @@
     "sale/2009/11305/200912.csv.gz": {
       "sha256": "f26be76205c2b401875a50a242fc38272261289d9a44192d6b099663108f11c9",
       "bytes": 3023,
+      "storage": "r2"
+    },
+    "sale/2009/11320/200901.csv.gz": {
+      "sha256": "430d4b8aa9e394f1deace8b9c523154b4fb38c5c01e92dbbd9199abd4d78736c",
+      "bytes": 6387,
+      "storage": "r2"
+    },
+    "sale/2009/11320/200902.csv.gz": {
+      "sha256": "b9e59ef0f0a831e2bf6e530cfd5c82e61ace5c5d36ba89444bd621de340f052d",
+      "bytes": 9123,
+      "storage": "r2"
+    },
+    "sale/2009/11320/200903.csv.gz": {
+      "sha256": "b075fdbc19bcb4d5ac5d1c344c2bdd61b5e7584e71f787ea7fd3c31d210afbbd",
+      "bytes": 11548,
+      "storage": "r2"
+    },
+    "sale/2009/11320/200904.csv.gz": {
+      "sha256": "af383efc6c5ba1b8444f68cfd5d7e41d6696ef0e1056d00d65680f8231cd2d2f",
+      "bytes": 16700,
+      "storage": "r2"
+    },
+    "sale/2009/11320/200905.csv.gz": {
+      "sha256": "cc0cea816ac4ec3ba65244c41d8c7ca05f66c563596d470eaf9f289b3f93d9e8",
+      "bytes": 15430,
       "storage": "r2"
     },
     "sale/2009/11320/200906.csv.gz": {
@@ -21954,6 +26704,31 @@
       "bytes": 8325,
       "storage": "r2"
     },
+    "sale/2009/11350/200901.csv.gz": {
+      "sha256": "1702e3811e02dec406b78a37ec756d6fd99de6fb2454f63bf13fa7ec88227e2f",
+      "bytes": 14173,
+      "storage": "r2"
+    },
+    "sale/2009/11350/200902.csv.gz": {
+      "sha256": "1e049f5c6f858848974d09cff6671c2a9feab047a21edf7f6584a356ba21e006",
+      "bytes": 27116,
+      "storage": "r2"
+    },
+    "sale/2009/11350/200903.csv.gz": {
+      "sha256": "4bd6416c168cbd5633c61dcc06b2cec25d35b01f2aed4e514a7db6ac21e2aeb2",
+      "bytes": 23064,
+      "storage": "r2"
+    },
+    "sale/2009/11350/200904.csv.gz": {
+      "sha256": "27b32cc5a54b18d50ba54198ff304e5545799ee9d1bd80535b199906253c0abd",
+      "bytes": 41519,
+      "storage": "r2"
+    },
+    "sale/2009/11350/200905.csv.gz": {
+      "sha256": "51471cb0fc6267847268458df0350aeef004b76b9451015b93438be4be4f5165",
+      "bytes": 37974,
+      "storage": "r2"
+    },
     "sale/2009/11350/200906.csv.gz": {
       "sha256": "488f8b7e4ec400aa76594574dd33240fdeb4842d6bafeedd42855128c483d98d",
       "bytes": 62931,
@@ -21987,6 +26762,31 @@
     "sale/2009/11350/200912.csv.gz": {
       "sha256": "91782f04d6488d4bea4d3de9bdefb1596f5c1ad489b5c0c3e77b393a6294da57",
       "bytes": 20051,
+      "storage": "r2"
+    },
+    "sale/2009/11380/200901.csv.gz": {
+      "sha256": "11427a63fa72a1bfe3a0abf27e0c422f4475759159e6a6869e3f654a206a8a59",
+      "bytes": 10876,
+      "storage": "r2"
+    },
+    "sale/2009/11380/200902.csv.gz": {
+      "sha256": "6734d88e2ab5f095659983c68e8bb00f3e1068102e3533ec0357b175d4112ea4",
+      "bytes": 11443,
+      "storage": "r2"
+    },
+    "sale/2009/11380/200903.csv.gz": {
+      "sha256": "fce3995a756b215fe005b4493a8f99964bb29cb1c7edd79213f412bf1348bee6",
+      "bytes": 11248,
+      "storage": "r2"
+    },
+    "sale/2009/11380/200904.csv.gz": {
+      "sha256": "144c27564e12f746a97ebb61bf0c2c7f9dedf1b67147a375f9c7f0c404b52907",
+      "bytes": 12162,
+      "storage": "r2"
+    },
+    "sale/2009/11380/200905.csv.gz": {
+      "sha256": "63d3798497339618331558c569c4f9a98881b20436ec6db627b37e4e3b1e9904",
+      "bytes": 10411,
       "storage": "r2"
     },
     "sale/2009/11380/200906.csv.gz": {
@@ -22024,6 +26824,31 @@
       "bytes": 5761,
       "storage": "r2"
     },
+    "sale/2009/11410/200901.csv.gz": {
+      "sha256": "94f3e850d59fa34dc14120efe792a52cd3a102506fa3e2aaf9dd2e8430a34697",
+      "bytes": 4090,
+      "storage": "r2"
+    },
+    "sale/2009/11410/200902.csv.gz": {
+      "sha256": "4d9540fe517d27470fc25a78a14f8955ff3386f76fc59a071ef6d3091bd05c8f",
+      "bytes": 5043,
+      "storage": "r2"
+    },
+    "sale/2009/11410/200903.csv.gz": {
+      "sha256": "08e22d32d7dea6079f7459edd9faa0186c5d6509044c78ad846752e405fc73f9",
+      "bytes": 5875,
+      "storage": "r2"
+    },
+    "sale/2009/11410/200904.csv.gz": {
+      "sha256": "b941787ccb1d371ec655c33f0ea09ca6a9c4f336f3a4ca7fd3e731f50bc86ebc",
+      "bytes": 7617,
+      "storage": "r2"
+    },
+    "sale/2009/11410/200905.csv.gz": {
+      "sha256": "bc5a47e84c38f53459c8f305fedddb9ea89cf5b2712f698ec14bae01c394a435",
+      "bytes": 10211,
+      "storage": "r2"
+    },
     "sale/2009/11410/200906.csv.gz": {
       "sha256": "697d47ed97c8e2fdb5c45a4911c2c5d391b9a5bedfe9aa7fe9d24769970065f8",
       "bytes": 10148,
@@ -22057,6 +26882,31 @@
     "sale/2009/11410/200912.csv.gz": {
       "sha256": "951b59a1772756108a4153dcd219ecf280a5c648c87c8ee37ae238d591550d47",
       "bytes": 8772,
+      "storage": "r2"
+    },
+    "sale/2009/11440/200901.csv.gz": {
+      "sha256": "f2508dc9110aa3f2a6383f6b6875b589f55f459cf1fe538dafabc21924754cfc",
+      "bytes": 6978,
+      "storage": "r2"
+    },
+    "sale/2009/11440/200902.csv.gz": {
+      "sha256": "d8f8d02a2d3227bb1ca9f234587ab760f91eec9517d72c7c9eb6b27920e3762c",
+      "bytes": 9450,
+      "storage": "r2"
+    },
+    "sale/2009/11440/200903.csv.gz": {
+      "sha256": "e7c03c13b763e3e1ae290d4d32e27a2b87d661fd345707b787ef04c5bf06a7ea",
+      "bytes": 11618,
+      "storage": "r2"
+    },
+    "sale/2009/11440/200904.csv.gz": {
+      "sha256": "52eac20450ab782df24ba61ac88d090796f315185810eb3e71094daf7b4722fe",
+      "bytes": 16276,
+      "storage": "r2"
+    },
+    "sale/2009/11440/200905.csv.gz": {
+      "sha256": "bb4042b8640605671e8fd717b49144d97f64d56512e90bd1bef48d667995d9a8",
+      "bytes": 15982,
       "storage": "r2"
     },
     "sale/2009/11440/200906.csv.gz": {
@@ -22094,6 +26944,36 @@
       "bytes": 8796,
       "storage": "r2"
     },
+    "sale/2009/11470/200901.csv.gz": {
+      "sha256": "3328f84ff6012232b2091aa765f10aa197942aa9fdd4a38f1359cf6025f428c4",
+      "bytes": 18860,
+      "storage": "r2"
+    },
+    "sale/2009/11470/200902.csv.gz": {
+      "sha256": "7bcef483a524f9c76d9467ef4876026cb262099ff8174d0c55a8f2d6dd58b3da",
+      "bytes": 20400,
+      "storage": "r2"
+    },
+    "sale/2009/11470/200903.csv.gz": {
+      "sha256": "d099b0adaf53a56f018f30dd0009849ca885cd6889962aaad08501de154281b4",
+      "bytes": 18031,
+      "storage": "r2"
+    },
+    "sale/2009/11470/200904.csv.gz": {
+      "sha256": "34c1ad634a90e1e8168b4505a616e9c670e9de91cf29d01c538a67630d37b9c5",
+      "bytes": 29665,
+      "storage": "r2"
+    },
+    "sale/2009/11470/200905.csv.gz": {
+      "sha256": "47bbfabca789e3f332e972b1dd382b09e736cd258a649b072c566249f70f2a77",
+      "bytes": 22761,
+      "storage": "r2"
+    },
+    "sale/2009/11470/200906.csv.gz": {
+      "sha256": "4c5bdd8c01c050c044299315f5fec54ddbebd2faeeb28d116b5cc85f328a805b",
+      "bytes": 27674,
+      "storage": "r2"
+    },
     "sale/2009/11470/200907.csv.gz": {
       "sha256": "d0b568a951cf7cb09d1238edfeafb0c3405b1f50dc30480e1d27a40b8e7c51d6",
       "bytes": 26553,
@@ -22122,6 +27002,36 @@
     "sale/2009/11470/200912.csv.gz": {
       "sha256": "95e05de33aff6a40fd8d3bc72835d81ed57004d1c7217687062dafd9893074f8",
       "bytes": 14697,
+      "storage": "r2"
+    },
+    "sale/2009/11500/200901.csv.gz": {
+      "sha256": "7403a516c1494ff71d58cb4292040f575fa8fba16db94e956a39112a8f17fb7c",
+      "bytes": 8225,
+      "storage": "r2"
+    },
+    "sale/2009/11500/200902.csv.gz": {
+      "sha256": "01842405709e281184cff02eefa68ab40b261620c1e98acb00d47685127b800e",
+      "bytes": 15348,
+      "storage": "r2"
+    },
+    "sale/2009/11500/200903.csv.gz": {
+      "sha256": "9bfcd211ffdcc9bbab8790cb635df29da1e5bafc621aac5b60842df7df915a89",
+      "bytes": 17052,
+      "storage": "r2"
+    },
+    "sale/2009/11500/200904.csv.gz": {
+      "sha256": "afc407b95cb4dead2e2b2e5a4400d15ec0ac7d8f6f21e148e09a05d42fe4a2d2",
+      "bytes": 25224,
+      "storage": "r2"
+    },
+    "sale/2009/11500/200905.csv.gz": {
+      "sha256": "f767d668adde12c423d776230acd66bbc39c2d641e5e496d1e2b27916ce3f366",
+      "bytes": 22107,
+      "storage": "r2"
+    },
+    "sale/2009/11500/200906.csv.gz": {
+      "sha256": "aa213f61ee3496e07450640f651f67cf4031e0ca1129138d0286436ffa3d03ce",
+      "bytes": 31866,
       "storage": "r2"
     },
     "sale/2009/11500/200907.csv.gz": {
@@ -22154,6 +27064,36 @@
       "bytes": 11806,
       "storage": "r2"
     },
+    "sale/2009/11530/200901.csv.gz": {
+      "sha256": "e46683be9ea5fcc91653143ed4e1ac6068ad37f27890ae6d7363c21db4f47521",
+      "bytes": 5746,
+      "storage": "r2"
+    },
+    "sale/2009/11530/200902.csv.gz": {
+      "sha256": "3a5f60522f50f58121b08d882e7449d53132fcada1c2ea74a1ca1f3d054ec9ad",
+      "bytes": 9496,
+      "storage": "r2"
+    },
+    "sale/2009/11530/200903.csv.gz": {
+      "sha256": "4f545c447cc039f30b0ad3097ea96d8ee6463cdf9e8c27620bc68ae969221db4",
+      "bytes": 11279,
+      "storage": "r2"
+    },
+    "sale/2009/11530/200904.csv.gz": {
+      "sha256": "38fc348017bb96c6598efc5c6d1b6c185703fe733c5f4e51ce2d115a9f65e19c",
+      "bytes": 18925,
+      "storage": "r2"
+    },
+    "sale/2009/11530/200905.csv.gz": {
+      "sha256": "d59d35d69bed3657e1194b4c267eba7c0c5590fca6a22616025109a24abfef67",
+      "bytes": 17574,
+      "storage": "r2"
+    },
+    "sale/2009/11530/200906.csv.gz": {
+      "sha256": "8eb361a376a6102bb6a07a2b51a851ff58692c77be67bd104b2ae3da2b83a301",
+      "bytes": 21841,
+      "storage": "r2"
+    },
     "sale/2009/11530/200907.csv.gz": {
       "sha256": "817531e265bf82ea345da977e2a16e3250f5ec2083b6766c429f4bdd7a87e930",
       "bytes": 19827,
@@ -22182,6 +27122,36 @@
     "sale/2009/11530/200912.csv.gz": {
       "sha256": "4325384d27ba6cf18649c0db149b445e09085140f0590a0eb4481b3caeb0507e",
       "bytes": 11700,
+      "storage": "r2"
+    },
+    "sale/2009/11545/200901.csv.gz": {
+      "sha256": "b9edf792f5bc955441f3fc7ec57fdd5b651fedac73a9cbb2ea1ed1e099efba45",
+      "bytes": 1760,
+      "storage": "r2"
+    },
+    "sale/2009/11545/200902.csv.gz": {
+      "sha256": "fbd851fa00f581ac917476994600792af2736c2dc18d9084b81e9d88604f1498",
+      "bytes": 3448,
+      "storage": "r2"
+    },
+    "sale/2009/11545/200903.csv.gz": {
+      "sha256": "32e2f6030a53789166eb9a62796cc717143ed8f28ab0baf244bcd37d5f0a32ab",
+      "bytes": 3824,
+      "storage": "r2"
+    },
+    "sale/2009/11545/200904.csv.gz": {
+      "sha256": "75f56bcce967e200e0ab5f7d666d6ccf376521bf735158276b71ffbba55abaf6",
+      "bytes": 4088,
+      "storage": "r2"
+    },
+    "sale/2009/11545/200905.csv.gz": {
+      "sha256": "3974a63573fefe735b6d2c7d4ac2e5ad759595727e5323d14faae0f3710d2b8c",
+      "bytes": 4587,
+      "storage": "r2"
+    },
+    "sale/2009/11545/200906.csv.gz": {
+      "sha256": "3c42480b07bdbc12ace28b0b17c8de9bf871c3a8ac5c4605ae7d48e0593d6ded",
+      "bytes": 4560,
       "storage": "r2"
     },
     "sale/2009/11545/200907.csv.gz": {
@@ -22214,6 +27184,36 @@
       "bytes": 3274,
       "storage": "r2"
     },
+    "sale/2009/11560/200901.csv.gz": {
+      "sha256": "39a33870e1791ba4bcdddc6800c20281d0b4f91112e1e14f0f97dc398cb3889f",
+      "bytes": 7824,
+      "storage": "r2"
+    },
+    "sale/2009/11560/200902.csv.gz": {
+      "sha256": "5e453c63d6463907e70122e3744e199e5663304023616474a58881ea56f546f1",
+      "bytes": 12590,
+      "storage": "r2"
+    },
+    "sale/2009/11560/200903.csv.gz": {
+      "sha256": "b5d506d32aaa419e4425f0316bc45ac281ec67464f97796792bdd45063393560",
+      "bytes": 13271,
+      "storage": "r2"
+    },
+    "sale/2009/11560/200904.csv.gz": {
+      "sha256": "c961e5c5a9dfd895b9c0c57b817c2d7ba422c0f04f68734075d950e75690b19a",
+      "bytes": 24125,
+      "storage": "r2"
+    },
+    "sale/2009/11560/200905.csv.gz": {
+      "sha256": "4ff157691aa514c1864a6eabd8504e36b61e691dc4b5cb6d452cb717833012e2",
+      "bytes": 21450,
+      "storage": "r2"
+    },
+    "sale/2009/11560/200906.csv.gz": {
+      "sha256": "1138929f672b44bcaf83a80fd3d08661f1dd1dca6a7bb1b841e882503c8f9b54",
+      "bytes": 22468,
+      "storage": "r2"
+    },
     "sale/2009/11560/200907.csv.gz": {
       "sha256": "c3087d126bd5e7be17344edb53d96d1f0ed9c768797069ce1462de26c7ceda98",
       "bytes": 25572,
@@ -22242,6 +27242,36 @@
     "sale/2009/11560/200912.csv.gz": {
       "sha256": "7564952436f5469c77172eda997c272ef3633b4637de4c56e691302f2362add5",
       "bytes": 11976,
+      "storage": "r2"
+    },
+    "sale/2009/11590/200901.csv.gz": {
+      "sha256": "b210d3763dd95d413d6bb4bc92de6483eb5ecf6180ea4f7b7eba3dd390241c8a",
+      "bytes": 5061,
+      "storage": "r2"
+    },
+    "sale/2009/11590/200902.csv.gz": {
+      "sha256": "af481a1d39bca84b696d4c8e95f6db3e46ea260518560c522e1d9f17158c4325",
+      "bytes": 8239,
+      "storage": "r2"
+    },
+    "sale/2009/11590/200903.csv.gz": {
+      "sha256": "91bd5fd8ad30c721b0e87102a1027992932d0247aa3eb870987bc0b89ff28e65",
+      "bytes": 8613,
+      "storage": "r2"
+    },
+    "sale/2009/11590/200904.csv.gz": {
+      "sha256": "fbb4d50a3e894b527d8627a86e90ac5babd5fa6da0f6f9f8e0c8cdb31c3b9cfc",
+      "bytes": 15255,
+      "storage": "r2"
+    },
+    "sale/2009/11590/200905.csv.gz": {
+      "sha256": "0ca4ac6b3fa2a458ef57c31d385a392ae09ecf768d6d9eaef4a95491f1c3521c",
+      "bytes": 11336,
+      "storage": "r2"
+    },
+    "sale/2009/11590/200906.csv.gz": {
+      "sha256": "64dbacd11c820165b9180d4d081f322f588895565ec5975403bba08c8693c1f6",
+      "bytes": 15109,
       "storage": "r2"
     },
     "sale/2009/11590/200907.csv.gz": {
@@ -22274,6 +27304,36 @@
       "bytes": 7995,
       "storage": "r2"
     },
+    "sale/2009/11620/200901.csv.gz": {
+      "sha256": "aba85968e292dc4ed11b0d1cfba76ddec9b39c94dcb0f631a3de9990168223ca",
+      "bytes": 3754,
+      "storage": "r2"
+    },
+    "sale/2009/11620/200902.csv.gz": {
+      "sha256": "8f51e5160bb3cd5a34eb7ee5ed116d9466efa37456ee16345addd4ea2b78a2d5",
+      "bytes": 7236,
+      "storage": "r2"
+    },
+    "sale/2009/11620/200903.csv.gz": {
+      "sha256": "cbac5c2a8b2668c740e621558f1d8a2a8b1d18fb2de4d68ebdd2ee3ca3165e36",
+      "bytes": 7546,
+      "storage": "r2"
+    },
+    "sale/2009/11620/200904.csv.gz": {
+      "sha256": "e14374ed1e853a9d02da606ef3f94bed435dcd2e51214b35d44158f81773f4fe",
+      "bytes": 10715,
+      "storage": "r2"
+    },
+    "sale/2009/11620/200905.csv.gz": {
+      "sha256": "bae988c9d84b0fb9a3cbd5fcf0c406f54189a960ef570ec4d73de8f23e8a84f7",
+      "bytes": 10997,
+      "storage": "r2"
+    },
+    "sale/2009/11620/200906.csv.gz": {
+      "sha256": "046962ac9a3844708d5ea89280f7229ee802eae5408aa5c4f056e9f59caeec89",
+      "bytes": 11455,
+      "storage": "r2"
+    },
     "sale/2009/11620/200907.csv.gz": {
       "sha256": "09e96313dc1d97d991b5bf9c77dbfa7a1a995b6198e5f6cf2194a39af6f1d3dd",
       "bytes": 12955,
@@ -22302,6 +27362,36 @@
     "sale/2009/11620/200912.csv.gz": {
       "sha256": "425aca6d44fa922a793d4ea5a2ab1c33755f5fbd4f656683ca74158c43ffbaa2",
       "bytes": 7314,
+      "storage": "r2"
+    },
+    "sale/2009/11650/200901.csv.gz": {
+      "sha256": "7310175e8ec43d277e59b83e3ff21963e467cb5e3eb69c5788d7d242525f9bac",
+      "bytes": 19147,
+      "storage": "r2"
+    },
+    "sale/2009/11650/200902.csv.gz": {
+      "sha256": "7149e76b95b2d19e801e7d496cb92c5796fa2d8cdcba7650896f07f98575bfe2",
+      "bytes": 22038,
+      "storage": "r2"
+    },
+    "sale/2009/11650/200903.csv.gz": {
+      "sha256": "d9b261a1303752f14b2e0d8955707eb96dbd672aa5f869dc566c905f80554585",
+      "bytes": 27690,
+      "storage": "r2"
+    },
+    "sale/2009/11650/200904.csv.gz": {
+      "sha256": "68d4dab1e9f06f49f385a27f762da5f4d788945a2ba8f2d67eccd449ec5deec8",
+      "bytes": 38483,
+      "storage": "r2"
+    },
+    "sale/2009/11650/200905.csv.gz": {
+      "sha256": "27ce80df1b0084a74703107572e17fd6cf68335eda87ed2a99fd419148e5fb3e",
+      "bytes": 31625,
+      "storage": "r2"
+    },
+    "sale/2009/11650/200906.csv.gz": {
+      "sha256": "cd969e2537956dd981cb0d12ec0a45472189df10a2d15f9f3ebf26a1f41ddabe",
+      "bytes": 40689,
       "storage": "r2"
     },
     "sale/2009/11650/200907.csv.gz": {
@@ -22334,6 +27424,36 @@
       "bytes": 19844,
       "storage": "r2"
     },
+    "sale/2009/11680/200901.csv.gz": {
+      "sha256": "cd565bc581fb77038c7c4826e5968d681b6dedc0d2650a633b17041c54d003e4",
+      "bytes": 29636,
+      "storage": "r2"
+    },
+    "sale/2009/11680/200902.csv.gz": {
+      "sha256": "d4e3476d3baface97efbcf797bd9e26cfc48507fe8105219da7c8ebe70ba17dc",
+      "bytes": 31185,
+      "storage": "r2"
+    },
+    "sale/2009/11680/200903.csv.gz": {
+      "sha256": "673c339ee20073b31e918512a2fbde8a9f3a29b35259b97000becc22afebaff4",
+      "bytes": 38874,
+      "storage": "r2"
+    },
+    "sale/2009/11680/200904.csv.gz": {
+      "sha256": "e1fe185df8cc0c4b135873572717b54e3b8a1e8eeca759dc966bd7356b07e600",
+      "bytes": 51164,
+      "storage": "r2"
+    },
+    "sale/2009/11680/200905.csv.gz": {
+      "sha256": "dbd4026c2acb3d8d38dc8326bc512263a004be39d83790b7666168af0b1f1c7a",
+      "bytes": 33687,
+      "storage": "r2"
+    },
+    "sale/2009/11680/200906.csv.gz": {
+      "sha256": "0d8d379a8d50af05ebc37140cbb4e75a6bc01c4722af3ffbd2dfc4c5e286acc7",
+      "bytes": 50450,
+      "storage": "r2"
+    },
     "sale/2009/11680/200907.csv.gz": {
       "sha256": "61bb078eee3ea9fe5353ec34412f54e99f2a8ab5d35d1cc427821daa284af554",
       "bytes": 45136,
@@ -22364,6 +27484,36 @@
       "bytes": 25230,
       "storage": "r2"
     },
+    "sale/2009/11710/200901.csv.gz": {
+      "sha256": "0096f9b04e889523aa0b1fa2b900aa213454ea52fa001193f24abfe7c751eb43",
+      "bytes": 30710,
+      "storage": "r2"
+    },
+    "sale/2009/11710/200902.csv.gz": {
+      "sha256": "521d6affb78a4f12faac42c1d7b94ed2ea670865441ea848529d9658d5b40006",
+      "bytes": 30073,
+      "storage": "r2"
+    },
+    "sale/2009/11710/200903.csv.gz": {
+      "sha256": "ccc9de98bb302e5b4ca933c08a236e0aab0af52dcbcf7527a050051d80199692",
+      "bytes": 27831,
+      "storage": "r2"
+    },
+    "sale/2009/11710/200904.csv.gz": {
+      "sha256": "011a209da95d8991606eb1d05dd4cd6ca584f1b270b22ab7009c3e1422e8d9fc",
+      "bytes": 41225,
+      "storage": "r2"
+    },
+    "sale/2009/11710/200905.csv.gz": {
+      "sha256": "6be89cfcc55573b07d37ea4f296e42760d2f74273fbc6c2959b4c62c25fffc95",
+      "bytes": 31605,
+      "storage": "r2"
+    },
+    "sale/2009/11710/200906.csv.gz": {
+      "sha256": "d509c362093a9210cb68fca1d895311fbbf9500cf35656db453f1023ec2795b9",
+      "bytes": 43103,
+      "storage": "r2"
+    },
     "sale/2009/11710/200907.csv.gz": {
       "sha256": "109501d0c5659476859ab8f8e9cf70a29f4488e0edc77896bb566a226d990144",
       "bytes": 33078,
@@ -22392,6 +27542,36 @@
     "sale/2009/11710/200912.csv.gz": {
       "sha256": "742c83883687429cd5fe5938ccbac4fb0a7173015d5d1edbe20c68dc56ca95cd",
       "bytes": 19091,
+      "storage": "r2"
+    },
+    "sale/2009/11740/200901.csv.gz": {
+      "sha256": "37b06f1c6fcf562a838fd6d9af874ecafa2c0eac107c1ab04ee94f8e5c06a57e",
+      "bytes": 19392,
+      "storage": "r2"
+    },
+    "sale/2009/11740/200902.csv.gz": {
+      "sha256": "2c87f0ffeea36a298bdebaae13d792d7aa9112b8b9e8be6469f1506f09a8423d",
+      "bytes": 19934,
+      "storage": "r2"
+    },
+    "sale/2009/11740/200903.csv.gz": {
+      "sha256": "c8fc52423df8b875e939ac83e232ee6f46aabb4a838d2f022d2e52fa29b4855f",
+      "bytes": 26725,
+      "storage": "r2"
+    },
+    "sale/2009/11740/200904.csv.gz": {
+      "sha256": "2e191d96c6db9e9147421c8198d16167e618a9b89cdab112b971adc8c76b4419",
+      "bytes": 42376,
+      "storage": "r2"
+    },
+    "sale/2009/11740/200905.csv.gz": {
+      "sha256": "2c29fc055b08e02610e4e0d4289a2c7152954751ff11268267e449a17cae5fb5",
+      "bytes": 31981,
+      "storage": "r2"
+    },
+    "sale/2009/11740/200906.csv.gz": {
+      "sha256": "3dde03e150258a07a4df18b9b34473146da726b08733c265a46891e92ef309c9",
+      "bytes": 38578,
       "storage": "r2"
     },
     "sale/2009/11740/200907.csv.gz": {
