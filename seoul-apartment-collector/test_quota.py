@@ -13,12 +13,16 @@ collect=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(collect)
 
 class FakeR2:
-    files={}
+    def __init__(self):self.files={}
+    @staticmethod
+    def relpath(kind,gu,ym):return f'{kind}/{ym[:4]}/{gu}/{ym}.csv.gz'
     def has_scope(self,kind,gu,ym):return False
     def fallback_enabled(self):return False
     def migrate_legacy(self):pass
     def stats(self):return {"r2_compressed_bytes":0,"r2_scopes":0,"r2_objects_uploaded":0}
-    def upload(self,*args):pass
+    def upload(self,path):
+        relative=path.relative_to(collect.DATA).as_posix()
+        self.files[relative]={'sha256':'a'*64,'bytes':path.stat().st_size}
     def save_manifest(self):pass
 
 class FakeCollector:
@@ -35,6 +39,7 @@ def main():
         with patch.object(collect,"DATA",root/"data"), \
              patch.object(collect,"STATE",root/"state.json"), \
              patch.object(collect,"STATUS",root/"status.json"), \
+             patch.object(collect,"UPDATES",root/"updates"), \
              patch.object(collect,"R2Storage",FakeR2), \
              patch.object(collect,"today",lambda:date(2026,10,18)):
             collect.save_json(collect.STATE,{"usage_day":"2026-10-18","daily_requests":7999})

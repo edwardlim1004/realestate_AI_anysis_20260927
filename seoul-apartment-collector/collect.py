@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # coding: utf-8
-"""서울 아파트 매매/전월세 API 수집기: 월·구별 CSV.gz, 표준 라이브러리만 사용."""
+"""서울·경기도 아파트 매매/전월세: 과거자료 재개 + 변경분만 저장하는 정기 갱신."""
 from __future__ import annotations
-import argparse, calendar, csv, datetime as dt, gzip, json, os, random, sys, time
+import argparse, csv, datetime as dt, gzip, io, json, os, random, sys, time
 from pathlib import Path
 from urllib.parse import urlencode, unquote
 from urllib.request import Request, urlopen
@@ -10,18 +10,17 @@ from urllib.error import HTTPError, URLError
 from xml.etree import ElementTree as ET
 from zoneinfo import ZoneInfo
 from r2_bridge import R2Storage
+from regions import DISTRICTS, full_name, in_month, region_for, select
+from incremental import content_hash, change_summary, record_change
 
 BASE=Path(__file__).resolve().parent
 DATA=BASE/'data'
 STATE=BASE/'state.json'
 STATUS=BASE/'status.json'
+UPDATES=BASE/'updates'
 DAILY_MAX_REQUESTS=8000
 R2_DATA_SAFETY_CAP=8*1024*1024*1024  # 8 GiB project safety limit; not a cloud billing limit
-GU={'11110':'종로구','11140':'중구','11170':'용산구','11200':'성동구','11215':'광진구',
-'11230':'동대문구','11260':'중랑구','11290':'성북구','11305':'강북구','11320':'도봉구',
-'11350':'노원구','11380':'은평구','11410':'서대문구','11440':'마포구','11470':'양천구',
-'11500':'강서구','11530':'구로구','11545':'금천구','11560':'영등포구','11590':'동작구',
-'11620':'관악구','11650':'서초구','11680':'강남구','11710':'송파구','11740':'강동구'}
+GU=DISTRICTS
 START={'sale':'200601','rent':'201101'}
 API={
 'sale':'https://apis.data.go.kr/1613000/RTMSDataSvcAptTradeDev/getRTMSDataSvcAptTradeDev',
@@ -75,7 +74,7 @@ def row(kind,gu,ym,raw):
     day=field(raw,'일','dealDay','contractDay')
     try:date=dt.date(int(year),int(mon),int(day)).isoformat()
     except (ValueError,TypeError):date=''
-    return {'시군구':'서울특별시 '+GU[gu],'법정동':field(raw,'법정동','umdNm'),
+    return {'시군구':full_name(gu),'법정동':field(raw,'법정동','umdNm'),
     '단지명':field(raw,'아파트','aptNm'),'지번':field(raw,'지번','jibun'),
     '전용면적(㎡)':field(raw,'전용면적','excluUseAr'),'계약년월':date[:7].replace('-','') if date else ym,
     '계약일':date,'층':field(raw,'층','floor'),'건축년도':field(raw,'건축년도','buildYear'),
@@ -91,9 +90,12 @@ def scope(kind,gu,ym):return DATA/kind/ym[:4]/gu/(ym+'.csv.gz')
 def save_scope(kind,gu,ym,records):
     output=scope(kind,gu,ym);output.parent.mkdir(parents=True,exist_ok=True)
     tmp=output.with_suffix('.gz.tmp')
-    with gzip.open(tmp,'wt',encoding='utf-8-sig',newline='',compresslevel=6) as f:
-        writer=csv.DictWriter(f,fieldnames=FIELDS);writer.writeheader()
-        for record in records:writer.writerow(row(kind,gu,ym,record))
+    with tmp.open('wb') as binary:
+        with gzip.GzipFile(filename='',mode='wb',fileobj=binary,mtime=0,compresslevel=6) as compressed:
+            with io.TextIOWrapper(compressed,encoding='utf-8-sig',newline='') as f:
+                writer=csv.DictWriter(f,fieldnames=FIELDS,lineterminator='\n');writer.writeheader()
+                for record in sorted(records,key=lambda x:json.dumps(x,ensure_ascii=False,sort_keys=True)):
+                    writer.writerow(row(kind,gu,ym,record))
     tmp.replace(output)
 
 class StopSafely(Exception):pass
@@ -133,7 +135,7 @@ class Collector:
         if total is not None and len(result)!=total:raise ValueError('incomplete response')
         return result
 
-def run(mode,max_requests,delay,until=None,districts=None,collector=None):
+def run(mode,max_requests,delay,until=None,districts=None,collector=None,region='all',refresh_months=6):
     now=today();end=until or now.strftime('%Y%m')
     state=read_state()
     run_day=now.isoformat()
@@ -150,38 +152,62 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None):
         c.limit=0
     if actual_limit==0:
         print('SAFE_STOP: daily collector request budget used',flush=True)
-    districts=districts or list(GU)
-    last_day=calendar.monthrange(now.year,now.month)[1]
-    cycle=now.strftime('%Y%m') if now.day>=min(30,last_day) else None
-    if cycle and state.get('refresh_cycle')!=cycle:
+    districts=districts or select(region)
+    # A six-month rolling check runs once per day, resumed across 3-hour jobs.
+    # State is shared across BOTH regions, including the 8,000-call daily budget.
+    cycle=now.isoformat()
+    if state.get('refresh_cycle')!=cycle:
         state.update({'refresh_cycle':cycle,'refresh_done':[]})
     cycle=state.get('refresh_cycle');done=set(state.get('refresh_done',[]))
-    base=dt.date(int(cycle[:4]),int(cycle[4:]),1) if cycle else now
+    base=dt.date(int(end[:4]),int(end[4:]),1)
     refresh=[]
     if cycle:
-        refresh=[(kind,gu,ym) for ym in recent(base) for kind in ('sale','rent') for gu in districts if ym>=START[kind]]
+        refresh=[(kind,gu,ym) for ym in recent(base,refresh_months) for kind in ('sale','rent') for gu in districts
+                 if ym>=START[kind] and ym<=end and in_month(gu,ym)]
         refresh=[x for x in refresh if '/'.join(x) not in done]
     history=[(kind,gu,ym) for ym in reversed(list(months('200601',end))) for kind in ('sale','rent')
-             for gu in districts if ym>=START[kind] and not archive.has_scope(kind,gu,ym)]
+             for gu in districts if ym>=START[kind] and in_month(gu,ym)
+             and not archive.has_scope(kind,gu,ym)]
     if mode=='test':
         refresh=[]
         month=prev(now.strftime('%Y%m'))
         history=[('sale',districts[0],month),('rent',districts[0],month)]
     if mode=='backfill':refresh=[]
     if mode=='refresh':history=[]
-    tasks=refresh+history
+    # Missing recent scopes already appear in refresh; never fetch them twice.
+    refresh_set=set(refresh)
+    tasks=refresh+[item for item in history if item not in refresh_set]
     print(f'pending refresh {len(refresh)}; history {len(history)}; request cap {c.limit}',flush=True)
-    success=0;failures=0
+    success=0;failures=0;changed=0;unchanged=0;added_rows=0;removed_rows=0
     for kind,gu,ym in tasks:
         if c.calls>=c.limit:break
         try:
             records=c.fetch(kind,gu,ym)
-            save_scope(kind,gu,ym,records)
-            archive.upload(scope(kind,gu,ym))
+            relative=archive.relpath(kind,gu,ym)
+            previous=archive.files.get(relative)
+            digest=content_hash(records)
+            before=[]
+            prior_digest=previous.get('content_sha256') if previous else None
+            # Old manifests are bootstrapped from verified stored raw CSV once.
+            if previous and prior_digest!=digest:
+                before=archive.read_scope(relative)
+                prior_digest=content_hash(before)
+            if previous and prior_digest==digest:
+                previous.update({'content_sha256':digest,'rows':len(records)})
+                unchanged+=1
+            else:
+                event=change_summary(relative,before,records,previous is not None,observed_day=run_day)
+                save_scope(kind,gu,ym,records)
+                archive.upload(scope(kind,gu,ym))
+                archive.files[relative].update({'content_sha256':digest,'rows':len(records)})
+                record_change(UPDATES,event)
+                changed+=1
+                added_rows+=event['added_rows'];removed_rows+=event['removed_rows']
             archive.save_manifest()
             success+=1
-            if (kind,gu,ym) in refresh:done.add('/'.join((kind,gu,ym)))
-            print(f'OK {kind} {gu} {ym}: {len(records)} rows',flush=True)
+            if (kind,gu,ym) in refresh_set:done.add('/'.join((kind,gu,ym)))
+            print(f'OK {kind} {gu} {ym}: {len(records)} rows; '+
+                  ('unchanged' if previous and prior_digest==digest else 'changed'),flush=True)
             if archive.stats()['r2_compressed_bytes']>=storage_cap and not archive.fallback_enabled():
                 print('SAFE_STOP: R2 storage soft cap reached; Drive failover unavailable',flush=True)
                 break
@@ -199,9 +225,9 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None):
                 print('SAFE_STOP: secondary archive not verified',flush=True)
                 break
             if failures>=3:break
-    if cycle and all('/'.join(x) in done for x in refresh):
-        state.update({'refresh_cycle':None,'refresh_done':[]})
-    else:state['refresh_done']=sorted(done)
+    # Keep today's completed scopes even after the cycle finishes: later jobs
+    # must not restart the same daily refresh. A new KST day resets the cursor.
+    state['refresh_done']=sorted(done)
     state['usage_day']=run_day
     state['daily_requests']=used_today+c.calls
     save_json(STATE,state)
@@ -212,6 +238,11 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None):
         'requests_today':state['daily_requests'],'daily_cap':DAILY_MAX_REQUESTS,
         'r2_storage_safety_cap_bytes':storage_cap,
         'google_drive_fallback_enabled':archive.fallback_enabled(),
+        'last_run_changed_scopes':changed,'last_run_unchanged_scopes':unchanged,
+        'last_run_added_rows':added_rows,'last_run_removed_rows':removed_rows,
+        'completed_by_region':{name:sum(1 for key in archive.files
+            if key.split('/')[2].startswith('11' if name=='seoul' else '41'))
+            for name in ('seoul','gyeonggi')},
         **archive.stats()})
     print('RESULT',json.dumps({'requests':c.calls,'success':success,'failures':failures,'completed_scopes':count}))
     return 0 if failures==0 else 1
@@ -223,12 +254,16 @@ def main():
     parser.add_argument('--delay',type=float,default=3)
     parser.add_argument('--until',default=None)
     parser.add_argument('--district',choices=list(GU),action='append')
+    parser.add_argument('--region',choices=['all','seoul','gyeonggi'],default='all')
+    parser.add_argument('--refresh-months',type=int,default=6)
     args=parser.parse_args()
     if not 1<=args.max_requests<=1200 or args.delay<3:parser.error('1-1200 requests; delay>=3')
-    if args.until and (len(args.until)!=6 or not args.until.isdigit()):parser.error('until YYYYMM')
+    if not 1<=args.refresh_months<=252:parser.error('refresh-months must be 1..252')
+    if args.until and (len(args.until)!=6 or not args.until.isdigit() or not 1<=int(args.until[4:])<=12):parser.error('until YYYYMM')
+    if args.until and args.until>today().strftime('%Y%m'):parser.error('until must not be in the future')
     key=os.getenv('MOLIT_SERVICE_KEY','') or os.getenv('DATA_GO_KR_SERVICE_KEY','')
     if not key:
         print('SKIPPED: MOLIT_SERVICE_KEY GitHub Actions Secret unavailable')
         return 0
-    return run(args.mode,args.max_requests,args.delay,args.until,args.district,Collector(key,args.max_requests,args.delay))
+    return run(args.mode,args.max_requests,args.delay,args.until,args.district,Collector(key,args.max_requests,args.delay),args.region,args.refresh_months)
 if __name__=='__main__':sys.exit(main())

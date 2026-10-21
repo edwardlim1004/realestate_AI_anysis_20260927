@@ -11,6 +11,9 @@ on:
       - "seoul-apartment-collector/backfill_progress.py"
       - "seoul-apartment-collector/collect.py"
       - "seoul-apartment-collector/test_quota.py"
+      - "seoul-apartment-collector/regions.py"
+      - "seoul-apartment-collector/incremental.py"
+      - "seoul-apartment-collector/test_incremental.py"
       - ".github/workflows/check-r2-google-drive.yml"
 permissions:
   contents: read
@@ -30,3 +33,4 @@ jobs:
           python seoul-apartment-collector/test_google_drive_backup.py
           python seoul-apartment-collector/test_storage_failover.py
           python seoul-apartment-collector/test_quota.py
+          python seoul-apartment-collector/test_incremental.py
