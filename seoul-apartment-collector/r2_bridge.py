@@ -45,8 +45,11 @@ class R2Storage:
             self.files = {}
         self.uploaded = 0
         self.skipped = 0
-        self._r2_bytes = sum(int(v.get("bytes",0)) for v in self.files.values()
-                             if v.get("storage","r2")=="r2")
+        self._r2_bytes = sum(
+            int(v.get("bytes",0)) if v.get("storage","r2")=="r2"
+            else int(v.get("retained_r2_bytes",0))
+            for v in self.files.values()
+        )
         self.drive_archived = 0
         self._drive_archive = None
 
@@ -78,11 +81,15 @@ class R2Storage:
         file_id=self._drive_archive.upload(relative,path,digest,
              old_file_id=old.get("drive_file_id") if old.get("storage")=="gdrive" else None)
         # Only count a scope as completed AFTER Drive verified its MD5 and byte count.
+        retained_r2_bytes=(int(old.get("bytes",0)) if old.get("storage","r2")=="r2"
+                           else int(old.get("retained_r2_bytes",0)))
         self.files[relative]={"sha256":digest,"bytes":size,
-                               "storage":"gdrive","drive_file_id":file_id}
+                               "storage":"gdrive","drive_file_id":file_id,
+                               "retained_r2_bytes":retained_r2_bytes}
         # Keep accounting the old R2 object: failover does NOT delete it.
         # Otherwise an update switched to Drive would incorrectly free space
-        # and allow new R2 writes above the configured soft capacity.
+        # and allow new R2 writes above the configured soft capacity. Persist
+        # those bytes so the next collector run restores the same accounting.
         self.uploaded+=1
         self.drive_archived+=1
         return True

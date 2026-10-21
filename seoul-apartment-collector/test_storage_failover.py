@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import sys
 import tempfile
+from types import SimpleNamespace
 from unittest.mock import patch
 
 HERE=Path(__file__).resolve().parent
@@ -52,6 +53,53 @@ def fake_archive():
     a.drive_archived=0
     a._drive_archive=None
     return a
+
+
+def check_restart_accounting(root,creds):
+    """R2 objects retained during Drive failover still occupy space next run."""
+    cap=1024*1024
+    data=root/"restart.csv.gz"
+    original=gzip.compress(b"original scope",mtime=0)
+    data.write_bytes(original)
+    retained=len(original)
+    other="rent/2026/11110/202610.csv.gz"
+    store=fake_archive()
+    store.files={
+        REL:{"sha256":hashlib.sha256(original).hexdigest(),
+             "bytes":retained,"storage":"r2"},
+        other:{"sha256":"a"*64,"bytes":cap-retained,"storage":"r2"},
+    }
+    store._r2_bytes=cap
+    manifest=root/"restart_manifest.json"
+    modules={
+        "boto3":SimpleNamespace(client=lambda *a,**kw:FakeS3()),
+        "botocore.config":SimpleNamespace(Config=lambda **kw:None),
+    }
+    with patch.object(bridge,"MANIFEST",manifest), \
+         patch.dict(os.environ,creds), \
+         patch.dict(sys.modules,modules), \
+         patch.object(failover,"DriveRawArchive",GoodDriveArchive):
+        data.write_bytes(gzip.compress(bytes(range(256))*4,mtime=0))
+        store.upload(data,relative=REL)
+        assert store.files[REL]["retained_r2_bytes"]==retained
+        store.save_manifest()
+
+        # Construct the next collector from the saved manifest, not shared memory.
+        restarted=bridge.R2Storage()
+        assert restarted.stats()["r2_compressed_bytes"]==cap
+        data.write_bytes(gzip.compress(b"second update"+bytes(range(256)),mtime=0))
+        restarted.upload(data,relative=REL)
+        restarted.save_manifest()
+        restarted=bridge.R2Storage()
+        assert restarted.stats()["r2_compressed_bytes"]==cap
+        assert restarted.files[REL]["retained_r2_bytes"]==retained
+
+        # A fresh scope must use Drive: retained R2 bytes cannot become free space.
+        fresh="sale/2026/11110/202610.csv.gz"
+        with patch.object(restarted,"_to_google_drive",return_value=True) as route:
+            restarted.upload(data,relative=fresh)
+            assert route.call_args.args[1]==fresh
+        assert not restarted.client.sent
 
 
 def main():
@@ -132,7 +180,8 @@ def main():
                 except RuntimeError as exc:assert "failover" in str(exc).lower()
                 else:raise AssertionError("R2 cap exceeded with no failover was accepted")
                 assert store2.files=={}
-    print("PASS: soft-cap routing; R2 not deleted; SHA256/MD5 precondition; verified manifest; failed upload safe stop; mixed backup support")
+        check_restart_accounting(root,creds)
+    print("PASS: soft-cap routing; R2 not deleted; retained R2 bytes survive restart; SHA256/MD5 precondition; verified manifest; failed upload safe stop; mixed backup support")
 
 
 if __name__=="__main__":main()
