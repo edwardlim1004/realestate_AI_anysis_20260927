@@ -14,7 +14,7 @@ h1{font-size:clamp(24px,4vw,34px);margin:18px 0 8px}h2{font-size:20px;margin:4px
 .controls{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:7px;font-size:13px}
 input,select,button{border:1px solid var(--line);border-radius:9px;background:var(--light);color:var(--text);font:inherit;padding:11px 12px;min-width:0}
 input:focus,select:focus{outline:2px solid var(--accent)}button{cursor:pointer}button.primary{background:#2463a4;border-color:#448fe0;font-weight:700}
-.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}.metric{background:var(--light);border-radius:12px;padding:14px}.metric .label{color:var(--sub);font-size:12px}.metric .value{font-size:clamp(16px,2.5vw,24px);font-weight:700;margin:6px 0}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:16px 0}.metric{background:var(--light);border-radius:12px;padding:14px}.metric .label{color:var(--sub);font-size:12px}.metric .value{font-size:clamp(16px,2.5vw,24px);font-weight:700;margin:6px 0}
 .info{border-left:3px solid var(--accent);padding:10px 14px;background:var(--light);border-radius:8px;font-size:13px;margin:12px 0}.warning{border-left-color:#f5bb68}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.scenarios{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.scen{border:1px solid var(--line);border-radius:12px;padding:12px}.scen strong{font-size:20px}.scen .field{margin-bottom:9px}
 table{border-collapse:collapse;width:100%;font-size:13px;min-width:420px}th,td{text-align:right;padding:9px 8px;border-bottom:1px solid var(--line)}th:first-child,td:first-child{text-align:left}th{color:var(--sub)}.scroll{overflow-x:auto}
@@ -46,9 +46,11 @@ table{border-collapse:collapse;width:100%;font-size:13px;min-width:420px}th,td{t
       <div class="metric"><div class="label">최근 12개월 매매 중위가격</div><div class="value" id="current">—</div><div class="small" id="recentCount"></div></div>
       <div class="metric"><div class="label">5년 매매 거래 건수</div><div class="value" id="count">—</div><div class="small">동일 단지·면적구간</div></div>
       <div class="metric"><div class="label">과거 5년 관측 연평균 변화율</div><div class="value" id="cagr">—</div><div class="small">과거 실거래 기준, 미래 예측 아님</div></div>
+      <div class="metric"><div class="label">5년 강건 추세 대비</div><div class="value" id="trendGap">—</div><div class="small" id="trendNote">구조적 적정가격 아님</div></div>
       <div class="metric"><div class="label">전세 중위값 / 매매 중위값</div><div class="value" id="jeonse">—</div><div class="small" id="jeonseCount"></div></div>
     </div>
     <div class="info" id="quality"></div>
+    <div class="info warning">5년 강건 추세 기준선은 월별 중위가격의 Theil–Sen 로그추세로 산정하며 최근 12개월의 중앙시점에서 비교합니다. 추세보다 낮다고 저평가, 높다고 고평가로 확정할 수 없습니다.</div>
     <div class="info warning" id="selectedTrade" hidden></div>
   </div>
   <div class="panel">
@@ -116,6 +118,7 @@ function filterComplexes(){
 function showTrend(c) {
   const points=(c.sale_months||[]).filter(r=>r[1]>0);
   const svg=byId("trendChart");
+  const trend=FiveYearModel.trendBenchmark(c,doc);
   if(points.length<2){svg.innerHTML='<text x="20" y="110">유효한 월별 거래가 충분하지 않습니다.</text>';return;}
   const values=points.map(x=>x[1]);
   const min=Math.min(...values)*0.93,max=Math.max(...values)*1.07;
@@ -146,6 +149,8 @@ function choose(){
   set("recentCount","최근 12개월 "+dispCount(c.last12_count));
   set("count",dispCount(c.sale_count_5y));
   set("cagr",a.observedCagrPct===null?"근거 부족":a.observedCagrPct.toFixed(2)+"%/년");
+  set("trendGap",a.trend&&a.trend.gapPct!==null?(a.trend.gapPct>0?"+":"")+a.trend.gapPct.toFixed(1)+"%":"산출 불가");
+  set("trendNote",a.trend?"기준선 "+money(a.trend.reference)+" · 관측 "+a.trend.observedMonths+"개월":"장기 월별 거래 부족");
   set("jeonse",a.jeonseRatePct===null?"자료 부족":a.jeonseRatePct.toFixed(1)+"%");
   set("jeonseCount","전세 "+dispCount(c.jeonse_last12_count)+" · 전세 보증금 "+money(c.jeonse_last12_median));
   set("quality","비교 신뢰도: "+a.quality.rank+" — "+a.quality.reason+" [중요] 이는 미래 예측이나 감정평가상 적정가격이 아닙니다.");
