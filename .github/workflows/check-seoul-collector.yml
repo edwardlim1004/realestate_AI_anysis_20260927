@@ -7,6 +7,10 @@ on:
       - "seoul-apartment-collector/regions.py"
       - "seoul-apartment-collector/incremental.py"
       - "seoul-apartment-collector/test_incremental.py"
+      - "seoul-apartment-collector/recover_failed_run.py"
+      - "seoul-apartment-collector/recoveries/**"
+      - "seoul-apartment-collector/test_recovery.py"
+      - "seoul-apartment-collector/test_workflow_commit.py"
       - ".github/workflows/seoul-apartment-history.yml"
       - ".github/workflows/check-seoul-collector.yml"
 permissions:
@@ -26,3 +30,5 @@ jobs:
         run: |
           python seoul-apartment-collector/test_quota.py
           python seoul-apartment-collector/test_incremental.py
+          python seoul-apartment-collector/test_recovery.py
+          python seoul-apartment-collector/test_workflow_commit.py
