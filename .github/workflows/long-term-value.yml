@@ -1,6 +1,14 @@
 name: Build Apartment Five-Year Valuations
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "long-term-value/build_snapshots.py"
+      - "long-term-value/model.js"
+      - "long-term-value/index.html"
+      - "long-term-value/test_build_snapshots.py"
+      - ".github/workflows/long-term-value.yml"
   schedule:
     - cron: "10 23 * * *" # ~08:10 Asia/Seoul (GitHub may delay scheduled runs)
 permissions:
