@@ -1,0 +1,33 @@
+name: GSADF official data and isolated validation
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 2 5 * *'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r gsadf/requirements.txt
+      - run: python -m unittest discover -s gsadf/tests -v
+      - run: python -m gsadf.fetch_oecd --data-dir gsadf/data
+      - name: Run independent Monte Carlo verification; do not alter risk-data.js
+        run: |
+          for key in real_hpi pir ptr; do
+            python -m gsadf.run --input "gsadf/data/korea_${key}_quarterly.csv" --output "gsadf/output/${key}.json" --reps 2000
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gsadf-official-data-and-audit
+          path: |
+            gsadf/data/
+            gsadf/output/
+          if-no-files-found: ignore
+          retention-days: 90
