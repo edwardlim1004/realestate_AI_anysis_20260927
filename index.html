@@ -359,7 +359,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
 
   <section>
     <h2 class="section-title">📋 지역별 실거래·상대점수 게시판</h2>
-    <p class="section-sub">헤더를 클릭하면 정렬됩니다. 행을 클릭하면 월별 단순평균과 추세선, 표본·임대지표를 확인할 수 있습니다.</p>
+    <p class="section-sub">헤더를 클릭하면 정렬됩니다. 행을 클릭하면 추세선·지표를 확인합니다. 서울 지역의 <strong>실거래 건수 숫자를 클릭하면 아파트명·주소·계약일·거래금액을 확인</strong>할 수 있습니다.</p>
     <div class="board-controls">
       <input type="search" id="searchInput" placeholder="지역 검색..." oninput="renderBoard()">
       <select id="provinceSel" onchange="renderBoard()">
@@ -383,7 +383,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
             <th onclick="setSort('avg84')">전용84 평균</th>
             <th onclick="setSort('avgPrice')">전체 평균</th>
             <th onclick="setSort('jeonseRate')">전세가율</th>
-            <th onclick="setSort('trades')">실거래 건수</th>
+            <th onclick="setSort('trades')">실거래 건수 (숫자 클릭 → 아파트·주소)</th>
           </tr>
         </thead>
         <tbody id="boardBody"></tbody>
@@ -401,22 +401,22 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
       <span class="sig-pill" id="mSignal">-</span>
     </div>
     <p class="section-sub" id="mVerdict" style="margin-top:8px"></p>
-    <div class="stat-mini-grid">
-      <div class="stat-mini"><div class="l">현재가 (전용84)</div><div class="v num" id="mPrice">-</div></div>
-      <div class="stat-mini"><div class="l">추세 대비 괴리율</div><div class="v num" id="mGap">-</div></div>
-      <div class="stat-mini"><div class="l">전세가율</div><div class="v num" id="mJeonse">-</div></div>
-      <div class="stat-mini"><div class="l">실거래 건수</div><div class="v num" id="mTrades">-</div></div>
-      <div class="stat-mini"><div class="l">전월세전환율(k)</div><div class="v num" id="mK">-</div></div>
-      <div class="stat-mini"><div class="l">내재 임대수익률</div><div class="v num" id="mYield">-</div></div>
-      <div class="stat-mini"><div class="l">4.39% 시나리오 스프레드</div><div class="v num" id="mSpread">-</div></div>
-      <div class="stat-mini"><div class="l">갭 변화 국면</div><div class="v" id="mPhase"><span class="phase-badge">-</span></div></div>
-    </div>
     <section id="tradeDetailPanel" hidden style="padding:15px;margin:15px 0;border:1px solid #8885;border-radius:12px">
 <h3>개별 아파트 실거래 · 주소 확인</h3><p class="section-sub" id="tradeDetailStatus"></p>
 <input id="tradeDetailSearch" type="search" placeholder="단지명·동·지번 검색" style="width:100%;padding:10px;margin:10px 0" oninput="renderApartmentTrades()">
 <div style="overflow:auto;max-height:450px"><table style="width:100%;font-size:12px"><thead><tr><th>계약일</th><th>단지 / 주소</th><th>전용·층</th><th>매매가</th></tr></thead><tbody id="tradeDetailRows"></tbody></table></div>
 <div id="tradeDetailSelected" style="margin-top:15px;line-height:1.8"></div>
 <p class="section-sub">구 전체 추세 괴리율은 단지별 적정가격이 아닙니다. 10월은 잠정 실거래 자료입니다.</p></section>
+    <div class="stat-mini-grid">
+      <div class="stat-mini"><div class="l">현재가 (전용84)</div><div class="v num" id="mPrice">-</div></div>
+      <div class="stat-mini"><div class="l">추세 대비 괴리율</div><div class="v num" id="mGap">-</div></div>
+      <div class="stat-mini"><div class="l">전세가율</div><div class="v num" id="mJeonse">-</div></div>
+      <div class="stat-mini"><div class="l">실거래 건수 · 클릭하면 거래별 상세</div><button type="button" class="v num trade-trigger" id="mTrades" onclick="showApartmentTrades(document.getElementById('mName').textContent)">-</button></div>
+      <div class="stat-mini"><div class="l">전월세전환율(k)</div><div class="v num" id="mK">-</div></div>
+      <div class="stat-mini"><div class="l">내재 임대수익률</div><div class="v num" id="mYield">-</div></div>
+      <div class="stat-mini"><div class="l">4.39% 시나리오 스프레드</div><div class="v num" id="mSpread">-</div></div>
+      <div class="stat-mini"><div class="l">갭 변화 국면</div><div class="v" id="mPhase"><span class="phase-badge">-</span></div></div>
+    </div>
     <div class="modal-grid">
       <div class="card">
         <h3 style="margin:0 0 6px; font-size:13px">5년 월별 단순평균 vs 로그 추세선</h3>
@@ -460,7 +460,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="risk-data.js"></script>
 <script src="data.js"></script>
-<script src="apartment-trades.js" defer></script>
+<script src="apartment-trades.js?v=20261021-2" defer></script>
 <script>
 const REGIONS = ENHANCED_DATA.regions;
 const MONTHS = ENHANCED_DATA.months;
@@ -699,7 +699,6 @@ function parseTradesTotal(s){
 function sigLabel(sig){ return sig==='buy'?'🔵 상대우위':sig==='warning'?'🟡 중립':'🔴 재검증'; }
 
 function renderBoard(){
-  document.getElementById('provinceSel').value = state.province;
   const provSel = document.getElementById('provinceSel').value;
   state.province = provSel;
   const q = document.getElementById('searchInput').value.trim().toLowerCase();
