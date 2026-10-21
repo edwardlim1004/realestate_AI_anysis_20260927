@@ -69,10 +69,21 @@ jobs:
           python seoul-apartment-collector/collect.py --mode "$REQUESTED_MODE" --region "$REQUESTED_REGION" --max-requests "$REQUESTED_LIMIT" --delay 3
       - name: Verify real Gyeonggi smoke collection after code deployment
         if: github.event_name == 'push'
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
         run: |
           python - <<'PY'
-          import json
+          import json,sys
           from pathlib import Path
+          sys.path.insert(0,'seoul-apartment-collector')
+          from r2_bridge import R2Storage
+          from collect import prev,today
           base=Path('seoul-apartment-collector')
           status=json.loads((base/'status.json').read_text())
           manifest=json.loads((base/'r2_manifest.json').read_text())['files']
@@ -81,11 +92,16 @@ jobs:
           assert status['last_run_requests']>=2, status
           kinds={key.split('/')[0] for key in manifest if key.split('/')[2]=='41111'}
           assert {'sale','rent'} <= kinds, kinds
-          rows={kind:sum(entry.get('rows',0) for key,entry in manifest.items()
-                        if key.split('/')[0]==kind and key.split('/')[2]=='41111')
-                for kind in ('sale','rent')}
+          archive=R2Storage()
+          ym=prev(today().strftime('%Y%m'))
+          rows={}
+          for kind in ('sale','rent'):
+              relative=archive.relpath(kind,'41111',ym)
+              stored=archive.read_scope(relative)
+              assert len(stored)==manifest[relative]['rows'], relative
+              rows[kind]=len(stored)
           assert all(count>0 for count in rows.values()), rows
-          print('GYEONGGI_LIVE_SMOKE_VERIFIED: official sale and rent API rows stored; '+json.dumps(rows))
+          print('GYEONGGI_LIVE_SMOKE_VERIFIED: storage reread, SHA256 and row counts confirmed; '+json.dumps(rows))
           PY
       - name: Audit verified source coverage (R2 or Google Drive, through 2026-10)
         if: always()
