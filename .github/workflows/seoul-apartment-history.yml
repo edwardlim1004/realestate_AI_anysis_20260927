@@ -50,6 +50,14 @@ jobs:
           python-version: "3.11"
       - name: Install R2 and Google Drive failover SDKs
         run: python -m pip install boto3 google-api-python-client google-auth google-auth-oauthlib cryptography
+      - name: Recover verified results from failed run 39597380565 once
+        id: recovery
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+        run: python seoul-apartment-collector/recover_failed_run.py
       - name: Collect official apartment data slowly
         env:
           MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
@@ -103,6 +111,33 @@ jobs:
           assert all(count>0 for count in rows.values()), rows
           print('GYEONGGI_LIVE_SMOKE_VERIFIED: storage reread, SHA256 and row counts confirmed; '+json.dumps(rows))
           PY
+      - name: Verify Gyeonggi historical collection resumes after recovery
+        if: github.event_name == 'push' && steps.recovery.outputs.recovered == 'true'
+        env:
+          MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
+          R2_GDRIVE_FALLBACK_ENABLED: "true"
+          R2_STORAGE_SOFT_CAP_BYTES: "8589934592"
+        run: |
+          python seoul-apartment-collector/collect.py --mode backfill --region gyeonggi --max-requests 8 --delay 3
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          base=Path('seoul-apartment-collector')
+          status=json.loads((base/'status.json').read_text())
+          receipt=json.loads((base/'recoveries/39597380565.receipt.json').read_text())
+          assert status['last_run_mode']=='backfill', status
+          assert 0 < status['last_run_requests'] <= 8, status
+          assert status['last_run_failures']==0 and status['last_run_success']>0, status
+          assert status['completed_by_region']['gyeonggi']>receipt['completed_by_region']['gyeonggi'], status
+          print('GYEONGGI_BACKFILL_RESUMED_VERIFIED: '+json.dumps(status['completed_by_region']))
+          PY
       - name: Audit verified source coverage (R2 or Google Drive, through 2026-10)
         if: always()
         id: backfill
@@ -112,14 +147,14 @@ jobs:
         id: backfill_gyeonggi
         run: python seoul-apartment-collector/backfill_progress.py --region gyeonggi
       - name: Commit successful monthly results
-        if: always()
+        if: always() && steps.recovery.outcome == 'success'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add seoul-apartment-collector/r2_manifest.json seoul-apartment-collector/state.json seoul-apartment-collector/status.json seoul-apartment-collector/backfill_progress.json seoul-apartment-collector/gyeonggi_backfill_progress.json seoul-apartment-collector/updates/
+          git add seoul-apartment-collector/r2_manifest.json seoul-apartment-collector/state.json seoul-apartment-collector/status.json seoul-apartment-collector/backfill_progress.json seoul-apartment-collector/gyeonggi_backfill_progress.json seoul-apartment-collector/updates/ seoul-apartment-collector/recoveries/
           if ! git diff --cached --quiet; then
             git commit -m "data: Seoul and Gyeonggi apartment incremental archives"
-            git pull --rebase origin main
+            git pull --rebase --autostash origin main
             git push origin HEAD:main
           else
             echo "No new data"
@@ -166,6 +201,10 @@ jobs:
           path: |
             seoul-apartment-collector/state.json
             seoul-apartment-collector/status.json
+            seoul-apartment-collector/r2_manifest.json
+            seoul-apartment-collector/backfill_progress.json
             seoul-apartment-collector/gyeonggi_backfill_progress.json
+            seoul-apartment-collector/updates/
+            seoul-apartment-collector/recoveries/
           if-no-files-found: ignore
           retention-days: 30
