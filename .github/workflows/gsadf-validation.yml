@@ -1,6 +1,11 @@
 name: GSADF official data and isolated validation
 on:
   workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'gsadf/**'
+      - '.github/workflows/gsadf-validation.yml'
   push:
     branches: [main]
     paths:
