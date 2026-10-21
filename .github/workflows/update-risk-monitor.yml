@@ -25,6 +25,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Verify liquidity adapter remains fail-closed
+        run: python -m unittest discover -s risk-monitor/liquidity/tests -p 'test_*.py' -v
+
       - name: Upsert OECD and BIS official observations
         run: python risk-monitor/update_risk_data.py
 

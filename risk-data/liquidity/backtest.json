@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.0",
+  "updatedAtUTC": null,
+  "gates": {
+    "predictiveBacktest": {
+      "status": "NOT_RUN",
+      "detail": "전국 실질주택가격의 4·8분기 선행 경보를 expanding-window로 검증해야 합니다."
+    },
+    "revisionStability": {
+      "status": "NOT_RUN",
+      "detail": "최소 6개 데이터 빈티지에서 끝점 점수와 경보등급의 수정 폭을 점검해야 합니다."
+    },
+    "humanReview": {
+      "status": "NOT_APPROVED",
+      "detail": "산식·중복성·위기구간 오경보를 검토한 뒤 승인자를 기록해야 합니다."
+    }
+  }
+}
+

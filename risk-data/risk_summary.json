@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAtUTC": "2026-10-18T11:43:24+00:00",
+  "generatedAtUTC": "2026-10-21T15:29:13+00:00",
   "latestRawPeriod": "2026-Q3",
   "method": {
     "normalization": "expanding historical percentile, minimum 20 quarters",
@@ -100,12 +100,29 @@
         "liquidity": {
           "label": "유동성",
           "score": null,
-          "status": "WAITING_DATA",
+          "status": "SHADOW_WAITING_DATA",
           "value": null,
-          "meaning": "Marshall K와 실질 원화 M2 갭을 별도 축으로 연결할 자리입니다.",
-          "calculation": "ECOS 원자료 연결 후 월간 HP λ=129,600, 끝점 잠정치 표시",
-          "literature": [],
-          "limitations": "현재 공개 사이트에는 ECOS 장기 원자료가 없어 종합점수에서 제외했습니다."
+          "meaning": "Marshall K·실질 M2 갭·유동성 폭을 독립 모듈에서 계산하며, 검증 중에는 종합점수와 격리합니다.",
+          "calculation": "50% Marshall K 갭 + 30% 실질 M2 갭 + 20% M2·Lf·L 실질증가율 폭; one-sided HP와 expanding 백분위",
+          "literature": [
+            "BOK_ECOS_LIQUIDITY",
+            "BOK_LIQUIDITY_GUIDE",
+            "RAVN_UHLIG_2002",
+            "BIS_HP_GUIDE"
+          ],
+          "limitations": "SHADOW 상태입니다. 표본외 백테스트·빈티지 안정성·사람 검토와 승인 지문 일치 전에는 숫자를 공개하거나 종합점수에 넣지 않습니다.",
+          "module": {
+            "mode": "SHADOW_WAITING_DATA",
+            "validationPassed": false,
+            "passedGates": 0,
+            "totalGates": 9,
+            "latestPeriod": null,
+            "summaryUrl": "risk-data/liquidity/summary.json",
+            "validationUrl": "risk-data/liquidity/validation.json",
+            "backtestUrl": "risk-data/liquidity/backtest.json",
+            "rawUrl": "risk-data/liquidity/raw.csv",
+            "revisionsUrl": "risk-data/liquidity/revision_history.csv"
+          }
         },
         "gsadf": {
           "label": "GSADF 버블검정",
@@ -3600,6 +3617,38 @@
       "Reference": "IMF Global Financial Stability Report, April 2019, chapter 2",
       "Exact_Location": "Downside Risks to House Prices, quantile-regression framework",
       "URL": "https://www.imf.org/en/Publications/GFSR/Issues/2019/03/27/Global-Financial-Stability-Report-April-2019"
+    },
+    "BOK_ECOS_LIQUIDITY": {
+      "ID": "BOK_ECOS_LIQUIDITY",
+      "Type": "official_data",
+      "Use": "Korean liquidity module inputs",
+      "Reference": "Bank of Korea ECOS Open API",
+      "Exact_Location": "161Y005/BBHS00 M2; 171Y003/LAS0000 Lf; 172Y001/XS00000 L; 901Y009/0 CPI; 200Y103/1400 nominal GDP",
+      "URL": "https://ecos.bok.or.kr/api/"
+    },
+    "BOK_LIQUIDITY_GUIDE": {
+      "ID": "BOK_LIQUIDITY_GUIDE",
+      "Type": "official_analysis",
+      "Use": "M2 interpretation and composition caveat",
+      "Reference": "Bank of Korea, Understanding Recent Liquidity Conditions (2025-12-16)",
+      "Exact_Location": "M2/GDP, asset turnover and financial-product composition discussion",
+      "URL": "https://www.bok.or.kr/portal/bbs/B0000347/view.do?menuNo=201106&nttId=10095141"
+    },
+    "RAVN_UHLIG_2002": {
+      "ID": "RAVN_UHLIG_2002",
+      "Type": "paper",
+      "Use": "frequency adjustment of HP smoothing parameter",
+      "Reference": "Ravn & Uhlig (2002), On Adjusting the Hodrick-Prescott Filter for the Frequency of Observations",
+      "Exact_Location": "Review of Economics and Statistics 84(2), fourth-power frequency rule",
+      "URL": "https://doi.org/10.1162/003465302317411604"
+    },
+    "BIS_HP_GUIDE": {
+      "ID": "BIS_HP_GUIDE",
+      "Type": "paper",
+      "Use": "one-sided HP gap implementation and limitations",
+      "Reference": "Drehmann & Yetman (2018), Why you should use the Hodrick-Prescott filter",
+      "Exact_Location": "BIS Working Papers No 744; credit-gap early-warning and endpoint discussion",
+      "URL": "https://www.bis.org/publications/working-paper-744-why-you-should-use-hodrick-prescott-filter-least-generate-credit-gaps"
     }
   },
   "downloads": {
@@ -3608,8 +3657,8 @@
     "registry": "risk-data/source_registry.csv"
   },
   "update": {
-    "startPeriodRequested": "1998-Q1",
-    "insertedOrRevised": 2424,
+    "startPeriodRequested": "2023-Q1",
+    "insertedOrRevised": 0,
     "providerWarnings": [],
     "policy": "No file rewrite when official values and generated outputs are unchanged."
   }

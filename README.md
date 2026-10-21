@@ -11,7 +11,7 @@
 
 ## 화면에서 가장 먼저 볼 것
 
-- `공식축 3/4`: 가격평가·신용·모멘텀은 연결됐고 유동성은 아직 대기 중이라는 뜻입니다.
+- `공식축 3/4`: 가격평가·신용·모멘텀은 반영 중이고 유동성은 독립 SHADOW 검증 중이라는 뜻입니다.
 - `WAITING DATA`: 자료 또는 검정요건을 충족하지 않아 점수를 만들지 않았다는 뜻입니다.
 - 위험신호 카드 클릭: 현재값, 산식, `Observation_Key`, 논문 위치와 한계를 확인합니다.
 - `원자료 CSV`·`수정 이력`·`출처 목록`: 숫자를 외부에서 재계산할 때 사용합니다.
@@ -32,11 +32,15 @@
 | 가격평가 | OECD 표준화 PIR·PTR | 각 계열의 expanding 역사 백분위 평균 |
 | 신용취약성 | BIS 신용/GDP 갭·가계 DSR | 각 계열의 expanding 역사 백분위 평균 |
 | 모멘텀 | OECD 실질주택가격지수 | 전년동기비의 expanding 역사 백분위 |
-| 유동성 | ECOS Marshall K·실질 M2 갭 | 아직 공개 사이트 미연결, 종합점수 제외 |
+| 유동성 | ECOS M2·Lf·L·CPI·명목 GDP | 독립 SHADOW 모듈에서 9개 게이트 검증 중, 승인 전 종합점수 제외 |
 | GSADF | 실질가격·PIR·PTR | 2,000회 Monte Carlo 등 엄격검정 전 `WAITING DATA` |
 | HaR | IMF House Prices at Risk 변수군 | 분위수회귀·표본외 검증 전 `WAITING DATA` |
 
 종합위험 백분위는 유효한 `가격평가·신용·유동성·모멘텀` 축을 동일가중 평균합니다. 최소 세 축이 있어야 표시합니다. `0~100`은 위기확률이 아니라 그 국가의 과거 관측치 대비 위치입니다. GREEN/WATCH/AMBER/RED 구간도 화면 운영용 경계이며 논문이 제시한 붕괴확률 기준이 아닙니다.
+
+### 유동성 모듈의 격리와 승격
+
+유동성은 `risk-monitor/liquidity/`에서 독립적으로 수집·계산·검증합니다. `SHADOW` 상태에서는 그림자 점수가 만들어져도 본체 어댑터가 `score=null`로 차단하므로 기존 종합점수에 영향이 없습니다. 공식계열·표본·연속성·발표시차·계산·no-lookahead 6개 자동 게이트와 예측 백테스트·빈티지 안정성·사람 검토 3개 게이트를 모두 통과해야 `ELIGIBLE`이 됩니다. 이후 승인된 검증 지문이 일치할 때만 `ACTIVE`로 승격되어 4번째 종합축에 편입됩니다. 세부 절차는 [유동성 모듈 README](risk-monitor/liquidity/README.md)를 따릅니다.
 
 ## 지역 상대 비교의 제한
 
@@ -71,6 +75,16 @@
 
 BIS bulk 파일은 제공기관 구조상 전체 ZIP을 받지만, 저장소에서는 대상 5개국 계열만 추출해 관측치 단위로 upsert합니다. OECD는 기존 자료가 있으면 최근 약 3년만 중첩 재조회합니다.
 
+### 유동성 SHADOW — 매월 20일 08:35 KST
+
+`.github/workflows/update-liquidity-monitor.yml`
+
+1. 독립 단위테스트와 fail-closed 활성화 계약 검사
+2. ECOS M2·Lf·L·CPI·명목 GDP 공식 관측치 upsert
+3. one-sided HP·expanding 백분위 계산과 9개 검증 게이트 갱신
+4. 변경이 있을 때만 읽기 전용 어댑터로 화면 산출물 재생성
+5. `ACTIVE` 전에는 기존 3개 종합축을 그대로 유지
+
 ## 주요 파일
 
 ```text
@@ -81,6 +95,8 @@ risk-data/risk_raw.csv                 OECD·BIS 원자료 누적본
 risk-data/revision_history.csv         공식 수정치 이력
 risk-data/source_registry.csv          논문·보고서·정확한 사용 위치
 risk-monitor/update_risk_data.py       공식 거시자료 증분 갱신·점수 계산
+risk-monitor/liquidity/                격리된 ECOS 유동성 계산·검증·승격 모듈
+risk-data/liquidity/                   유동성 원자료·수정이력·검증·빈티지 산출물
 api-integration/fetch_molit_incremental.py
 api-integration/fetch_jeonse_incremental.py
 api-integration/merge_into_datajs.py

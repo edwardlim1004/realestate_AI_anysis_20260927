@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "1.0",
+  "moduleId": "KOR_LIQUIDITY",
+  "source": {
+    "provider": "BOK_ECOS",
+    "apiBase": "https://ecos.bok.or.kr/api",
+    "startMonthly": "200310",
+    "startQuarterly": "2003Q4",
+    "series": {
+      "M2": {
+        "statCode": "161Y005",
+        "itemCode": "BBHS00",
+        "frequency": "M",
+        "expectedName": "M2(평잔,계절조정계열)",
+        "expectedUnit": "십억원"
+      },
+      "LF": {
+        "statCode": "171Y003",
+        "itemCode": "LAS0000",
+        "frequency": "M",
+        "expectedName": "Lf(금융기관유동성)",
+        "expectedUnit": "십억원"
+      },
+      "L": {
+        "statCode": "172Y001",
+        "itemCode": "XS00000",
+        "frequency": "M",
+        "expectedName": "L(광의 유동성)",
+        "expectedUnit": "십억원"
+      },
+      "CPI": {
+        "statCode": "901Y009",
+        "itemCode": "0",
+        "frequency": "M",
+        "expectedName": "총지수",
+        "expectedUnit": "2020=100"
+      },
+      "NOMINAL_GDP": {
+        "statCode": "200Y103",
+        "itemCode": "1400",
+        "frequency": "Q",
+        "expectedName": "국내총생산(시장가격, GDP)",
+        "expectedUnit": "십억원"
+      }
+    }
+  },
+  "calculation": {
+    "weights": {
+      "marshallKGap": 0.5,
+      "realM2Gap": 0.3,
+      "breadth": 0.2
+    },
+    "hpLambdaMonthly": 129600,
+    "hpLambdaQuarterly": 1600,
+    "minMonthlyFilterObservations": 60,
+    "minQuarterlyFilterObservations": 20,
+    "minPercentileHistory": 20
+  },
+  "validation": {
+    "minMonthlyObservations": 120,
+    "minQuarterlyObservations": 40,
+    "maxMissingMonthly": 1,
+    "maxMissingQuarterly": 0,
+    "maxLatestLagMonths": 4
+  }
+}
+

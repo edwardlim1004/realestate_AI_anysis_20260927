@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0",
+  "moduleId": "KOR_LIQUIDITY",
+  "modelVersion": "1.0.0",
+  "mode": "SHADOW_WAITING_DATA",
+  "publicScore": null,
+  "shadowScore": null,
+  "latestPeriod": null,
+  "current": null,
+  "history": [],
+  "missingSeries": [
+    "M2",
+    "LF",
+    "L",
+    "CPI",
+    "NOMINAL_GDP"
+  ],
+  "validation": {
+    "passed": false,
+    "passedGateCount": 0,
+    "totalGateCount": 9,
+    "validationFingerprint": "e24ffd0373bda49d885d62ec93abda1bcfa1429cc2f11f0810184b8681fa3742",
+    "signalFingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "activation": {
+    "enabled": false,
+    "approvedValidationFingerprint": null,
+    "fingerprintMatched": false,
+    "approvedAtUTC": null,
+    "approvedBy": null
+  },
+  "method": {
+    "components": "50% Marshall K gap + 30% real M2 gap + 20% real-liquidity breadth",
+    "filter": "one-sided HP filter; monthly lambda 129,600 and quarterly lambda 1,600",
+    "normalization": "expanding historical percentile; no future observations",
+    "publicPolicy": "Only ACTIVE can expose publicScore or enter the core composite."
+  },
+  "downloads": {
+    "raw": "risk-data/liquidity/raw.csv",
+    "revisions": "risk-data/liquidity/revision_history.csv",
+    "validation": "risk-data/liquidity/validation.json",
+    "backtest": "risk-data/liquidity/backtest.json"
+  },
+  "generatedAtUTC": "2026-10-21T15:25:25+00:00",
+  "inputFingerprint": "1abd11de4555e4ae30697a8c805c63064adf4abd1bc0ebeaf25cdac41a9e345a",
+  "update": {
+    "insertedOrRevised": 0,
+    "warnings": [],
+    "policy": "Provider failures retain the prior official cache; SHADOW never enters the core score."
+  }
+}

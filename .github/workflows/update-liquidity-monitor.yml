@@ -1,0 +1,65 @@
+name: Update Isolated Liquidity Monitor
+
+on:
+  schedule:
+    - cron: "35 23 19 * *" # 20th 08:35 KST; after the usual monthly money release
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - "risk-monitor/liquidity/**"
+      - ".github/workflows/update-liquidity-monitor.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: official-housing-risk-monitor
+  cancel-in-progress: false
+
+jobs:
+  update-liquidity-shadow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify isolated calculations and fail-closed activation contract
+        run: python -m unittest discover -s risk-monitor/liquidity/tests -p 'test_*.py' -v
+
+      - name: Upsert ECOS observations and calculate SHADOW output
+        env:
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+        run: python risk-monitor/liquidity/update_liquidity.py
+
+      - name: Detect module output changes
+        id: module
+        run: |
+          if git diff --quiet -- risk-data/liquidity/; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Rebuild core output through the read-only adapter
+        if: steps.module.outputs.changed == 'true'
+        run: python risk-monitor/update_risk_data.py --rebuild-only
+
+      - name: Commit module outputs and adapted dashboard only
+        if: steps.module.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add risk-data/liquidity/ risk-data/risk_summary.json risk-data/source_registry.csv risk-data.js
+          if ! git diff --cached --quiet; then
+            git commit -m "data: update isolated liquidity shadow module"
+            git push origin HEAD:main
+          fi
+

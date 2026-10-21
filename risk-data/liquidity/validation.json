@@ -1,0 +1,79 @@
+{
+  "passed": false,
+  "gates": {
+    "officialSourceIdentity": {
+      "status": "FAIL",
+      "detail": "ECOS 코드·항목·주기·공식 API 표식을 설정과 대조",
+      "observed": {
+        "M2": 0,
+        "LF": 0,
+        "L": 0,
+        "CPI": 0,
+        "NOMINAL_GDP": 0
+      }
+    },
+    "historyCoverage": {
+      "status": "FAIL",
+      "detail": "월별·분기별 최소 표본 수 충족",
+      "observed": {
+        "M2": 0,
+        "LF": 0,
+        "L": 0,
+        "CPI": 0,
+        "NOMINAL_GDP": 0
+      },
+      "required": {
+        "monthly": 120,
+        "quarterly": 40
+      }
+    },
+    "continuity": {
+      "status": "FAIL",
+      "detail": "계열별 누락 월·분기 수 제한",
+      "observed": {
+        "M2": 0,
+        "LF": 0,
+        "L": 0,
+        "CPI": 0,
+        "NOMINAL_GDP": 0
+      },
+      "required": {
+        "monthly": 1,
+        "quarterly": 0
+      }
+    },
+    "releaseRecency": {
+      "status": "FAIL",
+      "detail": "M2 최신 관측치 발표시차 제한",
+      "observed": 9999,
+      "required": 4
+    },
+    "calculationIntegrity": {
+      "status": "FAIL",
+      "detail": "가중치 합계·구성요소·최종점수 재현 가능",
+      "observed": 1.0,
+      "required": 1.0
+    },
+    "noLookAhead": {
+      "status": "FAIL",
+      "detail": "과거 절단표본 재계산 결과가 전체표본의 같은 시점 점수와 일치"
+    },
+    "predictiveBacktest": {
+      "status": "NOT_RUN",
+      "detail": "전국 실질주택가격의 4·8분기 선행 경보를 expanding-window로 검증해야 합니다."
+    },
+    "revisionStability": {
+      "status": "NOT_RUN",
+      "detail": "최소 6개 데이터 빈티지에서 끝점 점수와 경보등급의 수정 폭을 점검해야 합니다."
+    },
+    "humanReview": {
+      "status": "NOT_APPROVED",
+      "detail": "산식·중복성·위기구간 오경보를 검토한 뒤 승인자를 기록해야 합니다."
+    }
+  },
+  "validationFingerprint": "e24ffd0373bda49d885d62ec93abda1bcfa1429cc2f11f0810184b8681fa3742",
+  "signalFingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "passedGateCount": 0,
+  "totalGateCount": 9,
+  "generatedAtUTC": "2026-10-21T15:25:25+00:00"
+}

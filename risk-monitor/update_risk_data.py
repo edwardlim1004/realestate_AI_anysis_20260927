@@ -7,6 +7,7 @@ wrapper for the buildless dashboard. API keys are neither required nor stored.
 """
 from __future__ import annotations
 
+import argparse
 import csv
 import io
 import json
@@ -19,6 +20,8 @@ import zipfile
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+
+from liquidity.adapter import load_for_core
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -98,6 +101,30 @@ SOURCE_ROWS = [
         "Reference": "IMF Global Financial Stability Report, April 2019, chapter 2",
         "Exact_Location": "Downside Risks to House Prices, quantile-regression framework",
         "URL": "https://www.imf.org/en/Publications/GFSR/Issues/2019/03/27/Global-Financial-Stability-Report-April-2019",
+    },
+    {
+        "ID": "BOK_ECOS_LIQUIDITY", "Type": "official_data", "Use": "Korean liquidity module inputs",
+        "Reference": "Bank of Korea ECOS Open API",
+        "Exact_Location": "161Y005/BBHS00 M2; 171Y003/LAS0000 Lf; 172Y001/XS00000 L; 901Y009/0 CPI; 200Y103/1400 nominal GDP",
+        "URL": "https://ecos.bok.or.kr/api/",
+    },
+    {
+        "ID": "BOK_LIQUIDITY_GUIDE", "Type": "official_analysis", "Use": "M2 interpretation and composition caveat",
+        "Reference": "Bank of Korea, Understanding Recent Liquidity Conditions (2025-12-16)",
+        "Exact_Location": "M2/GDP, asset turnover and financial-product composition discussion",
+        "URL": "https://www.bok.or.kr/portal/bbs/B0000347/view.do?menuNo=201106&nttId=10095141",
+    },
+    {
+        "ID": "RAVN_UHLIG_2002", "Type": "paper", "Use": "frequency adjustment of HP smoothing parameter",
+        "Reference": "Ravn & Uhlig (2002), On Adjusting the Hodrick-Prescott Filter for the Frequency of Observations",
+        "Exact_Location": "Review of Economics and Statistics 84(2), fourth-power frequency rule",
+        "URL": "https://doi.org/10.1162/003465302317411604",
+    },
+    {
+        "ID": "BIS_HP_GUIDE", "Type": "paper", "Use": "one-sided HP gap implementation and limitations",
+        "Reference": "Drehmann & Yetman (2018), Why you should use the Hodrick-Prescott filter",
+        "Exact_Location": "BIS Working Papers No 744; credit-gap early-warning and endpoint discussion",
+        "URL": "https://www.bis.org/publications/working-paper-744-why-you-should-use-hodrick-prescott-filter-least-generate-credit-gaps",
     },
 ]
 
@@ -323,6 +350,7 @@ def state_for(score: float | None) -> str:
 
 
 def build_summary(rows: list[dict]) -> dict:
+    liquidity_module = load_for_core(ROOT)
     values = defaultdict(list)
     raw_lookup = {}
     for row in rows:
@@ -357,8 +385,11 @@ def build_summary(rows: list[dict]) -> dict:
 
     results = {}
     for country in COUNTRIES:
+        country_liquidity_active = country == "KOR" and liquidity_module["active"]
+        liquidity_history = liquidity_module["history"] if country_liquidity_active else {}
         country_periods = sorted(
-            {period for (cty, _), series in scored.items() if cty == country for period in series},
+            {period for (cty, _), series in scored.items() if cty == country for period in series}
+            | set(liquidity_history),
             key=period_key,
         )
         latest_seen = {}
@@ -368,6 +399,11 @@ def build_summary(rows: list[dict]) -> dict:
                 point = scored.get((country, metric), {}).get(period)
                 if point and point["score"] is not None:
                     latest_seen[metric] = {**point, "period": period}
+            if period in liquidity_history:
+                latest_seen["LIQUIDITY"] = {
+                    "score": liquidity_history[period], "value": liquidity_history[period],
+                    "period": period, "sourceKey": f"ECOS|KOR_LIQUIDITY|COMPOSITE|{period}",
+                }
             valuation_items = [latest_seen.get("PIR_LTA"), latest_seen.get("PTR_LTA")]
             credit_items = [latest_seen.get("CREDIT_GAP_PP"), latest_seen.get("DSR_PCT")]
             valuation_scores = [item["score"] for item in valuation_items if item]
@@ -375,17 +411,21 @@ def build_summary(rows: list[dict]) -> dict:
             valuation = round(sum(valuation_scores) / len(valuation_scores), 1) if valuation_scores else None
             credit = round(sum(credit_scores) / len(credit_scores), 1) if credit_scores else None
             momentum = latest_seen.get("REAL_HPI_YOY", {}).get("score")
-            pillars = [item for item in (valuation, credit, momentum) if item is not None]
+            liquidity = latest_seen.get("LIQUIDITY", {}).get("score") if country_liquidity_active else None
+            pillars = [item for item in (valuation, credit, momentum, liquidity) if item is not None]
             composite = round(sum(pillars) / len(pillars), 1) if len(pillars) >= 3 else None
             if composite is not None:
-                history.append({
+                history_point = {
                     "period": period, "score": composite, "state": state_for(composite),
                     "valuation": valuation, "credit": credit, "momentum": momentum,
-                })
+                }
+                if liquidity is not None:
+                    history_point["liquidity"] = liquidity
+                history.append(history_point)
 
         current = history[-1] if history else {
             "period": "", "score": None, "state": "N/A", "valuation": None,
-            "credit": None, "momentum": None,
+            "credit": None, "momentum": None, "liquidity": None,
         }
         def latest(metric: str):
             return latest_seen.get(metric)
@@ -419,7 +459,7 @@ def build_summary(rows: list[dict]) -> dict:
                 "literature": ["OECD_AHP"],
                 "limitations": "전국 평균이며 거래량·서울 아파트 구성효과를 직접 반영하지 않습니다.",
             },
-            "liquidity": {
+            "liquidity": liquidity_module["tile"] if country == "KOR" else {
                 "label": "유동성", "score": None, "status": "WAITING_DATA", "value": None,
                 "meaning": "Marshall K와 실질 원화 M2 갭을 별도 축으로 연결할 자리입니다.",
                 "calculation": "ECOS 원자료 연결 후 월간 HP λ=129,600, 끝점 잠정치 표시",
@@ -441,11 +481,22 @@ def build_summary(rows: list[dict]) -> dict:
                 "limitations": "충분한 설명변수와 약 60개 분기 검증 전에는 하락률을 표시하지 않습니다.",
             },
         }
+        coverage_count = sum(
+            value is not None for value in (
+                current["valuation"], current["credit"], current["momentum"], current.get("liquidity"),
+            )
+        )
         results[country] = {
             "name": COUNTRIES[country],
             "composite": {
-                "score": current["score"], "state": current["state"], "coverage": "3/4" if current["score"] is not None else "<3/4",
-                "latestPeriod": current["period"], "meaning": "유효한 가격평가·신용·모멘텀 역사백분위의 동일가중 평균",
+                "score": current["score"], "state": current["state"],
+                "coverage": f"{coverage_count}/4" if coverage_count >= 3 else "<3/4",
+                "latestPeriod": current["period"],
+                "meaning": (
+                    "유효한 가격평가·신용·모멘텀·유동성 역사백분위의 동일가중 평균"
+                    if country_liquidity_active
+                    else "유효한 가격평가·신용·모멘텀 역사백분위의 동일가중 평균"
+                ),
                 "warning": "0~100은 위기 또는 폭락 확률이 아니라 해당 국가의 과거 관측치 대비 위험 백분위입니다.",
             },
             "tiles": tiles,
@@ -476,6 +527,12 @@ def build_summary(rows: list[dict]) -> dict:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--rebuild-only", action="store_true",
+        help="Rebuild the dashboard from committed core and module caches without network fetches",
+    )
+    args = parser.parse_args()
     old = read_csv(RAW)
     if old:
         newest_year = max((period_key(row.get("Period", ""))[0] for row in old), default=2020)
@@ -485,18 +542,19 @@ def main() -> int:
     start_period = f"{start_year}-Q1"
     incoming = []
     errors = []
-    for name, fetcher in (
-        ("OECD", fetch_oecd), ("BIS_CREDIT", fetch_bis_credit), ("BIS_DSR", fetch_bis_dsr),
-    ):
-        try:
-            rows = fetcher(start_period)
-            if not rows:
-                raise RuntimeError("no target observations")
-            incoming.extend(rows)
-            print(f"{name}: OK {len(rows)}")
-        except Exception as exc:  # retain prior official observations on a provider outage
-            errors.append(f"{name}: {type(exc).__name__}: {str(exc)[:160]}")
-            print(f"{name}: REVIEW {type(exc).__name__}")
+    if not args.rebuild_only:
+        for name, fetcher in (
+            ("OECD", fetch_oecd), ("BIS_CREDIT", fetch_bis_credit), ("BIS_DSR", fetch_bis_dsr),
+        ):
+            try:
+                rows = fetcher(start_period)
+                if not rows:
+                    raise RuntimeError("no target observations")
+                incoming.extend(rows)
+                print(f"{name}: OK {len(rows)}")
+            except Exception as exc:  # retain prior official observations on a provider outage
+                errors.append(f"{name}: {type(exc).__name__}: {str(exc)[:160]}")
+                print(f"{name}: REVIEW {type(exc).__name__}")
     if not incoming and not old:
         raise SystemExit("No official observations available: " + " | ".join(errors))
 
@@ -504,7 +562,7 @@ def main() -> int:
     existing_revisions = read_csv(REVISIONS)
     all_revisions = existing_revisions + revisions
     if (
-        old and changed_count == 0 and SUMMARY_JSON.exists() and SUMMARY_JS.exists()
+        not args.rebuild_only and old and changed_count == 0 and SUMMARY_JSON.exists() and SUMMARY_JS.exists()
         and SOURCE_REGISTRY.exists() and not errors
     ):
         print(f"RESULT: NO_CHANGE; observations={len(merged)}; revisions={len(all_revisions)}")

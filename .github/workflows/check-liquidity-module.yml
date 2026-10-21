@@ -1,0 +1,28 @@
+name: Check Isolated Liquidity Module
+
+on:
+  pull_request:
+    paths:
+      - "risk-monitor/liquidity/**"
+      - "risk-monitor/update_risk_data.py"
+      - "index.html"
+      - ".github/workflows/check-liquidity-module.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile and test without credentials or network
+        run: |
+          python -m compileall -q risk-monitor/liquidity risk-monitor/update_risk_data.py
+          python -m unittest discover -s risk-monitor/liquidity/tests -p 'test_*.py' -v
+          python risk-monitor/liquidity/update_liquidity.py --offline
+

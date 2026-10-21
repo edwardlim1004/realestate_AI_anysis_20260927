@@ -268,7 +268,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
 
   <section>
     <h2 class="section-title">6대 위험 신호 — 항목을 누르면 산식·원자료·논문 근거가 열립니다</h2>
-    <p class="section-sub">공식자료가 연결된 항목만 점수화합니다. GSADF·HaR·유동성은 요건을 충족할 때까지 임의 점수를 만들지 않습니다.</p>
+    <p class="section-sub">공식자료가 연결된 항목만 점수화합니다. 유동성은 독립 SHADOW 모듈에서 검증하며, GSADF·HaR와 함께 승인 전에는 종합점수에 반영하지 않습니다.</p>
     <div class="risk-grid" id="riskGrid"></div>
   </section>
 
@@ -440,6 +440,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
     </div>
     <p class="section-sub" id="auditMeaning" style="margin-top:10px"></p>
     <div class="formula-box" id="auditCalculation"></div>
+    <div class="caution-box" id="auditModule" hidden></div>
     <div class="quality-grid" id="auditValues"></div>
     <div class="caution-box" id="auditLimit"></div>
     <h3 style="font-size:13px; margin:18px 0 0">논문·공식자료 근거</h3>
@@ -454,7 +455,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
 
 <footer>
   <div class="wrap">
-    공식 거시위험은 OECD·BIS 원자료에서, 지역 실거래는 국토교통부 API에서 수집합니다. 모든 점수는 감사 가능한 참고지표이며 투자 자문·매수추천·폭락확률이 아닙니다. 현재월과 표본이 작은 지역은 반드시 원자료를 확인하십시오.
+    공식 거시위험은 OECD·BIS 원자료에서, 유동성 SHADOW 모듈은 한국은행 ECOS에서, 지역 실거래는 국토교통부 API에서 수집합니다. 모든 점수는 감사 가능한 참고지표이며 투자 자문·매수추천·폭락확률이 아닙니다. 현재월과 표본이 작은 지역은 반드시 원자료를 확인하십시오.
   </div>
 </footer>
 
@@ -473,7 +474,8 @@ const state = { province:'all', signal:'all', query:'', sortKey:'composite', sor
 const riskColors = {GREEN:'#48b985', WATCH:'#7d98ff', AMBER:'#f59e0b', RED:'#ff7261', 'N/A':'#8b8d8e'};
 const metricLabels = {
   PIR_LTA:'PIR / 장기평균', PTR_LTA:'PTR / 장기평균', CREDIT_GAP_PP:'신용/GDP 갭',
-  DSR_PCT:'가계 DSR', REAL_HPI_YOY:'실질주택가격 YoY'
+  DSR_PCT:'가계 DSR', REAL_HPI_YOY:'실질주택가격 YoY', MARSHALL_K_GAP:'Marshall K 갭',
+  REAL_M2_GAP:'실질 M2 갭', LIQUIDITY_BREADTH:'M2·Lf·L 확산도'
 };
 const tileOrder = ['valuation','credit','momentum','liquidity','gsadf','har'];
 
@@ -500,6 +502,8 @@ function renderDataQuality(){
     const tiles = RISK.countries.KOR.tiles;
     const waiting = tileOrder.filter(k=>tiles[k].status!=='OK').length;
     document.getElementById('qualityWaiting').textContent = `${waiting}개 / 6개`;
+    const liquidityMode = tiles.liquidity.module?.mode;
+    document.getElementById('qualityOfficial').textContent = liquidityMode ? `OECD·BIS · ECOS(${liquidityMode.startsWith('SHADOW')?'SHADOW':'연결'})` : 'OECD·BIS';
   }
 }
 
@@ -529,10 +533,13 @@ function renderNationalRisk(){
     const itemScore = valid ? Number(item.score) : null;
     const itemState = valid ? (itemScore>=80?'RED':itemScore>=65?'AMBER':itemScore>=50?'WATCH':'GREEN') : 'N/A';
     const itemColor = riskColors[itemState];
+    const shadow = !valid && String(item.status||'').startsWith('SHADOW');
+    const statusLabel = valid ? itemScore.toFixed(1) : (shadow ? 'SHADOW' : 'WAIT');
+    const meta = valid ? '역사 백분위 · 클릭해 계산 확인' : (shadow ? '격리 검증 중 · 종합점수 미반영' : '자료·검정요건 미충족 · 임의점수 없음');
     return `<button class="risk-tile" onclick="openAudit('${key}')">
-      <div class="top"><span class="name">${item.label}</span><span class="rscore ${valid?'':'wait'}">${valid?itemScore.toFixed(1):'WAIT'}</span></div>
+      <div class="top"><span class="name">${item.label}</span><span class="rscore ${valid?'':'wait'}">${statusLabel}</span></div>
       <div class="rbar"><span style="width:${valid?itemScore:0}%;background:${itemColor}"></span></div>
-      <div class="rmeta">${item.status==='OK'?'역사 백분위 · 클릭해 계산 확인':'자료·검정요건 미충족 · 임의점수 없음'}</div>
+      <div class="rmeta">${meta}</div>
     </button>`;
   }).join('');
   renderRiskHistory(kor);
@@ -567,6 +574,7 @@ function renderRiskHistory(kor){
       {label:'종합 위험백분위',data:history.map(d=>d.score),borderColor:'#ff7261',backgroundColor:'rgba(255,114,97,.10)',fill:true,tension:.25,pointRadius:0,borderWidth:2},
       {label:'가격평가',data:history.map(d=>d.valuation),borderColor:'#7d98ff',pointRadius:0,borderWidth:1,borderDash:[4,4]},
       {label:'신용',data:history.map(d=>d.credit),borderColor:'#f59e0b',pointRadius:0,borderWidth:1,borderDash:[4,4]},
+      {label:'유동성',data:history.map(d=>d.liquidity??null),borderColor:'#48b985',pointRadius:0,borderWidth:1,borderDash:[3,3]},
     ]},
     options:{responsive:true,interaction:{mode:'index',intersect:false},scales:{x:{ticks:{maxTicksLimit:10}},y:{min:0,max:100,title:{display:true,text:'역사 백분위'}}},plugins:{legend:{position:'bottom'},tooltip:{callbacks:{afterBody:()=> '점수는 위기확률이 아닙니다.'}}}}
   });
@@ -579,11 +587,20 @@ function openAudit(key){
   document.getElementById('auditStatus').textContent = item.status;
   document.getElementById('auditMeaning').textContent = item.meaning;
   document.getElementById('auditCalculation').textContent = item.calculation;
+  const moduleBox = document.getElementById('auditModule');
+  if(item.module){
+    const m = item.module;
+    moduleBox.hidden = false;
+    moduleBox.innerHTML = `<b>독립 모듈 ${m.mode}</b> · 검증 ${m.passedGates}/${m.totalGates} 통과 · ${m.validationPassed?'최종 검증 통과':'종합점수와 격리 중'}<div class="audit-links"><a href="${m.summaryUrl}" target="_blank" rel="noopener">모듈 요약</a><a href="${m.validationUrl}" target="_blank" rel="noopener">검증 보고서</a><a href="${m.backtestUrl}" target="_blank" rel="noopener">백테스트 게이트</a><a href="${m.rawUrl}" download>ECOS 원자료</a><a href="${m.revisionsUrl}" download>ECOS 수정이력</a></div>`;
+  }else{
+    moduleBox.hidden = true;
+    moduleBox.textContent = '';
+  }
   const values = item.value && typeof item.value==='object' ? Object.entries(item.value) : [];
   document.getElementById('auditValues').innerHTML = values.length ? values.map(([metric,point])=>{
     if(!point) return `<div class="quality-item"><div class="ql">${metricLabels[metric]||metric}</div><div class="qv">N/A</div></div>`;
     return `<div class="quality-item"><div class="ql">${metricLabels[metric]||metric} · ${point.period}</div><div class="qv num">${Number(point.value).toFixed(2)} <span style="font-size:11px;color:var(--on-surface-var)">/ 점수 ${Number(point.score).toFixed(1)}</span></div><div class="ql" style="margin-top:5px;word-break:break-all">${point.sourceKey}</div></div>`;
-  }).join('') : '<div class="quality-item"><div class="ql">현재값</div><div class="qv wait">WAITING DATA</div></div>';
+  }).join('') : `<div class="quality-item"><div class="ql">현재값</div><div class="qv wait">${String(item.status||'').startsWith('SHADOW')?'SHADOW · 미반영':'WAITING DATA'}</div></div>`;
   document.getElementById('auditLimit').textContent = item.limitations;
   const sourceIds = item.literature || [];
   document.getElementById('auditSources').innerHTML = sourceIds.length ? sourceIds.map(id=>{
