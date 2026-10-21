@@ -118,11 +118,10 @@ def make_complex(key, group, months, last):
     older_months = [ym for ym in sales if ym <= baseline_end]
     observed_cagr = None
     if first_price and latest_price and older_months:
-        first_mid = (int(min(older_months)[:4])*12 + int(min(older_months)[4:]))
-        second_mid = int(last[:4])*12 + int(last[4:])
-        span_yrs = (second_mid - first_mid) / 12
-        if span_yrs >= 3.5:
-            observed_cagr = round(((latest_price / first_price)**(1/span_yrs)-1)*100, 2)
+        # First 12 and last 12 months in a 60-month window have midpoints
+        # exactly 48 months (4 years) apart, not five years.
+        span_yrs = 4.0
+        observed_cagr = round(((latest_price / first_price)**(1/span_yrs)-1)*100, 2)
     recent_rent = median(jeonse) if len(jeonse) >= 3 else None
     rent_rate = round(100 * recent_rent / latest_price, 1) if recent_rent and latest_price else None
     return {
