@@ -21,6 +21,7 @@ import tempfile
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from regions import LABELS, region_for
 
 BASE=Path(__file__).resolve().parent
 MANIFEST=BASE/"r2_manifest.json"
@@ -30,10 +31,10 @@ TOKEN_KEY="internal/google-drive-backup-refresh-v1.enc"
 SCOPE="https://www.googleapis.com/auth/drive.file"
 ROOT_NAME="Edward_부동산데이터_R2백업"
 KINDS={"sale":("서울아파트매매","매매"),"rent":("서울아파트전월세","전월세")}
-VALID=re.compile(r"^(sale|rent)/(\d{4})/(11\d{3})/(\d{6})\.csv\.gz$")
+VALID=re.compile(r"^(sale|rent)/(\d{4})/((?:11|41)\d{3})/(\d{6})\.csv\.gz$")
 MAX_SRC_BYTES=50*1024*1024
 MAX_YEAR_BYTES=1024*1024*1024
-MAX_FILES=30000
+MAX_FILES=100000
 
 
 def env_required(*keys):
@@ -107,7 +108,7 @@ def authorized_drive(s3):
     return build("drive","v3",credentials=credentials,cache_discovery=False)
 
 
-def load_source_manifest():
+def load_source_manifest(region='seoul'):
     manifest=json.loads(MANIFEST.read_text(encoding="utf-8"))
     if manifest.get("bucket")!="edward-seoul-apartment-data" or manifest.get("prefix")!=PREFIX:
         raise ValueError("R2 manifest bucket/prefix mismatch")
@@ -119,6 +120,8 @@ def load_source_manifest():
         m=VALID.fullmatch(key)
         if not m:continue
         kind,year,gu,ym=m.groups()
+        province=region_for(gu)
+        if region!='all' and province!=region:continue
         if year!=ym[:4] or not 1<=int(ym[4:])<=12:continue
         if not isinstance(value,dict):raise ValueError("Invalid manifest metadata")
         sha=value.get("sha256","")
@@ -130,9 +133,9 @@ def load_source_manifest():
             drive_id=value.get("drive_file_id","")
             if not isinstance(drive_id,str) or not re.fullmatch(r"[A-Za-z0-9_-]{10,200}",drive_id):
                 raise ValueError("Unverified Google Drive source entry: "+key)
-            output.setdefault((kind,year),[]).append((key,sha,size,drive_id))
+            output.setdefault((province,kind,year) if region=='all' else (kind,year),[]).append((key,sha,size,drive_id))
         elif storage=="r2":
-            output.setdefault((kind,year),[]).append((key,sha,size))
+            output.setdefault((province,kind,year) if region=='all' else (kind,year),[]).append((key,sha,size))
         else:
             raise ValueError("Unknown archive storage backend: "+key)
     return {year:sorted(rows) for year,rows in output.items()}
@@ -151,9 +154,31 @@ def escape_cell(v):
     return "'"+value if value.lstrip().startswith(("=","+","-","@")) else value
 
 
+def download_verified_source(s3,entry,destination,drive=None):
+    """Fetch one manifest source and verify its byte size and SHA256."""
+    key,expected,size=entry[:3]
+    if not VALID.fullmatch(key) or not 1<=size<=MAX_SRC_BYTES:
+        raise ValueError('Invalid source archive')
+    if len(entry)==4:
+        if drive is None:raise RuntimeError('Google Drive source connection is required')
+        from googleapiclient.http import MediaIoBaseDownload
+        with destination.open('wb') as local:
+            downloader=MediaIoBaseDownload(local,drive.files().get_media(fileId=entry[3]),chunksize=8*1024*1024)
+            finished=False
+            while not finished:
+                _,finished=downloader.next_chunk(num_retries=3)
+                if local.tell()>MAX_SRC_BYTES:raise ValueError('Drive source exceeds maximum archive size')
+    else:
+        s3.download_file(os.environ['R2_BUCKET_NAME'],PREFIX+key,str(destination))
+    if destination.stat().st_size!=size:raise ValueError('Source size does not match manifest')
+    digest=hashlib.sha256()
+    with destination.open('rb') as handle:
+        for chunk in iter(lambda:handle.read(1024*1024),b''):digest.update(chunk)
+    if digest.hexdigest()!=expected:raise ValueError('Source gzip SHA256 mismatch; no upload')
+
+
 def build_year_csv(s3,entries,out,drive=None):
     """Download and SHA256-verify mixed R2/Drive raw sources before writing annual CSV."""
-    bucket=os.environ["R2_BUCKET_NAME"]
     md5=hashlib.md5()
     rows=0;fields=None
     with out.open("w",encoding="utf-8-sig",newline="") as csvout:
@@ -162,28 +187,7 @@ def build_year_csv(s3,entries,out,drive=None):
             key,expected,size=entry[:3]
             src=out.with_name("scope_"+str(idx)+".gz")
             try:
-                if len(entry)==4:
-                    if drive is None:raise RuntimeError("Google Drive source connection is required")
-                    from googleapiclient.http import MediaIoBaseDownload
-                    with src.open("wb") as local:
-                        downloader=MediaIoBaseDownload(local,
-                            drive.files().get_media(fileId=entry[3]),
-                            chunksize=8*1024*1024)
-                        finished=False
-                        while not finished:
-                            _,finished=downloader.next_chunk(num_retries=3)
-                            if local.tell()>MAX_SRC_BYTES:
-                                raise ValueError("Drive source exceeds maximum archive size")
-                else:
-                    s3.download_file(bucket,PREFIX+key,str(src))
-                if src.stat().st_size!=size:raise ValueError("Source size does not match manifest")
-                h=hashlib.sha256()
-                with src.open("rb") as handle:
-                    while True:
-                        chunk=handle.read(1024*1024)
-                        if not chunk:break
-                        h.update(chunk)
-                if h.hexdigest()!=expected:raise ValueError("Source gzip SHA256 mismatch; no upload")
+                download_verified_source(s3,entry,src,drive=drive)
                 with gzip.open(src,"rt",encoding="utf-8-sig",newline="") as readerfile:
                     reader=csv.DictReader(readerfile)
                     if not reader.fieldnames or not all(v in reader.fieldnames for v in ("계약일","자료종류","원본항목JSON")):
@@ -248,13 +252,22 @@ def find_annual_file(drive,folder,key):
     return files[0] if files else None
 
 
-def upload_annual(drive,folder,kind,year,entries,csv_path,checksum,size,rows,old=None):
+def annual_key(region,kind,year):
+    return f'{kind}-{year}' if region=='seoul' else f'{region}-{kind}-{year}'
+
+
+def kind_folders(region):
+    return KINDS if region=='seoul' else {
+        'sale':('경기도아파트매매','매매'), 'rent':('경기도아파트전월세','전월세')}
+
+
+def upload_annual(drive,folder,kind,year,entries,csv_path,checksum,size,rows,old=None,region='seoul'):
     from googleapiclient.http import MediaFileUpload
-    key=f"{kind}-{year}"
-    filename=f"서울아파트_{KINDS[kind][1]}_{year}.csv"
+    key=annual_key(region,kind,year)
+    filename=f"{LABELS[region]}아파트_{KINDS[kind][1]}_{year}.csv"
     props={"edward_key":key,"source_fingerprint":fingerprint(entries),
            "md5":checksum,"scope_count":str(len(entries))}
-    meta={"name":filename,"description":f"서울 아파트 {KINDS[kind][1]} 실거래자료 연도별 백업; "
+    meta={"name":filename,"description":f"{LABELS[region]} 아파트 {KINDS[kind][1]} 실거래자료 연도별 백업; "
       f"{len(entries)}개 구·월 파일, {rows}행. 전체 과거자료 수집 중 부분 데이터일 수 있음.",
       "appProperties":props}
     media=MediaFileUpload(str(csv_path),mimetype="text/csv",resumable=True,chunksize=8*1024*1024)
@@ -284,7 +297,7 @@ def upload_annual(drive,folder,kind,year,entries,csv_path,checksum,size,rows,old
 def backup(mode="sync",max_years=12):
     env_required("R2_ACCOUNT_ID","R2_ACCESS_KEY_ID","R2_SECRET_ACCESS_KEY","R2_BUCKET_NAME",
        "GOOGLE_OAUTH_CLIENT_ID","GOOGLE_OAUTH_CLIENT_SECRET")
-    archives=load_source_manifest()
+    archives=load_source_manifest(region='all')
     r2=s3_client()
     drive=authorized_drive(r2)
     if mode=="check":
@@ -292,14 +305,17 @@ def backup(mode="sync",max_years=12):
         print("GOOGLE_DRIVE_AUTH_OK; R2_SCOPES="+str(sum(map(len,archives.values()))))
         return {"mode":"check","r2_scopes":sum(map(len,archives.values())),"uploaded_years":0}
     root=ensure_folder(drive,ROOT_NAME,"root")
-    folders={kind:ensure_folder(drive,label,root) for kind,(label,_) in KINDS.items()}
+    provinces=sorted({key[0] for key in archives})
+    folders={(province,kind):ensure_folder(drive,label,root)
+             for province in provinces for kind,(label,_) in kind_folders(province).items()}
     report={"run_utc":datetime.now(timezone.utc).isoformat(),"mode":mode,
             "r2_scopes":sum(map(len,archives.values())),
             "years_found":len(archives),"uploaded_years":0,"skipped_years":0,"events":[]}
     # Recent periods first for useful data; continue older history next daily run.
-    for (kind,year),entries in sorted(archives.items(),key=lambda item:(int(item[0][1]),item[0][0]),reverse=True):
-        key=f"{kind}-{year}"
-        file=find_annual_file(drive,folders[kind],key)
+    for (province,kind,year),entries in sorted(archives.items(),key=lambda item:(int(item[0][2]),item[0][0],item[0][1]),reverse=True):
+        key=annual_key(province,kind,year)
+        folder=folders[(province,kind)]
+        file=find_annual_file(drive,folder,key)
         new_fp=fingerprint(entries)
         old_props=file.get("appProperties",{}) if file else {}
         if file and old_props.get("source_fingerprint")==new_fp and old_props.get("md5") and file.get("md5Checksum")==old_props["md5"]:
@@ -309,11 +325,12 @@ def backup(mode="sync",max_years=12):
         with tempfile.TemporaryDirectory(prefix="edward_r2_gdrive_") as tmp:
             target=Path(tmp)/f"{key}.csv"
             md5,rows,bytes_count=build_year_csv(r2,entries,target,drive=drive)
-            upload_annual(drive,folders[kind],kind,year,entries,target,md5,bytes_count,rows,file)
-        report["events"].append({"year":year,"kind":kind,"rows":rows,
+            kwargs={} if province=='seoul' else {'region':province}
+            upload_annual(drive,folder,kind,year,entries,target,md5,bytes_count,rows,file,**kwargs)
+        report["events"].append({"region":province,"year":year,"kind":kind,"rows":rows,
                      "source_scopes":len(entries),"bytes":bytes_count,"result":"verified"})
         report["uploaded_years"]+=1
-        print(f"GDRIVE_BACKUP_OK kind={kind} year={year} scopes={len(entries)} rows={rows} bytes={bytes_count}",flush=True)
+        print(f"GDRIVE_BACKUP_OK region={province} kind={kind} year={year} scopes={len(entries)} rows={rows} bytes={bytes_count}",flush=True)
         time.sleep(1)
     REPORT.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print("GDRIVE_BACKUP_RESULT "+json.dumps({k:v for k,v in report.items() if k!="events"},ensure_ascii=False))

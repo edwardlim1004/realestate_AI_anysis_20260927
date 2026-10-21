@@ -1,5 +1,15 @@
-name: Seoul Apartment History Collector (Safe)
+name: Seoul and Gyeonggi Apartment Collector (Safe)
 on:
+  push:
+    branches: [main]
+    paths:
+      - "seoul-apartment-collector/collect.py"
+      - "seoul-apartment-collector/regions.py"
+      - "seoul-apartment-collector/incremental.py"
+      - "seoul-apartment-collector/r2_bridge.py"
+      - "seoul-apartment-collector/r2_gdrive_failover.py"
+      - "seoul-apartment-collector/kakao_self_alert.py"
+      - ".github/workflows/seoul-apartment-history.yml"
   schedule:
     - cron: "30 0,3,6,9,12,15,18,21 * * *" # KST 09:30/12:30/15:30/18:30/21:30/00:30/03:30/06:30
   workflow_dispatch:
@@ -15,6 +25,12 @@ on:
         required: false
         default: "1200"
         type: string
+      region:
+        description: "all / seoul / gyeonggi (shared daily request budget)"
+        required: false
+        default: all
+        type: choice
+        options: [all, seoul, gyeonggi]
 permissions:
   contents: write
   issues: write
@@ -46,42 +62,76 @@ jobs:
           GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
           R2_GDRIVE_FALLBACK_ENABLED: "true"
           R2_STORAGE_SOFT_CAP_BYTES: "8589934592"
-          REQUESTED_MODE: ${{ github.event.inputs.mode || 'daily' }}
-          REQUESTED_LIMIT: ${{ github.event.inputs.max_requests || '1200' }}
+          REQUESTED_MODE: ${{ github.event.inputs.mode || (github.event_name == 'push' && 'test' || 'daily') }}
+          REQUESTED_LIMIT: ${{ github.event.inputs.max_requests || (github.event_name == 'push' && '8' || '1200') }}
+          REQUESTED_REGION: ${{ github.event.inputs.region || (github.event_name == 'push' && 'gyeonggi' || 'all') }}
         run: |
-          python seoul-apartment-collector/collect.py --mode "$REQUESTED_MODE" --max-requests "$REQUESTED_LIMIT" --delay 3
+          python seoul-apartment-collector/collect.py --mode "$REQUESTED_MODE" --region "$REQUESTED_REGION" --max-requests "$REQUESTED_LIMIT" --delay 3
+      - name: Verify real Gyeonggi smoke collection after code deployment
+        if: github.event_name == 'push'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          base=Path('seoul-apartment-collector')
+          status=json.loads((base/'status.json').read_text())
+          manifest=json.loads((base/'r2_manifest.json').read_text())['files']
+          assert status['last_run_mode']=='test', status
+          assert status['last_run_success']==2 and status['last_run_failures']==0, status
+          assert status['last_run_requests']>=2, status
+          kinds={key.split('/')[0] for key in manifest if key.split('/')[2]=='41111'}
+          assert {'sale','rent'} <= kinds, kinds
+          rows={kind:sum(entry.get('rows',0) for key,entry in manifest.items()
+                        if key.split('/')[0]==kind and key.split('/')[2]=='41111')
+                for kind in ('sale','rent')}
+          assert all(count>0 for count in rows.values()), rows
+          print('GYEONGGI_LIVE_SMOKE_VERIFIED: official sale and rent API rows stored; '+json.dumps(rows))
+          PY
       - name: Audit verified source coverage (R2 or Google Drive, through 2026-10)
         if: always()
         id: backfill
         run: python seoul-apartment-collector/backfill_progress.py
+      - name: Audit Gyeonggi historical coverage separately
+        if: always()
+        id: backfill_gyeonggi
+        run: python seoul-apartment-collector/backfill_progress.py --region gyeonggi
       - name: Commit successful monthly results
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add seoul-apartment-collector/r2_manifest.json seoul-apartment-collector/state.json seoul-apartment-collector/status.json seoul-apartment-collector/backfill_progress.json
+          git add seoul-apartment-collector/r2_manifest.json seoul-apartment-collector/state.json seoul-apartment-collector/status.json seoul-apartment-collector/backfill_progress.json seoul-apartment-collector/gyeonggi_backfill_progress.json seoul-apartment-collector/updates/
           if ! git diff --cached --quiet; then
-            git commit -m "data: Seoul apartment monthly archives"
+            git commit -m "data: Seoul and Gyeonggi apartment incremental archives"
+            git pull --rebase origin main
             git push origin HEAD:main
           else
             echo "No new data"
           fi
       - name: Create GitHub completion notification (only once)
+        id: completion_issue
         if: steps.backfill.outputs.complete == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           title="서울 아파트 실거래 과거자료 수집 완료 (2026-10)"
-          existing="$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues?state=all&per_page=100" --jq '.[] | select(.title == "서울 아파트 실거래 과거자료 수집 완료 (2026-10)") | .number')"
+          existing="$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues?state=all&per_page=100" --jq '.[] | select(.title == "서울 아파트 실거래 과거자료 수집 완료 (2026-10)" and .pull_request == null) | .number' | head -n 1)"
           if [ -z "$existing" ]; then
-            gh issue create --title "$title" --assignee "$GITHUB_REPOSITORY_OWNER" --body "서울 25개 구 아파트 매매(2006-01~2026-10) 및 전월세(2011-01~2026-10)의 11,000개 지역·계약월 구간이 Cloudflare R2 업로드 완료 매니페스트에서 모두 확인됐습니다. 자세한 진행 내역은 seoul-apartment-collector/backfill_progress.json을 확인하세요. 원천 거래 누락·정정 여부를 별도로 검증하는 것은 남아 있습니다."
+            issue_url="$(gh issue create --title "$title" --assignee "$GITHUB_REPOSITORY_OWNER" --body "서울 25개 구 아파트 매매(2006-01~2026-10) 및 전월세(2011-01~2026-10)의 11,000개 지역·계약월 구간이 Cloudflare R2 업로드 완료 매니페스트에서 모두 확인됐습니다. 자세한 진행 내역은 seoul-apartment-collector/backfill_progress.json을 확인하세요. 원천 거래 누락·정정 여부를 별도로 검증하는 것은 남아 있습니다.")"
+            existing="${issue_url##*/}"
           else
             echo "Completion Issue already exists: $existing"
           fi
+          case "$existing" in
+            ''|*[!0-9]*) echo "Invalid completion issue number"; exit 1 ;;
+          esac
+          echo "issue_number=$existing" >> "$GITHUB_OUTPUT"
       - name: Notify Kakao My Chat once after complete collection
         if: steps.backfill.outputs.complete == 'true'
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
+          KAKAO_COMPLETION_ISSUE_NUMBER: ${{ steps.completion_issue.outputs.issue_number }}
           KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
           KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
           KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
@@ -100,5 +150,6 @@ jobs:
           path: |
             seoul-apartment-collector/state.json
             seoul-apartment-collector/status.json
+            seoul-apartment-collector/gyeonggi_backfill_progress.json
           if-no-files-found: ignore
           retention-days: 30

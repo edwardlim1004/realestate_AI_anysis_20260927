@@ -142,12 +142,42 @@ class R2Storage:
         if not DATA.exists():
             return
         for path in sorted(DATA.rglob("*.csv.gz")):
+            # Committed bootstrap files may be older than an incremental R2
+            # snapshot. Never restore those over a verified manifest entry.
+            relative=path.relative_to(DATA).as_posix()
+            if relative in self.files:
+                self.skipped+=1
+                continue
             self.upload(path)
         self.save_manifest()
         print(
             f"R2_MIGRATION uploaded={self.uploaded} skipped={self.skipped} scopes={len(self.files)}",
             flush=True,
         )
+
+    def read_scope(self,relative):
+        """Read the verified prior raw rows for semantic change detection."""
+        import csv
+        import gzip
+        import tempfile
+        from google_drive_backup import download_verified_source
+        meta=self.files[relative]
+        entry=(relative,meta['sha256'],meta['bytes'])
+        drive=None
+        if meta.get('storage','r2')=='gdrive':
+            from r2_gdrive_failover import DriveRawArchive
+            if self._drive_archive is None:
+                self._drive_archive=DriveRawArchive(self.client)
+            drive=self._drive_archive.drive
+            entry=(*entry,meta['drive_file_id'])
+        with tempfile.TemporaryDirectory(prefix='apt_previous_') as work:
+            source=Path(work)/'scope.gz'
+            download_verified_source(self.client,entry,source,drive=drive)
+            with gzip.open(source,'rt',encoding='utf-8-sig',newline='') as handle:
+                reader=csv.DictReader(handle)
+                if not reader.fieldnames or '원본항목JSON' not in reader.fieldnames:
+                    raise ValueError('Missing original raw transaction column')
+                return [json.loads(record['원본항목JSON']) for record in reader]
 
     def save_manifest(self):
         data = {

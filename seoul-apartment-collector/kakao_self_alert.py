@@ -14,6 +14,7 @@ import hashlib
 import json
 import os
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -151,6 +152,22 @@ def github_request(path, method="GET", data=None):
 
 def find_completion_issue():
     repo=os.getenv("GITHUB_REPOSITORY","edwardlim1004/realestate_AI_anysis_20260927")
+    supplied=os.getenv('KAKAO_COMPLETION_ISSUE_NUMBER','').strip()
+    if supplied:
+        if not supplied.isdecimal() or int(supplied)<1:
+            raise NotificationError('Invalid completion issue number')
+        # The creation step already resolved this issue. Avoid a second list
+        # search immediately after creation, when list results may still lag.
+        for attempt in range(4):
+            try:
+                issue=github_request(f'/repos/{repo}/issues/{int(supplied)}')
+                break
+            except NotificationError as exc:
+                if 'HTTP 404' not in str(exc) or attempt==3:raise
+                time.sleep(2**attempt)
+        if issue.get('title')!=ISSUE_TITLE or issue.get('pull_request'):
+            raise NotificationError('Completion issue does not match verified collection')
+        return int(supplied)
     for page in range(1,7):
         issues=github_request(f"/repos/{repo}/issues?state=all&per_page=100&page={page}")
         for issue in issues:

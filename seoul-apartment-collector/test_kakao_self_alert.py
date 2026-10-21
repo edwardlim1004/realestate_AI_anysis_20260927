@@ -41,6 +41,20 @@ def main():
     }
     store=Store()
     sent=[]
+    with patch.dict(os.environ,{'KAKAO_COMPLETION_ISSUE_NUMBER':'15'}), \
+         patch.object(k,'github_request',return_value={'number':15,'title':k.ISSUE_TITLE}) as request:
+        assert k.find_completion_issue()==15
+        assert request.call_count==1
+        assert request.call_args.args[0].endswith('/issues/15')
+    with patch.dict(os.environ,{'KAKAO_COMPLETION_ISSUE_NUMBER':'15'}), \
+         patch.object(k,'github_request',side_effect=[k.NotificationError('Service HTTP 404 on api.github.com'),{'number':15,'title':k.ISSUE_TITLE}]), \
+         patch.object(k.time,'sleep'):
+        assert k.find_completion_issue()==15
+    with patch.dict(os.environ,{'KAKAO_COMPLETION_ISSUE_NUMBER':'15'}), \
+         patch.object(k,'github_request',return_value={'number':15,'title':'Different issue'}):
+        try:k.find_completion_issue()
+        except k.NotificationError:pass
+        else:raise AssertionError('Mismatched completion issue accepted')
     with patch.dict(os.environ,env,clear=True), patch.object(k,"renew_access_token",return_value=("access_test","r1_rotated_refresh_token_sample")):
         status=k.notify("test",storage=store,send=lambda token,message:sent.append((token,message)))
         assert status=="sent",status

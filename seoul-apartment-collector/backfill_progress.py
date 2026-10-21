@@ -4,10 +4,12 @@
 Baseline is fixed at 2026-10 inclusive, the user's requested cutoff.
 A scope is one district × contract month × transaction type.
 """
+import argparse
 import json
 import os
 import re
 from pathlib import Path
+from regions import select, in_month
 
 ROOT=Path(__file__).resolve().parent
 MANIFEST=ROOT/"r2_manifest.json"
@@ -28,15 +30,16 @@ def all_months(start,end):
         if m>12:y+=1;m=1
 
 
-def expected_keys():
+def expected_keys(region='seoul'):
     for kind,start in START.items():
         for ym in all_months(start,CUTOFF):
-            for gu in GU:
-                yield f"{kind}/{ym[:4]}/{gu}/{ym}.csv.gz"
+            for gu in (GU if region=='seoul' else select(region)):
+                if in_month(gu,ym):
+                    yield f"{kind}/{ym[:4]}/{gu}/{ym}.csv.gz"
 
 
-def completeness(files):
-    required=list(expected_keys())
+def completeness(files,required=None):
+    required=list(expected_keys() if required is None else required)
     missing=[]
     for key in required:
         entry=files.get(key,{})
@@ -65,15 +68,21 @@ def completeness(files):
 
 
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--region',choices=['seoul','gyeonggi'],default='seoul')
+    args=parser.parse_args()
+    required=list(expected_keys(args.region))
     if not MANIFEST.exists():
         print("NO_MANIFEST: no R2 transfer confirmed yet")
-        report=completeness({})
+        report=completeness({},required)
     else:
         m=json.loads(MANIFEST.read_text(encoding="utf-8"))
         if m.get("bucket")!="edward-seoul-apartment-data":
             raise RuntimeError("R2 bucket mismatch; refusing to report completion")
-        report=completeness(m.get("files",{}))
-    REPORT.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+        report=completeness(m.get("files",{}),required)
+    report['region']=args.region
+    destination=REPORT if args.region=='seoul' else ROOT/'gyeonggi_backfill_progress.json'
+    destination.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print("BACKFILL",json.dumps({k:v for k,v in report.items() if k!="missing_sample"},ensure_ascii=False),flush=True)
     out=os.getenv("GITHUB_OUTPUT")
     if out:

@@ -1,9 +1,13 @@
-name: Check Seoul Collector Quota
+name: Check Seoul and Gyeonggi Incremental Collector
 on:
   pull_request:
     paths:
       - "seoul-apartment-collector/collect.py"
       - "seoul-apartment-collector/test_quota.py"
+      - "seoul-apartment-collector/regions.py"
+      - "seoul-apartment-collector/incremental.py"
+      - "seoul-apartment-collector/test_incremental.py"
+      - ".github/workflows/seoul-apartment-history.yml"
       - ".github/workflows/check-seoul-collector.yml"
 permissions:
   contents: read
@@ -19,4 +23,6 @@ jobs:
       - name: Validate Python compilation
         run: python -m py_compile seoul-apartment-collector/collect.py seoul-apartment-collector/r2_bridge.py seoul-apartment-collector/test_quota.py
       - name: Test cap logic without external services or secrets
-        run: python seoul-apartment-collector/test_quota.py
+        run: |
+          python seoul-apartment-collector/test_quota.py
+          python seoul-apartment-collector/test_incremental.py
