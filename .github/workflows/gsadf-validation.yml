@@ -38,14 +38,18 @@ jobs:
       - name: Download latest official OECD quarterly source and append revisions
         if: github.event_name != 'pull_request'
         run: python -m gsadf.fetch_oecd --data-dir gsadf/data
-      - name: Run isolated 2,000-repetition Monte Carlo per series
+      - name: Detect official data revisions / new quarters
+        id: check_changes
         if: github.event_name != 'pull_request'
+        run: python -m gsadf.change_check --data-dir gsadf/data --status-path gsadf/audit/status.json
+      - name: Run isolated 2,000-repetition Monte Carlo per series
+        if: github.event_name != 'pull_request' && steps.check_changes.outputs.changed == 'true'
         run: |
           for key in real_hpi pir ptr; do
             python -m gsadf.run --input "gsadf/data/korea_${key}_quarterly.csv" --output "gsadf/output/${key}.json" --reps 2000
           done
       - name: Verify Cloudflare R2 archive and independent Google Drive backup
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && steps.check_changes.outputs.changed == 'true'
         env:
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
