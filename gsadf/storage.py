@@ -96,6 +96,9 @@ def restore(data_dir):
             if len(blob)>MAX_SOURCE_BYTES: raise RuntimeError("Oversize verified GSADF source")
             (data_dir/name).write_bytes(blob)
             loaded.append(name)
+    if all((data_dir/f"korea_{name}_quarterly.csv").exists() for name in SERIES):
+        from .change_check import fingerprint
+        (data_dir/".previous_series_sha256").write_text(fingerprint(data_dir),encoding="ascii")
     print("GSADF_R2_RESTORE",len(loaded),"series/revision files from verified bundle")
     return loaded
 
