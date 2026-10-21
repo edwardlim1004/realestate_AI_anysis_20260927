@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="국토교통부 실거래 원본을 기반으로 동일 단지·유사 전용면적의 최근 5년 거래 이력과 5년 시나리오를 분리해 평가합니다.">
+<title>아파트 5년 장기 가격평가 | 부동산 AI 프로젝트</title>
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;color-scheme:dark;--bg:#0d1420;--panel:#182335;--light:#223148;--line:#35465c;--text:#eaf0fb;--sub:#b8c7dc;--accent:#8fc5ff}
+*{box-sizing:border-box}body{background:var(--bg);color:var(--text);margin:0;line-height:1.55}main,header{max-width:1120px;margin:0 auto;padding:20px}
+a{color:var(--accent)}a:hover{text-decoration:underline}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h1{font-size:clamp(24px,4vw,34px);margin:18px 0 8px}h2{font-size:20px;margin:4px 0 12px}h3{font-size:15px;margin:8px 0}.sub,small{color:var(--sub)}.small{font-size:12px;color:var(--sub)}.eyebrow{color:var(--accent);font-weight:700;font-size:12px;letter-spacing:.08em}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin:18px 0}
+.controls{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:7px;font-size:13px}
+input,select,button{border:1px solid var(--line);border-radius:9px;background:var(--light);color:var(--text);font:inherit;padding:11px 12px;min-width:0}
+input:focus,select:focus{outline:2px solid var(--accent)}button{cursor:pointer}button.primary{background:#2463a4;border-color:#448fe0;font-weight:700}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}.metric{background:var(--light);border-radius:12px;padding:14px}.metric .label{color:var(--sub);font-size:12px}.metric .value{font-size:clamp(16px,2.5vw,24px);font-weight:700;margin:6px 0}
+.info{border-left:3px solid var(--accent);padding:10px 14px;background:var(--light);border-radius:8px;font-size:13px;margin:12px 0}.warning{border-left-color:#f5bb68}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.scenarios{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.scen{border:1px solid var(--line);border-radius:12px;padding:12px}.scen strong{font-size:20px}.scen .field{margin-bottom:9px}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:420px}th,td{text-align:right;padding:9px 8px;border-bottom:1px solid var(--line)}th:first-child,td:first-child{text-align:left}th{color:var(--sub)}.scroll{overflow-x:auto}
+#trendChart{width:100%;height:230px;background:var(--light);border-radius:12px}#trendChart text{fill:var(--sub);font-size:11px}
+#status{color:var(--sub);min-height:20px}.hide{display:none}footer{max-width:1120px;margin:24px auto;padding:22px;color:var(--sub);font-size:12px;border-top:1px solid var(--line)}
+@media(max-width:700px){.controls,.grid,.scenarios{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.panel{padding:14px}}
+</style>
+</head>
+<body>
+<header class="top"><a href="../index.html">← 부동산 위험 모니터로 돌아가기</a><span class="eyebrow">5-YEAR APARTMENT VALUATION · 별도 모듈</span></header>
+<main>
+<h1>아파트 5년 장기 가격평가</h1>
+<p class="sub">단지·법정동·지번·전용면적 5㎡ 구간을 맞춘 공식 실거래 집계를 사용합니다. 구 평균과 특정 단지의 가격을 혼용하지 않습니다.</p>
+<section class="panel" aria-label="분석대상">
+  <div class="controls">
+    <label class="field">서울 자치구<select id="district"></select></label>
+    <label class="field">단지명 검색<input id="search" type="search" placeholder="예: 헬리오시티" autocomplete="off"></label>
+    <label class="field">단지·면적 선택<select id="complex"><option value="">자치구를 선택하세요</option></select></label>
+  </div>
+  <p class="small" id="status" role="status"></p>
+  <p class="small" id="coverage"></p>
+</section>
+<section id="results" class="hide">
+  <div class="panel">
+    <div class="eyebrow" id="address"></div>
+    <h2 id="complexName"></h2>
+    <p class="sub" id="basis"></p>
+    <div class="kpis">
+      <div class="metric"><div class="label">최근 12개월 매매 중위가격</div><div class="value" id="current">—</div><div class="small" id="recentCount"></div></div>
+      <div class="metric"><div class="label">5년 매매 거래 건수</div><div class="value" id="count">—</div><div class="small">동일 단지·면적구간</div></div>
+      <div class="metric"><div class="label">과거 5년 관측 연평균 변화율</div><div class="value" id="cagr">—</div><div class="small">과거 실거래 기준, 미래 예측 아님</div></div>
+      <div class="metric"><div class="label">전세 중위값 / 매매 중위값</div><div class="value" id="jeonse">—</div><div class="small" id="jeonseCount"></div></div>
+    </div>
+    <div class="info" id="quality"></div>
+    <div class="info warning" id="selectedTrade" hidden></div>
+  </div>
+  <div class="panel">
+    <h2>5년 실거래 변화</h2>
+    <svg id="trendChart" viewBox="0 0 860 230" preserveAspectRatio="none" role="img" aria-label="매매 월별 중위가격 선 그래프"></svg>
+    <div class="scroll"><table><thead><tr><th>연도</th><th>매매 중위가격</th><th>매매 건수</th></tr></thead><tbody id="annual"></tbody></table></div>
+    <p class="small">월·연간 중위값은 원자료의 개별 거래를 기반으로 산출합니다. 월별 가격의 단순 평균을 다시 계산한 값이 아닙니다. 층·향·연식에 따른 가격조정은 하지 않았습니다.</p>
+  </div>
+  <div class="panel">
+    <h2>향후 5년 가격 시나리오 계산기</h2>
+    <p class="sub">아래 성장률은 <b>사용자 설정 가정</b>입니다. AI가 예측한 상승률이나 시장 컨센서스가 아닙니다. 동일한 최근 실거래 중위가격에 5년 복리로 적용합니다.</p>
+    <div class="scenarios">
+      <div class="scen"><label class="field">하락 시나리오 연간 변화율(%)<input id="bear" type="number" min="-50" max="100" step="0.5" value="-2"></label><p>5년 후</p><strong id="bearPrice">—</strong><div class="small" id="bearChange"></div></div>
+      <div class="scen"><label class="field">중립 시나리오 연간 변화율(%)<input id="base" type="number" min="-50" max="100" step="0.5" value="2"></label><p>5년 후</p><strong id="basePrice">—</strong><div class="small" id="baseChange"></div></div>
+      <div class="scen"><label class="field">상승 시나리오 연간 변화율(%)<input id="bull" type="number" min="-50" max="100" step="0.5" value="5"></label><p>5년 후</p><strong id="bullPrice">—</strong><div class="small" id="bullChange"></div></div>
+    </div>
+    <p class="small">계산식: 5년 후 가격 = 최근 12개월 중위가격 × (1 + 가정한 연간 변화율/100)^5. 취득·보유·양도세, 중개비, 대출이자 및 물가상승률은 미반영한 명목가격입니다.</p>
+  </div>
+</section>
+<section class="panel">
+  <h2>평가 방법과 해석 범위</h2>
+  <p>동일 아파트의 <b>최근 거래가격</b>, 과거 <b>5년 분포와 거래량</b>, <b>전세 중위가격</b>을 개별 확인합니다. 장기 상승률만으로 ‘저평가’ 또는 ‘고평가’를 단정하지 않습니다. 미래 시나리오는 직접 입력한 성장률에 따른 조건부 계산이며 확정 적정가격이 아닙니다.</p>
+  <p class="small">원천: 국토교통부 공식 아파트 매매·전월세 실거래가 API. 원본: 비공개 Cloudflare R2. 공개 자료: 월별·연도별 집계만. 최근 완결월까지 60개월을 사용하며 가장 최신 신고월(잠정치)은 기본 평가에서 제외합니다. 아파트명과 지번, 약 5㎡ 면적구간이 같은 거래를 비교하고, 취소 거래는 제외합니다. 상세 재현·수집상태는 <a href="https://github.com/edwardlim1004/realestate_AI_anysis_20260927/tree/main/long-term-value">GitHub 모듈 설명</a>을 참조하세요.</p>
+</section>
+</main>
+<footer>장기 모듈은 거시 위험점수와 독립적으로 계산됩니다. 거래 수집 누락·시차·정정 및 표본 선택 편향이 있을 수 있어 대출·매매 실행 전 국토교통부 원자료와 등기부를 재확인하세요.</footer>
+<script src="model.js"></script>
+<script>
+(function(){
+"use strict";
+const districts={"11110":"종로구","11140":"중구","11170":"용산구","11200":"성동구","11215":"광진구","11230":"동대문구","11260":"중랑구","11290":"성북구","11305":"강북구","11320":"도봉구","11350":"노원구","11380":"은평구","11410":"서대문구","11440":"마포구","11470":"양천구","11500":"강서구","11530":"구로구","11545":"금천구","11560":"영등포구","11590":"동작구","11620":"관악구","11650":"서초구","11680":"강남구","11710":"송파구","11740":"강동구"};
+const byId = id => document.getElementById(id);
+const params=new URLSearchParams(location.search);
+let doc=null, active=null, request=0, selectedTrade=null;
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&#39;",'"':"&quot;"}[c]));}
+function money(v){return v>0&&Number.isFinite(Number(v))?(v/10000).toLocaleString("ko-KR",{maximumFractionDigits:2})+"억 원":"자료 부족";}
+function set(id,text){byId(id).textContent=text;}
+function status(text){set("status",text);}
+function date(ym){return ym&&ym.length===6?ym.slice(0,4)+"-"+ym.slice(4):"—";}
+function dispCount(n){return Number(n||0).toLocaleString("ko-KR")+"건";}
+function opts(items){return items.map((s,i)=>'<option value="'+i+'">'+esc(s.dong+" · "+s.name+" · "+s.jibun+" · 약 "+s.size+"㎡")+"</option>").join("");}
+const districtSel=byId("district");
+districtSel.innerHTML=Object.entries(districts).map(v=>'<option value="'+v[0]+'">'+v[1]+"</option>").join("");
+const raw=params.get("district")||"11710";
+districtSel.value=districts[raw]?raw:Object.keys(districts).find(k=>districts[k]===raw)||"11710";
+byId("search").value=params.get("apt")||"";
+let shown=[];
+function filterComplexes(){
+  if(!doc)return;
+  const q=byId("search").value.toLowerCase().replace(/\s/g,"");
+  shown=doc.complexes.filter(c=>(c.name+" "+c.dong+" "+c.jibun).toLowerCase().replace(/\s/g,"").includes(q));
+  const targetName=params.get("apt")||"";
+  const targetSize=Number(params.get("size"));
+  const dong=params.get("dong")||"",jibun=params.get("jibun")||"";
+  const old=active;
+  let selected=shown.findIndex(c=>old&&c.name===old.name&&c.dong===old.dong&&c.jibun===old.jibun&&c.size===old.size);
+  if(selected<0&&targetName){selected=shown.findIndex(c=>c.name===targetName&&(!dong||c.dong===dong)&&(!jibun||c.jibun===jibun)&&(!targetSize||Math.abs(c.size-targetSize)<=2.5));}
+  if(selected<0)selected=0;
+  const comb=byId("complex");
+  comb.innerHTML=shown.length?opts(shown):'<option value="">일치하는 단지가 없습니다</option>';
+  comb.value=String(selected);
+  set("status",doc.complex_count.toLocaleString("ko-KR")+"개 단지·면적 조합 중 "+shown.length.toLocaleString("ko-KR")+"개 검색됨");
+  choose();
+}
+function showTrend(c) {
+  const points=(c.sale_months||[]).filter(r=>r[1]>0);
+  const svg=byId("trendChart");
+  if(points.length<2){svg.innerHTML='<text x="20" y="110">유효한 월별 거래가 충분하지 않습니다.</text>';return;}
+  const values=points.map(x=>x[1]);
+  const min=Math.min(...values)*0.93,max=Math.max(...values)*1.07;
+  const lo=min===max?min-1:min,hi=max===lo?max+1:max;
+  const xym=ym=>Number(ym.slice(0,4))*12+Number(ym.slice(4));
+  const xs=points.map(x=>xym(x[0])),left=Math.min(...xs),right=Math.max(...xs);
+  const xx=i=>40+780*(i-left)/Math.max(1,right-left);
+  const yy=v=>190-155*(v-lo)/(hi-lo);
+  const segments=[];
+  points.forEach((p,i)=>{const x=xx(xs[i]).toFixed(1),y=yy(p[1]).toFixed(1);segments.push((i?"L":"M")+x+" "+y);});
+  const labels=[0,1,2,3,4].map(i=>'<text x="8" y="'+(38+i*39)+'">'+(hi-(hi-lo)*i/4).toFixed(0)+"</text>").join("");
+  const years=[...new Set(points.map(x=>x[0].slice(0,4)))].map(y=>{
+     const ym=y+"01", x=xx(xym(ym));return x>=40&&x<=820?'<text x="'+x.toFixed(1)+'" y="220">'+y+"</text>":"";
+   }).join("");
+  svg.innerHTML='<g fill="none" stroke="#40536c"><path d="M40 35H820 M40 74H820 M40 113H820 M40 152H820 M40 190H820"/></g>'+
+     '<path d="'+segments.join(" ")+'" fill="none" stroke="#8fc5ff" stroke-width="2.4" stroke-linejoin="round"/>'+labels+years;
+}
+function choose(){
+  const n=Number(byId("complex").value);
+  active=shown[n]||null;
+  byId("results").classList.toggle("hide",!active);
+  if(!active||!doc)return;
+  const c=active,a=FiveYearModel.assess(c,doc,[-2,2,5],selectedTrade);
+  set("address",doc.district+" "+c.dong+" "+c.jibun+" · 전용 약 "+c.size+"㎡");
+  set("complexName",c.name);
+  set("basis",date(doc.window_start)+" ~ "+date(doc.cutoff_month)+" 원본 / 마지막 거래월: "+date(c.last_sale_month));
+  set("current",money(c.last12_median));
+  set("recentCount","최근 12개월 "+dispCount(c.last12_count));
+  set("count",dispCount(c.sale_count_5y));
+  set("cagr",a.observedCagrPct===null?"근거 부족":a.observedCagrPct.toFixed(2)+"%/년");
+  set("jeonse",a.jeonseRatePct===null?"자료 부족":a.jeonseRatePct.toFixed(1)+"%");
+  set("jeonseCount","전세 "+dispCount(c.jeonse_last12_count)+" · 전세 보증금 "+money(c.jeonse_last12_median));
+  set("quality","비교 신뢰도: "+a.quality.rank+" — "+a.quality.reason+" [중요] 이는 미래 예측이나 감정평가상 적정가격이 아닙니다.");
+  const t=byId("selectedTrade");
+  if(selectedTrade>0){
+    t.hidden=false;
+    t.textContent="대시보드에서 선택한 거래 "+money(selectedTrade)+"는 최근 12개월 동일 면적구간 중위값 대비 "+
+      (a.selectedDeltaPct===null?"비교 불가":(a.selectedDeltaPct>=0?"+":"")+a.selectedDeltaPct.toFixed(1)+"%")+
+      "입니다. 거래 층·향·개별 상태 차이는 미조정입니다.";
+  }else t.hidden=true;
+  byId("annual").innerHTML=(c.annual||[]).map(x=>"<tr><td>"+esc(x[0])+"</td><td>"+money(x[1])+"</td><td>"+dispCount(x[2])+"</td></tr>").join("");
+  showTrend(c);scenarios();
+}
+function scenarios(){
+  if(!active)return;
+  for(const prefix of ["bear","base","bull"]){
+    const g=Number(byId(prefix).value);
+    const allowed=Number.isFinite(g)&&g>=-50&&g<=100&&byId(prefix).value.trim()!=="";
+    const price=allowed?FiveYearModel.addYears(active.last12_median,g):null;
+    set(prefix+"Price",money(price));
+    set(prefix+"Change",allowed?("5년 누적 "+(((1+g/100)**5-1)*100).toFixed(1)+"%"):"-50%~100% 값을 입력하세요");
+  }
+}
+async function loadDistrict(){
+  const seq=++request;
+  doc=null;active=null;byId("results").classList.add("hide");
+  const d=districtSel.value;status("5년 실거래 집계파일을 불러오는 중...");
+  set("coverage","");
+  try{
+    const response=await fetch("data/"+d+".json",{cache:"no-cache"});
+    if(!response.ok)throw new Error("집계파일이 아직 게시되지 않았습니다 (HTTP "+response.status+")");
+    const result=await response.json();
+    if(seq!==request)return;
+    if(result.schema!==1||result.district_code!==d||!Array.isArray(result.complexes))throw new Error("집계파일 형식 불일치");
+    doc=result;
+    const c=result.coverage;
+    set("coverage","확정 데이터 기준: "+date(result.window_start)+" ~ "+date(result.cutoff_month)+
+       " / 매매 "+c.sale_months+"/60개월 · 전월세 "+c.rent_months+"/60개월 · 검증 거래 매매 "+
+       dispCount(c.sale_rows)+" · 순수 전세 "+dispCount(c.pure_jeonse_rows)+
+       " / 생성 "+result.generated_kst.slice(0,16).replace("T"," "));
+    filterComplexes();
+  }catch(err){
+    if(seq!==request)return;
+    status(err.message+". GitHub Actions의 'Build Apartment Five-Year Valuations' 실행·성공 여부를 확인하세요.");
+    byId("complex").innerHTML='<option value="">5년 집계자료 없음</option>';
+  }
+}
+districtSel.addEventListener("change",()=>{selectedTrade=null;params.delete("apt");loadDistrict();});
+byId("search").addEventListener("input",()=>{params.delete("apt");filterComplexes()});
+byId("complex").addEventListener("change",()=>{selectedTrade=null;choose();});
+["bear","base","bull"].forEach(id=>byId(id).addEventListener("input",scenarios));
+selectedTrade=Number(params.get("price"))||null;loadDistrict();
+})();
+</script>
+</body>
+</html>
