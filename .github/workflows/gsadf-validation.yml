@@ -3,18 +3,17 @@ on:
   workflow_dispatch:
   pull_request:
     branches: [main]
-    paths:
-      - 'gsadf/**'
-      - '.github/workflows/gsadf-validation.yml'
+    paths: ['gsadf/**', '.github/workflows/gsadf-validation.yml']
   push:
     branches: [main]
-    paths:
-      - 'gsadf/**'
-      - '.github/workflows/gsadf-validation.yml'
+    paths: ['gsadf/**', '.github/workflows/gsadf-validation.yml']
   schedule:
     - cron: '30 2 5 * *'
 permissions:
   contents: read
+concurrency:
+  group: gsadf-official-validation
+  cancel-in-progress: false
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -24,20 +23,43 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install -r gsadf/requirements.txt
-      - run: python -m unittest discover -s gsadf/tests -v
-      - run: python -m gsadf.fetch_oecd --data-dir gsadf/data
-      - name: Run independent Monte Carlo verification; do not alter risk-data.js
+      - name: Install pinned-range dependencies
+        run: pip install -r gsadf/requirements.txt
+      - name: Safe unit tests (PRs never receive storage credentials)
+        run: python -m unittest discover -s gsadf/tests -v
+      - name: Restore previously verified official source vintages from R2
+        if: github.event_name != 'pull_request'
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+        run: python -m gsadf.storage restore --data-dir gsadf/data
+      - name: Download latest official OECD quarterly source and append revisions
+        if: github.event_name != 'pull_request'
+        run: python -m gsadf.fetch_oecd --data-dir gsadf/data
+      - name: Run isolated 2,000-repetition Monte Carlo per series
+        if: github.event_name != 'pull_request'
         run: |
           for key in real_hpi pir ptr; do
             python -m gsadf.run --input "gsadf/data/korea_${key}_quarterly.csv" --output "gsadf/output/${key}.json" --reps 2000
           done
-      - uses: actions/upload-artifact@v4
-        if: always()
+      - name: Verify Cloudflare R2 archive and independent Google Drive backup
+        if: github.event_name != 'pull_request'
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
+        run: python -m gsadf.storage publish --data-dir gsadf/data --result-dir gsadf/output --status-path gsadf/audit/status.json
+      - name: Upload short audit status ONLY (never raw CSV or Monte Carlo history)
+        if: always() && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
         with:
-          name: gsadf-official-data-and-audit
-          path: |
-            gsadf/data/
-            gsadf/output/
+          name: gsadf-status-${{ github.run_id }}
+          path: gsadf/audit/status.json
           if-no-files-found: ignore
-          retention-days: 90
+          retention-days: 7
