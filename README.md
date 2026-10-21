@@ -16,6 +16,15 @@
 - 위험신호 카드 클릭: 현재값, 산식, `Observation_Key`, 논문 위치와 한계를 확인합니다.
 - `원자료 CSV`·`수정 이력`·`출처 목록`: 숫자를 외부에서 재계산할 때 사용합니다.
 
+## 개별 아파트 5년 장기 가격평가 (독립 모듈)
+
+- 웹: https://edwardlim1004.github.io/realestate_AI_anysis_20260927/long-term-value/
+- 서울 25개 구 동일 단지·지번·유사 전용면적의 공식 5년 실거래 중위값, 거래량 및 전세 보증금 비교
+- Theil–Sen 강건 로그추세와 현재 가격의 상대적 괴리, 사용자 가정에 따른 향후 5년 복리 가격 시나리오 분리
+- 비공개 R2에서 GitHub Actions가 집계 JSON을 생성하므로 웹과 Git에 인증키를 노출하지 않음
+- **최초로 Actions → Build Apartment Five-Year Valuations → Run workflow를 성공시켜야 데이터가 표시됨**. 자세한 내용은 [long-term-value/README.md](long-term-value/README.md).
+- 역사적 추세·사용자가 입력한 성장률은 미래 확정 전망이나 구조적 적정가격이 아님.
+
 ## 거시 위험 계산
 
 | 축 | 공식 데이터 | 계산 |
