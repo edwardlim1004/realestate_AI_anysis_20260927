@@ -73,7 +73,7 @@ table{border-collapse:collapse;width:100%;font-size:13px;min-width:420px}th,td{t
 <section class="panel">
   <h2>평가 방법과 해석 범위</h2>
   <p>동일 아파트의 <b>최근 거래가격</b>, 과거 <b>5년 분포와 거래량</b>, <b>전세 중위가격</b>을 개별 확인합니다. 장기 상승률만으로 ‘저평가’ 또는 ‘고평가’를 단정하지 않습니다. 미래 시나리오는 직접 입력한 성장률에 따른 조건부 계산이며 확정 적정가격이 아닙니다.</p>
-  <p class="small">원천: 국토교통부 공식 아파트 매매·전월세 실거래가 API. 원본: 비공개 Cloudflare R2. 공개 자료: 월별·연도별 집계만. 최근 완결월까지 60개월을 사용하며 가장 최신 신고월(잠정치)은 기본 평가에서 제외합니다. 아파트명과 지번, 약 5㎡ 면적구간이 같은 거래를 비교하고, 취소 거래는 제외합니다. 상세 재현·수집상태는 <a href="https://github.com/edwardlim1004/realestate_AI_anysis_20260927/tree/main/long-term-value">GitHub 모듈 설명</a>을 참조하세요.</p>
+  <p class="small">원천: 국토교통부 공식 아파트 매매·전월세 실거래가 API. 원본: 비공개 Cloudflare R2. 공개 자료: 월별·연도별 집계만. 월말+30일의 실거래 신고 기한이 지난 월까지 60개월을 사용하며, 신고가 계속 접수될 수 있는 기간은 기준가격에서 제외합니다. 아파트명과 지번, 약 5㎡ 면적구간이 같은 거래를 비교하고, 취소 거래는 제외합니다. 상세 재현·수집상태는 <a href="https://github.com/edwardlim1004/realestate_AI_anysis_20260927/tree/main/long-term-value">GitHub 모듈 설명</a>을 참조하세요.</p>
 </section>
 </main>
 <footer>장기 모듈은 거시 위험점수와 독립적으로 계산됩니다. 거래 수집 누락·시차·정정 및 표본 선택 편향이 있을 수 있어 대출·매매 실행 전 국토교통부 원자료와 등기부를 재확인하세요.</footer>
