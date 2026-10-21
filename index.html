@@ -213,7 +213,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
   .risk-grid,.quality-grid{grid-template-columns:1fr}
 }
 </style>
-</head>
+<style>.trade-trigger,#tradeDetailRows button{border:0;background:none;color:var(--buy);text-decoration:underline;cursor:pointer;font:inherit;padding:5px}#tradeDetailRows td{border-bottom:1px solid #8884;padding:8px;vertical-align:top}</style></head>
 <body>
 
 <header class="top">
@@ -411,6 +411,12 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
       <div class="stat-mini"><div class="l">4.39% 시나리오 스프레드</div><div class="v num" id="mSpread">-</div></div>
       <div class="stat-mini"><div class="l">갭 변화 국면</div><div class="v" id="mPhase"><span class="phase-badge">-</span></div></div>
     </div>
+    <section id="tradeDetailPanel" hidden style="padding:15px;margin:15px 0;border:1px solid #8885;border-radius:12px">
+<h3>개별 아파트 실거래 · 주소 확인</h3><p class="section-sub" id="tradeDetailStatus"></p>
+<input id="tradeDetailSearch" type="search" placeholder="단지명·동·지번 검색" style="width:100%;padding:10px;margin:10px 0" oninput="renderApartmentTrades()">
+<div style="overflow:auto;max-height:450px"><table style="width:100%;font-size:12px"><thead><tr><th>계약일</th><th>단지 / 주소</th><th>전용·층</th><th>매매가</th></tr></thead><tbody id="tradeDetailRows"></tbody></table></div>
+<div id="tradeDetailSelected" style="margin-top:15px;line-height:1.8"></div>
+<p class="section-sub">구 전체 추세 괴리율은 단지별 적정가격이 아닙니다. 10월은 잠정 실거래 자료입니다.</p></section>
     <div class="modal-grid">
       <div class="card">
         <h3 style="margin:0 0 6px; font-size:13px">5년 월별 단순평균 vs 로그 추세선</h3>
@@ -454,6 +460,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="risk-data.js"></script>
 <script src="data.js"></script>
+<script src="apartment-trades.js" defer></script>
 <script>
 const REGIONS = ENHANCED_DATA.regions;
 const MONTHS = ENHANCED_DATA.months;
@@ -730,7 +737,7 @@ function renderBoard(){
       <td class="num">${r.avg84.toFixed(1)}억</td>
       <td class="num">${r.avgPrice.toFixed(1)}억</td>
       <td class="num">${r.jeonseRate.toFixed(1)}%</td>
-      <td class="num">${r.trades}</td>
+      <td class="num"><button type="button" class="trade-trigger" onclick="event.stopPropagation();openModalByName(this.closest('tr').querySelector('td:nth-child(2) b').textContent);showApartmentTrades(this.closest('tr').querySelector('td:nth-child(2) b').textContent)">${r.trades}</button></td>
     </tr>`).join('');
 }
 
@@ -793,7 +800,7 @@ function openModal(r){
 
   document.getElementById('modalBackdrop').classList.add('open');
 }
-function closeModal(){ document.getElementById('modalBackdrop').classList.remove('open'); }
+function closeModal(){tradeDetailSeq++;document.getElementById('tradeDetailPanel').hidden=true;document.getElementById('modalBackdrop').classList.remove('open');}
 
 calcGate();
 renderBoard();
