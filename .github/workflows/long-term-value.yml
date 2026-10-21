@@ -1,0 +1,42 @@
+name: Build Apartment Five-Year Valuations
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "10 23 * * *" # ~08:10 Asia/Seoul (GitHub may delay scheduled runs)
+permissions:
+  contents: write
+concurrency:
+  group: apartment-five-year-valuations
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install private R2 SDK
+        run: python -m pip install boto3
+      - name: Build five-year district snapshots from R2
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+        run: python long-term-value/build_snapshots.py
+      - name: Commit only changed aggregate snapshots
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add long-term-value/data/
+          if git diff --cached --quiet; then
+            echo "No changes in source fingerprint; skip commit."
+            exit 0
+          fi
+          git commit -m "chore: refresh five-year apartment valuation snapshots"
+          git push origin HEAD:main
