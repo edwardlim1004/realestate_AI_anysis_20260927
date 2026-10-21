@@ -45,7 +45,9 @@
   "inputFingerprint": "1abd11de4555e4ae30697a8c805c63064adf4abd1bc0ebeaf25cdac41a9e345a",
   "update": {
     "insertedOrRevised": 0,
-    "warnings": [],
+    "warnings": [
+      "ECOS_API_KEY is not configured; retained the committed cache"
+    ],
     "policy": "Provider failures retain the prior official cache; SHADOW never enters the core score."
   }
 }
