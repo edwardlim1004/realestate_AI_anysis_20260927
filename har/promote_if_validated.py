@@ -87,7 +87,13 @@ def promote():
     })
     # Historic aggregate backfill is not performed without vintaged point-in-time
     # projections; clear old composite history to prevent conflicting chart values.
-    target["history"] = []
+    target["historyPreHaR"] = target["history"]
+    target["history"] = [{
+        "period": comp.get("latestPeriod", ""), "score": comp["score"],
+        "state": comp["state"], "valuation": target["tiles"]["valuation"]["score"],
+        "credit": target["tiles"]["credit"]["score"],
+        "momentum": target["tiles"]["momentum"]["score"], "har": har_score,
+    }]
     payload["method"]["composite"] = "Equal mean of validated and available pillars; HaR included only after audit"
     payload["method"]["note"] += " HaR history withheld pending vintage-by-vintage reconstitution."
     text = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
