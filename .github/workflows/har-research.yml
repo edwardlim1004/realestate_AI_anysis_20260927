@@ -37,6 +37,9 @@ jobs:
         run: |
           git diff --exit-code -- risk-data.js risk-data/risk_summary.json risk-data/risk_raw.csv
           python -c "import json; d=json.load(open('har/results.json')); assert d['composite_eligible'] is False and d['publication']=='RESEARCH_ONLY'"
+      - name: Ensure no score is published when validation gates fail
+        run: |
+          python -c "import json; d=json.load(open('har/results.json')); assert all(not x['approved'] for x in d['horizons'].values())"
       - name: Commit research artifact only
         if: github.event_name != 'pull_request'
         run: |
