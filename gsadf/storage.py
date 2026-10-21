@@ -71,22 +71,32 @@ def restore(data_dir):
     data_dir.mkdir(parents=True, exist_ok=True)
     s3 = s3_client()
     bucket = os.environ["R2_BUCKET_NAME"]
-    loaded = []
-    for name in EXPECTED:
-        try:
-            obj = s3.get_object(Bucket=bucket, Key=PREFIX+"current/"+name)
-        except Exception as exc:
-            if missing_object(exc): continue
-            raise
-        blob = obj["Body"].read(MAX_SOURCE_BYTES+1)
-        if len(blob) > MAX_SOURCE_BYTES:
-            raise RuntimeError("R2 source unexpectedly large")
-        expected = obj.get("Metadata", {}).get("sha256")
-        if expected and sha256(blob) != expected:
-            raise RuntimeError("R2 source SHA256 mismatch for "+name)
-        (data_dir/name).write_bytes(blob)
-        loaded.append(name)
-    print("GSADF_R2_RESTORE", len(loaded), "series/revision files")
+    try:
+        pointer = s3.get_object(Bucket=bucket, Key=PREFIX+"latest.json")
+    except Exception as exc:
+        if missing_object(exc):
+            print("GSADF_R2_RESTORE first-ever run, no previous verified bundle")
+            return []
+        raise
+    manifest = json.loads(pointer["Body"].read(MAX_SOURCE_BYTES))
+    digest = manifest.get("bundleSHA256","")
+    key = manifest.get("R2","")
+    if not re.fullmatch("[0-9a-f]{64}",digest) or key != PREFIX+"bundles/"+digest+".zip":
+        raise RuntimeError("Invalid GSADF latest pointer")
+    response = s3.get_object(Bucket=bucket,Key=key)
+    bundle = response["Body"].read(MAX_ARCHIVE_BYTES+1)
+    if len(bundle)>MAX_ARCHIVE_BYTES or sha256(bundle)!=digest:
+        raise RuntimeError("GSADF R2 archive hash mismatch")
+    loaded=[]
+    with zipfile.ZipFile(io.BytesIO(bundle)) as source:
+        for name in EXPECTED:
+            archived="data/"+name
+            if archived not in source.namelist(): continue
+            blob=source.read(archived)
+            if len(blob)>MAX_SOURCE_BYTES: raise RuntimeError("Oversize verified GSADF source")
+            (data_dir/name).write_bytes(blob)
+            loaded.append(name)
+    print("GSADF_R2_RESTORE",len(loaded),"series/revision files from verified bundle")
     return loaded
 
 def build_bundle(data_dir, result_dir):
@@ -132,7 +142,7 @@ def backup_drive(s3, payload, digest):
     sys.path.insert(0,str(path))
     from google_drive_backup import authorized_drive, ensure_folder, execute, ROOT_NAME
     from googleapiclient.http import MediaFileUpload
-    env_required("GOOGLE_OAUTH_CLIENT_ID","GOOGLE_OAUTH_CLIENT_SECRET","GOOGLE_OAUTH_REFRESH_TOKEN")
+    env_required("GOOGLE_OAUTH_CLIENT_ID","GOOGLE_OAUTH_CLIENT_SECRET")
     drive=authorized_drive(s3)
     folder=ensure_folder(drive,"GSADF",ensure_folder(drive,ROOT_NAME,"root"))
     key=digest[:24]
