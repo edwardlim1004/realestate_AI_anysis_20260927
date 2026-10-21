@@ -85,7 +85,7 @@ const districts={"11110":"종로구","11140":"중구","11170":"용산구","11200
 const byId = id => document.getElementById(id);
 const params=new URLSearchParams(location.search);
 let doc=null, active=null, request=0, selectedTrade=null;
-function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&#39;",'"':"&quot;"}[c]));}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function money(v){return v>0&&Number.isFinite(Number(v))?(v/10000).toLocaleString("ko-KR",{maximumFractionDigits:2})+"억 원":"자료 부족";}
 function set(id,text){byId(id).textContent=text;}
 function status(text){set("status",text);}
@@ -133,8 +133,11 @@ function showTrend(c) {
   const years=[...new Set(points.map(x=>x[0].slice(0,4)))].map(y=>{
      const ym=y+"01", x=xx(xym(ym));return x>=40&&x<=820?'<text x="'+x.toFixed(1)+'" y="220">'+y+"</text>":"";
    }).join("");
+  const trendLine=trend?trend.line.map((v,i)=>(i?"L":"M")+xx(xym(doc.window_start)+i).toFixed(1)+" "+yy(v).toFixed(1)).join(" "):"";
   svg.innerHTML='<g fill="none" stroke="#40536c"><path d="M40 35H820 M40 74H820 M40 113H820 M40 152H820 M40 190H820"/></g>'+
-     '<path d="'+segments.join(" ")+'" fill="none" stroke="#8fc5ff" stroke-width="2.4" stroke-linejoin="round"/>'+labels+years;
+     '<path d="'+segments.join(" ")+'" fill="none" stroke="#8fc5ff" stroke-width="2.4" stroke-linejoin="round"/>'+
+     (trendLine?'<path d="'+trendLine+'" fill="none" stroke="#ffbf75" stroke-width="2" stroke-dasharray="7 5"/>':"")+
+     labels+years+'<text x="580" y="17">파랑: 월별 중위값 · 주황: 5년 추세</text>';
 }
 function choose(){
   const n=Number(byId("complex").value);
