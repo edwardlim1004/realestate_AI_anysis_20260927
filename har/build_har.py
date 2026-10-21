@@ -5,6 +5,7 @@ Outputs NEVER modify risk_summary.json or risk-data.js. Publishing requires a
 separate, explicit approval after reviewing out-of-sample results.
 """
 import csv
+import hashlib
 import json
 import math
 from datetime import datetime, timezone
@@ -145,6 +146,7 @@ def run(country="KOR", path=RAW):
         "schemaVersion": "har.research.v1",
         "generatedAtUTC": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "country": country,
+        "input_data_sha256": hashlib.sha256(Path(path).read_bytes()).hexdigest(),
         "model": "IMF-inspired expanding-window linear quantile regression; NOT IMF estimates",
         "source": "risk-data/risk_raw.csv (OECD/BIS official feeds)",
         "unit": "cumulative real house-price change, percent",
