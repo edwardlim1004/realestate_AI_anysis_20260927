@@ -213,7 +213,14 @@ def main():
     parser.add_argument("--archive-dir", help="Local test fixture containing sale/YYYY/GU/YYYYMM.csv.gz")
     args = parser.parse_args()
     kst = dt.datetime.now(ZoneInfo("Asia/Seoul"))
-    last = args.cutoff or shift_month(kst.strftime("%Y%m"), -1)
+    # A contract can be reported up to 30 days after signing.
+    # Never mark the immediately preceding month complete before the last
+    # possible filing deadline (last day of that month + 30 days) has passed.
+    prev = shift_month(kst.strftime("%Y%m"), -1)
+    prev_y, prev_m = int(prev[:4]), int(prev[4:])
+    deadline = dt.date(prev_y, prev_m, calendar.monthrange(prev_y, prev_m)[1]) + dt.timedelta(days=30)
+    latest_safe = prev if kst.date() > deadline else shift_month(prev, -1)
+    last = args.cutoff or latest_safe
     dt.date(int(last[:4]), int(last[4:]), 1)  # reject malformed dates
     months = [shift_month(last, i) for i in range(-59, 1)]
     manifest_file = BASE.parent / "seoul-apartment-collector" / "r2_manifest.json"
