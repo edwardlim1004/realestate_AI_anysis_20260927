@@ -2,7 +2,7 @@
   "schema": 1,
   "bucket": "edward-seoul-apartment-data",
   "prefix": "seoul-apartments/v1/",
-  "updated_at_utc": "2026-10-21T06:00:27.170016+00:00",
+  "updated_at_utc": "2026-10-21T09:13:46.084700+00:00",
   "files": {
     "rent/2011/11110/201101.csv.gz": {
       "sha256": "a6697b6f2e0ddc59fcf7d163a8c6bf4da0602e9bb7af281c184e0639f2295301",
@@ -21603,6 +21603,13 @@
     "rent/2026/11740/202610.csv.gz": {
       "sha256": "4c6a4ee12aa90b2472eb00a64c2e28d4a4286378151958bb66a9e6d1ded43064",
       "bytes": 23578
+    },
+    "rent/2026/41111/202609.csv.gz": {
+      "sha256": "b4d8a9efdbde363cfd41396ba7414ff779e344bb32c18516ab394df33f677302",
+      "bytes": 13145,
+      "storage": "r2",
+      "content_sha256": "4848f07829731c7b6ffa1c4afbfb9564bd268060395e852e411d8718b77d7835",
+      "rows": 249
     },
     "sale/2006/11110/200601.csv.gz": {
       "sha256": "f3404d3d0738693467f8b6314b624ce76f6b8bb7ca30e30d1c196b0ef88fdc4b",
@@ -50696,6 +50703,13 @@
     "sale/2026/11740/202610.csv.gz": {
       "sha256": "1bba1df6aad13f3a2f6d2247622565ccbbe3017f756e8938beebebdb60238c14",
       "bytes": 4079
+    },
+    "sale/2026/41111/202609.csv.gz": {
+      "sha256": "44b9ab1eb5e9ff3aaff081ab96036ecfd9d3e446d2d671965530a527e778bb1f",
+      "bytes": 10681,
+      "storage": "r2",
+      "content_sha256": "58fb6040eb2ac7438905a32f9c0422c3a71612e8933fc003f9017f2d4188c067",
+      "rows": 197
     }
   }
 }
