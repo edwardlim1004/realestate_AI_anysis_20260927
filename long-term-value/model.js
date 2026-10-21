@@ -22,6 +22,37 @@
     return (Number(end.slice(0,4)) - Number(start.slice(0,4))) * 12 +
       Number(end.slice(4)) - Number(start.slice(4));
   }
+  function median(values) {
+    const a = values.filter(Number.isFinite).sort((x, y) => x - y);
+    if (!a.length) return null;
+    const mid = Math.floor(a.length / 2);
+    return a.length % 2 ? a[mid] : (a[mid - 1] + a[mid]) / 2;
+  }
+  // Robust Theil-Sen fit on monthly log-median prices; not a structural fair value.
+  function trendBenchmark(c, doc) {
+    const series = (c.sale_months || [])
+      .map(r => ({x:monthsApart(doc.window_start,r[0]), v:finitePositive(r[1])}))
+      .filter(p => p.v !== null && p.x >= 0 && p.x <= 59).sort((a,b)=>a.x-b.x);
+    if (series.length < 12 || series[series.length-1].x-series[0].x < 36) return null;
+    const slopes=[];
+    for(let i=0;i<series.length;i++) {
+      for(let j=i+1;j<series.length;j++) {
+        if(series[j].x>series[i].x)slopes.push((Math.log(series[j].v)-Math.log(series[i].v))/(series[j].x-series[i].x));
+      }
+    }
+    const slope=median(slopes);
+    if(slope===null)return null;
+    const intercept=median(series.map(p=>Math.log(p.v)-slope*p.x));
+    const ref=Math.exp(intercept+slope*53.5); // midpoint of latest 12 complete months
+    const current=finitePositive(c.last12_median);
+    return {
+      reference:round(ref,2),
+      gapPct:current!==null?round((current/ref-1)*100,1):null,
+      historicTrendCagrPct:round((Math.exp(slope*12)-1)*100,2),
+      observedMonths:series.length,
+      line:Array.from({length:60},(_,i)=>round(Math.exp(intercept+slope*i),2))
+    };
+  }
   function quality(c, doc) {
     const latest = finitePositive(c.last12_median);
     const complete = doc && doc.coverage && doc.coverage.sale_months >= 48;
@@ -50,12 +81,12 @@
       change: round(((1 + Number(value) / 100) ** 5 - 1) * 100, 1)
     }));
     return {
-      quality:q, current:base, selectedTrade:trade, selectedDeltaPct:delta,
+      quality:q, current:base, trend:trendBenchmark(c,doc), selectedTrade:trade, selectedDeltaPct:delta,
       observedCagrPct:c.observed_cagr_pct,
       annualNominalPositionPct:percentile, scenarios,
       jeonseRatePct:c.jeonse_rate_pct,
       caution:"과거 매매 중위값과 명목 상승률은 구조적 적정가격이 아니며 미래 수익률 예측치가 아닙니다."
     };
   }
-  return { assess, quality, addYears, monthsApart };
+  return { assess, quality, addYears, monthsApart, trendBenchmark };
 });
