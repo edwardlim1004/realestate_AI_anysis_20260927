@@ -1,6 +1,11 @@
 name: GSADF official data and isolated validation
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'gsadf/**'
+      - '.github/workflows/gsadf-validation.yml'
   schedule:
     - cron: '30 2 5 * *'
 permissions:
