@@ -2,10 +2,10 @@
 import argparse,csv,datetime,io,json,time,urllib.request,urllib.error
 from pathlib import Path
 from .incremental import update
-BASE='https://sdmx.oecd.org/public/rest/v1/data/OECD.ECO.MPD,DSD_AN_HOUSE_PRICES@DF_HOUSE_PRICES,1.0/'
+BASE='https://sdmx.oecd.org/public/rest/data/OECD.ECO.MPD,DSD_AN_HOUSE_PRICES@DF_HOUSE_PRICES,1.0/'
 MEASURES={'RHP':'real_hpi','HPI_YDH_AVG':'pir','HPI_RPI_AVG':'ptr'}
 def fetch(measure,root):
-    url=f'{BASE}KOR.Q.{measure}.?startPeriod=1980-Q1&dimension_at_observation=AllDimensions'
+    url=f'{BASE}KOR.Q.{measure}.?startPeriod=1980-Q1&dimensionAtObservation=AllDimensions'
     error=None
     for attempt in range(4):
         try:
