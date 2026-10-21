@@ -89,6 +89,28 @@ def estimate(train, forecast, tau=TAU):
     return result
 
 
+def baseline_quantile(training, tau=TAU):
+    """Unconditional historical lower-tail benchmark; no fitted covariates."""
+    import numpy as np
+    return float(np.quantile(training["target"].to_numpy(), tau, method="inverted_cdf"))
+
+
+def pinball_loss(actual, predicted, tau=TAU):
+    delta = actual - predicted
+    return tau * delta if delta >= 0 else (1 - tau) * (-delta)
+
+
+def backtest_diagnostics(rows, tau=TAU):
+    n = len(rows)
+    if not n:
+        return {"n": 0, "breaches": 0, "breach_rate": None, "pinball_loss": None}
+    losses = [pinball_loss(r["actual"], r["predicted"], tau) for r in rows]
+    breaches = sum(r["breach"] for r in rows)
+    return {"n": n, "breaches": breaches,
+            "breach_rate": round(breaches / n, 4),
+            "pinball_loss": round(sum(losses) / n, 4)}
+
+
 def run(country="KOR", path=RAW):
     import pandas as pd
     frame = build_frame(load_rows(path), country)
@@ -100,6 +122,7 @@ def run(country="KOR", path=RAW):
         # The horizon must be respected: historical target may be used for
         # training only after its future price is known at the origin.
         rows = []
+        baseline_rows = []
         for origin in df.index:
             candidate = df.loc[[origin]].dropna(subset=["momentum_4q", "overvaluation", "credit_gap"])
             if candidate.empty:
@@ -108,9 +131,11 @@ def run(country="KOR", path=RAW):
             if len(historical) < MIN_TRAIN:
                 continue
             predicted = estimate(historical, candidate)
+            baseline = baseline_quantile(historical)
             actual = df.loc[origin, "target"]
             if pd.notna(actual):
                 rows.append({"period": str(origin), "predicted": round(predicted, 6), "actual": round(float(actual), 6), "breach": bool(actual < predicted)})
+                baseline_rows.append({"period": str(origin), "predicted": round(baseline, 6), "actual": round(float(actual), 6), "breach": bool(actual < baseline)})
         # Historical forward-return endpoints in the most recent h quarters
         # are unavailable, so backtest count differs from predicted origins.
         count = len(rows)
@@ -132,6 +157,10 @@ def run(country="KOR", path=RAW):
             "breaches": breaches,
             "breach_rate": round(breaches / count, 4) if count else None,
             "backtest": rows,
+            "benchmark": backtest_diagnostics(baseline_rows),
+            "model_diagnostics": backtest_diagnostics(rows),
+            "calibration_pass": bool(count >= MIN_TEST and abs(breaches / count - TAU) <= 0.05),
+            "selection_policy": "Fail closed: require benchmark and model calibration plus publication-vintage and independent signoff. No ad hoc intercept correction.",
             "approved": False,
             "status": "REVIEW_REQUIRED" if count >= MIN_TEST and forecast else "INSUFFICIENT_DATA",
             "validation_gates": {
