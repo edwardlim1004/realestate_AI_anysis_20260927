@@ -233,7 +233,8 @@ def main() -> int:
         "vintages": actual_vintage_count, "revisions": revision_count,
         "written": args.write, "unchanged": unchanged,
     }, ensure_ascii=False, indent=2))
-    assert gates["revisionStability"]["status"] != "PASS"\n    assert gates["humanReview"]["status"] != "PASS"
+    assert gates["revisionStability"]["status"] != "PASS"
+    assert gates["humanReview"]["status"] != "PASS"
     return 0
 
 
