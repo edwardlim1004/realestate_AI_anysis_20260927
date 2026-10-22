@@ -139,6 +139,12 @@ def main() -> int:
             official.append((item["Period"], value, item.get("Observation_Key")))
     vintages = read_csv(vintages_path)
     revisions = read_csv(revisions_path)
+    archived = read_csv(DIR / "vintage_catalog.csv")
+    r2_verified_days = len({
+        v.get("CapturedDateUTC") for v in archived
+        if v.get("CapturedDateUTC") and v.get("Storage") == "cloudflare_r2"
+        and v.get("Verified") == "head_object_metadata"
+    })
     tests = [oos(hpi, scores, h) for h in HORIZONS]
     score_hash = summary.get("validation", {}).get("signalFingerprint")
     dependency = {
@@ -152,6 +158,10 @@ def main() -> int:
             (r.get("ChangeID"), r.get("ObservationKey"), r.get("OldValue"), r.get("NewValue"))
             for r in revisions
         ],
+        "r2CapturedCatalog": sorted(
+            (v.get("CapturedDateUTC"), v.get("ObjectKey"), v.get("Sha256Uncompressed"))
+            for v in archived
+        ),
     }
     source_hash = hashlib.sha256(json.dumps(dependency, sort_keys=True).encode()).hexdigest()
     previous = {}
@@ -189,7 +199,9 @@ def main() -> int:
         "schemaVersion": "1.1", "methodVersion": VERSION, "updatedAtUTC": timestamp,
         "sourceFingerprint": source_hash, "signalFingerprint": score_hash,
         "data": {"ecOSScoreQuarters": len(scores), "oeCDRealHpiQuarters": len(hpi),
-                 "savedDerivedScoreSnapshots": actual_vintage_count, "verifiedProviderVintages": 0,
+                 "savedDerivedScoreSnapshots": actual_vintage_count,
+                 "verifiedR2RetrievalDaySnapshots": r2_verified_days,
+                 "originalPublicationVintagesVerified": 0,
                  "observedRevisionEvents": revision_count,
                  "realtimeVintagesVerified": False},
         "protocol": {
@@ -230,7 +242,7 @@ def main() -> int:
                     writer.writerows(result["predictions"])
     print(json.dumps({
         "horizons": report["horizons"], "gates": gates,
-        "vintages": actual_vintage_count, "revisions": revision_count,
+        "vintages": actual_vintage_count, "r2RetrievalDays": r2_verified_days, "revisions": revision_count,
         "written": args.write, "unchanged": unchanged,
     }, ensure_ascii=False, indent=2))
     assert gates["revisionStability"]["status"] != "PASS"
