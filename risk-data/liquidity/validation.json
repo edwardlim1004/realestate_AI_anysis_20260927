@@ -2,25 +2,25 @@
   "passed": false,
   "gates": {
     "officialSourceIdentity": {
-      "status": "FAIL",
+      "status": "PASS",
       "detail": "ECOS 코드·항목·주기·공식 API 표식을 설정과 대조",
       "observed": {
-        "M2": 0,
-        "LF": 0,
-        "L": 0,
-        "CPI": 0,
-        "NOMINAL_GDP": 0
+        "M2": 275,
+        "LF": 275,
+        "L": 275,
+        "CPI": 276,
+        "NOMINAL_GDP": 91
       }
     },
     "historyCoverage": {
-      "status": "FAIL",
+      "status": "PASS",
       "detail": "월별·분기별 최소 표본 수 충족",
       "observed": {
-        "M2": 0,
-        "LF": 0,
-        "L": 0,
-        "CPI": 0,
-        "NOMINAL_GDP": 0
+        "M2": 275,
+        "LF": 275,
+        "L": 275,
+        "CPI": 276,
+        "NOMINAL_GDP": 91
       },
       "required": {
         "monthly": 120,
@@ -28,7 +28,7 @@
       }
     },
     "continuity": {
-      "status": "FAIL",
+      "status": "PASS",
       "detail": "계열별 누락 월·분기 수 제한",
       "observed": {
         "M2": 0,
@@ -43,19 +43,19 @@
       }
     },
     "releaseRecency": {
-      "status": "FAIL",
+      "status": "PASS",
       "detail": "M2 최신 관측치 발표시차 제한",
-      "observed": 9999,
+      "observed": 2,
       "required": 4
     },
     "calculationIntegrity": {
-      "status": "FAIL",
+      "status": "PASS",
       "detail": "가중치 합계·구성요소·최종점수 재현 가능",
       "observed": 1.0,
       "required": 1.0
     },
     "noLookAhead": {
-      "status": "FAIL",
+      "status": "PASS",
       "detail": "과거 절단표본 재계산 결과가 전체표본의 같은 시점 점수와 일치"
     },
     "predictiveBacktest": {
@@ -71,9 +71,9 @@
       "detail": "산식·중복성·위기구간 오경보를 검토한 뒤 승인자를 기록해야 합니다."
     }
   },
-  "validationFingerprint": "e24ffd0373bda49d885d62ec93abda1bcfa1429cc2f11f0810184b8681fa3742",
-  "signalFingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "passedGateCount": 0,
+  "validationFingerprint": "889a16eedacce601972dd6eaf39135e411e349dcc67e5f6c72476c23d7a57eb8",
+  "signalFingerprint": "c8bab2fc45f5fc3e12a590a58e2ea121a6c91663907b729e99f9be54a1a3c4b2",
+  "passedGateCount": 6,
   "totalGateCount": 9,
-  "generatedAtUTC": "2026-10-21T15:25:25+00:00"
+  "generatedAtUTC": "2026-10-22T15:08:24+00:00"
 }

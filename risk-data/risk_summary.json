@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAtUTC": "2026-10-21T15:33:35+00:00",
+  "generatedAtUTC": "2026-10-22T15:08:24+00:00",
   "latestRawPeriod": "2026-Q3",
   "method": {
     "normalization": "expanding historical percentile, minimum 20 quarters",
@@ -100,7 +100,7 @@
         "liquidity": {
           "label": "유동성",
           "score": null,
-          "status": "SHADOW_WAITING_DATA",
+          "status": "SHADOW_VALIDATION",
           "value": null,
           "meaning": "Marshall K·실질 M2 갭·유동성 폭을 독립 모듈에서 계산하며, 검증 중에는 종합점수와 격리합니다.",
           "calculation": "50% Marshall K 갭 + 30% 실질 M2 갭 + 20% M2·Lf·L 실질증가율 폭; one-sided HP와 expanding 백분위",
@@ -112,11 +112,11 @@
           ],
           "limitations": "SHADOW 상태입니다. 표본외 백테스트·빈티지 안정성·사람 검토와 승인 지문 일치 전에는 숫자를 공개하거나 종합점수에 넣지 않습니다.",
           "module": {
-            "mode": "SHADOW_WAITING_DATA",
+            "mode": "SHADOW_VALIDATION",
             "validationPassed": false,
-            "passedGates": 0,
+            "passedGates": 6,
             "totalGates": 9,
-            "latestPeriod": null,
+            "latestPeriod": "2026-Q2",
             "summaryUrl": "risk-data/liquidity/summary.json",
             "validationUrl": "risk-data/liquidity/validation.json",
             "backtestUrl": "risk-data/liquidity/backtest.json",

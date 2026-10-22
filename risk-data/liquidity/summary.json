@@ -2,25 +2,1153 @@
   "schemaVersion": "1.0",
   "moduleId": "KOR_LIQUIDITY",
   "modelVersion": "1.0.0",
-  "mode": "SHADOW_WAITING_DATA",
+  "mode": "SHADOW_VALIDATION",
   "publicScore": null,
-  "shadowScore": null,
-  "latestPeriod": null,
-  "current": null,
-  "history": [],
-  "missingSeries": [
-    "M2",
-    "LF",
-    "L",
-    "CPI",
-    "NOMINAL_GDP"
+  "shadowScore": 23.36,
+  "latestPeriod": "2026-Q2",
+  "current": {
+    "period": "2026-Q2",
+    "score": 23.36,
+    "components": {
+      "marshallKGap": {
+        "period": "2026-Q2",
+        "value": -13.631257,
+        "score": 1.3889
+      },
+      "realM2Gap": {
+        "period": "202606",
+        "value": -0.681786,
+        "score": 46.2617
+      },
+      "breadth": {
+        "period": "202606",
+        "value": 4.554524,
+        "score": 43.9336
+      }
+    }
+  },
+  "history": [
+    {
+      "period": "2013-Q2",
+      "score": 42.03,
+      "components": {
+        "marshallKGap": {
+          "period": "2013-Q2",
+          "value": -1.243951,
+          "score": 35.0
+        },
+        "realM2Gap": {
+          "period": "201306",
+          "value": -1.045322,
+          "score": 51.7241
+        },
+        "breadth": {
+          "period": "201306",
+          "value": 4.637139,
+          "score": 45.0794
+        }
+      }
+    },
+    {
+      "period": "2013-Q3",
+      "score": 38.35,
+      "components": {
+        "marshallKGap": {
+          "period": "2013-Q3",
+          "value": -1.521013,
+          "score": 19.0476
+        },
+        "realM2Gap": {
+          "period": "201309",
+          "value": -1.042245,
+          "score": 54.0984
+        },
+        "breadth": {
+          "period": "201309",
+          "value": 5.254043,
+          "score": 62.963
+        }
+      }
+    },
+    {
+      "period": "2013-Q4",
+      "score": 64.03,
+      "components": {
+        "marshallKGap": {
+          "period": "2013-Q4",
+          "value": -0.618746,
+          "score": 63.6364
+        },
+        "realM2Gap": {
+          "period": "201312",
+          "value": 0.09874,
+          "score": 60.9375
+        },
+        "breadth": {
+          "period": "201312",
+          "value": 5.635682,
+          "score": 69.6697
+        }
+      }
+    },
+    {
+      "period": "2014-Q1",
+      "score": 62.02,
+      "components": {
+        "marshallKGap": {
+          "period": "2014-Q1",
+          "value": -0.600231,
+          "score": 65.2174
+        },
+        "realM2Gap": {
+          "period": "201403",
+          "value": -0.146478,
+          "score": 56.7164
+        },
+        "breadth": {
+          "period": "201403",
+          "value": 5.334737,
+          "score": 61.9883
+        }
+      }
+    },
+    {
+      "period": "2014-Q2",
+      "score": 70.95,
+      "components": {
+        "marshallKGap": {
+          "period": "2014-Q2",
+          "value": 0.111812,
+          "score": 75.0
+        },
+        "realM2Gap": {
+          "period": "201406",
+          "value": 0.449588,
+          "score": 65.7143
+        },
+        "breadth": {
+          "period": "201406",
+          "value": 5.608974,
+          "score": 68.661
+        }
+      }
+    },
+    {
+      "period": "2014-Q3",
+      "score": 74.77,
+      "components": {
+        "marshallKGap": {
+          "period": "2014-Q3",
+          "value": 1.198674,
+          "score": 76.0
+        },
+        "realM2Gap": {
+          "period": "201409",
+          "value": 1.245473,
+          "score": 68.4932
+        },
+        "breadth": {
+          "period": "201409",
+          "value": 6.448332,
+          "score": 81.1111
+        }
+      }
+    },
+    {
+      "period": "2014-Q4",
+      "score": 80.26,
+      "components": {
+        "marshallKGap": {
+          "period": "2014-Q4",
+          "value": 1.395694,
+          "score": 76.9231
+        },
+        "realM2Gap": {
+          "period": "201412",
+          "value": 2.490556,
+          "score": 80.2632
+        },
+        "breadth": {
+          "period": "201412",
+          "value": 7.262849,
+          "score": 88.6179
+        }
+      }
+    },
+    {
+      "period": "2015-Q1",
+      "score": 71.69,
+      "components": {
+        "marshallKGap": {
+          "period": "2015-Q1",
+          "value": -0.375965,
+          "score": 59.2593
+        },
+        "realM2Gap": {
+          "period": "201503",
+          "value": 2.194906,
+          "score": 78.481
+        },
+        "breadth": {
+          "period": "201503",
+          "value": 7.889124,
+          "score": 92.5926
+        }
+      }
+    },
+    {
+      "period": "2015-Q2",
+      "score": 77.63,
+      "components": {
+        "marshallKGap": {
+          "period": "2015-Q2",
+          "value": 0.716388,
+          "score": 71.4286
+        },
+        "realM2Gap": {
+          "period": "201506",
+          "value": 2.331035,
+          "score": 78.0488
+        },
+        "breadth": {
+          "period": "201506",
+          "value": 8.196964,
+          "score": 92.5065
+        }
+      }
+    },
+    {
+      "period": "2015-Q3",
+      "score": 78.89,
+      "components": {
+        "marshallKGap": {
+          "period": "2015-Q3",
+          "value": 0.745322,
+          "score": 72.4138
+        },
+        "realM2Gap": {
+          "period": "201509",
+          "value": 2.495005,
+          "score": 81.1765
+        },
+        "breadth": {
+          "period": "201509",
+          "value": 8.224568,
+          "score": 91.6667
+        }
+      }
+    },
+    {
+      "period": "2015-Q4",
+      "score": 69.39,
+      "components": {
+        "marshallKGap": {
+          "period": "2015-Q4",
+          "value": 0.644882,
+          "score": 66.6667
+        },
+        "realM2Gap": {
+          "period": "201512",
+          "value": 1.796401,
+          "score": 69.3182
+        },
+        "breadth": {
+          "period": "201512",
+          "value": 6.844777,
+          "score": 76.2963
+        }
+      }
+    },
+    {
+      "period": "2016-Q1",
+      "score": 65.0,
+      "components": {
+        "marshallKGap": {
+          "period": "2016-Q1",
+          "value": -0.13672,
+          "score": 58.0645
+        },
+        "realM2Gap": {
+          "period": "201603",
+          "value": 1.679119,
+          "score": 65.9341
+        },
+        "breadth": {
+          "period": "201603",
+          "value": 7.274024,
+          "score": 80.9179
+        }
+      }
+    },
+    {
+      "period": "2016-Q2",
+      "score": 58.42,
+      "components": {
+        "marshallKGap": {
+          "period": "2016-Q2",
+          "value": -0.386949,
+          "score": 50.0
+        },
+        "realM2Gap": {
+          "period": "201606",
+          "value": 1.625471,
+          "score": 64.8936
+        },
+        "breadth": {
+          "period": "201606",
+          "value": 6.561652,
+          "score": 69.7399
+        }
+      }
+    },
+    {
+      "period": "2016-Q3",
+      "score": 64.76,
+      "components": {
+        "marshallKGap": {
+          "period": "2016-Q3",
+          "value": 0.961066,
+          "score": 75.7576
+        },
+        "realM2Gap": {
+          "period": "201609",
+          "value": 0.843561,
+          "score": 49.4845
+        },
+        "breadth": {
+          "period": "201609",
+          "value": 5.936159,
+          "score": 60.1852
+        }
+      }
+    },
+    {
+      "period": "2016-Q4",
+      "score": 66.33,
+      "components": {
+        "marshallKGap": {
+          "period": "2016-Q4",
+          "value": 0.751316,
+          "score": 73.5294
+        },
+        "realM2Gap": {
+          "period": "201612",
+          "value": 1.223009,
+          "score": 52.0
+        },
+        "breadth": {
+          "period": "201612",
+          "value": 6.647463,
+          "score": 69.8413
+        }
+      }
+    },
+    {
+      "period": "2017-Q1",
+      "score": 46.57,
+      "components": {
+        "marshallKGap": {
+          "period": "2017-Q1",
+          "value": -0.272946,
+          "score": 54.2857
+        },
+        "realM2Gap": {
+          "period": "201703",
+          "value": -0.196863,
+          "score": 38.835
+        },
+        "breadth": {
+          "period": "201703",
+          "value": 4.921932,
+          "score": 38.8889
+        }
+      }
+    },
+    {
+      "period": "2017-Q2",
+      "score": 49.05,
+      "components": {
+        "marshallKGap": {
+          "period": "2017-Q2",
+          "value": -0.135846,
+          "score": 58.3333
+        },
+        "realM2Gap": {
+          "period": "201706",
+          "value": -0.166482,
+          "score": 38.6792
+        },
+        "breadth": {
+          "period": "201706",
+          "value": 5.101333,
+          "score": 41.3943
+        }
+      }
+    },
+    {
+      "period": "2017-Q3",
+      "score": 19.52,
+      "components": {
+        "marshallKGap": {
+          "period": "2017-Q3",
+          "value": -1.829176,
+          "score": 8.1081
+        },
+        "realM2Gap": {
+          "period": "201709",
+          "value": -0.954347,
+          "score": 31.1927
+        },
+        "breadth": {
+          "period": "201709",
+          "value": 4.534419,
+          "score": 30.5556
+        }
+      }
+    },
+    {
+      "period": "2017-Q4",
+      "score": 54.19,
+      "components": {
+        "marshallKGap": {
+          "period": "2017-Q4",
+          "value": 0.308956,
+          "score": 65.7895
+        },
+        "realM2Gap": {
+          "period": "201712",
+          "value": 0.029709,
+          "score": 45.5357
+        },
+        "breadth": {
+          "period": "201712",
+          "value": 4.850738,
+          "score": 38.1551
+        }
+      }
+    },
+    {
+      "period": "2018-Q1",
+      "score": 48.4,
+      "components": {
+        "marshallKGap": {
+          "period": "2018-Q1",
+          "value": -0.009701,
+          "score": 61.5385
+        },
+        "realM2Gap": {
+          "period": "201803",
+          "value": -0.989621,
+          "score": 29.5652
+        },
+        "breadth": {
+          "period": "201803",
+          "value": 5.086792,
+          "score": 43.8272
+        }
+      }
+    },
+    {
+      "period": "2018-Q2",
+      "score": 36.33,
+      "components": {
+        "marshallKGap": {
+          "period": "2018-Q2",
+          "value": -0.381925,
+          "score": 45.0
+        },
+        "realM2Gap": {
+          "period": "201806",
+          "value": -1.286301,
+          "score": 27.1186
+        },
+        "breadth": {
+          "period": "201806",
+          "value": 4.473849,
+          "score": 28.4848
+        }
+      }
+    },
+    {
+      "period": "2018-Q3",
+      "score": 21.21,
+      "components": {
+        "marshallKGap": {
+          "period": "2018-Q3",
+          "value": -0.776012,
+          "score": 29.2683
+        },
+        "realM2Gap": {
+          "period": "201809",
+          "value": -2.663467,
+          "score": 9.0909
+        },
+        "breadth": {
+          "period": "201809",
+          "value": 3.908219,
+          "score": 19.246
+        }
+      }
+    },
+    {
+      "period": "2018-Q4",
+      "score": 48.84,
+      "components": {
+        "marshallKGap": {
+          "period": "2018-Q4",
+          "value": 0.223734,
+          "score": 66.6667
+        },
+        "realM2Gap": {
+          "period": "201812",
+          "value": -0.959393,
+          "score": 33.871
+        },
+        "breadth": {
+          "period": "201812",
+          "value": 4.309397,
+          "score": 26.7057
+        }
+      }
+    },
+    {
+      "period": "2019-Q1",
+      "score": 66.71,
+      "components": {
+        "marshallKGap": {
+          "period": "2019-Q1",
+          "value": 1.552732,
+          "score": 86.0465
+        },
+        "realM2Gap": {
+          "period": "201903",
+          "value": -0.492849,
+          "score": 38.5827
+        },
+        "breadth": {
+          "period": "201903",
+          "value": 5.7481,
+          "score": 60.5364
+        }
+      }
+    },
+    {
+      "period": "2019-Q2",
+      "score": 63.81,
+      "components": {
+        "marshallKGap": {
+          "period": "2019-Q2",
+          "value": 0.751594,
+          "score": 77.2727
+        },
+        "realM2Gap": {
+          "period": "201906",
+          "value": -0.590195,
+          "score": 38.4615
+        },
+        "breadth": {
+          "period": "201906",
+          "value": 6.126597,
+          "score": 68.1733
+        }
+      }
+    },
+    {
+      "period": "2019-Q3",
+      "score": 75.12,
+      "components": {
+        "marshallKGap": {
+          "period": "2019-Q3",
+          "value": 1.463083,
+          "score": 84.4444
+        },
+        "realM2Gap": {
+          "period": "201909",
+          "value": -0.090567,
+          "score": 51.1278
+        },
+        "breadth": {
+          "period": "201909",
+          "value": 7.621947,
+          "score": 87.7778
+        }
+      }
+    },
+    {
+      "period": "2019-Q4",
+      "score": 76.94,
+      "components": {
+        "marshallKGap": {
+          "period": "2019-Q4",
+          "value": 1.819411,
+          "score": 86.9565
+        },
+        "realM2Gap": {
+          "period": "201912",
+          "value": 0.578943,
+          "score": 60.2941
+        },
+        "breadth": {
+          "period": "201912",
+          "value": 6.835938,
+          "score": 76.8671
+        }
+      }
+    },
+    {
+      "period": "2020-Q1",
+      "score": 85.64,
+      "components": {
+        "marshallKGap": {
+          "period": "2020-Q1",
+          "value": 4.156553,
+          "score": 93.617
+        },
+        "realM2Gap": {
+          "period": "202003",
+          "value": 1.715286,
+          "score": 76.9784
+        },
+        "breadth": {
+          "period": "202003",
+          "value": 7.104883,
+          "score": 78.6738
+        }
+      }
+    },
+    {
+      "period": "2020-Q2",
+      "score": 94.67,
+      "components": {
+        "marshallKGap": {
+          "period": "2020-Q2",
+          "value": 6.825191,
+          "score": 95.8333
+        },
+        "realM2Gap": {
+          "period": "202006",
+          "value": 3.89368,
+          "score": 93.662
+        },
+        "breadth": {
+          "period": "202006",
+          "value": 9.035665,
+          "score": 93.2981
+        }
+      }
+    },
+    {
+      "period": "2020-Q3",
+      "score": 87.43,
+      "components": {
+        "marshallKGap": {
+          "period": "2020-Q3",
+          "value": 4.146255,
+          "score": 89.7959
+        },
+        "realM2Gap": {
+          "period": "202009",
+          "value": 2.746745,
+          "score": 86.8966
+        },
+        "breadth": {
+          "period": "202009",
+          "value": 8.165857,
+          "score": 82.2916
+        }
+      }
+    },
+    {
+      "period": "2020-Q4",
+      "score": 87.28,
+      "components": {
+        "marshallKGap": {
+          "period": "2020-Q4",
+          "value": 3.497366,
+          "score": 88.0
+        },
+        "realM2Gap": {
+          "period": "202012",
+          "value": 3.129253,
+          "score": 85.8108
+        },
+        "breadth": {
+          "period": "202012",
+          "value": 8.630146,
+          "score": 87.6923
+        }
+      }
+    },
+    {
+      "period": "2021-Q1",
+      "score": 79.94,
+      "components": {
+        "marshallKGap": {
+          "period": "2021-Q1",
+          "value": 2.1893,
+          "score": 82.3529
+        },
+        "realM2Gap": {
+          "period": "202103",
+          "value": 2.230395,
+          "score": 78.1457
+        },
+        "breadth": {
+          "period": "202103",
+          "value": 7.712165,
+          "score": 76.5993
+        }
+      }
+    },
+    {
+      "period": "2021-Q2",
+      "score": 69.74,
+      "components": {
+        "marshallKGap": {
+          "period": "2021-Q2",
+          "value": 1.097405,
+          "score": 69.2308
+        },
+        "realM2Gap": {
+          "period": "202106",
+          "value": 2.246953,
+          "score": 77.2727
+        },
+        "breadth": {
+          "period": "202106",
+          "value": 6.269029,
+          "score": 59.7015
+        }
+      }
+    },
+    {
+      "period": "2021-Q3",
+      "score": 62.36,
+      "components": {
+        "marshallKGap": {
+          "period": "2021-Q3",
+          "value": 0.247139,
+          "score": 54.717
+        },
+        "realM2Gap": {
+          "period": "202109",
+          "value": 1.797155,
+          "score": 70.0637
+        },
+        "breadth": {
+          "period": "202109",
+          "value": 6.916549,
+          "score": 69.9346
+        }
+      }
+    },
+    {
+      "period": "2021-Q4",
+      "score": 57.2,
+      "components": {
+        "marshallKGap": {
+          "period": "2021-Q4",
+          "value": 0.202517,
+          "score": 51.8519
+        },
+        "realM2Gap": {
+          "period": "202112",
+          "value": 1.574343,
+          "score": 63.125
+        },
+        "breadth": {
+          "period": "202112",
+          "value": 6.326149,
+          "score": 61.6747
+        }
+      }
+    },
+    {
+      "period": "2022-Q1",
+      "score": 47.84,
+      "components": {
+        "marshallKGap": {
+          "period": "2022-Q1",
+          "value": 0.459578,
+          "score": 58.1818
+        },
+        "realM2Gap": {
+          "period": "202203",
+          "value": -0.13689,
+          "score": 40.4908
+        },
+        "breadth": {
+          "period": "202203",
+          "value": 5.061395,
+          "score": 33.0159
+        }
+      }
+    },
+    {
+      "period": "2022-Q2",
+      "score": 25.59,
+      "components": {
+        "marshallKGap": {
+          "period": "2022-Q2",
+          "value": -0.298535,
+          "score": 39.2857
+        },
+        "realM2Gap": {
+          "period": "202206",
+          "value": -1.896127,
+          "score": 13.253
+        },
+        "breadth": {
+          "period": "202206",
+          "value": 2.983819,
+          "score": 9.8592
+        }
+      }
+    },
+    {
+      "period": "2022-Q3",
+      "score": 33.62,
+      "components": {
+        "marshallKGap": {
+          "period": "2022-Q3",
+          "value": 0.415925,
+          "score": 57.8947
+        },
+        "realM2Gap": {
+          "period": "202209",
+          "value": -2.166044,
+          "score": 10.6509
+        },
+        "breadth": {
+          "period": "202209",
+          "value": 2.753521,
+          "score": 7.4074
+        }
+      }
+    },
+    {
+      "period": "2022-Q4",
+      "score": 40.41,
+      "components": {
+        "marshallKGap": {
+          "period": "2022-Q4",
+          "value": 1.064622,
+          "score": 70.6897
+        },
+        "realM2Gap": {
+          "period": "202212",
+          "value": -1.91839,
+          "score": 13.9535
+        },
+        "breadth": {
+          "period": "202212",
+          "value": 1.840796,
+          "score": 4.414
+        }
+      }
+    },
+    {
+      "period": "2023-Q1",
+      "score": 15.76,
+      "components": {
+        "marshallKGap": {
+          "period": "2023-Q1",
+          "value": -0.563888,
+          "score": 30.5085
+        },
+        "realM2Gap": {
+          "period": "202303",
+          "value": -4.008742,
+          "score": 0.5714
+        },
+        "breadth": {
+          "period": "202303",
+          "value": 0.72464,
+          "score": 1.6517
+        }
+      }
+    },
+    {
+      "period": "2023-Q2",
+      "score": 1.64,
+      "components": {
+        "marshallKGap": {
+          "period": "2023-Q2",
+          "value": -2.842589,
+          "score": 1.6667
+        },
+        "realM2Gap": {
+          "period": "202306",
+          "value": -5.133194,
+          "score": 1.1236
+        },
+        "breadth": {
+          "period": "202306",
+          "value": 0.984249,
+          "score": 2.3704
+        }
+      }
+    },
+    {
+      "period": "2023-Q3",
+      "score": 1.07,
+      "components": {
+        "marshallKGap": {
+          "period": "2023-Q3",
+          "value": -3.819804,
+          "score": 1.6393
+        },
+        "realM2Gap": {
+          "period": "202309",
+          "value": -5.950179,
+          "score": 0.5525
+        },
+        "breadth": {
+          "period": "202309",
+          "value": -0.936412,
+          "score": 0.4386
+        }
+      }
+    },
+    {
+      "period": "2023-Q4",
+      "score": 2.48,
+      "components": {
+        "marshallKGap": {
+          "period": "2023-Q4",
+          "value": -4.602867,
+          "score": 1.6129
+        },
+        "realM2Gap": {
+          "period": "202312",
+          "value": -5.016108,
+          "score": 3.2609
+        },
+        "breadth": {
+          "period": "202312",
+          "value": 0.214727,
+          "score": 3.4632
+        }
+      }
+    },
+    {
+      "period": "2024-Q1",
+      "score": 4.43,
+      "components": {
+        "marshallKGap": {
+          "period": "2024-Q1",
+          "value": -6.273788,
+          "score": 1.5873
+        },
+        "realM2Gap": {
+          "period": "202403",
+          "value": -4.534212,
+          "score": 6.4171
+        },
+        "breadth": {
+          "period": "202403",
+          "value": 1.934901,
+          "score": 8.547
+        }
+      }
+    },
+    {
+      "period": "2024-Q2",
+      "score": 7.0,
+      "components": {
+        "marshallKGap": {
+          "period": "2024-Q2",
+          "value": -5.238685,
+          "score": 3.125
+        },
+        "realM2Gap": {
+          "period": "202406",
+          "value": -4.301802,
+          "score": 7.8947
+        },
+        "breadth": {
+          "period": "202406",
+          "value": 2.865346,
+          "score": 15.3305
+        }
+      }
+    },
+    {
+      "period": "2024-Q3",
+      "score": 13.11,
+      "components": {
+        "marshallKGap": {
+          "period": "2024-Q3",
+          "value": -4.120119,
+          "score": 6.1538
+        },
+        "realM2Gap": {
+          "period": "202409",
+          "value": -3.97476,
+          "score": 9.8446
+        },
+        "breadth": {
+          "period": "202409",
+          "value": 4.210468,
+          "score": 35.4167
+        }
+      }
+    },
+    {
+      "period": "2024-Q4",
+      "score": 12.35,
+      "components": {
+        "marshallKGap": {
+          "period": "2024-Q4",
+          "value": -4.116122,
+          "score": 7.5758
+        },
+        "realM2Gap": {
+          "period": "202412",
+          "value": -3.001074,
+          "score": 14.2857
+        },
+        "breadth": {
+          "period": "202412",
+          "value": 3.365636,
+          "score": 21.3992
+        }
+      }
+    },
+    {
+      "period": "2025-Q1",
+      "score": 11.34,
+      "components": {
+        "marshallKGap": {
+          "period": "2025-Q1",
+          "value": -3.086909,
+          "score": 10.4478
+        },
+        "realM2Gap": {
+          "period": "202503",
+          "value": -3.804272,
+          "score": 10.5528
+        },
+        "breadth": {
+          "period": "202503",
+          "value": 2.753115,
+          "score": 14.7697
+        }
+      }
+    },
+    {
+      "period": "2025-Q2",
+      "score": 16.28,
+      "components": {
+        "marshallKGap": {
+          "period": "2025-Q2",
+          "value": -3.191398,
+          "score": 10.2941
+        },
+        "realM2Gap": {
+          "period": "202506",
+          "value": -2.302223,
+          "score": 23.2673
+        },
+        "breadth": {
+          "period": "202506",
+          "value": 3.375692,
+          "score": 20.7496
+        }
+      }
+    },
+    {
+      "period": "2025-Q3",
+      "score": 25.72,
+      "components": {
+        "marshallKGap": {
+          "period": "2025-Q3",
+          "value": -2.203018,
+          "score": 14.4928
+        },
+        "realM2Gap": {
+          "period": "202509",
+          "value": -1.136939,
+          "score": 38.0488
+        },
+        "breadth": {
+          "period": "202509",
+          "value": 4.345202,
+          "score": 35.3174
+        }
+      }
+    },
+    {
+      "period": "2025-Q4",
+      "score": 21.14,
+      "components": {
+        "marshallKGap": {
+          "period": "2025-Q4",
+          "value": -3.757502,
+          "score": 10.0
+        },
+        "realM2Gap": {
+          "period": "202512",
+          "value": -1.3024,
+          "score": 36.5385
+        },
+        "breadth": {
+          "period": "202512",
+          "value": 3.756461,
+          "score": 25.8824
+        }
+      }
+    },
+    {
+      "period": "2026-Q1",
+      "score": 17.93,
+      "components": {
+        "marshallKGap": {
+          "period": "2026-Q1",
+          "value": -10.051555,
+          "score": 1.4085
+        },
+        "realM2Gap": {
+          "period": "202603",
+          "value": -1.446457,
+          "score": 34.5972
+        },
+        "breadth": {
+          "period": "202603",
+          "value": 4.245275,
+          "score": 34.2377
+        }
+      }
+    },
+    {
+      "period": "2026-Q2",
+      "score": 23.36,
+      "components": {
+        "marshallKGap": {
+          "period": "2026-Q2",
+          "value": -13.631257,
+          "score": 1.3889
+        },
+        "realM2Gap": {
+          "period": "202606",
+          "value": -0.681786,
+          "score": 46.2617
+        },
+        "breadth": {
+          "period": "202606",
+          "value": 4.554524,
+          "score": 43.9336
+        }
+      }
+    }
   ],
+  "missingSeries": [],
   "validation": {
     "passed": false,
-    "passedGateCount": 0,
+    "passedGateCount": 6,
     "totalGateCount": 9,
-    "validationFingerprint": "e24ffd0373bda49d885d62ec93abda1bcfa1429cc2f11f0810184b8681fa3742",
-    "signalFingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    "validationFingerprint": "889a16eedacce601972dd6eaf39135e411e349dcc67e5f6c72476c23d7a57eb8",
+    "signalFingerprint": "c8bab2fc45f5fc3e12a590a58e2ea121a6c91663907b729e99f9be54a1a3c4b2"
   },
   "activation": {
     "enabled": false,
@@ -41,13 +1169,11 @@
     "validation": "risk-data/liquidity/validation.json",
     "backtest": "risk-data/liquidity/backtest.json"
   },
-  "generatedAtUTC": "2026-10-21T15:25:25+00:00",
-  "inputFingerprint": "1abd11de4555e4ae30697a8c805c63064adf4abd1bc0ebeaf25cdac41a9e345a",
+  "generatedAtUTC": "2026-10-22T15:08:24+00:00",
+  "inputFingerprint": "7f4b2ae50566fa51285f1abb9122a10f8dc8e3d6851053cbed8521a75e403104",
   "update": {
-    "insertedOrRevised": 0,
-    "warnings": [
-      "ECOS_API_KEY is not configured; retained the committed cache"
-    ],
+    "insertedOrRevised": 1192,
+    "warnings": [],
     "policy": "Provider failures retain the prior official cache; SHADOW never enters the core score."
   }
 }
