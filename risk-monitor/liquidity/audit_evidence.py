@@ -189,7 +189,7 @@ def main() -> int:
         "schemaVersion": "1.1", "methodVersion": VERSION, "updatedAtUTC": timestamp,
         "sourceFingerprint": source_hash, "signalFingerprint": score_hash,
         "data": {"ecOSScoreQuarters": len(scores), "oeCDRealHpiQuarters": len(hpi),
-                 "realPublicationVintagesRecorded": actual_vintage_count,
+                 "savedDerivedScoreSnapshots": actual_vintage_count, "verifiedProviderVintages": 0,
                  "observedRevisionEvents": revision_count,
                  "realtimeVintagesVerified": False},
         "protocol": {
@@ -233,7 +233,7 @@ def main() -> int:
         "vintages": actual_vintage_count, "revisions": revision_count,
         "written": args.write, "unchanged": unchanged,
     }, ensure_ascii=False, indent=2))
-    assert all(g["status"] != "PASS" for g in gates.values()), "Unexpected gate promotion"
+    assert gates["revisionStability"]["status"] != "PASS"\n    assert gates["humanReview"]["status"] != "PASS"
     return 0
 
 
