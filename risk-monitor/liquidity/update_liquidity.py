@@ -439,9 +439,12 @@ def main() -> int:
     generated = existing.get("generatedAtUTC") if existing.get("inputFingerprint") == input_fingerprint else utc_now()
     summary["generatedAtUTC"] = generated
     summary["inputFingerprint"] = input_fingerprint
+    # The offline evidence-rebuild must not hide errors or new rows from the
+    # preceding live ECOS fetch in this same workflow.
+    last_update = existing.get("update", {}) if args.offline else {}
     summary["update"] = {
-        "insertedOrRevised": changed_count,
-        "warnings": warnings,
+        "insertedOrRevised": last_update.get("insertedOrRevised", 0) if args.offline else changed_count,
+        "warnings": last_update.get("warnings", []) if args.offline else warnings,
         "policy": "Provider failures retain the prior official cache; SHADOW never enters the core score.",
     }
     validation["generatedAtUTC"] = generated
