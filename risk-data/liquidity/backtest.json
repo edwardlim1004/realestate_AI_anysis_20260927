@@ -1,19 +1,83 @@
 {
-  "schemaVersion": "1.0",
-  "updatedAtUTC": null,
+  "schemaVersion": "1.1",
+  "methodVersion": "exploratory-oos-v1",
+  "updatedAtUTC": "2026-10-22T15:25:34+00:00",
+  "sourceFingerprint": "81a031decec1226e1f975464b6ff11213102c167eb6bd5e68a85bb3e6f9a9a62",
+  "signalFingerprint": "c8bab2fc45f5fc3e12a590a58e2ea121a6c91663907b729e99f9be54a1a3c4b2",
+  "data": {
+    "ecOSScoreQuarters": 53,
+    "oeCDRealHpiQuarters": 114,
+    "savedDerivedScoreSnapshots": 1,
+    "verifiedProviderVintages": 0,
+    "observedRevisionEvents": 0,
+    "realtimeVintagesVerified": false
+  },
+  "protocol": {
+    "target": "100*log(real_hpi[t+h]/real_hpi[t])",
+    "horizonsQuarters": [
+      4,
+      8
+    ],
+    "signalLagQuarters": 2,
+    "outcomeLabelLagQuarters": 1,
+    "minimumMatureTrainingOrigins": 12,
+    "baseline": "expanding historical mean of matured labels",
+    "model": "expanding historical univariate OLS of matured future returns on lagged liquidity scores",
+    "metric": "MSE skill = 1 - MSE(model)/MSE(baseline)",
+    "limitation": "Historical raw inputs are the latest revised values, not original publication vintages. Quarterly outcomes overlap; errors and small samples are not independent evidence of significance."
+  },
+  "horizons": [
+    {
+      "horizonQuarters": 4,
+      "eligibleOrigins": 47,
+      "outOfSampleCount": 31,
+      "firstOrigin": "2017-Q4",
+      "lastOrigin": "2025-Q2",
+      "rmseLinearPctPoints": 5.599295,
+      "rmseMeanPctPoints": 5.525526,
+      "mseSkill": -0.026879,
+      "requiredN": 30,
+      "minimumRequiredMseSkill": 0.05,
+      "negativeReturns": 21
+    },
+    {
+      "horizonQuarters": 8,
+      "eligibleOrigins": 43,
+      "outOfSampleCount": 23,
+      "firstOrigin": "2018-Q4",
+      "lastOrigin": "2024-Q2",
+      "rmseLinearPctPoints": 10.063026,
+      "rmseMeanPctPoints": 9.77086,
+      "mseSkill": -0.060698,
+      "requiredN": 24,
+      "minimumRequiredMseSkill": 0.05,
+      "negativeReturns": 15
+    }
+  ],
   "gates": {
     "predictiveBacktest": {
-      "status": "NOT_RUN",
-      "detail": "전국 실질주택가격의 4·8분기 선행 경보를 expanding-window로 검증해야 합니다."
+      "status": "FAIL",
+      "detail": "Revised-data pseudo-out-of-sample linear model vs expanding-mean baseline; two-quarter signal lag, matured labels only; NOT a genuine real-time vintage test."
     },
     "revisionStability": {
-      "status": "NOT_RUN",
-      "detail": "최소 6개 데이터 빈티지에서 끝점 점수와 경보등급의 수정 폭을 점검해야 합니다."
+      "status": "INSUFFICIENT_VINTAGES",
+      "detail": "At least six independently archived real ECOS publication vintages with per-observation revisions are required; generated score fingerprints alone do not prove stability."
     },
     "humanReview": {
       "status": "NOT_APPROVED",
-      "detail": "산식·중복성·위기구간 오경보를 검토한 뒤 승인자를 기록해야 합니다."
+      "detail": "Technical audit recommends HOLD: OOS forecast skill, revisions, release-date leakage, seasonality and credit overlap require independent human signoff."
     }
+  },
+  "review": {
+    "decision": "HOLD_SHADOW",
+    "automaticPromotionAuthorized": false,
+    "observations": [
+      "The liquidity score has no demonstrated incremental forecasting advantage at both horizons.",
+      "Source series may have retrospective revisions not represented in the sole saved score snapshot.",
+      "Quarterly GDP, CPI and M2 release calendars need as-of validation; a two-quarter lag reduces but does not eliminate revision bias.",
+      "Marshall K ratios using nominal GDP times four warrant seasonality and denominator-unit cross-check.",
+      "Liquidity is not synonymous with a house-price crash probability; check overlap with the credit pillar.",
+      "An external qualified human must explicitly review before activation."
+    ]
   }
 }
-

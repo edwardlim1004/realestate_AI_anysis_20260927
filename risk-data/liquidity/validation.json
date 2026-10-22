@@ -59,21 +59,21 @@
       "detail": "과거 절단표본 재계산 결과가 전체표본의 같은 시점 점수와 일치"
     },
     "predictiveBacktest": {
-      "status": "NOT_RUN",
-      "detail": "전국 실질주택가격의 4·8분기 선행 경보를 expanding-window로 검증해야 합니다."
+      "status": "FAIL",
+      "detail": "Revised-data pseudo-out-of-sample linear model vs expanding-mean baseline; two-quarter signal lag, matured labels only; NOT a genuine real-time vintage test."
     },
     "revisionStability": {
-      "status": "NOT_RUN",
-      "detail": "최소 6개 데이터 빈티지에서 끝점 점수와 경보등급의 수정 폭을 점검해야 합니다."
+      "status": "INSUFFICIENT_VINTAGES",
+      "detail": "At least six independently archived real ECOS publication vintages with per-observation revisions are required; generated score fingerprints alone do not prove stability."
     },
     "humanReview": {
       "status": "NOT_APPROVED",
-      "detail": "산식·중복성·위기구간 오경보를 검토한 뒤 승인자를 기록해야 합니다."
+      "detail": "Technical audit recommends HOLD: OOS forecast skill, revisions, release-date leakage, seasonality and credit overlap require independent human signoff."
     }
   },
-  "validationFingerprint": "889a16eedacce601972dd6eaf39135e411e349dcc67e5f6c72476c23d7a57eb8",
+  "validationFingerprint": "546d8cea5954ed187fde17ccfbe9517e945cbbf0ada90d29701783213d4c3bfb",
   "signalFingerprint": "c8bab2fc45f5fc3e12a590a58e2ea121a6c91663907b729e99f9be54a1a3c4b2",
   "passedGateCount": 6,
   "totalGateCount": 9,
-  "generatedAtUTC": "2026-10-22T15:08:24+00:00"
+  "generatedAtUTC": "2026-10-22T15:25:34+00:00"
 }
