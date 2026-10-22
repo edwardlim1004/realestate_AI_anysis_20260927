@@ -39,6 +39,16 @@ jobs:
           ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
         run: python risk-monitor/liquidity/update_liquidity.py
 
+      - name: Archive immutable ECOS retrieval-day vintage to private R2
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+        run: |
+          pip install 'boto3>=1.35,<2'
+          python risk-monitor/liquidity/archive_provider_vintage.py
+
       - name: Audit 4Q/8Q historical OOS skill and real vintage evidence
         run: python risk-monitor/liquidity/audit_evidence.py --write
 

@@ -22,6 +22,8 @@ jobs:
           python-version: "3.11"
       - name: Unit tests (existing plus independent evidence)
         run: python -m unittest discover -s risk-monitor/liquidity/tests -p 'test_*.py' -v
+      - name: Validate deterministic official snapshot without cloud credentials
+        run: python risk-monitor/liquidity/archive_provider_vintage.py --dry-run
       - name: Calculate 4Q/8Q historical revised-data OOS and vintage audit
         run: python risk-monitor/liquidity/audit_evidence.py --write
       - name: Rebuild fail-closed signal from audited gate statuses
