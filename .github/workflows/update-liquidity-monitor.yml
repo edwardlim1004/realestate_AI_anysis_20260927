@@ -39,6 +39,12 @@ jobs:
           ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
         run: python risk-monitor/liquidity/update_liquidity.py
 
+      - name: Audit 4Q/8Q historical OOS skill and real vintage evidence
+        run: python risk-monitor/liquidity/audit_evidence.py --write
+
+      - name: Refresh fail-closed SHADOW validation after audit
+        run: python risk-monitor/liquidity/update_liquidity.py --offline
+
       - name: Detect module output changes
         id: module
         run: |

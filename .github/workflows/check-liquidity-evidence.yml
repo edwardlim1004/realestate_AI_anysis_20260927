@@ -1,0 +1,44 @@
+name: Independent Liquidity Evidence Audit (PR only)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "risk-monitor/liquidity/**"
+      - ".github/workflows/check-liquidity-evidence.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  evidence-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Unit tests (existing plus independent evidence)
+        run: python -m unittest discover -s risk-monitor/liquidity/tests -p 'test_*.py' -v
+      - name: Calculate 4Q/8Q historical revised-data OOS and vintage audit
+        run: python risk-monitor/liquidity/audit_evidence.py --write
+      - name: Rebuild fail-closed signal from audited gate statuses
+        run: python risk-monitor/liquidity/update_liquidity.py --offline
+      - name: Confirm isolation from composite
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("risk-data/liquidity")
+          b = json.loads((root / "backtest.json").read_text())
+          s = json.loads((root / "summary.json").read_text())
+          assert b["gates"]["revisionStability"]["status"] != "PASS"
+          assert b["gates"]["humanReview"]["status"] != "PASS"
+          assert s["mode"].startswith("SHADOW")
+          assert s["publicScore"] is None
+          assert s["activation"]["enabled"] is False
+          assert s["validation"]["passed"] is False
+          print("Guard verified; remaining gates:", b["gates"])
+          PY
