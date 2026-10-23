@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="법원경매·공매 네이버 지도 연동과 물건 검색, 입찰 분석을 위한 독립 연구용 웹 프로젝트">
+<title>Auction Lab v11 · 네이버 지도·경공매 통합 업무화면</title>
+<link rel="stylesheet" href="./styles.css"></head><body>
+<a class="skip" href="#content">본문 바로가기</a>
+<header class="header"><a class="logo" href="#map"><span>AL</span><b>Auction Lab <small>v11 Pages</small></b></a>
+<nav aria-label="상단 기능"><button data-view="map" class="active">지도 검색</button><button data-view="list">통합검색</button><button data-view="calendar">일정</button><button data-view="compare">물건 비교</button><button data-view="analyze">분석·입찰</button><button data-view="data">데이터 연동</button></nav>
+<a class="legacy" href="../legacy.html">기존 데모</a></header>
+<div class="warning"><strong>독립 개발·검증용</strong> · 대장옥션 공식 서비스가 아닙니다. 실제 물건을 자동 수집하지 않습니다. 업로드 자료·직접 지정 좌표는 공식 원문 검증 전까지 미확인 정보입니다.</div>
+<div class="app" id="content">
+<aside class="sidebar"><div class="side-title"><strong>경·공매 통합 필터</strong><span id="source-count">0건</span></div>
+<form id="filter-form" autocomplete="off">
+<label>사건번호·주소·물건명<input type="search" id="query" placeholder="물건번호, 사건번호, 동명"></label>
+<div class="half"><label>구분<select id="channel"><option value="all">경매 + 공매</option><option value="court">법원 경매</option><option value="public">공매</option></select></label><label>지역<select id="region"><option value="all">전국</option></select></label></div>
+<div class="half"><label>용도<select id="ptype"><option value="all">전체 유형</option></select></label><label>정렬<select id="sort"><option value="date">기일 빠른순</option><option value="price">최저가 낮은순</option><option value="discount">감정가 대비 할인</option></select></label></div>
+<div class="half"><label>시작일<input id="date-from" type="date"></label><label>종료일<input id="date-to" type="date"></label></div>
+<label class="inline"><input id="favorite-filter" type="checkbox"> 관심 물건만</label>
+<button class="primary" type="submit">검색 조건 적용</button></form>
+<div class="source"><strong id="dataset-name">자료 미연결</strong><small id="dataset-info">실제 데이터가 없으면 물건 목록은 비어 있습니다.</small></div>
+<div class="side-actions"><button id="sample-btn">명시적 가상 예제 불러오기</button><button id="import-shortcut" class="outlined">CSV/JSON 가져오기</button></div>
+<section class="side-results"><div class="side-title"><strong>조회 물건</strong><span id="result-count">0건</span></div><div id="sidebar-results" class="side-list" aria-live="polite"></div></section>
+</aside>
+<main class="main">
+<section id="view-map" class="view active" aria-label="네이버 지도검색">
+<div class="section-head"><div><span class="eyebrow">NAVER MAPS / BROWSER</span><h1>지도 기반 경·공매 검색</h1><p>네이버 Maps SDK 지도 이동·확대, 등록 좌표 마커, 측정 도구, 물건 상세 연동</p></div><span id="sdk-badge" class="badge">SDK 연결 전</span></div>
+<div class="map-toolbar"><button id="map-connect" class="primary">네이버 지도 연결</button><button id="map-settings">설정 / 진단</button><button data-maptype="normal">일반</button><button data-maptype="hybrid">위성</button><button id="cadastre">지적도</button><button id="map-home">서울 중심</button><button id="map-clear-pins">좌표 초기화</button></div>
+<div class="map-shell"><div id="naver-map" aria-label="네이버 지도 영역"></div><div id="map-placeholder" class="map-placeholder"><div class="big-mark">⌖</div><h2>네이버 지도를 연결하세요</h2><p>지도 앱 설정의 Web Dynamic Map Client ID가 필요합니다.<br>실제 좌표가 확보된 물건에만 마커를 표시합니다.</p><button class="primary" id="placeholder-connect">지도 연결 설정</button></div></div>
+<div class="map-foot"><span id="map-status" role="status">지도 SDK 연결 전 · 네이버 지도 이용량 발생 없음</span><span id="map-coords">중심 좌표 미표시</span></div>
+<div class="measure-bar"><label>지도 클릭 동작<select id="map-mode"><option value="view">조회</option><option value="place">선택 물건 임시 좌표 지정</option><option value="distance">거리 측정</option><option value="area">면적 측정</option></select></label><button id="measure-finish">측정 완료</button><button id="measure-undo">마지막 점 제거</button><button id="measure-reset">측정 지우기</button><output id="measure-value" aria-live="polite">측정 준비</output></div>
+<div class="panel-small"><strong>화면 안 물건 <span id="viewport-count">0건</span></strong><span>좌표 미확보 물건 <strong id="unlocated-count">0건</strong></span><span>지도 마커는 입력 좌표가 있을 때만 표시됩니다.</span></div>
+</section>
+<section id="view-list" class="view" aria-label="통합 검색"><div class="section-head"><div><span class="eyebrow">AUCTION INVENTORY</span><h1>경매·공매 통합검색</h1><p>조건 필터 · 정렬 · 상세 · 관심물건 · 비교</p></div></div><div id="list-results" class="cards"></div></section>
+<section id="view-calendar" class="view" aria-label="일정"><div class="section-head"><div><span class="eyebrow">SCHEDULE</span><h1>입찰 일정 확인</h1><p>원문 변경·취소 여부는 별도 확인이 필요합니다.</p></div></div><div class="paper"><div id="schedule-results"></div></div></section>
+<section id="view-compare" class="view" aria-label="비교"><div class="section-head"><div><span class="eyebrow">COMPARE</span><h1>물건 비교</h1><p>검색 결과에서 최대 3건을 선택할 수 있습니다.</p></div></div><div class="paper overflow" id="compare-results"></div></section>
+<section id="view-analyze" class="view" aria-label="입찰 분석"><div class="section-head"><div><span class="eyebrow">CHECKLIST / SCENARIO</span><h1>권리 점검 및 입찰 계산</h1><p>법률적 판단이나 AI 권리분석이 아닌, 문서 준비·비용 산술 도구입니다.</p></div></div>
+<div class="two"><div class="paper"><h2>권리 사전 점검</h2><label>대상 물건<select id="review-lot"></select></label><div id="rights-checks"></div><div class="muted">체크 상태는 안전성 판정이 아니며 화면을 닫으면 초기화됩니다.</div><button id="rights-export">점검표 JSON 저장</button></div>
+<div class="paper"><h2>입찰 비용 시뮬레이터</h2><form id="cost-form"><div class="half"><label>입찰가 (만원)<input type="number" name="bid" min="1" value="40000" required></label><label>보증금 비율 (%)<input type="number" name="depositPercent" min="0" max="100" value="10" required></label><label>취득 관련 비용 가정률 (%)<input type="number" name="feePercent" min="0" max="100" step=".01" value="1.1" required></label><label>기타 비용 (만원)<input type="number" name="extra" min="0" value="2000" required></label><label>처분가 가정 (만원)<input type="number" name="resale" min="0" value="50000" required></label></div><button class="primary" type="submit">계산</button></form><div id="cost-result"></div><p class="muted">법정 보증금 및 실제 세금·금융비용은 개별 사건과 낙찰자 상황에 따라 다릅니다.</p></div></div></section>
+<section id="view-data" class="view" aria-label="자료 연동"><div class="section-head"><div><span class="eyebrow">DATA / LOCAL IMPORT</span><h1>경·공매 데이터 연결</h1><p>기존 v11.4의 CSV/SQLite 기반 자료를 내보내 가져오거나, 이용 권한 있는 CSV·JSON을 가져옵니다.</p></div></div>
+<div class="two"><div class="paper"><h2>CSV / JSON 가져오기</h2><label>입력 파일 (최대 8MB · 10,000건)<input id="file-input" type="file" accept=".json,.csv,application/json,text/csv"></label><button class="primary" id="import-file">파일 검증 및 불러오기</button><button id="export-json">현재 목록 JSON 내보내기</button><p id="import-feedback" role="status"></p><p class="muted">브라우저 메모리에서 처리하고 서버로 전송하지 않습니다. 새로고침하면 데이터가 비워집니다.</p></div>
+<div class="paper"><h2>지도 원본 데이터 / API 한계</h2><p>GitHub Pages는 Python·SQLite를 실행할 수 없습니다. 이 화면은 가져온 데이터를 브라우저에서 필터링하며 정식 법원/온비드 실시간 연동은 포함되지 않습니다.</p><p>행에 위도/경도가 없는 물건은 좌표 미확보로 분류합니다. 주소만으로 가짜 마커를 만들지 않습니다.</p><p>기존 v11.4의 Python 서버·SQLite 기능은 로컬 실행용이며, 이 Pages 버전에서 DB를 자동 조회하지 않습니다.</p><a href="./README.md">연동 방법과 데이터 구조 보기 →</a></div></div>
+<div class="paper"><h2>지원 필드</h2><code>id / channel / title / region / type / location / authority / appraisal / minimum / date / failures / area / lat / lng / coordinateSource / sourceUrl</code><p class="muted">한국어 CSV 열 이름도 지원합니다. 공매는 channel=public, 법원경매는 court. 좌표가 있다면 출처도 함께 기입하세요.</p></div></section>
+</main></div>
+<dialog id="detail-dialog"><div id="detail-panel"></div></dialog>
+<dialog id="sdk-dialog"><form method="dialog"><div class="dialog-head"><h2>네이버 지도 SDK 설정</h2><button aria-label="닫기">×</button></div></form>
+<p>새 Maps 상품에서 발급한 Web Dynamic Map Client ID(<code>ncpKeyId</code>)를 사용합니다. **Client Secret은 입력하지 마세요.**</p>
+<label>Client ID<input id="sdk-id" placeholder="네이버 Maps Client ID" autocomplete="off" spellcheck="false"></label>
+<p class="muted">네이버 콘솔에서 Web Dynamic Map을 활성화하고 등록 웹 서비스 URL에 <code>https://edwardlim1004.github.io</code>를 추가해야 합니다. Client ID는 이번 브라우저 탭에서만 사용하고 저장하지 않습니다.</p>
+<button class="primary" id="sdk-start">실제 지도 실행</button><button id="sdk-stop">지도 연결 해제</button>
+<pre id="sdk-diagnostics" class="diagnostics">아직 지도에 연결하지 않았습니다.</pre>
+</dialog>
+<footer>© Auction Lab · 클린룸 공개 기능 구현 · 원본 서비스와 무관함 · <a href="https://www.bossauction.co.kr/" target="_blank" rel="noopener noreferrer">대장옥션 원본 서비스</a> · <a href="../legacy.html">기존 데모</a></footer>
+<script type="module" src="./app.js"></script></body></html>
