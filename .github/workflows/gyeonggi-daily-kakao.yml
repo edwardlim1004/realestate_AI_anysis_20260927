@@ -1,0 +1,48 @@
+name: Gyeonggi Daily Progress Kakao
+on:
+  schedule:
+    - cron: "0 0 * * *" # 09:00 Asia/Seoul; platform queues can delay delivery.
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "seoul-apartment-collector/kakao_daily_progress.py"
+      - ".github/workflows/gyeonggi-daily-kakao.yml"
+permissions:
+  contents: read
+concurrency:
+  group: gyeonggi-daily-kakao-owner-only
+  cancel-in-progress: false
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main # Re-running the bootstrap job must read current data and code.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install notification libraries
+        run: python -m pip install boto3 cryptography
+      - name: Record exact source revision
+        run: echo "SOURCE_GIT_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+      - name: Validate latest progress and send owner-only daily report
+        env:
+          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+          KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+        run: python seoul-apartment-collector/kakao_daily_progress.py --verify-connection
+      - name: Keep sanitized report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gyeonggi-daily-progress-${{ github.run_id }}-${{ github.run_attempt }}
+          path: seoul-apartment-collector/daily_progress_report.json
+          retention-days: 30
+          if-no-files-found: ignore
