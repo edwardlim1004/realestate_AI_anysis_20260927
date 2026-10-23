@@ -1,3 +1,9 @@
+# 주의: 기존 v11.4 복원본이 아닙니다
+
+이 `bossauction-lab/` 폴더는 2026-10-23 별도로 작성한 정적 샘플이며, 사용자의 2026-10-17/18 `BossAuction_Reference_v11_4.zip` 원본(네이버 지도 SDK, Python HTTP/SQLite 서버, 전국 DB 수용 구조, 실거래 CSV 수입기)을 복원한 것이 아닙니다. 비교 및 복구 절차는 [docs/RECOVERY_STATUS.md](docs/RECOVERY_STATUS.md)를 참조하십시오. GitHub Pages는 정적 호스팅이므로 Python+SQLite 백엔드를 실행하지 않습니다.
+
+---
+
 # Auction Lab — 경·공매 기능별 독립 프로토타입
 
 대장옥션 공개 기능 범주를 연구하여 별도 구현한 정적 웹 앱입니다. 원본 사이트의 사유 소스코드·디자인 자산·유료 데이터·세션/API를 복제하지 않습니다.
