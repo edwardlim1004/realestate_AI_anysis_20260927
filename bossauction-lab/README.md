@@ -1,3 +1,18 @@
+# Auction Lab v11 Pages — 개선된 GitHub Pages 웹앱
+
+**현재 웹 시작 주소:** https://edwardlim1004.github.io/realestate_AI_anysis_20260927/bossauction-lab/
+
+- 신규 진입 화면: [advanced/](advanced/) — NAVER Maps Web Dynamic Map 수동 연결, 지도 검색, 거리·면적 측정, 경매·공매 CSV/JSON 검색·비교·상세, 입찰 가정 계산
+- [advanced/README.md](advanced/README.md) — 네이버 새 Maps Client ID 설정, 실제 구현·남은 제약, 로컬 v11.4 SQLite JSON 변환법
+- [legacy.html](legacy.html) — 2026-10-23에 별도로 만든 이전 정적 데모 (보존)
+- [docs/RECOVERY_STATUS.md](docs/RECOVERY_STATUS.md) — 로컬 v11.4 프로그램 복구 기록
+
+**주의:** 새로운 Pages 버전은 2026-10-18 개인 보관 v11.4의 자가 개발 기능을 참고해 웹에서 실행되도록 다시 만든 버전입니다. Python/SQLite의 모든 기능을 정적 Pages에 포팅한 것은 아니며, 대장옥션의 실시간 원천정보나 타사 저장화면을 공개 배포하지 않습니다. 계정 인증 없는 기본 물건은 0건이며, 사용자가 가상 샘플 또는 사용권이 있는 파일을 선택해야 합니다.
+
+---
+
+## 아래는 이전 데모의 이력 문서
+
 # 주의: 기존 v11.4 복원본이 아닙니다
 
 이 `bossauction-lab/` 폴더는 2026-10-23 별도로 작성한 정적 샘플이며, 사용자의 2026-10-17/18 `BossAuction_Reference_v11_4.zip` 원본(네이버 지도 SDK, Python HTTP/SQLite 서버, 전국 DB 수용 구조, 실거래 CSV 수입기)을 복원한 것이 아닙니다. 비교 및 복구 절차는 [docs/RECOVERY_STATUS.md](docs/RECOVERY_STATUS.md)를 참조하십시오. GitHub Pages는 정적 호스팅이므로 Python+SQLite 백엔드를 실행하지 않습니다.
