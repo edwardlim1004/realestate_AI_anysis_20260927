@@ -8,7 +8,7 @@ const numeric=(v)=>v==null||v===""?null:Number(String(v).replace(/,/g,""));
 export const escapeHTML=(s)=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 export const price=(n)=>Number.isFinite(n)?(n>=100000000?(n/100000000).toLocaleString("ko-KR",{maximumFractionDigits:2})+"억":(n/10000).toLocaleString("ko-KR",{maximumFractionDigits:0})+"만")+"원":"미제공";
 export const pct=(l)=>Number.isFinite(l.appraisal)&&l.appraisal>0&&Number.isFinite(l.minimum)?(100*(1-l.minimum/l.appraisal)).toFixed(1)+"%":"—";
-export const dateOK=(d)=>/^\d{4}-\d{2}-\d{2}$/.test(d)&&new Date(d+"T00:00:00Z").toISOString().slice(0,10)===d;
+export const dateOK=(d)=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(d))return false;const parsed=new Date(d+"T00:00:00Z");return Number.isFinite(parsed.getTime())&&parsed.toISOString().slice(0,10)===d;};
 export function csvRows(input){
  const out=[];let row=[],cell="",inQuote=false;
  for(let i=0;i<input.length;i++){const c=input[i];

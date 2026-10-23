@@ -15,3 +15,12 @@ test("텍스트·채널 필터",()=>assert.equal(filterLots([lot],{q:"서울",re
 test("보증금 중복 없는 비용 계산",()=>{const r=costScenario({bid:400000000,depositPercent:10,feePercent:1,extra:20000000,resale:500000000});assert.equal(r.deposit,40000000);assert.equal(r.balance,360000000);assert.equal(r.total,424000000);});
 test("HTML escape",()=>assert.equal(escapeHTML('<img onerror="x">'),'&lt;img onerror=&quot;x&quot;&gt;'));
 test("날짜 유효성",()=>{assert.equal(dateOK("2026-02-30"),false);assert.equal(dateOK("2026-11-03"),true);});
+
+test("형식상 날짜지만 달/일이 불가능하면 예외 없이 거부",()=>{
+ assert.equal(dateOK("2026-13-99"),false);
+ assert.throws(()=>parseImport(JSON.stringify({lots:[{...lot,date:"2026-13-99"}]})),/기일/);
+});
+test("좌표 없는 물건에 지도 마커를 만들지 않는 필터",()=>{
+ const {lots}=parseImport(JSON.stringify({lots:[{...lot,lat:null,lng:null}]}));
+ assert.equal(inViewport(lots[0],{south:32,north:39,west:124,east:132}),false);
+});
