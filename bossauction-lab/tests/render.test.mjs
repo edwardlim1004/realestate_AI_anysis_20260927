@@ -1,0 +1,17 @@
+import test from "node:test";import assert from "node:assert/strict";
+import {renderDashboard} from "../src/features/dashboard.js";
+import {renderSearch} from "../src/features/search.js";
+import {renderSchedule} from "../src/features/schedule.js";
+import {renderMap} from "../src/features/map.js";
+import {renderData} from "../src/features/data.js";
+import {renderRights} from "../src/features/rights.js";
+import {renderWorkspace} from "../src/features/workspace.js";
+import {renderWatchlist} from "../src/features/watchlist.js";
+import {renderCompare} from "../src/features/compare.js";
+import {renderCalculator} from "../src/features/calculator.js";
+import {lots,importLots,resetLots} from "../src/data/mock.js";
+const state={dataMeta:{mode:"demo",name:"가상 샘플 데이터",loadedAt:null},saved:new Set(),selected:new Set(),mapRegion:"all",rightsChecks:new Set(),rightsLotId:null,profile:"",filters:{query:"",channel:"all",region:"all",type:"all",sort:"date"},calculation:null};
+const routes=[renderDashboard,renderSearch,renderSchedule,renderMap,renderData,renderRights,renderWorkspace,renderWatchlist,renderCompare,renderCalculator];
+test("열 개 화면의 HTML 문자열 생성",()=>{for(const route of routes){const html=route(state);assert.equal(typeof html,"string");assert.ok(html.length>120,route.name);}});
+test("지도 지역 변경 결과",()=>{state.mapRegion="서울";assert.match(renderMap(state),/서울 검색 결과/);state.mapRegion="all";});
+test("사용자 자료 적용 및 복원",()=>{const backup=[...lots];try{importLots([{id:"TEMP-1",channel:"court",title:"임시",region:"서울",type:"상가",location:"서울",authority:"테스트",appraisal:100,minimum:70,date:"2026-11-01",failures:0,area:0,status:"미확인"}]);state.dataMeta={mode:"import",name:"테스트 가져오기",loadedAt:"2026-10-23T00:00:00Z"};assert.match(renderDashboard(state),/테스트 가져오기/);assert.match(renderSearch(state),/TEMP-1/);}finally{resetLots();state.dataMeta={mode:"demo",name:"가상 샘플 데이터",loadedAt:null};}assert.equal(lots.length,backup.length);});

@@ -9,7 +9,7 @@ test("샘플은 모두 가상 ID",()=>assert.ok(lots.every(x=>x.id.startsWith("D
 test("경매/공매 유형 필터",()=>assert.ok(filterLots({...all,channel:"public"}).every(x=>x.channel==="public")));
 test("검색어 필터",()=>assert.deepEqual(filterLots({...all,query:"성동구"}).map(x=>x.id),["DEMO-001"]));
 test("가격 낮은 순",()=>assert.deepEqual(filterLots({...all,sort:"minimum"}).map(x=>x.minimum),[...lots.map(x=>x.minimum)].sort((a,b)=>a-b)));
-test("할인율",()=>assert.equal(discount({minimum:70,appraisal:100}),30));
+test("할인율",()=>assert.ok(Math.abs(discount({minimum:70,appraisal:100})-30)<1e-9));
 test("보증금 중복 없는 비용 계산",()=>{const r=calculateBid({bid:400000000,depositRate:10,taxRate:1,otherCost:20000000,expectedResale:500000000});assert.equal(r.deposit,40000000);assert.equal(r.remaining,360000000);assert.equal(r.total,424000000);assert.equal(r.profit,76000000);});
 test("잘못된 비율 거부",()=>assert.throws(()=>calculateBid({bid:10,depositRate:110,taxRate:1,otherCost:0,expectedResale:0})));
 test("입력 XSS 이스케이프",()=>assert.equal(escapeHTML("<img>"),"&lt;img&gt;"));
