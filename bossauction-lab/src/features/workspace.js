@@ -1,0 +1,6 @@
+import {escapeHTML} from "../core/format.js";
+export function renderWorkspace(state){
+ return '<section class="hero"><div><div class="eyebrow">Guest mode / no server login</div><h1>내 작업공간</h1><p class="muted">실제 회원 로그인이 아닌 이 탭의 임시 프로필입니다.</p></div></section>'+
+ '<div class="split"><section class="panel"><h2>표시 이름</h2><p class="alert">인증 로그인 기능이 아닙니다. 비밀번호나 민감한 개인정보를 입력하지 마세요.</p><form id="profile-form"><div class="field"><label for="nickname">이름 (선택)</label><input id="nickname" maxlength="32" name="nickname" placeholder="예: 경매 연구" value="'+escapeHTML(state.profile)+'"></div><button type="submit" class="btn primary" style="margin-top:15px">적용</button></form></section>'+
+ '<section class="panel"><h2>저장 상태</h2><div class="statline"><span>표시 이름</span><strong>'+escapeHTML(state.profile||"게스트")+'</strong></div><div class="statline"><span>관심물건</span><strong>'+state.saved.size+'건</strong></div><div class="statline"><span>비교 물건</span><strong>'+state.selected.size+'건</strong></div><p class="small muted">회원 인증에는 보안 서버·계정 저장소·세션 및 개인정보 정책이 필요합니다.</p></section></div>';
+}

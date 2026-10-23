@@ -1,0 +1,8 @@
+import {lots} from "../data/mock.js";
+import {escapeHTML} from "../core/format.js";
+export function renderData(state){
+ const meta=state.dataMeta;
+ return '<section class="hero"><div><div class="eyebrow">Data input / local only</div><h1>자료 가져오기</h1><p class="muted">직접 이용 권한을 가진 경·공매 자료를 JSON으로 불러와 검색에 적용합니다.</p></div></section>'+
+ '<div class="split"><section class="panel"><h2>현재 자료</h2><div class="statline"><span>모드</span><strong>'+(meta.mode==="demo"?"가상 데모":"사용자 파일 · 미검증")+'</strong></div><div class="statline"><span>명칭</span><strong>'+escapeHTML(meta.name)+'</strong></div><div class="statline"><span>물건 수</span><strong>'+lots.length+'건</strong></div><div class="statline"><span>파일 기재 취득시각</span><strong>'+escapeHTML(meta.loadedAt||"없음")+'</strong></div><p class="alert">가져온 파일이 공식 데이터인지 인증하지 않습니다. 데이터는 서버로 전송되지 않으며 페이지 새로고침 시 기본 데이터로 돌아갑니다.</p><button class="btn" data-action="reset-dataset">가상 샘플 복원</button></section>'+
+ '<section class="panel"><h2>JSON 파일 선택</h2><form id="import-form"><div class="field"><label for="import-file">JSON 파일 (최대 2MB, 1~1000건)</label><input id="import-file" type="file" accept=".json,application/json" required></div><button class="btn primary" style="margin-top:15px" type="submit">검증 후 적용</button></form><p id="import-result" role="status" class="small muted">파일은 이 브라우저에서만 읽습니다.</p><p><a href="./examples/import-example.json">입력 예제 다운로드</a></p></section></div>';
+}

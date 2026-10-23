@@ -1,0 +1,12 @@
+import {lots} from "../data/mock.js";
+import {escapeHTML} from "../core/format.js";
+import {lotCards} from "./search.js";
+const REGIONS=[["서울",43,22],["인천",30,27],["경기",48,32],["강원",67,21],["충북",55,43],["충남",30,47],["대전",42,55],["세종",39,43],["전북",33,66],["광주",30,78],["전남",28,87],["대구",68,64],["경북",75,48],["경남",61,77],["부산",78,84],["울산",83,73],["제주",17,95]];
+export function mapCounts(records){return Object.fromEntries(REGIONS.map(([name])=>[name,records.filter(x=>x.region===name).length]));}
+export function renderMap(state){
+ const counts=mapCounts(lots),region=state.mapRegion,items=region==="all"?lots:lots.filter(x=>x.region===region);
+ const pins=REGIONS.filter(([name])=>counts[name]).map(([name,x,y])=>'<button class="map-pin '+(region===name?"active":"")+'" data-action="map-region" data-region="'+name+'" style="left:'+x+'%;top:'+y+'%" aria-pressed="'+(region===name)+'">'+name+' <b>'+counts[name]+'</b></button>').join("");
+ return '<section class="hero"><div><div class="eyebrow">Regional search · schematic</div><h1>지역 지도검색</h1><p class="muted">지역 핀을 선택하면 해당 물건 목록을 볼 수 있습니다.</p></div></section>'+
+ '<div class="split"><section class="panel"><h2>지역 개략도</h2><p class="alert">정확한 지도가 아닌 지역 도식입니다. 물건의 실제 주소나 좌표를 표시하지 않습니다.</p><div class="map-stage"><svg viewBox="0 0 400 580" aria-hidden="true" class="korea-schematic"><path d="M155 18 L205 38 L244 75 L257 109 L271 145 L283 178 L265 207 L277 235 L282 263 L317 307 L323 355 L307 397 L342 436 L317 476 L262 465 L220 498 L178 490 L150 462 L108 466 L96 431 L68 407 L85 352 L62 319 L78 272 L101 236 L93 198 L125 165 L120 126 L146 97 Z" fill="#e6f0fb" stroke="#9cb6d0" stroke-width="3"/><ellipse cx="76" cy="545" rx="38" ry="13" fill="#e6f0fb" stroke="#9cb6d0" stroke-width="3"/></svg>'+pins+'</div><button class="btn" data-action="map-region" data-region="all">전체 지역 보기</button></section>'+
+ '<section class="panel"><h2>'+escapeHTML(region==="all"?"전국":region)+' 검색 결과 · '+items.length+'건</h2><p class="small muted">실입찰 전 원문 확인 필수</p><div class="map-list">'+(items.length?items.map(x=>'<div class="statline"><span>'+escapeHTML(x.title)+'</span><button class="btn" data-action="detail" data-id="'+escapeHTML(x.id)+'">상세</button></div>').join(""):'<div class="empty">해당 지역 물건 없음</div>')+'</div></section></div><div class="toolbar"><h2>선택 지역 물건</h2></div>'+lotCards(items,state);
+}

@@ -1,0 +1,24 @@
+name: Test auction lab
+on:
+  push:
+    paths:
+      - 'bossauction-lab/**'
+      - '.github/workflows/test-bossauction-lab.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: bossauction-lab
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check syntax
+        run: find src tests -type f \( -name '*.js' -o -name '*.mjs' \) -exec node --check {} \;
+      - name: Run tests
+        run: npm test

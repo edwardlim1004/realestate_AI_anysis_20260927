@@ -1,0 +1,12 @@
+import test from "node:test";import assert from "node:assert/strict";import {parseDataset} from "../src/adapters/import.js";import {rightsStatus,rightsExport} from "../src/features/rights.js";import {mapCounts} from "../src/features/map.js";
+const lot={id:"TEST-1",channel:"court",title:"샘플",region:"서울",type:"아파트",location:"서울",authority:"기관",appraisal:100,minimum:70,date:"2026-11-09",sourceUrl:"https://example.org/"};
+const data={sourceName:"검증 테스트",collectedAt:"2026-10-23T00:00:00Z",lots:[lot]};
+const p=x=>parseDataset(JSON.stringify(x));
+test("JSON 검증",()=>assert.equal(p(data).lots[0].minimum,70));
+test("중복 ID 거부",()=>assert.throws(()=>p({...data,lots:[lot,lot]}),/중복/));
+test("XSS ID 거부",()=>assert.throws(()=>p({...data,lots:[{...lot,id:'"><img>'}]}),/ID/));
+test("위험 URL 거부",()=>assert.throws(()=>p({...data,lots:[{...lot,sourceUrl:"javascript:alert(1)"}]}),/https/));
+test("잘못된 날짜 거부",()=>assert.throws(()=>p({...data,lots:[{...lot,date:"2026-02-30"}]}),/날짜/));
+test("문자열 금액 거부",()=>assert.throws(()=>p({...data,lots:[{...lot,minimum:"70"}]}),/숫자/));
+test("지역 개수 집계",()=>assert.equal(mapCounts([lot]).서울,1));
+test("권리 안전성 미판정",()=>{let s={rightsChecks:new Set(["registry"]),rightsLotId:lot.id};assert.equal(rightsStatus(s).safety,"판정 불가");assert.equal(rightsExport(s).rightsSafety,"not-evaluated");});
