@@ -2,7 +2,7 @@
 import contextlib
 import copy
 import csv
-from datetime import date
+from datetime import date, datetime
 import gzip
 import hashlib
 import io
@@ -121,6 +121,9 @@ class IncrementalTests(unittest.TestCase):
             self.assertEqual(0,result);self.assertEqual(24,api.calls)
             self.assertEqual(1,store.uploads);self.assertEqual(1,status['last_run_changed_scopes'])
             self.assertEqual(23,status['last_run_unchanged_scopes'])
+            for kind,code,ym in api.scopes:
+                checked=store.files[store.relpath(kind,code,ym)]['checked_at_utc']
+                self.assertIsNotNone(datetime.fromisoformat(checked).tzinfo)
             logs=list((root/'updates').rglob('*.jsonl'))
             self.assertEqual(1,len(logs));self.assertEqual(1,len(logs[0].read_text().splitlines()))
             result,api,_=execute()

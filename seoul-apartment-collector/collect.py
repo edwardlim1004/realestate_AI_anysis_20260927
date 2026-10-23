@@ -203,6 +203,8 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None,region=
                 record_change(UPDATES,event)
                 changed+=1
                 added_rows+=event['added_rows'];removed_rows+=event['removed_rows']
+            # A manifest save time does not establish freshness of every scope.
+            archive.files[relative]['checked_at_utc']=dt.datetime.now(dt.timezone.utc).isoformat()
             archive.save_manifest()
             success+=1
             if (kind,gu,ym) in refresh_set:done.add('/'.join((kind,gu,ym)))

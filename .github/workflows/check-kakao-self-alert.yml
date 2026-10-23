@@ -5,6 +5,9 @@ on:
       - "seoul-apartment-collector/kakao_self_alert.py"
       - "seoul-apartment-collector/kakao_oauth_setup_local.py"
       - "seoul-apartment-collector/test_kakao_self_alert.py"
+      - "seoul-apartment-collector/kakao_daily_progress.py"
+      - "seoul-apartment-collector/test_kakao_daily_progress.py"
+      - ".github/workflows/gyeonggi-daily-kakao.yml"
       - ".github/workflows/check-kakao-self-alert.yml"
 permissions:
   contents: read
@@ -22,4 +25,6 @@ jobs:
       - name: Check Python syntax
         run: python -m py_compile seoul-apartment-collector/kakao_self_alert.py seoul-apartment-collector/kakao_oauth_setup_local.py seoul-apartment-collector/test_kakao_self_alert.py
       - name: Test mock Kakao message and token rotation
-        run: python seoul-apartment-collector/test_kakao_self_alert.py
+        run: |
+          python seoul-apartment-collector/test_kakao_self_alert.py
+          python seoul-apartment-collector/test_kakao_daily_progress.py
