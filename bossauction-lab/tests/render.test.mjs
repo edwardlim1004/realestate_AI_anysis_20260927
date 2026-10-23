@@ -15,3 +15,8 @@ const routes=[renderDashboard,renderSearch,renderSchedule,renderMap,renderData,r
 test("열 개 화면의 HTML 문자열 생성",()=>{for(const route of routes){const html=route(state);assert.equal(typeof html,"string");assert.ok(html.length>120,route.name);}});
 test("지도 지역 변경 결과",()=>{state.mapRegion="서울";assert.match(renderMap(state),/서울 검색 결과/);state.mapRegion="all";});
 test("사용자 자료 적용 및 복원",()=>{const backup=[...lots];try{importLots([{id:"TEMP-1",channel:"court",title:"임시",region:"서울",type:"상가",location:"서울",authority:"테스트",appraisal:100,minimum:70,date:"2026-11-01",failures:0,area:0,status:"미확인"}]);state.dataMeta={mode:"import",name:"테스트 가져오기",loadedAt:"2026-10-23T00:00:00Z"};assert.match(renderDashboard(state),/테스트 가져오기/);assert.match(renderSearch(state),/TEMP-1/);}finally{resetLots();state.dataMeta={mode:"demo",name:"가상 샘플 데이터",loadedAt:null};}assert.equal(lots.length,backup.length);});
+
+test("외부 자료 출처명은 HTML 이스케이프 처리",()=>{
+ const old=state.dataMeta;state.dataMeta={mode:"import",name:"<img src=x>",loadedAt:"2026-10-23T09:00:00+09:00"};
+ try{const html=renderDashboard(state);assert.ok(html.includes("&lt;img src=x&gt;"));assert.ok(!html.includes("자료 범위: <img"));}finally{state.dataMeta=old;}
+});
