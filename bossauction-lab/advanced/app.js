@@ -1,4 +1,5 @@
 import {parseImport,filterLots,inViewport,price,pct,escapeHTML,costScenario,safeStoredIDs,MAX_IMPORT_BYTES} from "./core.js";
+import {readV11Sqlite,savePrivateSnapshot,restorePrivateSnapshot,forgetPrivateSnapshot} from "./sqlite.js";
 
 const $=id=>document.getElementById(id);
 const STATE={
@@ -35,7 +36,7 @@ function setView(v){
 function statusHTML(){
  $("source-count").textContent=STATE.lots.length+"건";
  $("dataset-name").textContent=STATE.source.name;
- $("dataset-info").textContent=STATE.source.kind==="empty"?"CSV/JSON 파일을 가져오거나 명시적 가상 예제를 여세요.":STATE.source.kind==="demo"?"가상 예제 · 법원·공매 원본 데이터가 아닙니다.":"사용자 반입 "+STATE.lots.length+"건 · 공고 원문 미검증";
+ $("dataset-info").textContent=STATE.source.kind==="empty"?"CSV/JSON 파일을 가져오거나 명시적 가상 예제를 여세요.":STATE.source.kind==="demo"?"가상 예제 · 법원·공매 원본 데이터가 아닙니다.":STATE.source.kind==="sqlite-local"?"로컬 v11 SQLite "+STATE.lots.length+"건 · 기준일 "+(STATE.source.asOf||"확인 필요")+" · 위치 "+STATE.lots.filter(l=>l.lat!==null).length+"건":"사용자 반입 "+STATE.lots.length+"건 · 공고 원문 미검증";
  $("unlocated-count").textContent=STATE.lots.filter(l=>l.lat===null).length+"건";
 }
 function options(id,values){
@@ -87,7 +88,8 @@ function details(id){
  if(!$("detail-dialog").open)$("detail-dialog").showModal();
 }
 function persistFav(){try{localStorage.setItem("auction-v11-pages-favorites",JSON.stringify([...STATE.favorites]));}catch{}}
-function changeData(result){
+function changeData(result,{keepPersisted=false}={}){
+ if(!keepPersisted)forgetPrivateSnapshot().catch(()=>{});
  STATE.lots=result.lots.map(x=>({...x}));
  STATE.source=result.meta;
  STATE.compare.clear();STATE.manualIds.clear();STATE.selected=null;STATE.checks.clear();
@@ -113,6 +115,50 @@ async function readFile(){
   const text=await file.text(),result=parseImport(text,file.name);
   changeData(result);setView("list");
  }catch(e){$("import-feedback").textContent="검증 실패: "+String(e.message||e);}
+}
+
+async function connectSQLite(){
+ const file=$("sqlite-file").files?.[0],status=$("sqlite-feedback"),btn=$("sqlite-connect");
+ if(!file){status.textContent="기존 auction_v11.sqlite3 파일을 선택해 주세요.";return;}
+ btn.disabled=true;status.textContent="DB 구조와 물건을 브라우저에서 읽고 있습니다. DB는 외부 서버로 전송하지 않습니다.";
+ try{
+  const result=await readV11Sqlite(file);
+  changeData(result,{keepPersisted:true});
+  const located=result.lots.filter(l=>l.lat!==null).length;
+  if($("sqlite-remember").checked){
+   try{
+    await savePrivateSnapshot(result);
+    status.textContent="연결 완료: "+result.lots.length+"건 / 좌표 있는 물건 "+located+"건 · 다음 방문에도 이 브라우저에서 자동 복원됩니다. 원문 및 좌표 미검증.";
+   }catch(e){
+    status.textContent="물건 "+result.lots.length+"건 연결 완료. 다만 브라우저 저장 실패: "+String(e.message||e)+". 새로고침하면 자료가 사라집니다.";
+   }
+  }else{
+   await forgetPrivateSnapshot().catch(()=>{});
+   status.textContent="연결 완료: "+result.lots.length+"건 / 좌표 있는 물건 "+located+"건 · 이번 탭에만 적용됩니다. 새로고침 후에는 다시 선택해 주세요.";
+  }
+  setView("list");
+ }catch(e){status.textContent="SQLite 연결 실패: "+String(e.message||e);}
+ finally{btn.disabled=false;}
+}
+async function disconnectSQLite(){
+ const status=$("sqlite-feedback");
+ try{
+  await forgetPrivateSnapshot();
+  if(STATE.source.kind==="sqlite-local")changeData({lots:[],meta:{name:"자료 미연결",kind:"empty",verified:false}},{keepPersisted:true});
+  $("sqlite-file").value="";$("sqlite-remember").checked=false;
+  status.textContent="이 브라우저에 저장된 경매 DB를 삭제하고 로컬 연결을 해제했습니다.";
+ }catch(e){status.textContent="연결 해제 실패: "+String(e.message||e);}
+}
+async function restoreSQLite(){
+ try{
+  const cached=await restorePrivateSnapshot();
+  if(!cached||STATE.source.kind!=="empty")return;
+  changeData(cached.result,{keepPersisted:true});
+  $("sqlite-remember").checked=true;
+  $("sqlite-feedback").textContent="브라우저에 저장한 v11 SQLite 물건 "+cached.result.lots.length+"건을 복원했습니다. 실제 사건·기일은 원문 재확인이 필요합니다.";
+ }catch(e){
+  $("sqlite-feedback").textContent="이전 로컬 자료 복원 실패: "+String(e.message||e)+". DB 파일을 다시 선택하거나 저장본을 삭제하세요.";
+ }
 }
 function nav(){return window.naver&&window.naver.maps;}
 let sdkPromise=null;
@@ -241,6 +287,9 @@ function bind(){
  $("sample-btn").addEventListener("click",addDemo);
  $("import-shortcut").addEventListener("click",()=>setView("data"));
  $("import-file").addEventListener("click",readFile);
+ $("sqlite-connect").addEventListener("click",connectSQLite);
+ $("sqlite-forget").addEventListener("click",disconnectSQLite);
+ $("sqlite-shortcut").addEventListener("click",()=>{setView("data");$("sqlite-file").focus();});
  $("export-json").addEventListener("click",()=>{if(!STATE.lots.length){$("import-feedback").textContent="내보낼 데이터가 없습니다.";return;}saveAs("auction-pages-export.json",JSON.stringify({sourceName:STATE.source.name,collectedAt:new Date().toISOString(),lots:STATE.lots},null,2));});
  $("map-connect").addEventListener("click",()=>{if(STATE.mapReady){setView("map");return;}$("sdk-dialog").showModal();});
  $("placeholder-connect").addEventListener("click",()=>$("sdk-dialog").showModal());
@@ -277,5 +326,5 @@ function bind(){
  $("cost-form").addEventListener("submit",e=>{e.preventDefault();const form=new FormData(e.target);const n=k=>Number(form.get(k));try{renderCosts(costScenario({bid:n("bid")*10000,depositPercent:n("depositPercent"),feePercent:n("feePercent"),extra:n("extra")*10000,resale:n("resale")*10000}));}catch(err){$("cost-result").textContent=err.message;}});
  window.addEventListener("hashchange",()=>setView(location.hash.slice(1)));
 }
-function init(){bind();draw();setView(location.hash.slice(1)||"map");}
+function init(){bind();draw();setView(location.hash.slice(1)||"map");void restoreSQLite();}
 init();

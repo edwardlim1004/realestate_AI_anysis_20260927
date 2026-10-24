@@ -21,7 +21,7 @@ export function convertV11Rows(rows,{filename="auction_v11.sqlite3",recordDate="
    id:r.id,channel:r.kind==="auction"?"court":"public",
    title:r.case_no||r.id,region:location.trim().split(/\s+/)[0]||"",
    type:r.subtype||"",location,authority:r.court||"",
-   appraisal:r.appraisal,minimUm:undefined,minimum:r.min_price,
+   appraisal:r.appraisal,minimum:r.min_price,
    date:r.sale_date||"",failures:r.fail_count??0,
    lat:r.lat,lng:r.lng,coordinateSource:r.location_source,
    sourceUrl:r.source_url||null
