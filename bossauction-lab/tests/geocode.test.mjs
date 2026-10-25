@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {MAX_GEOCODE_PER_CLICK,parcelQuery,normalizedAddress,getUnlocatedGroups,classifyGeocodeResponse,applyGeocodedPoint,geocodeWithSdk} from "../advanced/geocode.js";
+import {MAX_GEOCODE_PER_CLICK,MAX_GEOCODE_ALL,planGeocodeRequests,parcelQuery,normalizedAddress,getUnlocatedGroups,classifyGeocodeResponse,applyGeocodedPoint,geocodeWithSdk} from "../advanced/geocode.js";
 
 const make=(id,location,lat=null)=>({id,location,lat,lng:lat===null?null:127.1,coordinateSource:null});
 const result=(records)=>({v2:{status:"OK",addresses:records}});
@@ -71,4 +71,11 @@ test("API 인증/쿼터 오류 시 실제 실패로 반환하고 좌표 만들�
 });
 test("Geocoder 모듈 미설치 식별",async()=>{
  assert.throws(()=>geocodeWithSdk({},"서울특별시 송파구 거여동 20"),/모듈/);
+});
+
+test("전체 지번 일괄 요청은 최대 25곳, 개별 요청은 최대 5곳",()=>{
+ const lots=Array.from({length:30},(_,i)=>make(String(i),"서울특별시 송파구 오금동 "+(100+i)));
+ assert.equal(planGeocodeRequests(lots,new Set(),false).length,5);
+ assert.equal(planGeocodeRequests(lots,new Set(),true).length,25);
+ assert.equal(MAX_GEOCODE_ALL,25);
 });

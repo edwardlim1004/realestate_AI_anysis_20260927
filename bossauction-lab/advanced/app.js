@@ -1,6 +1,6 @@
 import {parseImport,filterLots,inViewport,price,pct,escapeHTML,costScenario,safeStoredIDs,MAX_IMPORT_BYTES} from "./core.js";
 import {readV11Sqlite,savePrivateSnapshot,restorePrivateSnapshot,forgetPrivateSnapshot} from "./sqlite.js";
-import {MAX_GEOCODE_PER_CLICK,getUnlocatedGroups,geocodeWithSdk,applyGeocodedPoint} from "./geocode.js";
+import {MAX_GEOCODE_PER_CLICK,MAX_GEOCODE_ALL,getUnlocatedGroups,planGeocodeRequests,geocodeWithSdk,applyGeocodedPoint} from "./geocode.js";
 
 const $=id=>document.getElementById(id);
 const STATE={
@@ -10,7 +10,7 @@ const STATE={
  compare:new Set(),selected:null,activeView:"map",
  map:null,mapMode:"view",markers:[],cadastral:null,mapReady:false,sdkLoading:false,
  coords:[],preview:null,overlays:[],sdkScript:null,manualIds:new Set(),checks:new Set(),
- geoRunning:false,geoAttempted:new Set(),geoPending:[],geoGeneration:0
+ geoRunning:false,geoCancel:false,geoAttempted:new Set(),geoPending:[],geoGeneration:0
 };
 const KEYS=[["registry","등기사항증명서 발급 및 권리 순위"],["notice","매각물건명세서 인수사항·특별매각조건"],["occupant","현황조사서 점유 및 임대차"],["tenant","대항력·배당요구 및 보증금"],["fees","체납관리비·명도비·세금"],["changes","변경·취소·유찰 및 기일 원문"]];
 const SAMPLE=[
@@ -93,7 +93,7 @@ function details(id){
 function persistFav(){try{localStorage.setItem("auction-v11-pages-favorites",JSON.stringify([...STATE.favorites]));}catch{}}
 function changeData(result,{keepPersisted=false}={}){
  if(!keepPersisted)forgetPrivateSnapshot().catch(()=>{});
- STATE.geoGeneration++;STATE.geoAttempted.clear();STATE.geoPending=[];
+ STATE.geoGeneration++;STATE.geoCancel=true;STATE.geoAttempted.clear();STATE.geoPending=[];
  STATE.lots=result.lots.map(x=>({...x}));
  STATE.source=result.meta;
  STATE.compare.clear();STATE.manualIds.clear();STATE.selected=null;STATE.checks.clear();
@@ -249,8 +249,13 @@ function redrawGeoPanel(){
  const missing=STATE.lots.filter(x=>x.lat===null).length;
  $("geo-remaining").textContent="좌표 미확보 "+missing+"건 / 미조회 고유 지번 "+remaining.length+"곳";
  const enabled=STATE.lots.length>0&&!STATE.geoRunning;
- $("geo-run").disabled=!enabled;
- $("map-geocode").disabled=!enabled;
+ $("geo-run").disabled=!enabled||!remaining.length;
+ $("map-geocode").disabled=!enabled||!remaining.length;
+ $("geo-all").disabled=!enabled||!remaining.length;
+ $("map-geocode-all").disabled=!enabled||!remaining.length;
+ $("geo-cancel").disabled=!STATE.geoRunning;
+ const planned=Math.min(remaining.length,MAX_GEOCODE_ALL);
+ $("geo-all").textContent="미조회 지번 "+planned+"곳 한번에 조회 (최대 "+MAX_GEOCODE_ALL+"곳)";
  $("geo-reset").disabled=STATE.geoRunning||STATE.geoAttempted.size===0;
  $("geo-reviews").innerHTML=STATE.geoPending.length?STATE.geoPending.map((p,i)=>
   '<div class="card"><b>확인 필요: '+escapeHTML(p.group.query)+'</b><p class="muted">'+p.group.ids.length+'개 물건 · 네이버 결과가 정확히 일치하지 않아 좌표를 자동 배치하지 않았습니다.</p>'+
@@ -274,15 +279,19 @@ async function saveGeocodingChanges(){
  try{await savePrivateSnapshot({lots:STATE.lots,meta:STATE.source});}
  catch(e){setGeocodeMessage("좌표는 화면에 적용됐으나 브라우저 저장에 실패했습니다: "+e.message+" · JSON을 내려받아 보관하세요.");}
 }
-async function runGeocodeBatch(){
+async function runGeocodeBatch(all=false){
  if(STATE.geoRunning)return;
  if(!STATE.mapReady){
   setGeocodeMessage("먼저 '네이버 지도 연결'로 Client ID를 입력해 지도를 실행해 주세요. 지도 연결이 완료되어야 주소변환을 호출할 수 있습니다.");
   setView("map");return;
  }
- const groups=getUnlocatedGroups(STATE.lots,STATE.geoAttempted).slice(0,MAX_GEOCODE_PER_CLICK);
+ const groups=planGeocodeRequests(STATE.lots,STATE.geoAttempted,all);
  if(!groups.length){setGeocodeMessage("새로 조회할 지번이 없습니다. 미확인 후보는 직접 검토하거나 실패 항목 재조회 버튼을 사용하세요.");return;}
- STATE.geoRunning=true;
+ if(all){
+  const ok=window.confirm("네이버 Geocoding API를 고유 지번 "+groups.length+"곳에 순차 호출합니다. 호출량 및 과금이 발생할 수 있습니다. 일치하지 않는 후보는 자동 등록하지 않습니다. 진행하시겠습니까?");
+  if(!ok)return;
+ }
+ STATE.geoRunning=true;STATE.geoCancel=false;
  const generation=STATE.geoGeneration;
  let queries=0,located=0,notfound=0,review=0,error=null;
  const changedIds=[];
@@ -290,6 +299,7 @@ async function runGeocodeBatch(){
  try{
   await ensureGeocoder();
   for(const group of groups){
+   if(STATE.geoCancel){error="사용자가 중단했습니다. 이미 전송된 요청은 과금될 수 있습니다.";break;}
    if(generation!==STATE.geoGeneration){error="검색 중 데이터가 바뀌어 남은 요청을 중단했습니다.";break;}
    STATE.geoAttempted.add(group.query);
    queries++;
@@ -395,8 +405,11 @@ function bind(){
  $("import-shortcut").addEventListener("click",()=>setView("data"));
  $("import-file").addEventListener("click",readFile);
  $("sqlite-connect").addEventListener("click",connectSQLite);
- $("geo-run").addEventListener("click",runGeocodeBatch);
- $("map-geocode").addEventListener("click",runGeocodeBatch);
+ $("geo-run").addEventListener("click",()=>void runGeocodeBatch(false));
+ $("map-geocode").addEventListener("click",()=>void runGeocodeBatch(false));
+ $("geo-all").addEventListener("click",()=>void runGeocodeBatch(true));
+ $("map-geocode-all").addEventListener("click",()=>void runGeocodeBatch(true));
+ $("geo-cancel").addEventListener("click",()=>{STATE.geoCancel=true;setGeocodeMessage("중단 요청됨. 현재 실행 중인 API 요청까지만 처리하고 추가 조회는 하지 않습니다.");});
  $("geo-reset").addEventListener("click",()=>{STATE.geoAttempted.clear();redrawGeoPanel();setGeocodeMessage("조회 상태를 초기화했습니다. 재요청 시 Geocoding 사용량이 추가될 수 있습니다.");});
  $("sqlite-forget").addEventListener("click",disconnectSQLite);
  $("sqlite-shortcut").addEventListener("click",()=>{setView("data");$("sqlite-file").focus();});

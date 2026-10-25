@@ -3,6 +3,7 @@
 // A result point is an address reference point, not a surveyed parcel boundary.
 const MAX_CANDIDATES=5;
 export const MAX_GEOCODE_PER_CLICK=5;
+export const MAX_GEOCODE_ALL=25;
 export function normalizedAddress(v){
  return String(v??"").replace(/\s+/g," ").trim().replace(/\s*[,，]\s*$/,"");
 }
@@ -26,6 +27,9 @@ export function getUnlocatedGroups(lots,attempted=new Set()){
   groups.get(query).ids.push(lot.id);
  }
  return [...groups.values()];
+}
+export function planGeocodeRequests(lots,attempted,all=false){
+ return getUnlocatedGroups(lots,attempted).slice(0,all?MAX_GEOCODE_ALL:MAX_GEOCODE_PER_CLICK);
 }
 function validPoint(x,y){
  const lng=Number(x),lat=Number(y);
