@@ -42,7 +42,7 @@ export function classifyGeocodeResponse(response,query){
   lat:Number(x.y),lng:Number(x.x)
  }));
  if(!candidates.length)return {status:"not-found",candidates:[]};
- const exact=candidates.filter(c=>c.jibunAddress===q||c.roadAddress===q);
+ const exact=candidates.filter(c=>c.jibunAddress===q||c.roadAddress===q||parcelQuery(c.jibunAddress)===q);
  if(exact.length===1)return {status:"exact",point:exact[0],candidates};
  return {status:"review",candidates}; // Never auto-select ambiguous results.
 }
