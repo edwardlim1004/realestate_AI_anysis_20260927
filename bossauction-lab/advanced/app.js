@@ -1,8 +1,11 @@
 import {parseImport,filterLots,inViewport,price,pct,escapeHTML,costScenario,safeStoredIDs,MAX_IMPORT_BYTES} from "./core.js";
 import {readV11Sqlite,savePrivateSnapshot,restorePrivateSnapshot,forgetPrivateSnapshot} from "./sqlite.js";
 import {MAX_GEOCODE_PER_CLICK,MAX_GEOCODE_ALL,getUnlocatedGroups,planGeocodeRequests,geocodeWithSdk,applyGeocodedPoint} from "./geocode.js";
+import {readClientId,saveClientId,clearClientId,buildQuotaSnapshot,quotaOverview,readQuotaSnapshot,saveQuotaSnapshot,deleteQuotaSnapshot,localGeocodeRequests,recordLocalGeocodeRequest} from "./maps-account.js";
 
 const $=id=>document.getElementById(id);
+const browserStorage=()=>{try{return window.localStorage;}catch{return null;}};
+const nFormat=n=>Number(n).toLocaleString("ko-KR");
 const STATE={
  lots:[],source:{name:"자료 미연결",kind:"empty",verified:false},
  filters:{q:"",channel:"all",region:"all",type:"all",sort:"date",favoritesOnly:false,dateFrom:"",dateTo:""},
@@ -10,7 +13,7 @@ const STATE={
  compare:new Set(),selected:null,activeView:"map",
  map:null,mapMode:"view",markers:[],cadastral:null,mapReady:false,sdkLoading:false,
  coords:[],preview:null,overlays:[],sdkScript:null,manualIds:new Set(),checks:new Set(),
- geoRunning:false,geoCancel:false,geoAttempted:new Set(),geoPending:[],geoGeneration:0
+ geoRunning:false,geoCancel:false,geoAttempted:new Set(),geoPending:[],geoGeneration:0,autoSdkAttempted:false
 };
 const KEYS=[["registry","등기사항증명서 발급 및 권리 순위"],["notice","매각물건명세서 인수사항·특별매각조건"],["occupant","현황조사서 점유 및 임대차"],["tenant","대항력·배당요구 및 보증금"],["fees","체납관리비·명도비·세금"],["changes","변경·취소·유찰 및 기일 원문"]];
 const SAMPLE=[
@@ -34,7 +37,59 @@ function setView(v){
  document.querySelectorAll("nav [data-view]").forEach(x=>{x.classList.toggle("active",x.dataset.view===v);if(x.dataset.view===v)x.setAttribute("aria-current","page");else x.removeAttribute("aria-current");});
  if(location.hash!=="#"+v)history.replaceState(null,"","#"+v);
  if(v==="map"&&STATE.mapReady){setTimeout(()=>{naver.maps.Event.trigger(STATE.map,"resize");mapIdle();},50);}
+ if(v==="map"&&!STATE.mapReady&&!STATE.sdkLoading&&!STATE.autoSdkAttempted){
+  const stored=readClientId(browserStorage());
+  if(stored){STATE.autoSdkAttempted=true;$("sdk-id").value=stored;void connectMap({automatic:true});}
+ }
 }
+
+function refreshClientPreference(){
+ const stored=readClientId(browserStorage());
+ if(stored)$("sdk-id").value=stored;
+ $("sdk-remember").checked=!!stored||$("sdk-remember").checked;
+ $("sdk-saved-status").textContent=stored
+  ?"이 브라우저에 Client ID가 저장되어 있습니다. 지도 화면 방문 시 자동 연결됩니다. ID는 GitHub에 업로드되지 않습니다."
+  :"저장된 Client ID가 없습니다. 연결 시 저장을 선택하면 다음 방문부터 자동 연결됩니다.";
+}
+function renderQuotaPanel(){
+ const snapshot=readQuotaSnapshot(browserStorage());
+ let view;
+ try{view=quotaOverview(snapshot);}catch{view=quotaOverview(null);}
+ const label=n=>n===null?"실제 잔여량 미확인":nFormat(n)+"회";
+ $("quota-month-label").textContent=view.month+" (한국 시간)";
+ $("quota-map-remain").textContent=label(view.map.remaining);
+ $("quota-geocode-remain").textContent=label(view.geocoding.remaining);
+ $("quota-map-used").value=view.valid&&view.map.used!==null?String(view.map.used):"";
+ $("quota-geocode-used").value=view.valid&&view.geocoding.used!==null?String(view.geocoding.used):"";
+ $("quota-local-geo").textContent=nFormat(localGeocodeRequests(browserStorage()))+"회";
+ if(view.valid){
+  const t=new Date(view.updatedAt);
+  const time=Number.isFinite(t.getTime())?t.toLocaleString("ko-KR",{timeZone:"Asia/Seoul"}):"시간 미확인";
+  $("quota-note").textContent="네이버 콘솔 수동 입력 기준 ("+time+") · 실시간 수치가 아닙니다. 이후 다른 브라우저·Application 사용량은 미반영입니다. 대표 계정 전체 Application 합계가 필요합니다.";
+ }else if(view.stale){
+  $("quota-note").textContent="지난달 입력은 이번 달 잔여량 계산에 사용하지 않았습니다. 네이버 콘솔에서 "+view.month+" 사용량을 다시 입력하세요.";
+ }else{
+  $("quota-note").textContent="실제 계정 사용량은 Client ID로 조회할 수 없습니다. 네이버 콘솔의 "+view.month+" 전체 Application 합계 사용량을 입력하면 남은 무료량을 계산합니다.";
+ }
+}
+function openQuotaDialog(){
+ renderQuotaPanel();
+ $("quota-feedback").textContent="대표 계정 전체 Application 사용량 합계를 입력하세요. 개별 앱의 사용량만 입력하면 실제 잔여량과 다릅니다.";
+ $("quota-dialog").showModal();
+}
+function saveQuotaFromForm(e){
+ e.preventDefault();
+ try{
+  const record=buildQuotaSnapshot($("quota-map-used").value,$("quota-geocode-used").value);
+  if(!saveQuotaSnapshot(browserStorage(),record))throw Error("브라우저 저장이 차단돼 있습니다.");
+  renderQuotaPanel();$("quota-dialog").close();
+ }catch(error){$("quota-feedback").textContent="저장 실패: "+String(error.message||error);}
+}
+function clearQuotaRecord(){
+ if(!deleteQuotaSnapshot(browserStorage())){$("quota-feedback").textContent="브라우저 저장소 접근 오류: 기록을 지울 수 없습니다.";return;}
+ renderQuotaPanel();$("quota-feedback").textContent="사용량 입력 기록을 삭제했습니다. 잔여량을 미확인으로 표시합니다.";
+}
+
 function statusHTML(){
  $("source-count").textContent=STATE.lots.length+"건";
  $("dataset-name").textContent=STATE.source.name;
@@ -182,14 +237,15 @@ function loadSdk(id){
  }).catch(e=>{sdkPromise=null;throw e;});
  return sdkPromise;
 }
-async function connectMap(){
+async function connectMap({automatic=false}={}){
  if(STATE.sdkLoading)return;
  const id=$("sdk-id").value.trim();
  if(!/^[A-Za-z0-9_-]{5,120}$/.test(id)){diagnostic("새 Maps 상품 Client ID를 확인하세요. Client Secret은 입력하지 마세요.");return;}
- STATE.sdkLoading=true;btnStatus("지도 SDK 연결 중");
+ STATE.sdkLoading=true;btnStatus(automatic?"저장된 Client ID로 자동 연결 중":"지도 SDK 연결 중");
  try{
   await loadSdk(id);
   if(!STATE.mapReady){
+   if(STATE.activeView!=="map")setView("map");
    $("naver-map").style.display="block";$("map-placeholder").hidden=true;$("map-placeholder").style.display="none";
    STATE.map=new naver.maps.Map("naver-map",{center:new naver.maps.LatLng(37.5665,126.978),zoom:11,zoomControl:true});
    STATE.mapReady=true;
@@ -197,8 +253,12 @@ async function connectMap(){
    naver.maps.Event.addListener(STATE.map,"click",evt=>mapClick(evt.coord||evt.latlng));
   }
   btnStatus("네이버 SDK 실행");diagnostic("SDK 객체 생성 완료 · 실제 지도 타일 표시 및 네이버 계정 권한은 브라우저에서 확인하세요.");
+  if($("sdk-remember").checked){
+   if(!saveClientId(browserStorage(),id))diagnostic("지도는 연결됐지만 브라우저 저장이 차단되어 Client ID를 보존하지 못했습니다.");
+  }else clearClientId(browserStorage());
+  refreshClientPreference();
   tell("네이버 지도 SDK 연결됨 · 지도 호출은 네이버 Maps 이용정책을 따릅니다.");
-  $("sdk-dialog").close();setView("map");drawMapPins();
+  if($("sdk-dialog").open)$("sdk-dialog").close();setView("map");drawMapPins();
  }catch(e){btnStatus("지도 연결 오류");diagnostic(e.message+"\n새 Maps Client ID / Web Dynamic Map 활성화 / 허용 URL(https://edwardlim1004.github.io)을 확인하세요.");tell("SDK 연결 실패: "+e.message);}
  finally{STATE.sdkLoading=false;}
 }
@@ -305,6 +365,7 @@ async function runGeocodeBatch(all=false){
    queries++;
    setGeocodeMessage("네이버 주소변환 "+queries+"/"+groups.length+": "+group.query+" · 요청마다 사용량이 발생할 수 있습니다.");
    try{
+    recordLocalGeocodeRequest(browserStorage());renderQuotaPanel();
     const answer=await geocodeWithSdk(nav(),group.query);
     if(generation!==STATE.geoGeneration){error="검색 중 데이터가 바뀌어 결과 적용을 중단했습니다.";break;}
     if(answer.status==="exact"){
@@ -417,7 +478,16 @@ function bind(){
  $("map-connect").addEventListener("click",()=>{if(STATE.mapReady){setView("map");return;}$("sdk-dialog").showModal();});
  $("placeholder-connect").addEventListener("click",()=>$("sdk-dialog").showModal());
  $("map-settings").addEventListener("click",()=>$("sdk-dialog").showModal());
- $("sdk-start").addEventListener("click",connectMap);
+ $("sdk-forget").addEventListener("click",()=>{
+  const ok=clearClientId(browserStorage());$("sdk-id").value="";$("sdk-remember").checked=false;STATE.autoSdkAttempted=true;
+  $("sdk-saved-status").textContent=ok?"저장된 Client ID를 삭제했습니다. 다음 방문부터 자동 연결하지 않습니다.":"브라우저 저장소에 접근할 수 없습니다.";
+ });
+ $("quota-open").addEventListener("click",openQuotaDialog);
+ $("quota-data-open").addEventListener("click",openQuotaDialog);
+ $("quota-form").addEventListener("submit",saveQuotaFromForm);
+ $("quota-close").addEventListener("click",()=>$("quota-dialog").close());
+ $("quota-clear").addEventListener("click",clearQuotaRecord);
+ $("sdk-start").addEventListener("click",()=>{STATE.autoSdkAttempted=true;void connectMap();});
  $("sdk-stop").addEventListener("click",stopMap);
  document.querySelectorAll("[data-maptype]").forEach(x=>x.addEventListener("click",()=>mapType(x.dataset.maptype)));
  $("cadastre").addEventListener("click",cadastre);
@@ -450,5 +520,5 @@ function bind(){
  $("cost-form").addEventListener("submit",e=>{e.preventDefault();const form=new FormData(e.target);const n=k=>Number(form.get(k));try{renderCosts(costScenario({bid:n("bid")*10000,depositPercent:n("depositPercent"),feePercent:n("feePercent"),extra:n("extra")*10000,resale:n("resale")*10000}));}catch(err){$("cost-result").textContent=err.message;}});
  window.addEventListener("hashchange",()=>setView(location.hash.slice(1)));
 }
-function init(){bind();draw();setView(location.hash.slice(1)||"map");void restoreSQLite();}
+function init(){bind();draw();refreshClientPreference();renderQuotaPanel();setView(location.hash.slice(1)||"map");void restoreSQLite();}
 init();
