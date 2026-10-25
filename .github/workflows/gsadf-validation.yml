@@ -12,7 +12,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: gsadf-official-validation
+  group: ${{ github.event_name == 'pull_request' && format('gsadf-pr-{0}', github.event.pull_request.number) || 'gsadf-official-validation' }}
   cancel-in-progress: false
 jobs:
   validate:
