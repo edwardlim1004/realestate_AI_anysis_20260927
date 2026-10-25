@@ -1,5 +1,6 @@
 import {parseImport,filterLots,inViewport,price,pct,escapeHTML,costScenario,safeStoredIDs,MAX_IMPORT_BYTES} from "./core.js";
 import {readV11Sqlite,savePrivateSnapshot,restorePrivateSnapshot,forgetPrivateSnapshot} from "./sqlite.js";
+import {MAX_GEOCODE_PER_CLICK,getUnlocatedGroups,geocodeWithSdk,applyGeocodedPoint} from "./geocode.js";
 
 const $=id=>document.getElementById(id);
 const STATE={
@@ -8,7 +9,8 @@ const STATE={
  favorites:safeStoredIDs(localStorage.getItem("auction-v11-pages-favorites")),
  compare:new Set(),selected:null,activeView:"map",
  map:null,mapMode:"view",markers:[],cadastral:null,mapReady:false,sdkLoading:false,
- coords:[],preview:null,overlays:[],sdkScript:null,manualIds:new Set(),checks:new Set()
+ coords:[],preview:null,overlays:[],sdkScript:null,manualIds:new Set(),checks:new Set(),
+ geoRunning:false,geoAttempted:new Set(),geoPending:[],geoGeneration:0
 };
 const KEYS=[["registry","등기사항증명서 발급 및 권리 순위"],["notice","매각물건명세서 인수사항·특별매각조건"],["occupant","현황조사서 점유 및 임대차"],["tenant","대항력·배당요구 및 보증금"],["fees","체납관리비·명도비·세금"],["changes","변경·취소·유찰 및 기일 원문"]];
 const SAMPLE=[
@@ -67,6 +69,7 @@ function draw(){
  $("review-lot").value=STATE.selected&&findItem(STATE.selected)?STATE.selected:"";
  drawCheckList();
  drawMapPins();
+ redrawGeoPanel();
 }
 function drawCompare(){
  const items=[...STATE.compare].map(findItem).filter(Boolean);
@@ -90,6 +93,7 @@ function details(id){
 function persistFav(){try{localStorage.setItem("auction-v11-pages-favorites",JSON.stringify([...STATE.favorites]));}catch{}}
 function changeData(result,{keepPersisted=false}={}){
  if(!keepPersisted)forgetPrivateSnapshot().catch(()=>{});
+ STATE.geoGeneration++;STATE.geoAttempted.clear();STATE.geoPending=[];
  STATE.lots=result.lots.map(x=>({...x}));
  STATE.source=result.meta;
  STATE.compare.clear();STATE.manualIds.clear();STATE.selected=null;STATE.checks.clear();
@@ -169,7 +173,7 @@ function loadSdk(id){
  sdkPromise=new Promise((resolve,reject)=>{
   const s=document.createElement("script");let done=false;
   const end=e=>{if(done)return;done=true;clearTimeout(timer);if(e)reject(e);else resolve();};
-  s.src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId="+encodeURIComponent(id);
+  s.src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId="+encodeURIComponent(id)+"&submodules=geocoder";
   s.async=true;s.referrerPolicy="strict-origin-when-cross-origin";
   s.onerror=()=>end(new Error("SDK 네트워크/인증 실패"));
   s.onload=()=>nav()?end():end(new Error("네이버 지도 객체가 로드되지 않음"));
@@ -218,6 +222,109 @@ function mapIdle(){
  const c=STATE.map.getCenter();$("map-coords").textContent="중심 "+c.lat().toFixed(5)+", "+c.lng().toFixed(5)+" / 확대 "+STATE.map.getZoom();
  drawMapPins();
 }
+
+// NAVER geocoder is a separately billed SDK submodule. Never store Client Secret.
+let geocoderModulePromise=null;
+function ensureGeocoder(){
+ if(nav()?.Service?.geocode)return Promise.resolve();
+ if(!nav())return Promise.reject(Error("먼저 네이버 지도를 연결해 주세요."));
+ if(geocoderModulePromise)return geocoderModulePromise;
+ geocoderModulePromise=new Promise((resolve,reject)=>{
+  const script=document.createElement("script");
+  script.src="https://oapi.map.naver.com/openapi/v3/maps-geocoder.js";
+  script.async=true;
+  const timer=setTimeout(()=>reject(Error("Geocoder 서브모듈 로드 시간 초과")),12000);
+  script.onload=()=>{clearTimeout(timer);nav()?.Service?.geocode?resolve():reject(Error("네이버 Geocoder 활성화 실패: Maps Geocoding 설정을 확인하세요."));};
+  script.onerror=()=>{clearTimeout(timer);reject(Error("네이버 Geocoder 서브모듈 다운로드 실패"));};
+  document.head.appendChild(script);
+ }).catch(e=>{geocoderModulePromise=null;throw e;});
+ return geocoderModulePromise;
+}
+function setGeocodeMessage(message){
+ $("geo-feedback").textContent=message;
+ $("map-geocode-status").textContent=message;
+}
+function redrawGeoPanel(){
+ const remaining=getUnlocatedGroups(STATE.lots,STATE.geoAttempted);
+ const missing=STATE.lots.filter(x=>x.lat===null).length;
+ $("geo-remaining").textContent="좌표 미확보 "+missing+"건 / 미조회 고유 지번 "+remaining.length+"곳";
+ const enabled=STATE.lots.length>0&&!STATE.geoRunning;
+ $("geo-run").disabled=!enabled;
+ $("map-geocode").disabled=!enabled;
+ $("geo-reset").disabled=STATE.geoRunning||STATE.geoAttempted.size===0;
+ $("geo-reviews").innerHTML=STATE.geoPending.length?STATE.geoPending.map((p,i)=>
+  '<div class="card"><b>확인 필요: '+escapeHTML(p.group.query)+'</b><p class="muted">'+p.group.ids.length+'개 물건 · 네이버 결과가 정확히 일치하지 않아 좌표를 자동 배치하지 않았습니다.</p>'+
+  p.candidates.map((c,j)=>'<div class="line"><span>'+escapeHTML(c.address||"주소 미표시")+'</span><button data-act="geo-accept" data-review-index="'+i+'" data-candidate-index="'+j+'">주소 확인 후 적용</button></div>').join("")+'</div>').join("")
+  :'<p class="muted">주소가 일치하지 않는 후보는 여기에 표시됩니다. 자동으로 잘못된 지점에 놓지 않습니다.</p>';
+}
+function focusLocatedLots(ids){
+ if(!STATE.mapReady||!ids.length)return;
+ const pts=ids.map(findItem).filter(l=>l?.lat!==null&&l?.lat!==undefined);
+ if(!pts.length)return;
+ if(pts.length===1){STATE.map.setCenter(new naver.maps.LatLng(pts[0].lat,pts[0].lng));STATE.map.setZoom(16);}
+ else{
+  const la=pts.map(x=>x.lat),lo=pts.map(x=>x.lng);
+  const sw=new naver.maps.LatLng(Math.min(...la),Math.min(...lo));
+  const ne=new naver.maps.LatLng(Math.max(...la),Math.max(...lo));
+  STATE.map.fitBounds(new naver.maps.LatLngBounds(sw,ne),{top:80,right:80,bottom:80,left:80});
+ }
+}
+async function saveGeocodingChanges(){
+ if(STATE.source.kind!=="sqlite-local"||!$("sqlite-remember").checked)return;
+ try{await savePrivateSnapshot({lots:STATE.lots,meta:STATE.source});}
+ catch(e){setGeocodeMessage("좌표는 화면에 적용됐으나 브라우저 저장에 실패했습니다: "+e.message+" · JSON을 내려받아 보관하세요.");}
+}
+async function runGeocodeBatch(){
+ if(STATE.geoRunning)return;
+ if(!STATE.mapReady){
+  setGeocodeMessage("먼저 '네이버 지도 연결'로 Client ID를 입력해 지도를 실행해 주세요. 지도 연결이 완료되어야 주소변환을 호출할 수 있습니다.");
+  setView("map");return;
+ }
+ const groups=getUnlocatedGroups(STATE.lots,STATE.geoAttempted).slice(0,MAX_GEOCODE_PER_CLICK);
+ if(!groups.length){setGeocodeMessage("새로 조회할 지번이 없습니다. 미확인 후보는 직접 검토하거나 실패 항목 재조회 버튼을 사용하세요.");return;}
+ STATE.geoRunning=true;
+ const generation=STATE.geoGeneration;
+ let queries=0,located=0,notfound=0,review=0,error=null;
+ const changedIds=[];
+ redrawGeoPanel();
+ try{
+  await ensureGeocoder();
+  for(const group of groups){
+   if(generation!==STATE.geoGeneration){error="검색 중 데이터가 바뀌어 남은 요청을 중단했습니다.";break;}
+   STATE.geoAttempted.add(group.query);
+   queries++;
+   setGeocodeMessage("네이버 주소변환 "+queries+"/"+groups.length+": "+group.query+" · 요청마다 사용량이 발생할 수 있습니다.");
+   try{
+    const answer=await geocodeWithSdk(nav(),group.query);
+    if(generation!==STATE.geoGeneration){error="검색 중 데이터가 바뀌어 결과 적용을 중단했습니다.";break;}
+    if(answer.status==="exact"){
+     const updated=applyGeocodedPoint(STATE.lots,group,answer.point,"exact");
+     located+=updated;if(updated)changedIds.push(...group.ids);
+    }else if(answer.status==="review"){review++;STATE.geoPending.push({group,candidates:answer.candidates});}
+    else notfound++;
+   }catch(e){error=e.message||String(e);break;} // Avoid retries/quotas if auth or billing fails.
+   if(queries<groups.length)await new Promise(resolve=>setTimeout(resolve,350));
+  }
+ }catch(e){error=e.message||String(e);}
+ finally{
+  STATE.geoRunning=false;
+  draw();
+  if(changedIds.length){focusLocatedLots(changedIds);await saveGeocodingChanges();}
+  const remain=getUnlocatedGroups(STATE.lots,STATE.geoAttempted).length;
+  setGeocodeMessage("이번 실행: 주소 API 요청 "+queries+"회 · 좌표 반영 물건 "+located+"건 · 미검색/결과없음 "+notfound+"곳 · 수동 확인 "+review+"곳 · 다음 고유 지번 "+remain+"곳"+(error?" · 중단: "+error:"")+". 위치는 지번 대표점이며 실제 건물 출입구나 등기상 필지 경계가 아닙니다.");
+  redrawGeoPanel();
+ }
+}
+async function acceptGeocodeCandidate(index,candidateIndex){
+ const pending=STATE.geoPending[index],point=pending?.candidates[candidateIndex];
+ if(!pending||!point)return;
+ const changed=applyGeocodedPoint(STATE.lots,pending.group,point,"manual");
+ STATE.geoPending.splice(index,1);
+ draw();
+ if(changed){focusLocatedLots(pending.group.ids);await saveGeocodingChanges();}
+ setGeocodeMessage("사용자가 확인한 후보 좌표를 "+changed+"개 물건에 적용했습니다. 부동산 실제 위치는 원문 확인이 필요합니다.");
+}
+
 function drawMapPins(){
  if(!STATE.mapReady)return;
  for(const x of STATE.markers)x.setMap(null);STATE.markers=[];
@@ -288,6 +395,9 @@ function bind(){
  $("import-shortcut").addEventListener("click",()=>setView("data"));
  $("import-file").addEventListener("click",readFile);
  $("sqlite-connect").addEventListener("click",connectSQLite);
+ $("geo-run").addEventListener("click",runGeocodeBatch);
+ $("map-geocode").addEventListener("click",runGeocodeBatch);
+ $("geo-reset").addEventListener("click",()=>{STATE.geoAttempted.clear();redrawGeoPanel();setGeocodeMessage("조회 상태를 초기화했습니다. 재요청 시 Geocoding 사용량이 추가될 수 있습니다.");});
  $("sqlite-forget").addEventListener("click",disconnectSQLite);
  $("sqlite-shortcut").addEventListener("click",()=>{setView("data");$("sqlite-file").focus();});
  $("export-json").addEventListener("click",()=>{if(!STATE.lots.length){$("import-feedback").textContent="내보낼 데이터가 없습니다.";return;}saveAs("auction-pages-export.json",JSON.stringify({sourceName:STATE.source.name,collectedAt:new Date().toISOString(),lots:STATE.lots},null,2));});
@@ -309,6 +419,7 @@ function bind(){
   const id=b.dataset.id,action=b.dataset.act;
   if(action==="close"){$("detail-dialog").close();return;}
   if(action==="detail"){details(id);return;}
+  if(action==="geo-accept"){void acceptGeocodeCandidate(Number(b.dataset.reviewIndex),Number(b.dataset.candidateIndex));return;}
   if(action==="fav"){STATE.favorites.has(id)?STATE.favorites.delete(id):STATE.favorites.add(id);persistFav();draw();return;}
   if(action==="compare"){
    if(STATE.compare.has(id))STATE.compare.delete(id);else if(STATE.compare.size<3)STATE.compare.add(id);else{alert("비교는 최대 3건까지 가능합니다.");return;}
