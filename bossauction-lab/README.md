@@ -1,3 +1,20 @@
+# 기존 경매·공매 지도검색 화면 복원 (기본)
+
+**기본 실행:** https://edwardlim1004.github.io/realestate_AI_anysis_20260927/bossauction-lab/
+
+v10~v11.4 개인 개발본의 왼쪽 세로 메뉴, 경매 검색 목록, NAVER Maps SDK 설정·진단, 실제 지도 레이어, 거리·면적 측정, 보유 물건을 이용한 지도 집계를 참고해 기존 사용자 화면을 온라인 정적 페이지용으로 다시 만들었습니다.
+
+- [classic/](classic/) — **복원한 새 기본 UI**. 동일 브라우저 Client ID 및 SQLite 사용자 데이터를 재사용하며, 기능이 활성화돼 있으면 자동 지도 연결.
+- [advanced/](advanced/) — 기존 별도 통합검색, CSV·JSON, 물건 비교, 점검표·입찰 비용 분석 화면. 삭제하지 않았습니다.
+- [legacy.html](legacy.html) — 최초 독립 데모 보존.
+- [docs/RECOVERY_STATUS.md](docs/RECOVERY_STATUS.md) — 복원된 개인 v11.4 ZIP에 관한 검증 기록.
+- [classic/README.md](classic/README.md) — 메뉴별 지원 상태, 온라인 한계와 사용법.
+
+주의: 법원·온비드 실시간 전국 물건 API, 공식 AI 권리판단, 원본 사진의 재배포는 연결되지 않았습니다. 복구 ZIP에 포함된 외부 사이트의 HTML·사진·화면 캡처를 공개 GitHub 저장소에 올리지 않았습니다. 지도 지역별 수치는 현재 브라우저에 연결한 데이터에서만 계산합니다.
+
+---
+
+## 최초 별도 데모 기록
 # Auction Lab v11 Pages — 개선된 GitHub Pages 웹앱
 
 **현재 웹 시작 주소:** https://edwardlim1004.github.io/realestate_AI_anysis_20260927/bossauction-lab/
