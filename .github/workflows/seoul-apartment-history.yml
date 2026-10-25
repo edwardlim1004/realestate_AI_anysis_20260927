@@ -75,6 +75,8 @@ jobs:
           REQUESTED_MODE: ${{ github.event.inputs.mode || (github.event_name == 'push' && 'test' || 'daily') }}
           REQUESTED_LIMIT: ${{ github.event.inputs.max_requests || (github.event_name == 'push' && '8' || '1200') }}
           REQUESTED_REGION: ${{ github.event.inputs.region || (github.event_name == 'push' && 'gyeonggi' || 'all') }}
+          R2_USAGE_ACCESS_KEY_ID: ${{ secrets.R2_USAGE_ACCESS_KEY_ID }}
+          R2_USAGE_SECRET_ACCESS_KEY: ${{ secrets.R2_USAGE_SECRET_ACCESS_KEY }}
         run: |
           python seoul-apartment-collector/collect.py --mode "$REQUESTED_MODE" --region "$REQUESTED_REGION" --max-requests "$REQUESTED_LIMIT" --delay 3
       - name: Verify real Gyeonggi smoke collection after code deployment

@@ -61,6 +61,7 @@ class StorageTests(unittest.TestCase):
         self.assertEqual(2,data['bucket_count'])
         s3.forbid_list=True;data=usage.r2_usage(s3,'main')
         self.assertEqual(200,data['known_used_bytes']);self.assertNotIn('remaining_bytes',data)
+        self.assertEqual('AccessDenied',data['error_code'])
         with self.assertRaises(StorageBudgetExceeded):StorageBudget(s3,'main').reserve('new',20)
         self.assertEqual(0,s3.writes)
 

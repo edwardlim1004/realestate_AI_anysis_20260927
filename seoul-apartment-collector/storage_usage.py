@@ -8,6 +8,19 @@ R2_SAFE_BYTES = 8*GB
 GIT_MANAGEMENT_BYTES = GB
 
 
+def account_reader(fallback):
+    """Optional independent read-only account key; keep token encryption keys intact."""
+    access=os.getenv('R2_USAGE_ACCESS_KEY_ID','')
+    secret=os.getenv('R2_USAGE_SECRET_ACCESS_KEY','')
+    if not access and not secret:return fallback
+    if not access or not secret:raise ValueError('Incomplete R2 usage reader credentials')
+    import boto3
+    from botocore.config import Config
+    return boto3.client('s3',endpoint_url='https://'+os.environ['R2_ACCOUNT_ID']+'.r2.cloudflarestorage.com',
+        aws_access_key_id=access,aws_secret_access_key=secret,region_name='auto',
+        config=Config(retries={'max_attempts':3,'mode':'standard'},connect_timeout=10,read_timeout=25))
+
+
 def measured(used, limit=None):
     used = int(used)
     if used < 0:raise ValueError('Negative storage usage')
@@ -30,12 +43,13 @@ def bucket_bytes(s3,bucket):
 
 def r2_usage(s3,bucket):
     try:
-        response = s3.list_buckets()
+        reader=account_reader(s3)
+        response = reader.list_buckets()
         buckets = [item['Name'] for item in response['Buckets']]
         if bucket not in buckets:raise ValueError('Configured bucket missing from account list')
         total = 0;count = 0
         for name in buckets:
-            size,objects = bucket_bytes(s3,name);total += size;count += objects
+            size,objects = bucket_bytes(reader,name);total += size;count += objects
         return {'status':'ok','scope':'account','bucket_count':len(buckets),'objects':count,
                 **measured(total,R2_FREE_BYTES),'safe_bytes':R2_SAFE_BYTES}
     except Exception as error:
@@ -44,7 +58,9 @@ def r2_usage(s3,bucket):
         try:
             used,count = bucket_bytes(s3,bucket)
             return {'status':'partial','scope':'configured_bucket','known_used_bytes':used,
-                    'objects':count,'error_type':type(error).__name__,'safe_bytes':R2_SAFE_BYTES}
+                    'objects':count,'error_type':type(error).__name__,
+                    'error_code':str(getattr(error,'response',{}).get('Error',{}).get('Code','')),
+                    'safe_bytes':R2_SAFE_BYTES}
         except Exception as inner:
             return {'status':'unknown','scope':'unknown','error_type':type(inner).__name__,
                     'safe_bytes':R2_SAFE_BYTES}
