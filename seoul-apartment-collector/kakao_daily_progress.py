@@ -263,6 +263,7 @@ def main():
                 report['storage']['guard']={'status':'armed','safe_bytes':8_000_000_000}
             except StorageBudgetExceeded:
                 report['storage']['guard']={'status':'r2_data_paused','safe_bytes':8_000_000_000}
+            print('STORAGE_MEASUREMENTS '+json.dumps(report['storage'],ensure_ascii=False))
         REPORT.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
         print('DAILY_PROGRESS_PREVIEW\n'+render_message(report))
         if not args.dry_run:notify(report,storage=client,verify_connection=args.verify_connection)

@@ -12,7 +12,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: gsadf-official-validation
+  group: ${{ github.event_name == 'pull_request' && format('gsadf-pr-{0}', github.event.pull_request.number) || 'gsadf-official-validation' }}
   cancel-in-progress: false
 jobs:
   validate:
@@ -58,6 +58,8 @@ jobs:
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          R2_USAGE_ACCESS_KEY_ID: ${{ secrets.R2_USAGE_ACCESS_KEY_ID }}
+          R2_USAGE_SECRET_ACCESS_KEY: ${{ secrets.R2_USAGE_SECRET_ACCESS_KEY }}
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
           GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
           GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}

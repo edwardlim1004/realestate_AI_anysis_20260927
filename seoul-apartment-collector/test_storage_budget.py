@@ -5,7 +5,9 @@ import hashlib
 import io
 import json
 import os
+import sys
 import threading
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -55,12 +57,24 @@ class S3:
 
 
 class StorageTests(unittest.TestCase):
+    def test_optional_usage_key_is_read_only_and_keeps_write_key_intact(self):
+        reader=object();calls=[]
+        def client(*args,**kwargs):calls.append(kwargs);return reader
+        with patch.dict(os.environ,{'R2_ACCOUNT_ID':'dummy','R2_SECRET_ACCESS_KEY':'original-write-key',
+                'R2_USAGE_ACCESS_KEY_ID':'reader-id','R2_USAGE_SECRET_ACCESS_KEY':'reader-secret'}), \
+             patch.dict(sys.modules,{'boto3':SimpleNamespace(client=client),
+                                    'botocore.config':SimpleNamespace(Config=lambda **kwargs:kwargs)}):
+            self.assertIs(reader,usage.account_reader(object()))
+            self.assertEqual('reader-id',calls[0]['aws_access_key_id'])
+            self.assertEqual('original-write-key',os.environ['R2_SECRET_ACCESS_KEY'])
+
     def test_all_buckets_included_and_partial_is_not_free_space(self):
         s3=S3();data=usage.r2_usage(s3,'main')
         self.assertEqual(500,data['used_bytes']);self.assertEqual('account',data['scope'])
         self.assertEqual(2,data['bucket_count'])
         s3.forbid_list=True;data=usage.r2_usage(s3,'main')
         self.assertEqual(200,data['known_used_bytes']);self.assertNotIn('remaining_bytes',data)
+        self.assertEqual('AccessDenied',data['error_code'])
         with self.assertRaises(StorageBudgetExceeded):StorageBudget(s3,'main').reserve('new',20)
         self.assertEqual(0,s3.writes)
 
