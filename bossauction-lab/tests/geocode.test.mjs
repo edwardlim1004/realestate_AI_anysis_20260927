@@ -70,5 +70,5 @@ test("API 인증/쿼터 오류 시 실제 실패로 반환하고 좌표 만들�
  await assert.rejects(geocodeWithSdk(maps,"서울특별시 송파구 거여동 20"),/요청 실패/);
 });
 test("Geocoder 모듈 미설치 식별",async()=>{
- await assert.rejects(geocodeWithSdk({},"서울특별시 송파구 거여동 20"),/모듈/);
+ assert.throws(()=>geocodeWithSdk({},"서울특별시 송파구 거여동 20"),/모듈/);
 });
