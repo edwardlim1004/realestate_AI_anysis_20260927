@@ -331,7 +331,7 @@ function saveDiagnostic(){
 function wire(){
  document.querySelectorAll("[data-section]").forEach(el=>el.addEventListener("click",()=>changeSection(el.dataset.section)));
  document.querySelectorAll("[data-mode]").forEach(el=>el.addEventListener("click",()=>setMapMode(el.dataset.mode)));
- $("panel-fold").onclick=()=>{$(".app")?.classList?.toggle?.("collapsed");document.querySelector(".app").classList.toggle("collapsed");$("panel-fold").textContent=document.querySelector(".app").classList.contains("collapsed")?"›":"‹";};
+ $("panel-fold").onclick=()=>{document.querySelector(".app").classList.toggle("collapsed");$("panel-fold").textContent=document.querySelector(".app").classList.contains("collapsed")?"›":"‹";};
  $("toggle-search").onclick=()=>{changeSection("search");$("search-input").focus();};
  $("search-submit").onclick=()=>changeSection("search");
  $("search-input").addEventListener("input",renderResults);

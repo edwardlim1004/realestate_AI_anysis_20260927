@@ -19,6 +19,6 @@ jobs:
         with:
           node-version: '22'
       - name: Check syntax
-        run: find src tests advanced -type f \( -name '*.js' -o -name '*.mjs' \) -exec node --check {} \;
+        run: find src tests advanced classic -type f \( -name '*.js' -o -name '*.mjs' \) -exec node --check {} \;
       - name: Run tests
         run: npm test
