@@ -15,9 +15,22 @@
 ## 네이버 지도 활성화
 1. 네이버 클라우드 새 Maps 상품에서 Web Dynamic Map 신청.
 2. 허용 서비스 URL에 https://edwardlim1004.github.io 등록.
-3. 지도검색의 연결 설정에서 새 ncpKeyId (Client ID)만 입력. Client Secret 입력 금지.
+3. 지도검색의 연결 설정에서 새 ncpKeyId (Client ID)만 입력. Client Secret 입력 금지. 이 브라우저 저장을 선택하면 이후 지도 화면에서 자동으로 SDK 실행.
 4. 실제 타일과 인증은 해당 개발자 계정 및 웹 브라우저 환경에서 확인.
 5. 2026-06-25 AI NAVER API 지도 상품은 종료됐으므로 기존 Client ID가 동작하지 않을 수 있음.
+
+## Client ID 브라우저 저장·자동 지도 연결 및 무료 이용량 (2026-10-25)
+
+- 네이버 **Web Dynamic Map Client ID**를 입력하고 **이 브라우저에 저장하고 다음 방문부터 자동 연결**을 체크해 실행하면 이 기기의 localStorage에 저장됩니다. GitHub 공개 코드에 ID는 추가하지 않습니다.
+- 이후 **지도 검색 화면** 방문 시 저장된 ID로 SDK를 자동 실행합니다. 지도 인증/도메인 문제가 있으면 **설정 / 진단**에서 확인하세요. 연결 실패 후 무한 반복은 하지 않습니다.
+- **저장된 ID 삭제 · 자동 연결 끄기**를 누르면 이 브라우저의 값을 삭제합니다. 현재 지도 연결 해제는 저장된 Client ID를 삭제하지 않습니다.
+- Client ID는 브라우저의 사이트 JavaScript에서 열람할 수 있는 공개 식별자이며, **Client Secret과 API Access/Secret Key는 브라우저/GitHub Pages에 입력하거나 커밋하지 마세요.**
+- NAVER Cloud Maps 공식 월 무료 한도(대표 계정 대상): **Dynamic Map 6,000,000회, Geocoding 3,000,000회**. 무료량은 **대표 계정의 모든 Application 총합**에 적용되어 사이트 방문 횟수만으로 실제 잔여량을 계산할 수 없습니다.
+- 지도 화면의 **콘솔 사용량 입력·남은 무료량 계산**에서 네이버 콘솔의 **당월 전체 Application 합계 사용량**을 입력하면 **입력 시점 기준 잔여량 = max(0, 월 무료 한도 - 콘솔 당월 사용량)**으로 계산합니다.
+- 입력하지 않은 항목, 지난달 기록은 **실제 잔여량 미확인**으로 표시합니다. Client ID만으로 네이버 계정의 실시간 사용량을 자동 조회하는 기능은 없습니다. 이후 다른 앱/브라우저의 호출은 수동 입력 잔여에 반영되지 않습니다.
+- 이 사이트에서 발생시킨 주소변환 요청 시도는 브라우저별·월별로 표시하지만, 이는 실제 네이버 서버의 성공/실패·과금 건수나 계정 전체 사용량과 다릅니다.
+- 과금을 막으려면 NAVER Cloud 콘솔의 **한도 및 알림** 설정도 별도로 사용하세요.
+- 공식 자료: https://www.ncloud.com/charge/price/ko / https://www.ncloud.com/support/faq/prod/2828 / https://guide.ncloud-docs.com/docs/application-maps-app-vpc
 
 ## 네이버 Geocoding으로 기존 DB 위치 표시 (2026-10-25 적용)
 
