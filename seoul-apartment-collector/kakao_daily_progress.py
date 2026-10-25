@@ -16,7 +16,8 @@ from regions import in_month, select
 
 BASE = Path(__file__).resolve().parent
 REPORT = BASE/'daily_progress_report.json'
-LEDGER_PREFIX = 'internal/kakao-gyeonggi-progress/v1/'
+LEGACY_LEDGER_PREFIX = 'internal/kakao-gyeonggi-progress/v1/'
+LEDGER_PREFIX = 'internal/kakao-gyeonggi-progress/v2/'
 KST = ZoneInfo('Asia/Seoul')
 
 
@@ -89,6 +90,7 @@ def build_report(manifest, status, now=None):
 
 
 def render_message(report, previous=None):
+    if 'storage' in report:return render_combined_message(report,previous)
     day = datetime.fromisoformat(report['generated_at_kst'])
     data = report['coverage']['gyeonggi']
     def line(label,kind):
@@ -110,6 +112,55 @@ def render_message(report, previous=None):
         f"{check['contract_month'][4:]}월 비교: {check_text}",
         f'최근수집 {last_day} 오류 {failure if failure is not None else "미확인"}건'])
     kakao.payload(text)  # Enforce the existing registered Kakao text-template limit.
+    return text
+
+
+def render_combined_message(report,previous=None):
+    from storage_usage import GB
+    day=datetime.fromisoformat(report['generated_at_kst'])
+    data=report['coverage']['gyeonggi'];storage=report['storage']
+    old=(previous or {}).get('report',{}).get('coverage',{}).get('gyeonggi',{}).get('total',{}).get('stored')
+    delta=f"·전일{data['total']['stored']-old:+,}" if isinstance(old,int) else ''
+    github=storage.get('github',{});code=github.get('code',{})
+    git=(f"Git코드{code['used_bytes']/1e6:.1f}MB(관리1GB {code['percent']:.1f}%)"
+         if code.get('status')=='ok' else 'Git 용량미확인')
+    if 'artifacts' in github or 'cache' in github:
+        artifacts=github.get('artifacts',{});cache=github.get('cache',{})
+        artifact_text=f"{artifacts['used_bytes']/1e6:.1f}M" if artifacts.get('status')=='ok' else '?'
+        cache_text=f"{cache['used_bytes']/1e6:.0f}M" if cache.get('status')=='ok' else '?'
+        git+=f'·CI{artifact_text}/캐시{cache_text}'
+    r2=storage.get('r2',{})
+    if r2.get('status')=='ok' and r2.get('scope')=='account':
+        r2_line=f"R2 {r2['used_bytes']/GB:.2f}/10GB({r2['percent']:.1f}%)·여유{r2['remaining_bytes']/GB:.2f}GB"
+    elif r2.get('status')=='partial':
+        r2_line=f"R2 ≥{r2['known_used_bytes']/GB:.2f}GB·계정합계미확인"
+    else:r2_line='R2 계정용량미확인'
+    google=storage.get('google',{})
+    if google.get('status')=='ok' and google.get('limit_bytes'):
+        unit,scale=('TB',1e12) if google['limit_bytes']>=1e12 else ('GB',GB)
+        google_line=f"Google {google['used_bytes']/scale:.2f}/{google['limit_bytes']/scale:.2f}{unit}({google['percent']:.1f}%)·여유{google['remaining_bytes']/scale:.2f}{unit}"
+    elif google.get('status')=='ok':google_line=f"Google {google['used_bytes']/GB:.1f}GB·한도미제공"
+    else:google_line='Google 계정용량미확인'
+    check=report['comparison']
+    checks={'same_observation_day':'확인'+str(check['common_observation_day_kst'])[5:].replace('-','/')+'일치',
+            'missing_scopes':'자료누락','observation_date_missing':'확인일미기록',
+            'observation_days_differ':'확인일상이'}
+    guard=storage.get('guard',{})
+    protect='🟢8GB보호' if guard.get('status')=='armed' else '🟡Google전환'
+    if guard.get('status')!='armed' and (google.get('status')!='ok' or google.get('remaining_bytes')==0):protect='🔴저장보류'
+    failures=report['last_collection']['failures']
+    lines=[f'[경기도·저장공간 {day:%m/%d}]',
+        f"매매{data['sale']['percent']:.1f}%·전월세{data['rent']['percent']:.1f}%",
+        f"합계{data['total']['stored']:,}/{data['total']['target']:,}({data['total']['percent']:.1f}%){delta}",
+        git,r2_line,google_line,
+        f"{checks[check['reason']]}·오류{failures if failures is not None else '?'}·{protect}"]
+    # Keep mandatory coverage, free-space and guard status; shorten labels only.
+    text='\n'.join(lines)
+    if len(text)>200:
+        text=text.replace('·전일','·').replace('Google ','GDrive ').replace('GB·여유','·남음').replace('TB·여유','·남음')
+    if len(text)>200:
+        text=text.replace('·여유','·잔').replace('관리1GB ','기준1G ').replace('계정용량미확인','용량미확인')
+    kakao.payload(text)
     return text
 
 
@@ -170,6 +221,8 @@ def notify(report,now=None,storage=None,send=None,verify_connection=False):
             return 'already_sent'
         raise kakao.NotificationError('Prior send outcome is uncertain; inspect receipt before retrying')
     previous = read_ledger(storage,ledger_key(now.date()-timedelta(days=1)))
+    if previous is None:
+        previous=read_ledger(storage,LEGACY_LEDGER_PREFIX+(now.date()-timedelta(days=1)).isoformat()+'.json')
     if previous and previous.get('status')!='sent':previous=None
     message = render_message(report,previous)
     token = access_token(storage)  # Authenticate before reserving the daily send.
@@ -191,14 +244,28 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dry-run',action='store_true')
     parser.add_argument('--verify-connection',action='store_true')
+    parser.add_argument('--live-storage',action='store_true')
     args = parser.parse_args()
     try:
         manifest = json.loads((BASE/'r2_manifest.json').read_text(encoding='utf-8'))
         status = json.loads((BASE/'status.json').read_text(encoding='utf-8'))
         report = build_report(manifest,status)
+        client=None
+        if args.live_storage:
+            from storage_usage import collect_storage
+            from storage_budget import StorageBudget,StorageBudgetExceeded
+            client=kakao.r2_client()
+            report['storage']=collect_storage(client,kakao.github_request)
+            budget=StorageBudget(client,os.environ['R2_BUCKET_NAME'])
+            budget.snapshot=report['storage']['r2']
+            try:
+                budget.reserve('internal/storage-guard-probe',0)
+                report['storage']['guard']={'status':'armed','safe_bytes':8_000_000_000}
+            except StorageBudgetExceeded:
+                report['storage']['guard']={'status':'r2_data_paused','safe_bytes':8_000_000_000}
         REPORT.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
         print('DAILY_PROGRESS_PREVIEW\n'+render_message(report))
-        if not args.dry_run:notify(report,verify_connection=args.verify_connection)
+        if not args.dry_run:notify(report,storage=client,verify_connection=args.verify_connection)
         return 0
     except (ValueError,kakao.NotificationError) as error:
         print('KAKAO_DAILY_ERROR:',str(error),file=sys.stderr)

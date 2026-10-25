@@ -22,6 +22,9 @@ EXPECTED = tuple(
 ) + tuple(f"{name}_revisions.csv" for name in SERIES)
 MAX_SOURCE_BYTES = 8 * 1024 * 1024
 MAX_ARCHIVE_BYTES = 64 * 1024 * 1024
+sys.path.insert(0,str(Path(__file__).resolve().parent.parent/'seoul-apartment-collector'))
+from storage_budget import StorageBudget, StorageBudgetExceeded
+from storage_usage import check_google_capacity
 
 def env_required(*keys):
     missing = [key for key in keys if not os.environ.get(key)]
@@ -47,7 +50,7 @@ def missing_object(exc):
 def sha256(data):
     return hashlib.sha256(data).hexdigest()
 
-def checked_put(s3, key, blob, content_type, *, immutable=False):
+def checked_put(s3, key, blob, content_type, *, immutable=False, control=False):
     bucket = os.environ["R2_BUCKET_NAME"]
     digest = sha256(blob)
     try:
@@ -59,6 +62,14 @@ def checked_put(s3, key, blob, content_type, *, immutable=False):
         return "unchanged"
     if immutable and head is not None:
         raise RuntimeError("Immutable archive key collision; refusing overwrite")
+    if control:
+        if key!='latest.json' or len(blob)>65536:
+            raise RuntimeError('Invalid GSADF control checkpoint')
+    else:
+        budget=getattr(s3,'_edward_storage_budget',None)
+        if budget is None:
+            budget=StorageBudget(s3,bucket);s3._edward_storage_budget=budget
+        budget.reserve(PREFIX+key,len(blob))
     s3.put_object(Bucket=bucket, Key=PREFIX+key, Body=blob,
         ContentType=content_type, Metadata={"sha256":digest})
     verified = s3.head_object(Bucket=bucket, Key=PREFIX+key)
@@ -81,10 +92,25 @@ def restore(data_dir):
     manifest = json.loads(pointer["Body"].read(MAX_SOURCE_BYTES))
     digest = manifest.get("bundleSHA256","")
     key = manifest.get("R2","")
-    if not re.fullmatch("[0-9a-f]{64}",digest) or key != PREFIX+"bundles/"+digest+".zip":
+    if not re.fullmatch("[0-9a-f]{64}",digest):
         raise RuntimeError("Invalid GSADF latest pointer")
-    response = s3.get_object(Bucket=bucket,Key=key)
-    bundle = response["Body"].read(MAX_ARCHIVE_BYTES+1)
+    if manifest.get('storage','r2')=='gdrive':
+        from google_drive_backup import authorized_drive
+        from googleapiclient.http import MediaIoBaseDownload
+        file_id=manifest.get('googleDriveFileId','')
+        if not re.fullmatch('[A-Za-z0-9_-]{10,200}',file_id):
+            raise RuntimeError('Invalid GSADF Drive pointer')
+        drive=authorized_drive(s3);output=io.BytesIO()
+        downloader=MediaIoBaseDownload(output,drive.files().get_media(fileId=file_id),chunksize=1024*1024)
+        done=False
+        while not done:
+            _,done=downloader.next_chunk(num_retries=2)
+            if output.tell()>MAX_ARCHIVE_BYTES:raise RuntimeError('GSADF Drive archive too large')
+        bundle=output.getvalue()
+    else:
+        if key!=PREFIX+'bundles/'+digest+'.zip':raise RuntimeError('Invalid GSADF R2 pointer')
+        response = s3.get_object(Bucket=bucket,Key=key)
+        bundle = response["Body"].read(MAX_ARCHIVE_BYTES+1)
     if len(bundle)>MAX_ARCHIVE_BYTES or sha256(bundle)!=digest:
         raise RuntimeError("GSADF R2 archive hash mismatch")
     loaded=[]
@@ -165,6 +191,7 @@ def backup_drive(s3, payload, digest):
               "description":"Private official OECD historical data and reproducible GSADF experiment",
               "appProperties":{"gsadf_bundle":key}}
         media=MediaFileUpload(str(f),mimetype="application/zip",resumable=True)
+        check_google_capacity(drive,len(payload))
         result=execute(drive.files().create(body=meta,media_body=media,
             fields="id,md5Checksum,size"))
     if not result.get("id") or result.get("md5Checksum")!=md5 or int(result.get("size",0))!=len(payload):
@@ -176,19 +203,25 @@ def publish(data_dir,result_dir,status_path):
     payload=build_bundle(data_dir,result_dir); digest=sha256(payload)
     s3=s3_client()
     key="bundles/"+digest+".zip"
-    bundle_action=checked_put(s3,key,payload,"application/zip",immutable=True)
+    primary='r2'
+    try:bundle_action=checked_put(s3,key,payload,"application/zip",immutable=True)
+    except StorageBudgetExceeded:
+        primary='gdrive';bundle_action='gdrive_primary'
     drive_id=backup_drive(s3,payload,digest)  # never mark current until backed up
     updated=[]
-    for name in EXPECTED:
-        src=data_dir/name
-        if src.exists():
-            action=checked_put(s3,"current/"+name,src.read_bytes(),"text/csv")
-            if action=="uploaded": updated.append(name)
+    if primary=='r2':
+        for name in EXPECTED:
+            src=data_dir/name
+            if src.exists():
+                try:action=checked_put(s3,"current/"+name,src.read_bytes(),"text/csv")
+                except StorageBudgetExceeded:
+                    primary='gdrive';break
+                if action=="uploaded": updated.append(name)
     manifest={"schema":"gsadf-archive.v1","timestampUTC":datetime.now(timezone.utc).isoformat(),
-        "R2":PREFIX+key,"bundleSHA256":digest,"sizeBytes":len(payload),
+        "R2":PREFIX+key if primary=='r2' else None,"storage":primary,"bundleSHA256":digest,"sizeBytes":len(payload),
         "googleDriveVerified":True,"googleDriveFileId":drive_id,
         "changedCurrentFiles":updated,"compositePromoted":False}
-    checked_put(s3,"latest.json",json.dumps(manifest,sort_keys=True).encode(),"application/json")
+    checked_put(s3,"latest.json",json.dumps(manifest,sort_keys=True).encode(),"application/json",control=True)
     status_path.parent.mkdir(parents=True,exist_ok=True)
     status_path.write_text(json.dumps({k:v for k,v in manifest.items() if k!="googleDriveFileId"},indent=2),encoding="utf-8")
     print("GSADF_R2_DRIVE_ARCHIVE_OK",bundle_action,"changed-series",len(updated))

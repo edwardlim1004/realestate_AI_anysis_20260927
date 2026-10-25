@@ -64,6 +64,8 @@ class DriveRawArchive:
             return existing["id"]
         metadata={"name":rel.replace("/","_"),"description":"Edward Seoul/Gyeonggi apartment public transaction raw compressed scope",
             "appProperties":{SCOPE_MARKER:rel,"sha256":expected_sha}}
+        from storage_usage import check_google_capacity
+        check_google_capacity(self.drive,size)
         media=MediaFileUpload(str(src),mimetype="application/gzip",resumable=True,chunksize=8*1024*1024)
         if existing:
             req=self.drive.files().update(fileId=existing["id"],body=metadata,

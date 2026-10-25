@@ -8,6 +8,7 @@ import json
 import os
 from datetime import datetime, timezone
 from pathlib import Path
+from storage_budget import StorageBudget, StorageBudgetExceeded
 
 HERE = Path(__file__).resolve().parent
 DATA = HERE / "data"
@@ -52,6 +53,7 @@ class R2Storage:
         )
         self.drive_archived = 0
         self._drive_archive = None
+        self._account_budget = None
 
     @staticmethod
     def relpath(kind, district, ym):
@@ -118,6 +120,13 @@ class R2Storage:
             result=self._to_google_drive(path,relative,digest,size,old)
             print("R2_GDRIVE_FAILOVER_VERIFIED",relative,flush=True)
             return result
+        try:
+            if self._account_budget is None:
+                self._account_budget=StorageBudget(self.client,self.bucket)
+            self._account_budget.reserve(PREFIX+relative,size)
+        except StorageBudgetExceeded:
+            print("R2_ACCOUNT_GUARD_FAILOVER",relative,flush=True)
+            return self._to_google_drive(path,relative,digest,size,old)
         try:
             self.client.upload_file(str(path),self.bucket,PREFIX+relative,
                                     ExtraArgs={"ContentType":"application/gzip"})
