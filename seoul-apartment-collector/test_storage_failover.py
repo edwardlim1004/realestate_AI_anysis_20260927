@@ -52,6 +52,7 @@ def fake_archive():
     a._r2_bytes=0
     a.drive_archived=0
     a._drive_archive=None
+    a._account_budget=SimpleNamespace(reserve=lambda *a:None)
     return a
 
 

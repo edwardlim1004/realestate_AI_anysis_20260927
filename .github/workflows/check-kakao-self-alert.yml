@@ -7,6 +7,9 @@ on:
       - "seoul-apartment-collector/test_kakao_self_alert.py"
       - "seoul-apartment-collector/kakao_daily_progress.py"
       - "seoul-apartment-collector/test_kakao_daily_progress.py"
+      - "seoul-apartment-collector/storage_usage.py"
+      - "seoul-apartment-collector/storage_budget.py"
+      - "seoul-apartment-collector/test_storage_budget.py"
       - ".github/workflows/gyeonggi-daily-kakao.yml"
       - ".github/workflows/check-kakao-self-alert.yml"
 permissions:
@@ -28,3 +31,4 @@ jobs:
         run: |
           python seoul-apartment-collector/test_kakao_self_alert.py
           python seoul-apartment-collector/test_kakao_daily_progress.py
+          python seoul-apartment-collector/test_storage_budget.py

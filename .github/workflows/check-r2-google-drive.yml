@@ -8,6 +8,11 @@ on:
       - "seoul-apartment-collector/r2_bridge.py"
       - "seoul-apartment-collector/r2_gdrive_failover.py"
       - "seoul-apartment-collector/test_storage_failover.py"
+      - "seoul-apartment-collector/storage_usage.py"
+      - "seoul-apartment-collector/storage_budget.py"
+      - "seoul-apartment-collector/test_storage_budget.py"
+      - "seoul-apartment-collector/test_storage_routing.py"
+      - "gsadf/storage.py"
       - "seoul-apartment-collector/backfill_progress.py"
       - "seoul-apartment-collector/collect.py"
       - "seoul-apartment-collector/test_quota.py"
@@ -34,3 +39,5 @@ jobs:
           python seoul-apartment-collector/test_storage_failover.py
           python seoul-apartment-collector/test_quota.py
           python seoul-apartment-collector/test_incremental.py
+          python seoul-apartment-collector/test_storage_budget.py
+          python seoul-apartment-collector/test_storage_routing.py

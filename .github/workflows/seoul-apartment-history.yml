@@ -7,6 +7,8 @@ on:
       - "seoul-apartment-collector/regions.py"
       - "seoul-apartment-collector/incremental.py"
       - "seoul-apartment-collector/r2_bridge.py"
+      - "seoul-apartment-collector/storage_usage.py"
+      - "seoul-apartment-collector/storage_budget.py"
       - "seoul-apartment-collector/r2_gdrive_failover.py"
       - "seoul-apartment-collector/kakao_self_alert.py"
       - ".github/workflows/seoul-apartment-history.yml"
@@ -69,7 +71,7 @@ jobs:
           GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
           GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
           R2_GDRIVE_FALLBACK_ENABLED: "true"
-          R2_STORAGE_SOFT_CAP_BYTES: "8589934592"
+          R2_STORAGE_SOFT_CAP_BYTES: "8000000000"
           REQUESTED_MODE: ${{ github.event.inputs.mode || (github.event_name == 'push' && 'test' || 'daily') }}
           REQUESTED_LIMIT: ${{ github.event.inputs.max_requests || (github.event_name == 'push' && '8' || '1200') }}
           REQUESTED_REGION: ${{ github.event.inputs.region || (github.event_name == 'push' && 'gyeonggi' || 'all') }}
@@ -123,7 +125,7 @@ jobs:
           GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
           GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
           R2_GDRIVE_FALLBACK_ENABLED: "true"
-          R2_STORAGE_SOFT_CAP_BYTES: "8589934592"
+          R2_STORAGE_SOFT_CAP_BYTES: "8000000000"
         run: |
           python seoul-apartment-collector/collect.py --mode backfill --region gyeonggi --max-requests 8 --delay 3
           python - <<'PY'
