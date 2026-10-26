@@ -1,0 +1,135 @@
+{
+  "method": "Revised-data pseudo-OOS; fixed lag=2 quarters; expanding OLS vs matured-label expanding mean; fixed common score quarters",
+  "status": "RESEARCH_ONLY_NOT_ELIGIBLE_FOR_PROMOTION",
+  "proxies": {
+    "currentLiquidityComposite": "Existing 50/30/20 liquidity SHADOW score",
+    "existingMarshallK": "Original one-sided-HP/expanding-percentile Marshall-K component",
+    "excessMoneyGrowth": "100*[ln(M2q/M2q-4)-ln(GDPq/GDPq-4)]; raw annual excess monetary growth, log percent points",
+    "excessMoneyGrowth4QuarterMean": "Trailing 4-quarter average of excessMoneyGrowth",
+    "excessMoneyGrowthExpandingPercentile": "Expanding historical percentile of excessMoneyGrowth with >=20 observations"
+  },
+  "sourceCoverage": {
+    "threeMonthAverageM2QuarterCount": 91,
+    "nominalGDPQuarterCount": 91,
+    "excessMoneyGrowthQuarterCount": 87,
+    "commonScoreQuarterCount": 53,
+    "realtimePublicationVintagesVerified": false
+  },
+  "latestObservation": {
+    "period": "2026-Q2",
+    "m2LogYoYGrowthPctPoints": 5.635197,
+    "nominalGdpLogYoYGrowthPctPoints": 23.250722,
+    "excessMoneyGrowthLogPctPoints": -17.615525,
+    "excessMoneyGrowth4QuarterMeanLogPctPoints": -7.480596
+  },
+  "results": {
+    "currentLiquidityComposite": {
+      "fourQuarters": {
+        "horizonQuarters": 4,
+        "outOfSampleCount": 31,
+        "firstOrigin": "2017-Q4",
+        "lastOrigin": "2025-Q2",
+        "rmseLinearPctPoints": 5.599295,
+        "rmseMeanPctPoints": 5.525526,
+        "mseSkill": -0.026879
+      },
+      "eightQuarters": {
+        "horizonQuarters": 8,
+        "outOfSampleCount": 23,
+        "firstOrigin": "2018-Q4",
+        "lastOrigin": "2024-Q2",
+        "rmseLinearPctPoints": 10.063026,
+        "rmseMeanPctPoints": 9.77086,
+        "mseSkill": -0.060698
+      }
+    },
+    "existingMarshallK": {
+      "fourQuarters": {
+        "horizonQuarters": 4,
+        "outOfSampleCount": 31,
+        "firstOrigin": "2017-Q4",
+        "lastOrigin": "2025-Q2",
+        "rmseLinearPctPoints": 5.689434,
+        "rmseMeanPctPoints": 5.525526,
+        "mseSkill": -0.060208
+      },
+      "eightQuarters": {
+        "horizonQuarters": 8,
+        "outOfSampleCount": 23,
+        "firstOrigin": "2018-Q4",
+        "lastOrigin": "2024-Q2",
+        "rmseLinearPctPoints": 9.789144,
+        "rmseMeanPctPoints": 9.77086,
+        "mseSkill": -0.003746
+      }
+    },
+    "excessMoneyGrowth": {
+      "fourQuarters": {
+        "horizonQuarters": 4,
+        "outOfSampleCount": 31,
+        "firstOrigin": "2017-Q4",
+        "lastOrigin": "2025-Q2",
+        "rmseLinearPctPoints": 5.68146,
+        "rmseMeanPctPoints": 5.525526,
+        "mseSkill": -0.057238
+      },
+      "eightQuarters": {
+        "horizonQuarters": 8,
+        "outOfSampleCount": 23,
+        "firstOrigin": "2018-Q4",
+        "lastOrigin": "2024-Q2",
+        "rmseLinearPctPoints": 9.820536,
+        "rmseMeanPctPoints": 9.77086,
+        "mseSkill": -0.010194
+      }
+    },
+    "excessMoneyGrowth4QuarterMean": {
+      "fourQuarters": {
+        "horizonQuarters": 4,
+        "outOfSampleCount": 31,
+        "firstOrigin": "2017-Q4",
+        "lastOrigin": "2025-Q2",
+        "rmseLinearPctPoints": 6.603843,
+        "rmseMeanPctPoints": 5.525526,
+        "mseSkill": -0.428388
+      },
+      "eightQuarters": {
+        "horizonQuarters": 8,
+        "outOfSampleCount": 23,
+        "firstOrigin": "2018-Q4",
+        "lastOrigin": "2024-Q2",
+        "rmseLinearPctPoints": 8.467566,
+        "rmseMeanPctPoints": 9.77086,
+        "mseSkill": 0.24898
+      }
+    },
+    "excessMoneyGrowthExpandingPercentile": {
+      "fourQuarters": {
+        "horizonQuarters": 4,
+        "outOfSampleCount": 31,
+        "firstOrigin": "2017-Q4",
+        "lastOrigin": "2025-Q2",
+        "rmseLinearPctPoints": 5.705008,
+        "rmseMeanPctPoints": 5.525526,
+        "mseSkill": -0.06602
+      },
+      "eightQuarters": {
+        "horizonQuarters": 8,
+        "outOfSampleCount": 23,
+        "firstOrigin": "2018-Q4",
+        "lastOrigin": "2024-Q2",
+        "rmseLinearPctPoints": 9.896552,
+        "rmseMeanPctPoints": 9.77086,
+        "mseSkill": -0.025893
+      }
+    }
+  },
+  "interpretationLimits": [
+    "Comparison is retrospective, using latest-revised money/GDP/HPI data rather than each forecast date's release vintage.",
+    "M2-to-GDP growth is not an excess money-demand residual; structural money demand and velocity are unmodeled.",
+    "Nominal GDP is sensitive to export prices and profit shocks; its rapid growth may lower the ratio without a cash contraction.",
+    "Four-quarter and eight-quarter returns overlap; OOS counts are small and no confidence intervals are claimed.",
+    "An 8-quarter-only advantage found after testing multiple variants is exploratory and does not authorize score promotion.",
+    "Higher excess money can lead to house-price appreciation, not automatically higher crash risk."
+  ]
+}
