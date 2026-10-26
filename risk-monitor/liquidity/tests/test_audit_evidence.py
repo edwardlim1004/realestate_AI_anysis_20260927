@@ -38,6 +38,24 @@ class EvidenceAuditTests(unittest.TestCase):
             ]
             self.assertEqual(point["mature_training_n"], len(eligible_origins))
 
+    def test_lag_sensitivity_preserves_pre_registered_gate(self):
+        hpi, scores = {}, {}
+        for k in range(90):
+            period = f"{2010 + k // 4}-Q{1 + k % 4}"
+            hpi[period] = math.exp(k * 0.002 + 0.025 * math.sin(k / 3.0))
+            scores[period] = 45 + 20 * math.sin(k / 4.0)
+        default = AUDIT.oos(hpi, scores, 4)
+        explicit = AUDIT.oos(hpi, scores, 4, signal_lag_quarters=2)
+        self.assertEqual(default, explicit)
+        for lag in (0, 1, 2, 4):
+            alternate = AUDIT.oos(hpi, scores, 4, signal_lag_quarters=lag)
+            self.assertGreater(alternate["outOfSampleCount"], 0)
+            for point in alternate["predictions"]:
+                self.assertEqual(
+                    AUDIT.quarter_index(point["origin_quarter"]) -
+                    AUDIT.quarter_index(point["signal_quarter"]), lag
+                )
+
     def test_future_hpi_not_used_as_feature(self):
         hpi = {}
         scores = {}

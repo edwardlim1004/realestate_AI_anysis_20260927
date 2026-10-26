@@ -18,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DIR = ROOT / "risk-data" / "liquidity"
-VERSION = "exploratory-oos-v1"
+VERSION = "exploratory-oos-v2-lag-robustness"
 HORIZONS = (4, 8)
 SCORE_PUBLICATION_LAG_QUARTERS = 2
 OUTCOME_PUBLICATION_LAG_QUARTERS = 1
@@ -54,17 +54,18 @@ def f(value: object) -> float | None:
         return None
 
 
-def oos(hpi: dict[str, float], scores: dict[str, float], horizon: int) -> dict:
+def oos(hpi: dict[str, float], scores: dict[str, float], horizon: int,
+        signal_lag_quarters: int = SCORE_PUBLICATION_LAG_QUARTERS) -> dict:
     # A signal for quarter t is first used at t+2. Outcome for t+h enters
     # training at t+h+1, preventing future-label leakage.
     eligible = []
     for period, level in sorted(hpi.items()):
-        x = scores.get(quarter_add(period, -SCORE_PUBLICATION_LAG_QUARTERS))
+        x = scores.get(quarter_add(period, -signal_lag_quarters))
         future = hpi.get(quarter_add(period, horizon))
         if x is not None and future is not None and level > 0 and future > 0:
             eligible.append({
                 "origin": period, "origin_index": quarter_index(period),
-                "signal_quarter": quarter_add(period, -SCORE_PUBLICATION_LAG_QUARTERS),
+                "signal_quarter": quarter_add(period, -signal_lag_quarters),
                 "score": x, "actual_log_pct": 100 * math.log(future / level),
             })
     predictions = []
@@ -146,6 +147,23 @@ def main() -> int:
         and v.get("Verified") == "head_object_metadata"
     })
     tests = [oos(hpi, scores, h) for h in HORIZONS]
+    # Diagnostic sensitivity only: lags 0 and 1 can be unavailable in real time.
+    # The promotion gate continues to use the conservative, pre-registered lag=2.
+    sensitivity = []
+    for horizon in HORIZONS:
+        for lag in (0, 1, 2, 4):
+            item = oos(hpi, scores, horizon, signal_lag_quarters=lag)
+            sensitivity.append({
+                "horizonQuarters": horizon,
+                "signalLagQuarters": lag,
+                "outOfSampleCount": item["outOfSampleCount"],
+                "firstOrigin": item["firstOrigin"],
+                "lastOrigin": item["lastOrigin"],
+                "rmseLinearPctPoints": item["rmseLinearPctPoints"],
+                "rmseMeanPctPoints": item["rmseMeanPctPoints"],
+                "mseSkill": item["mseSkill"],
+                "realtimeSafe": lag >= SCORE_PUBLICATION_LAG_QUARTERS,
+            })
     score_hash = summary.get("validation", {}).get("signalFingerprint")
     dependency = {
         "version": VERSION, "signalFingerprint": score_hash,
@@ -213,9 +231,11 @@ def main() -> int:
             "baseline": "expanding historical mean of matured labels",
             "model": "expanding historical univariate OLS of matured future returns on lagged liquidity scores",
             "metric": "MSE skill = 1 - MSE(model)/MSE(baseline)",
+            "lagSensitivityPolicy": "Diagnostic only. Lags 0/1 do not demonstrate real-time availability; no lag selection is permitted for the fixed 2-quarter promotion gate.",
             "limitation": "Historical raw inputs are the latest revised values, not original publication vintages. Quarterly outcomes overlap; errors and small samples are not independent evidence of significance.",
         },
         "horizons": [{k: v for k, v in item.items() if k != "predictions"} for item in tests],
+        "lagSensitivity": sensitivity,
         "gates": gates,
         "review": {
             "decision": "HOLD_SHADOW",
@@ -241,7 +261,7 @@ def main() -> int:
                 for result in tests:
                     writer.writerows(result["predictions"])
     print(json.dumps({
-        "horizons": report["horizons"], "gates": gates,
+        "horizons": report["horizons"], "lagSensitivity": sensitivity, "gates": gates,
         "vintages": actual_vintage_count, "r2RetrievalDays": r2_verified_days, "revisions": revision_count,
         "written": args.write, "unchanged": unchanged,
     }, ensure_ascii=False, indent=2))
