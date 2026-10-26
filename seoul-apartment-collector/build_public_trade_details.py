@@ -165,7 +165,9 @@ def main():
     storage = R2Storage()
     report = build_all(storage, months, names, force=args.force)
     if report["summary"].get("error") or report["summary"].get("missing_source"):
-        raise SystemExit("Some regions have incomplete verified source scopes. See trade-details/build-report.json")
+        print("TRADE_DETAIL_PARTIAL: keep valid regions; incomplete sources remain flagged in build-report.json")
+    if not (report["summary"].get("updated") or report["summary"].get("unchanged")):
+        raise SystemExit("No verified regional trade-detail snapshots available")
 
 
 if __name__ == "__main__":
