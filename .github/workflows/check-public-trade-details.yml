@@ -1,0 +1,46 @@
+name: Verify Apartment Trade Detail UI
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "apartment-trades.js"
+      - "index.html"
+      - "seoul-apartment-collector/build_public_trade_details.py"
+      - "seoul-apartment-collector/test_build_public_trade_details.py"
+      - ".github/workflows/build-public-trade-details.yml"
+      - ".github/workflows/check-public-trade-details.yml"
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate browser trade JavaScript
+        run: node --check apartment-trades.js
+      - name: Validate Python transformation, Gyeonggi code and cancellations
+        run: python -m unittest discover -s seoul-apartment-collector -p "test_build_public_trade_details.py" -v
+      - name: Validate dashboard hooks, 56 region mapping and no direct private reads
+        run: |
+          python - <<'PY'
+          import json,sys
+          from pathlib import Path
+          sys.path.insert(0,"api-integration")
+          from regions_lawd import REGION_LAWD
+          assert len(REGION_LAWD)==56
+          assert REGION_LAWD["성남시 (분당/판교)"]==["41135"]
+          page=Path("index.html").read_text()
+          js=Path("apartment-trades.js").read_text()
+          assert "showApartmentTrades" in page and "tradeDetailMore" in page
+          assert "trade-details/index.json" in js
+          assert "seoul-apartment-collector/data/sale/" not in js
+          assert "showMoreApartmentTrades" in js
+          print("TRADE_DETAILS_UI_CONTRACT_PASS")
+          PY

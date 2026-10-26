@@ -360,7 +360,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
 
   <section>
     <h2 class="section-title">📋 지역별 실거래·상대점수 게시판</h2>
-    <p class="section-sub">헤더를 클릭하면 정렬됩니다. 행을 클릭하면 추세선·지표를 확인합니다. 서울 지역의 <strong>실거래 건수 숫자를 클릭하면 아파트명·주소·계약일·거래금액을 확인</strong>할 수 있습니다.</p>
+    <p class="section-sub">헤더를 클릭하면 정렬됩니다. 행을 클릭하면 추세선·지표를 확인합니다. 서울·경기 <strong>실거래 건수 숫자를 클릭하면 아파트명·주소·계약일·거래금액을 확인</strong>할 수 있습니다.</p>
     <div class="board-controls">
       <input type="search" id="searchInput" placeholder="지역 검색..." oninput="renderBoard()">
       <select id="provinceSel" onchange="renderBoard()">
@@ -404,8 +404,10 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
     <p class="section-sub" id="mVerdict" style="margin-top:8px"></p>
     <section id="tradeDetailPanel" hidden style="padding:15px;margin:15px 0;border:1px solid #8885;border-radius:12px">
 <h3>개별 아파트 실거래 · 주소 확인</h3><p class="section-sub" id="tradeDetailStatus"></p>
-<input id="tradeDetailSearch" type="search" placeholder="단지명·동·지번 검색" style="width:100%;padding:10px;margin:10px 0" oninput="renderApartmentTrades()">
+<input id="tradeDetailSearch" type="search" placeholder="단지명·동·지번·계약일 검색" style="width:100%;padding:10px;margin:10px 0" oninput="renderApartmentTrades()">
 <div style="overflow:auto;max-height:450px"><table style="width:100%;font-size:12px"><thead><tr><th>계약일</th><th>단지 / 주소</th><th>전용·층</th><th>매매가</th></tr></thead><tbody id="tradeDetailRows"></tbody></table></div>
+<p class="section-sub" id="tradeDetailPageInfo" aria-live="polite"></p>
+<button type="button" id="tradeDetailMore" hidden onclick="showMoreApartmentTrades()" style="padding:8px 14px;border:1px solid var(--outline);border-radius:8px;background:var(--surface-2);color:var(--on-surface);cursor:pointer;margin:8px 0">거래 내역 120건 더 보기</button>
 <div id="tradeDetailSelected" style="margin-top:15px;line-height:1.8"></div>
 <p class="section-sub">구 전체 추세 괴리율은 단지별 적정가격이 아닙니다. 10월은 잠정 실거래 자료입니다.</p></section>
     <div class="stat-mini-grid">
@@ -462,7 +464,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="risk-data.js"></script>
 <script src="data.js"></script>
-<script src="apartment-trades.js?v=20261021-2" defer></script>
+<script src="apartment-trades.js?v=20261027-56regions" defer></script>
 <script>
 const REGIONS = ENHANCED_DATA.regions;
 const MONTHS = ENHANCED_DATA.months;
@@ -763,6 +765,7 @@ let lineChart, radarChart;
 function openModalByName(name){ openModal(REGIONS.find(r=>r.name===name)); }
 function openModal(r){
   if(!r) return;
+  tradeDetailSeq++; document.getElementById('tradeDetailPanel').hidden=true;
   document.getElementById('mName').textContent = r.name;
   const badge = document.getElementById('mSignal');
   badge.textContent = sigLabel(r.signal);
