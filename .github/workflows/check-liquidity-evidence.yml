@@ -26,6 +26,8 @@ jobs:
         run: python risk-monitor/liquidity/archive_provider_vintage.py --dry-run
       - name: Calculate 4Q/8Q historical revised-data OOS and vintage audit
         run: python risk-monitor/liquidity/audit_evidence.py --write
+      - name: Research-only excess monetary liquidity comparison on aligned OOS quarters
+        run: python risk-monitor/liquidity/compare_excess_liquidity.py
       - name: Rebuild fail-closed signal from audited gate statuses
         run: python risk-monitor/liquidity/update_liquidity.py --offline
       - name: Confirm isolation from composite
