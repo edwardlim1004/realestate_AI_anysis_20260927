@@ -5,6 +5,7 @@ let tradeDetailRegion = null;
 let tradeDetailSeq = 0;
 let tradeDetailLoadedMonths = [];
 const tradeDetailPageSize = 120;
+let tradeDetailShown = tradeDetailPageSize;
 
 function tradeSafe(value) {
   return String(value ?? '').replace(/[&<>"']/g, c =>
@@ -21,6 +22,7 @@ function tradeReset(region) {
   tradeDetailRegion = region;
   tradeDetailRows = [];
   tradeDetailLoadedMonths = [];
+  tradeDetailShown = tradeDetailPageSize;
   tradeEl('tradeDetailPanel').hidden = false;
   tradeEl('tradeDetailSearch').value = '';
   tradeEl('tradeDetailSearch').disabled = true;
@@ -78,11 +80,12 @@ async function showApartmentTrades(name) {
     tradeEl('tradeDetailRows').innerHTML = '<tr><td colspan="4">검증된 거래 상세자료를 준비 중입니다. 거래를 임의로 생성하지 않습니다.</td></tr>';
   }
 }
-function renderApartmentTrades() {
+function renderApartmentTrades(reset = true) {
+  if (reset) tradeDetailShown = tradeDetailPageSize;
   const query = tradeEl('tradeDetailSearch').value.trim().toLowerCase();
   const found = tradeDetailRows.map((row, index) => ({row, index})).filter(({row}) =>
     !query || [row.apt,row.city,row.dong,row.jibun,row.date].join(' ').toLowerCase().includes(query));
-  const visible = found.slice(0,tradeDetailPageSize);
+  const visible = found.slice(0,tradeDetailShown);
   tradeEl('tradeDetailRows').innerHTML = visible.length
     ? visible.map(({row,index}) =>
       '<tr><td>' + tradeSafe(row.date) + '</td><td><button type="button" onclick="selectApartmentTrade('
@@ -91,9 +94,15 @@ function renderApartmentTrades() {
       + tradeSafe(row.area) + '㎡ / ' + tradeSafe(row.floor) + '층</td><td>'
       + tradePrice(row.price) + '</td></tr>').join('')
     : '<tr><td colspan="4">해당 기간에 거래가 없거나 검색 결과가 없습니다.</td></tr>';
+  const more = tradeEl('tradeDetailMore');
+  if (more) more.hidden = found.length <= visible.length;
   const old = tradeEl('tradeDetailPageInfo');
   if (old) old.textContent = '표시: ' + visible.length.toLocaleString() + ' / 검색 ' +
     found.length.toLocaleString() + '건' + (found.length > visible.length ? ' · 아래 검색창에서 단지명·동·지번을 입력하면 나머지도 검색됩니다.' : '');
+}
+function showMoreApartmentTrades() {
+  tradeDetailShown += tradeDetailPageSize;
+  renderApartmentTrades(false);
 }
 function selectApartmentTrade(index) {
   const row = tradeDetailRows[index];
