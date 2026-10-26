@@ -407,6 +407,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
 <input id="tradeDetailSearch" type="search" placeholder="단지명·동·지번·계약일 검색" style="width:100%;padding:10px;margin:10px 0" oninput="renderApartmentTrades()">
 <div style="overflow:auto;max-height:450px"><table style="width:100%;font-size:12px"><thead><tr><th>계약일</th><th>단지 / 주소</th><th>전용·층</th><th>매매가</th></tr></thead><tbody id="tradeDetailRows"></tbody></table></div>
 <p class="section-sub" id="tradeDetailPageInfo" aria-live="polite"></p>
+<button type="button" id="tradeDetailMore" hidden onclick="showMoreApartmentTrades()" style="padding:8px 14px;border:1px solid var(--outline);border-radius:8px;background:var(--surface-2);color:var(--on-surface);cursor:pointer;margin:8px 0">거래 내역 120건 더 보기</button>
 <div id="tradeDetailSelected" style="margin-top:15px;line-height:1.8"></div>
 <p class="section-sub">구 전체 추세 괴리율은 단지별 적정가격이 아닙니다. 10월은 잠정 실거래 자료입니다.</p></section>
     <div class="stat-mini-grid">
