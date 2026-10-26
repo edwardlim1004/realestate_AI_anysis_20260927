@@ -6,6 +6,7 @@ Never changes risk-data/liquidity/validation.json or promotion.json.
 """
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 import math
@@ -166,9 +167,18 @@ def build_report(raw_rows: list[dict], risk_rows: list[dict], dashboard: dict) -
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--check", action="store_true",
+                        help="Assert committed comparison report matches current source data")
+    args = parser.parse_args()
     data = build_report(read_csv(LIQ_DIR / "raw.csv"),
                         read_csv(ROOT / "risk-data" / "risk_raw.csv"),
                         json.loads((LIQ_DIR / "summary.json").read_text(encoding="utf-8-sig")))
+    if args.check:
+        saved = json.loads((LIQ_DIR / "excess_liquidity_comparison.json").read_text(encoding="utf-8"))
+        if data != saved:
+            raise AssertionError("Committed excess-money comparison differs from ECOS/OECD source snapshot")
+        print("EXCESS_LIQUIDITY_COMPARISON_REPRODUCED")
     print(json.dumps(data, ensure_ascii=False, indent=2))
     assert data["status"] == "RESEARCH_ONLY_NOT_ELIGIBLE_FOR_PROMOTION"
     return 0
