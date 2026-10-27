@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - "liquidity-research/**"
+      - "risk-monitor/liquidity/update_asset_transmission.py"
+      - ".github/workflows/update-liquidity-asset-transmission.yml"
       - "risk-monitor/liquidity/compare_excess_liquidity.py"
       - ".github/workflows/check-excess-liquidity-dashboard.yml"
   workflow_dispatch: {}
@@ -17,10 +19,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
       - name: Parse dashboard and verify real ECOS points
         run: |
           node --check liquidity-research/app.js
-          node --test liquidity-research/tests/data.test.cjs
+          node --check liquidity-research/expanded.js
+          node --test liquidity-research/tests/*.test.cjs
+          python -m unittest discover -s liquidity-research/tests -p 'test_*.py' -v
       - name: Confirm source data never activate composite
         run: |
           python - <<'PY'
