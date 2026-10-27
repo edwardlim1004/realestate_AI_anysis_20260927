@@ -1,0 +1,53 @@
+name: Refresh Shadow Liquidity Asset Transmission Data
+on:
+  schedule:
+    - cron: "5 23 20 * *" # 21st at 08:05 KST, after monthly liquidity refresh
+  push:
+    branches: [main]
+    paths:
+      - "risk-monitor/liquidity/update_asset_transmission.py"
+      - ".github/workflows/update-liquidity-asset-transmission.yml"
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency:
+  group: liquidity-asset-research-data
+  cancel-in-progress: false
+jobs:
+  update-research-market-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Download official KOSPI and government bond 3Y observations
+        env:
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+        run: python risk-monitor/liquidity/update_asset_transmission.py
+      - name: Check actual-source provenance and SHADOW activation policy
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          rows=list(csv.DictReader(Path('risk-data/liquidity/asset_transmission.csv').open()))
+          assert set(r['Series'] for r in rows)=={'KOSPI','KTB3Y'}
+          for r in rows:
+              assert r['SourceURL']=='https://ecos.bok.or.kr/api/'
+              assert int(r['ObservationCount'])>=1
+          assert json.loads(Path('risk-monitor/liquidity/promotion.json').read_text())['enabled'] is False
+          print('REAL_ECOS_ASSET_DATA_VERIFIED, rows=',len(rows))
+          PY
+      - name: Commit research-only market data if updated
+        run: |
+          if ! git diff --quiet -- risk-data/liquidity/asset_transmission.csv; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add risk-data/liquidity/asset_transmission.csv
+            git commit -m "data: refresh research-only official KOSPI and KTB3Y"
+            git push origin HEAD:main
+          fi
