@@ -225,7 +225,7 @@ jobs:
           base=Path('seoul-apartment-collector')
           progress=json.loads((base/'daejeon_backfill_progress.json').read_text())
           status=json.loads((base/'status.json').read_text())
-          sys.exit(0 if progress['completed'] or status['requests_today']>=status['daily_cap'] else 1)
+          sys.exit(0 if progress['completed'] or status['requests_today']>=status['daily_cap'] or status['last_run_success']==0 else 1)
           CHECK
             then
               break
