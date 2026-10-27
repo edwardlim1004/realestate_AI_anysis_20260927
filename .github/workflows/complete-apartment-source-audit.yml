@@ -1,0 +1,47 @@
+name: Complete Remaining Apartment Source Verification
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - seoul-apartment-collector/complete_source_audit.py
+      - .github/workflows/complete-apartment-source-audit.yml
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: seoul-apartment-collector
+  cancel-in-progress: false
+jobs:
+  complete:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download immutable evidence from the full live audit
+        uses: actions/download-artifact@v4
+        with:
+          name: apartment-storage-audit-40462425805-1
+          run-id: 40462425805
+          github-token: ${{ github.token }}
+          path: audit-evidence
+      - name: Complete only unfinished official source queries
+        env:
+          MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
+        run: python seoul-apartment-collector/complete_source_audit.py --evidence audit-evidence
+      - name: Preserve verified result and shared API request budget
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add seoul-apartment-collector/coverage_audit.json seoul-apartment-collector/state.json
+          if ! git diff --cached --quiet; then
+            git commit -m "data: complete original source checks for live storage audit"
+            git pull --rebase --autostash origin main
+            git push origin HEAD:main
+          fi
