@@ -10,3 +10,28 @@
 @media(max-width:1150px){.layout{grid-template-columns:180px minmax(0,1fr)}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.topline{gap:15px}.status-pill{display:none}}
 @media(max-width:850px){.layout{display:block;padding:12px}.sidebar{position:static;display:flex;overflow:auto;gap:2px;white-space:nowrap;margin:0 0 12px;padding:5px}.sidebar>a{padding:8px;font-size:12px}.sidebar .aside-warning{display:none}.two-panels{grid-template-columns:1fr}.page-intro{display:block}.warning-note{max-width:none;min-width:0;margin:10px 0}.top-nav{display:none}}
 @media(max-width:540px){.topline{padding:10px 14px;justify-content:space-between}.brand{font-size:14px}.metrics{gap:7px}.metric{padding:11px;min-height:122px}.metric-name{font-size:11px}.metric-value{font-size:23px}.panel{padding:12px}.plot{height:250px}.plot-large{height:290px}h1{font-size:22px}h2{font-size:15px}.range-picker{width:100%;justify-content:space-between}.range-picker button{flex:1}.source-table{font-size:10px}}
+
+/* Three evidence-separated layers: absolute liquidity, change, asset markets. */
+.layer{margin:12px 0 19px;scroll-margin-top:83px}
+.layer-bar{display:flex;align-items:center;gap:12px;background:#153d79;color:#fff;padding:11px 15px;margin:12px 0 10px;border-radius:11px;flex-wrap:wrap}
+.layer-bar.change{background:#077f5a}.layer-bar.transfer{background:#cd5b10}
+.layer-bar .layer-index{display:inline-grid;place-items:center;color:inherit;background:rgba(255,255,255,.2);font-size:16px;border-radius:50%;height:29px;width:29px;font-weight:900;flex-shrink:0}
+.layer-bar strong{font-size:17px;font-weight:830;letter-spacing:-.02em}
+.layer-bar>span:last-child{margin-left:auto;font-size:12px;opacity:.92}
+.level-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0}
+.level-metrics .metric{min-height:125px}
+.gap-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0}
+.gap-strip>div{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:11px 14px;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.gap-strip span{color:var(--muted);font-size:11px;font-weight:700}
+.gap-strip strong{color:var(--ink);font-size:21px;line-height:1.2}
+.gap-strip small{color:var(--muted);font-size:10px}
+.asset-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
+.asset-summary>span{border:1px solid var(--border);padding:10px 14px;border-radius:11px;background:var(--surface);display:flex;flex-direction:column}
+.asset-summary strong{font-size:13px}.asset-summary small{color:var(--muted);font-size:10px;margin-top:2px}
+.asset-charts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.asset-charts .panel{padding:14px 14px}
+.asset-charts .panel h2{font-size:15px}.asset-plot{height:230px}
+.asset-charts .small-help{min-height:33px}
+@media(max-width:1300px){.asset-charts{grid-template-columns:1fr 1fr}.asset-charts .panel:last-child{grid-column:1 / -1}}
+@media(max-width:850px){.asset-charts{grid-template-columns:1fr}.asset-charts .panel:last-child{grid-column:auto}.layer-bar>span:last-child{margin-left:0}}
+@media(max-width:540px){.level-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.level-metrics .metric:last-child{grid-column:1 / -1}.gap-strip{grid-template-columns:1fr}.asset-summary{grid-template-columns:1fr}.asset-summary>span{padding:7px 10px}.layer-bar{padding:10px}.layer-bar strong{font-size:15px}.asset-plot{height:240px}}
