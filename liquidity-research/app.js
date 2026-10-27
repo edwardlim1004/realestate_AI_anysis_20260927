@@ -136,6 +136,7 @@ function draw(){
     {label:'초과유동성 4Q 평균',key:'average',color:COLORS.moving},
     {label:'명목 GDP 로그증가율',key:'gdp',color:COLORS.gdp,extra:{borderDash:[5,3]}}
   ],true));
+  if (typeof drawExpanded==='function') drawExpanded();
 }
 function updateCards(){
   const r=app.series.at(-1);
@@ -189,9 +190,11 @@ async function boot(){
   try{
     const resp=await fetch(CSV_URL,{cache:'no-store'});
     if(!resp.ok)throw new Error('ECOS CSV HTTP '+resp.status);
-    app.series=quarterlyFromEcos(parseCsv(await resp.text()));
+    const actualRows=parseCsv(await resp.text());
+    app.series=quarterlyFromEcos(actualRows);
     if(app.series.length<20)throw new Error('Insufficient real historical series');
     updateCards();draw();
+    if(typeof bootExpanded==='function')await bootExpanded(actualRows);
   }catch(error){el('loadError').hidden=false;el('loadError').textContent='공식 ECOS 저장자료를 불러오거나 계산할 수 없습니다: '+error.message+' · 가상값을 대신 표시하지 않습니다.';setText('meta','데이터 로딩 실패 · 계산값 미표시');}
   const [comparison,validation]=await Promise.all([loadOptional(COMPARE_URL),loadOptional(VALIDATION_URL)]);
   renderBacktests(comparison);renderValidation(validation);
