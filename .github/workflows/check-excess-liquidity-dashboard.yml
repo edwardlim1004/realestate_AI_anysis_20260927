@@ -1,0 +1,32 @@
+name: Verify Excess Liquidity Research Dashboard
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "liquidity-research/**"
+      - "risk-monitor/liquidity/compare_excess_liquidity.py"
+      - ".github/workflows/check-excess-liquidity-dashboard.yml"
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  verify-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Parse dashboard and verify real ECOS points
+        run: |
+          node --check liquidity-research/app.js
+          node --test liquidity-research/tests/data.test.cjs
+      - name: Confirm source data never activate composite
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('risk-monitor/liquidity/promotion.json').read_text())
+          assert p['enabled'] is False
+          print('SHADOW promotion OFF; no changes to composite calculations')
+          PY

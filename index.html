@@ -270,6 +270,9 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
     <h2 class="section-title">6대 위험 신호 — 항목을 누르면 산식·원자료·논문 근거가 열립니다</h2>
     <p class="section-sub">공식자료가 연결된 항목만 점수화합니다. 유동성은 독립 SHADOW 모듈에서 검증하며, GSADF·HaR와 함께 승인 전에는 종합점수에 반영하지 않습니다.</p>
     <div class="risk-grid" id="riskGrid"></div>
+    <div class="audit-links" style="margin-top:13px">
+      <a href="liquidity-research/" style="font-weight:700">📈 유동성 · 초과유동성 분석 그래프 열기 (연구용 · 종합점수 미반영)</a>
+    </div>
   </section>
 
   <section>
@@ -593,7 +596,7 @@ function openAudit(key){
   if(item.module){
     const m = item.module;
     moduleBox.hidden = false;
-    moduleBox.innerHTML = `<b>독립 모듈 ${m.mode}</b> · 검증 ${m.passedGates}/${m.totalGates} 통과 · ${m.validationPassed?'최종 검증 통과':'종합점수와 격리 중'}<div class="audit-links"><a href="${m.summaryUrl}" target="_blank" rel="noopener">모듈 요약</a><a href="${m.validationUrl}" target="_blank" rel="noopener">검증 보고서</a><a href="${m.backtestUrl}" target="_blank" rel="noopener">백테스트 게이트</a><a href="${m.rawUrl}" download>ECOS 원자료</a><a href="${m.revisionsUrl}" download>ECOS 수정이력</a></div>`;
+    moduleBox.innerHTML = `<b>독립 모듈 ${m.mode}</b> · 검증 ${m.passedGates}/${m.totalGates} 통과 · ${m.validationPassed?'최종 검증 통과':'종합점수와 격리 중'}<div class="audit-links"><a href="${m.summaryUrl}" target="_blank" rel="noopener">모듈 요약</a><a href="${m.validationUrl}" target="_blank" rel="noopener">검증 보고서</a><a href="${m.backtestUrl}" target="_blank" rel="noopener">백테스트 게이트</a><a href="${m.rawUrl}" download>ECOS 원자료</a><a href="${m.revisionsUrl}" download>ECOS 수정이력</a>${key==='liquidity'?'<a href="liquidity-research/" style="font-weight:700">📈 초과유동성 분석 그래프 · 통계출처</a>':''}</div>`;
   }else{
     moduleBox.hidden = true;
     moduleBox.textContent = '';
