@@ -97,8 +97,9 @@ def comparable_previous_total(report,previous):
     old=(previous or {}).get('report',{}).get('coverage',{}).get('gyeonggi',{}).get('total',{})
     # A corrected scope definition is not a daily collection delta.
     previous_report=(previous or {}).get('report',{})
-    same_basis=bool(report.get('scope_basis_sha256') and report['scope_basis_sha256']==previous_report.get('scope_basis_sha256'))
-    return old.get('stored') if same_basis or old.get('target')==current['target'] else None
+    basis=report.get('scope_basis_sha256');old_basis=previous_report.get('scope_basis_sha256')
+    comparable=(basis==old_basis) if basis and old_basis else old.get('target')==current['target']
+    return old.get('stored') if comparable else None
 
 
 def render_message(report, previous=None):

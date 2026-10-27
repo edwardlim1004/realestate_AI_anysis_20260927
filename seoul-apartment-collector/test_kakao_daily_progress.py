@@ -89,6 +89,9 @@ class DailyReportTests(unittest.TestCase):
         previous={'report':{'coverage':{'gyeonggi':{'total':{'stored':19062,'target':19062}}}}}
         self.assertIsNone(daily.comparable_previous_total(data,previous))
         self.assertIn('집계기준 변경',daily.render_message(data,previous))
+        previous['report']['coverage']['gyeonggi']['total']['target']=data['coverage']['gyeonggi']['total']['target']
+        previous['report']['scope_basis_sha256']='different-definition-with-same-count'
+        self.assertIsNone(daily.comparable_previous_total(data,previous))
 
     def test_once_per_kst_day_and_next_day_delta(self):
         storage=MemoryStorage();sent=[]
