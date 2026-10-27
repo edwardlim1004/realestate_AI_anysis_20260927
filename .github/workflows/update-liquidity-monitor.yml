@@ -55,6 +55,9 @@ jobs:
       - name: Refresh fail-closed SHADOW validation after audit
         run: python risk-monitor/liquidity/update_liquidity.py --offline
 
+      - name: Update research-only excess money comparison (never promotes)
+        run: python risk-monitor/liquidity/compare_excess_liquidity.py --write
+
       - name: Detect module output changes
         id: module
         run: |
