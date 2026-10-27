@@ -14,6 +14,26 @@ function exShiftQuarter(q,d){
 }
 const EXTRA_COLORS={real:'#079865',m2:'#2469df',marshall:'#743ad3',house:'#2966de',seoul:'#d36d20',stock:'#079865',bond:'#c76b31',liquid:'#c43e52'};
 const expanded={levels:[],charts:[],assets:null,yearRange:'all'};
+function parseAnyCsv(csv){
+  const lines=csv.replace(/^\uFEFF/,'').replace(/\r/g,'').split('\n').filter(s=>s.trim());
+  if(!lines.length)return [];
+  const fields=line=>{
+    const values=[];let field='',quoted=false;
+    for(let i=0;i<line.length;i++){
+      if(line[i]==='"'){if(quoted&&line[i+1]==='"'){field+='"';i++;}else quoted=!quoted;}
+      else if(line[i]===','&&!quoted){values.push(field);field='';}
+      else field+=line[i];
+    }
+    values.push(field);
+    return values;
+  };
+  const headers=fields(lines[0]);
+  return lines.slice(1).map(line=>{
+    const vals=fields(line),record={};
+    for(let i=0;i<headers.length;i++)record[headers[i]]=vals[i]??'';
+    return record;
+  });
+}
 function safeNumeric(s){const v=Number(s);return Number.isFinite(v)?v:null;}
 function numericMap(rows,series){return new Map(rows.filter(r=>r.Series===series && Number(r.Value)>0).map(r=>[r.Period,Number(r.Value)]));}
 function quarterMonths(q){
@@ -173,7 +193,7 @@ function assetChart(canvas,liquidity,other,label,color,unit,sourceId){
   ],{left:'유동성 · 로그 %p',right:unit});
 }
 async function readCsvOptional(url){
-  try{const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(response.status);return parseCsv(await response.text());}
+  try{const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error(response.status);return parseAnyCsv(await response.text());}
   catch(err){console.warn('Optional official source unavailable',url,err.message);return null;}
 }
 function drawExpanded(){
@@ -232,6 +252,6 @@ async function bootExpanded(rows){
   drawExpanded();
 }
 if(typeof module!=='undefined'&&module.exports){
-  module.exports={quarterMonths,quarterlyMean,fitExpectedLog,percentileAt,calculateAbsoluteLevels,quarterlyHpi,
+  module.exports={parseAnyCsv,quarterMonths,quarterlyMean,fitExpectedLog,percentileAt,calculateAbsoluteLevels,quarterlyHpi,
     quarterlyMarket,quarterSeoulPrices};
 }
