@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
   <script src="app.js" defer></script>
+  <script src="expanded.js" defer></script>
 </head>
 <body>
 <header class="site-head">
@@ -23,7 +24,9 @@
 <div class="layout">
   <aside class="sidebar" aria-label="대시보드 탐색">
     <a href="#intro">▦ <span>요약</span></a>
-    <a href="#history" class="selected">▥ <span>초과유동성</span></a>
+    <a href="#liquidity-levels" class="selected">① <span>유동성 절대수준</span></a>
+    <a href="#history">② <span>유동성 증가속도</span></a>
+    <a href="#transmission">③ <span>자산시장 전달</span></a>
     <a href="#forecasts">◫ <span>예측력 비교</span></a>
     <a href="#validation">☑ <span>검증 현황</span></a>
     <a href="#references">▤ <span>산식 · 출처</span></a>
@@ -31,12 +34,32 @@
   </aside>
   <main>
     <section id="intro" class="page-intro">
-      <div><div class="title-row"><h1>유동성 · 초과유동성</h1><span class="research-label">SHADOW_VALIDATION</span></div>
-      <p class="subtitle">한국은행 M2 통화량과 명목 GDP로 초과통화 증가율을 계산합니다. 모든 그래프는 저장된 공식자료로 직접 재계산합니다.</p>
+      <div><div class="title-row"><h1>유동성 · 초과유동성 종합 모니터링</h1><span class="research-label">SHADOW_VALIDATION</span></div>
+      <p class="subtitle">유동성 절대수준 → 증가 속도 → 부동산·주식·채권 전달을 단계별로 비교합니다. 모든 수치는 공식 원자료로 계산하며 정식 위험점수에 포함하지 않습니다.</p>
       <p class="metadata" id="meta">원자료 로딩 중 · 공식 통계: 한국은행 ECOS</p></div>
       <div class="warning-note"><strong>ⓘ 연구용 지표</strong><span>검증 진행 중이며 6대 위험지표 종합점수에 반영되지 않습니다. 초과통화 증가율은 부동산 하락확률이 아닙니다.</span></div>
     </section>
     <div id="loadError" class="error" role="alert" hidden>원자료를 불러오지 못했습니다. <a href="../risk-data/liquidity/raw.csv">ECOS 원자료 CSV</a>와 GitHub Actions를 확인하십시오.</div>
+    <section id="liquidity-levels" class="layer">
+      <div class="layer-bar level"><span class="layer-index">1</span><strong>유동성 절대수준</strong><span>지금 시중 유동성이 역사적 추세보다 얼마나 많은가?</span></div>
+      <div class="level-metrics" aria-label="명목·실질 통화량과 경제규모 대비 수준">
+        <div class="metric metric-blue"><div class="metric-name">명목 M2 · 분기 월평잔</div><div class="period" id="periodNominalM2">—</div><div class="metric-value" id="nominalM2">—</div><div class="metric-foot">조원 · 한국은행 ECOS</div></div>
+        <div class="metric metric-green"><div class="metric-name">실질 M2 · 2020년 구매력</div><div class="period" id="periodRealM2">—</div><div class="metric-value" id="realM2">—</div><div class="metric-foot">조원 · M2 / (CPI/100)</div></div>
+        <div class="metric metric-violet"><div class="metric-name">M2 / 연간 명목 GDP</div><div class="period" id="periodMarshallK">—</div><div class="metric-value" id="marshallKLevel">—</div><div class="metric-foot">분기 M2 ÷ 후행 4분기 GDP 합계</div></div>
+      </div>
+      <div class="gap-strip">
+        <div><span>실질 M2 10년 추세괴리</span><strong id="realM2Gap">자료 계산 중</strong><small id="realM2Rank">백분위 —</small></div>
+        <div><span>M2/GDP 10년 추세괴리</span><strong id="marshallKGap">자료 계산 중</strong><small id="marshallKRank">백분위 —</small></div>
+        <div><span>M2 증가율 역사 백분위</span><strong id="m2GrowthRank">자료 계산 중</strong><small>명목 M2 전년 로그증가율 기준</small></div>
+      </div>
+      <div class="two-panels">
+        <section class="panel"><div class="panel-heading"><div><h2>명목·실질 M2 총량</h2><p>분기 월평잔 · 2020년 CPI 기준 실질화</p></div></div><div class="plot"><canvas id="moneyLevelChart" role="img" aria-label="실측 명목 M2와 실질 M2 장기 추이"></canvas></div><div class="legend-line"><span class="legend-blue"></span>명목 M2 <span class="legend-green"></span>실질 M2</div></section>
+        <section class="panel"><div class="panel-heading"><div><h2>역사적 추세 대비 초과 수준</h2><p>후행 10년 로그추세 대비 괴리(%) · 미래 데이터 미사용</p></div></div><div class="plot"><canvas id="liquidityGapChart" role="img" aria-label="실질 M2 및 M2 GDP의 10년 추세 대비 갭"></canvas></div><div class="legend-line"><span class="legend-green"></span>실질 M2 갭 <span class="legend-violet"></span>M2/GDP 갭</div></section>
+      </div>
+      <p class="small-help">명목 통화량 자체의 역사 백분위는 추세 증가 때문에 오해를 부를 수 있으므로 총량은 실제 수준으로, ‘평균 대비’는 10년 후행 추세 대비 갭과 해당 갭의 과거 분포상 백분위로 구분합니다. M2/GDP는 GDP 4개 분기 합산 분모를 사용합니다.</p>
+    </section>
+    <section class="layer" id="liquidity-change">
+      <div class="layer-bar change"><span class="layer-index">2</span><strong>유동성 증가속도</strong><span>새로운 돈이 더 빨리 풀리는가, 아니면 증가율이 둔화되는가?</span></div>
     <section class="metrics" aria-label="최신 분기 주요 통계">
       <div class="metric metric-blue"><div class="metric-name">M2 전년동기 로그증가율</div><div class="period" id="periodM2">—</div><div class="metric-value" id="m2Growth">—</div><div class="metric-foot">분기 월평잔 · 한국은행 ECOS</div></div>
       <div class="metric metric-green"><div class="metric-name">명목 GDP 전년동기 로그증가율</div><div class="period" id="periodGDP">—</div><div class="metric-value" id="gdpGrowth">—</div><div class="metric-foot">계절조정·통계분류 확인 필요</div></div>
@@ -53,6 +76,17 @@
       <section class="panel"><div class="panel-heading"><div><h2>M2 vs 명목 GDP 증가율</h2><p>같은 단위(로그 %p)로 비교</p></div></div><div class="plot"><canvas id="growthChart" role="img" aria-label="M2와 GDP의 전년 동기 로그 증가율 비교"></canvas></div><div class="legend-line"><span class="legend-blue"></span>M2 <span class="legend-green"></span>명목 GDP</div></section>
       <section class="panel"><div class="panel-heading"><div><h2>초과유동성 지표 vs 명목 GDP</h2><p>후행 4분기 평균과 GDP 성장률 비교</p></div></div><div class="plot"><canvas id="combinedChart" role="img" aria-label="초과유동성 4분기 이동평균과 GDP 로그 증가율 비교"></canvas></div><div class="legend-line"><span class="legend-violet"></span>초과유동성 4Q <span class="legend-green"></span>명목 GDP</div></section>
     </div>
+    </section>
+    <section class="layer" id="transmission">
+      <div class="layer-bar transfer"><span class="layer-index">3</span><strong>자산시장 전달 효과</strong><span>시중 유동성과 부동산·주식·채권은 어떻게 함께 움직이는가?</span></div>
+      <div class="asset-summary"><span><strong>부동산</strong><small>OECD 전국 실질주택가격 · 서울 보조지표 별도</small></span><span><strong>주식</strong><small>ECOS KOSPI 분기말 지수</small></span><span><strong>채권</strong><small>국고채 3년 명목금리−CPI 상승률</small></span></div>
+      <div class="asset-charts">
+        <section class="panel"><div class="panel-heading"><div><h2>부동산: 유동성 vs 실질주택가격</h2><p>국내 전국 실질 HPI YoY(우측) · 초과통화 4Q 평균(좌측)</p></div></div><div class="plot asset-plot"><canvas id="housingChart"></canvas></div><p class="small-help" id="housingSource">OECD 전국 분기 실질 주택가격 지수. 서울만의 지수는 아닙니다.</p></section>
+        <section class="panel"><div class="panel-heading"><div><h2>주식: 유동성 vs KOSPI</h2><p>ECOS KOSPI 분기말 거래일 종가(우측) · 초과통화 4Q 평균(좌측)</p></div></div><div class="plot asset-plot"><canvas id="kospiChart"></canvas></div><p class="small-help" id="kospiSource">ECOS 시장지수 분기 데이터 자동 수집 후 표시됩니다.</p></section>
+        <section class="panel"><div class="panel-heading"><div><h2>채권: 유동성 vs 실질금리</h2><p>국고채 3년 분기평균 금리−CPI 전년 상승률(우측)</p></div></div><div class="plot asset-plot"><canvas id="bondChart"></canvas></div><p class="small-help" id="bondSource">실질금리는 명목수익률에서 실현 물가상승률을 차감한 사후 지표로, 장기채 총수익률이 아닙니다.</p></section>
+      </div>
+      <p class="small-help">이중 축 그래프는 ‘움직임의 동행성’을 보여줄 뿐 인과관계의 증거가 아닙니다. 모든 관측치는 발표시차와 잦은 통계 개정에 주의해야 합니다. 미확보 지표는 임의 수치를 채우지 않습니다.</p>
+    </section>
     <div class="two-panels extra">
       <section class="panel" id="forecasts"><div class="panel-heading"><div><h2>표본외 예측력 검증</h2><p>과거평균 기준 MSE 개선율 · 양수면 개선 / 음수면 악화</p></div></div>
         <div class="comparison-table"><table><thead><tr><th>후보지표</th><th>1년</th><th>2년</th></tr></thead><tbody id="backtestRows"><tr><td colspan="3">검증 보고서 로딩 중</td></tr></tbody></table></div>
@@ -73,8 +107,11 @@
         <tr><td>Lf 금융기관유동성</td><td><code>171Y003 / LAS0000</code></td><td>월별</td></tr>
         <tr><td>L 광의유동성</td><td><code>172Y001 / XS00000</code></td><td>월별</td></tr>
         <tr><td>소비자물가지수</td><td><code>901Y009 / 0</code></td><td>월별</td></tr>
+        <tr><td>KOSPI 종합주가지수</td><td><code>802Y001 / 0001000</code></td><td>일별→분기말</td></tr>
+        <tr><td>국고채 3년 수익률</td><td><code>817Y002 / 010200000</code></td><td>일별→분기평균</td></tr>
+        <tr><td>전국 실질주택가격 HPI</td><td>OECD Analytical House Price Indicators · REAL_HPI</td><td>분기</td></tr>
       </tbody></table></div>
-      <div class="resource-links"><a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">한국은행 ECOS 공식 통계 ↗</a><a href="../risk-data/liquidity/raw.csv" download>실제 저장된 ECOS 원자료 CSV ↓</a><a href="../risk-data/liquidity/revision_history.csv" download>통계 수정 이력 ↓</a><a href="../risk-data/liquidity/excess_liquidity_comparison.json" target="_blank" rel="noopener">초과유동성 검증 결과 ↗</a><a href="../risk-monitor/liquidity/REVIEW_EXCESS_2026-10-26.md" target="_blank" rel="noopener">독립 검토 보고서 ↗</a></div>
+      <div class="resource-links"><a href="../risk-data/risk_raw.csv" target="_blank" rel="noopener">OECD 전국 주택가격 원자료 CSV ↗</a><a href="../risk-data/liquidity/asset_transmission.csv" target="_blank" rel="noopener">ECOS 주식·금리 데이터 CSV ↗</a><a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">한국은행 ECOS 공식 통계 ↗</a><a href="../risk-data/liquidity/raw.csv" download>실제 저장된 ECOS 원자료 CSV ↓</a><a href="../risk-data/liquidity/revision_history.csv" download>통계 수정 이력 ↓</a><a href="../risk-data/liquidity/excess_liquidity_comparison.json" target="_blank" rel="noopener">초과유동성 검증 결과 ↗</a><a href="../risk-monitor/liquidity/REVIEW_EXCESS_2026-10-26.md" target="_blank" rel="noopener">독립 검토 보고서 ↗</a></div>
       <p class="small-help">출처: 한국은행 ECOS API의 통계값을 GitHub에 저장한 공식 데이터 캐시. 과거 수치는 이후 공식 수정이 반영된 값일 수 있습니다. 본 페이지는 실시간 발표 빈티지 검증을 주장하지 않습니다.</p>
     </section>
     <footer>연구용 시각화 · 6대 위험지표 종합점수 미반영 · <a href="../">메인 대시보드로 돌아가기</a></footer>
