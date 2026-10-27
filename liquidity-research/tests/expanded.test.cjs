@@ -34,7 +34,7 @@ const stock=f.quarterlyMarket([
 assert.equal(stock.KOSPI.size,1,'reject forged or mismatched ECOS observations');
 assert.equal(stock.KTB3Y.get('2025-Q1'),2.53);
 const csv=fs.readFileSync(path.join(root,'risk-data/risk_raw.csv'),'utf8');
-const house=f.quarterlyHpi(base.parseCsv(csv));
+const house=f.quarterlyHpi(f.parseAnyCsv(csv));
 assert.ok(house.size>=70,'genuine OECD national housing history');
 const nationalExample=[...house][0];
 assert.ok(nationalExample[0].includes('-Q')&&Number.isFinite(nationalExample[1]));
