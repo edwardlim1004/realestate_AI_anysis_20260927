@@ -70,16 +70,21 @@ class IncrementalTests(unittest.TestCase):
         self.assertEqual(47,len(current))
         self.assertEqual(31,len({regions.GYEONGGI[c].split()[0] for c in current}))
         self.assertEqual(11000,len(list(audit.expected_keys())))
-        self.assertEqual(19062,len(list(audit.expected_keys('gyeonggi'))))
+        self.assertEqual(20680,len(list(audit.expected_keys('gyeonggi'))))
         self.assertTrue(regions.in_month('41590','202601'))
         self.assertFalse(regions.in_month('41590','202602'))
         self.assertTrue(regions.in_month('41591','202602'))
-        self.assertFalse(regions.in_month('41591','202601'))
+        self.assertTrue(regions.in_month('41591','202601'))
         self.assertTrue(regions.in_month('41190','202312'))
         self.assertFalse(regions.in_month('41190','202401'))
         self.assertTrue(regions.in_month('41192','202401'))
-        self.assertFalse(regions.in_month('41192','202312'))
+        self.assertTrue(regions.in_month('41192','202312'))
         self.assertTrue(regions.in_month('41195','201607'))
+        self.assertNotIn('41195',regions.select('gyeonggi'))
+        self.assertTrue(regions.in_month('41670','200601'))
+        for code in ('41192','41194','41196','41591','41593','41595','41597','41670'):
+            self.assertTrue(regions.in_month(code,'200601'))
+            self.assertTrue(regions.in_month(code,'201101'))
         self.assertTrue(regions.in_month('41730','201309'))
         self.assertNotEqual(regions.full_name('11110'),regions.full_name('41111'))
         self.assertTrue(r2_gdrive_failover.KEY_RE.fullmatch('rent/2026/41597/202610.csv.gz'))
@@ -190,3 +195,4 @@ class IncrementalTests(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main(verbosity=2)
+

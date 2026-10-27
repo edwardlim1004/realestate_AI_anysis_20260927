@@ -132,12 +132,12 @@ class StorageTests(unittest.TestCase):
     def test_combined_kakao_limits_and_unknowns_do_not_look_healthy(self):
         data=report();data['coverage']['gyeonggi']['sale'].update(stored=5261,percent=48.484)
         data['coverage']['gyeonggi']['rent'].update(stored=5239,percent=63.8)
-        data['coverage']['gyeonggi']['total'].update(stored=10500,percent=55.083)
+        data['coverage']['gyeonggi']['total'].update(stored=10500,target=19062,percent=55.083)
         data['storage']={'github':{'code':{'status':'ok',**usage.measured(18643968,usage.GIT_MANAGEMENT_BYTES)}},
             'r2':{'status':'ok','scope':'account',**usage.measured(449601145,usage.R2_FREE_BYTES)},
             'google':{'status':'ok',**usage.measured(500_000_000_000,5_000_000_000_000)},
             'guard':{'status':'armed'}}
-        previous={'report':{'coverage':{'gyeonggi':{'total':{'stored':5703}}}}}
+        previous={'report':{'coverage':{'gyeonggi':{'total':{'stored':5703,'target':19062}}}}}
         text=daily.render_message(data,previous)
         self.assertLessEqual(len(text),200);self.assertIn('9.55',text);self.assertIn('4.50TB',text)
         self.assertIn('48.5%',text);self.assertIn('55.1%',text);self.assertIn('+4,797',text)
@@ -150,3 +150,4 @@ class StorageTests(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main(verbosity=2)
+

@@ -36,13 +36,14 @@ on:
 permissions:
   contents: write
   issues: write
+  actions: read
 concurrency:
   group: seoul-apartment-collector
   cancel-in-progress: false
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
         with:
@@ -71,7 +72,7 @@ jobs:
             git pull --rebase --autostash origin main
             git push origin HEAD:main
           fi
-      - name: Require successful Seoul and Gyeonggi live verification before Daejeon
+      - name: Confirm verified saved baseline before repairing coverage and adding Daejeon
         env:
           REQUESTED_REGION: ${{ github.event.inputs.region || (github.event_name == 'push' && 'daejeon' || 'all') }}
         run: |
@@ -80,12 +81,10 @@ jobs:
           from pathlib import Path
           if os.environ['REQUESTED_REGION'] in ('all','daejeon'):
               report=json.loads(Path('seoul-apartment-collector/coverage_audit.json').read_text())
-              assert report['passed'] and report['storage_complete'], 'Seoul/Gyeonggi live audit needs review'
-              for region,expected in [('seoul',11000),('gyeonggi',19062)]:
-                  item=report['regions'][region]
-                  assert item['expected_scopes']==expected and item['reread_verified_scopes']==expected
-                  assert item['failed_scopes']==0
-              print('CAPITAL_ARCHIVE_GATE_PASSED: all 30,062 scopes verified before Daejeon starts')
+              assert report['storage_complete'] and report['failed_scopes']==0, 'Stored baseline needs repair'
+              assert report['regions']['seoul']['reread_verified_scopes']==11000
+              assert report['regions']['gyeonggi']['failed_scopes']==0
+              print('SAVED_BASELINE_INTEGRITY_PASSED: correcting current-code coverage before full Daejeon load')
           CHECK
       - name: Recover verified results from failed run 39597380565 once
         id: recovery
@@ -209,8 +208,101 @@ jobs:
           else
             echo "No new data"
           fi
+      - name: Fill omitted Gyeonggi current-code historical periods in checkpointed batches
+        if: github.event_name == 'push' && steps.backfill_gyeonggi.outputs.complete != 'true'
+        env:
+          MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
+          R2_GDRIVE_FALLBACK_ENABLED: "true"
+          R2_STORAGE_SOFT_CAP_BYTES: "8000000000"
+          REQUESTED_MODE: ${{ github.event.inputs.mode || (github.event_name == 'push' && 'test' || 'daily') }}
+          REQUESTED_LIMIT: ${{ github.event.inputs.max_requests || (github.event_name == 'push' && '8' || '1200') }}
+          REQUESTED_REGION: ${{ github.event.inputs.region || (github.event_name == 'push' && 'daejeon' || 'all') }}
+          R2_USAGE_ACCESS_KEY_ID: ${{ secrets.R2_USAGE_ACCESS_KEY_ID }}
+          R2_USAGE_SECRET_ACCESS_KEY: ${{ secrets.R2_USAGE_SECRET_ACCESS_KEY }}
+        run: |
+          for batch in $(seq 1 18); do
+            python seoul-apartment-collector/collect.py --mode backfill --region gyeonggi --max-requests 200 --delay 3
+            python seoul-apartment-collector/backfill_progress.py --region gyeonggi
+            git add seoul-apartment-collector/r2_manifest.json seoul-apartment-collector/state.json seoul-apartment-collector/status.json seoul-apartment-collector/gyeonggi_backfill_progress.json seoul-apartment-collector/updates/
+            if ! git diff --cached --quiet; then
+              git commit -m "data: Gyeonggi omitted history checkpoint $batch"
+              git pull --rebase --autostash origin main
+              git push origin HEAD:main
+            fi
+            if python - <<'CHECK'
+          import json,sys
+          from pathlib import Path
+          base=Path('seoul-apartment-collector')
+          progress=json.loads((base/'gyeonggi_backfill_progress.json').read_text())
+          status=json.loads((base/'status.json').read_text())
+          sys.exit(0 if progress['completed'] or status['requests_today']>=status['daily_cap'] or status['last_run_success']==0 else 1)
+          CHECK
+            then
+              break
+            fi
+          done
+      - name: Check corrected capital coverage and audit requirements
+        id: capital_ready
+        run: |
+          python - <<'CHECK'
+          import json,os,sys
+          from pathlib import Path
+          sys.path.insert(0,'seoul-apartment-collector')
+          from backfill_progress import expected_keys
+          base=Path('seoul-apartment-collector')
+          complete=json.loads((base/'gyeonggi_backfill_progress.json').read_text())['completed']
+          report=json.loads((base/'coverage_audit.json').read_text())
+          required=sum(len(list(expected_keys(region))) for region in ('seoul','gyeonggi'))
+          needed=complete and (not report.get('passed') or report.get('expected_scopes')!=required)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out:
+              out.write('complete='+str(complete).lower()+'\n')
+              out.write('needs_audit='+str(needed).lower()+'\n')
+          CHECK
+      - name: Retrieve immutable baseline evidence for corrected coverage audit
+        if: steps.capital_ready.outputs.needs_audit == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: apartment-storage-audit-40462425805-1
+          run-id: 40462425805
+          github-token: ${{ github.token }}
+          path: audit-evidence
+      - name: Verify newly added Gyeonggi history and corrected source coverage
+        if: steps.capital_ready.outputs.needs_audit == 'true'
+        env:
+          MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
+          R2_GDRIVE_FALLBACK_ENABLED: "true"
+          R2_STORAGE_SOFT_CAP_BYTES: "8000000000"
+          REQUESTED_MODE: ${{ github.event.inputs.mode || (github.event_name == 'push' && 'test' || 'daily') }}
+          REQUESTED_LIMIT: ${{ github.event.inputs.max_requests || (github.event_name == 'push' && '8' || '1200') }}
+          REQUESTED_REGION: ${{ github.event.inputs.region || (github.event_name == 'push' && 'daejeon' || 'all') }}
+          R2_USAGE_ACCESS_KEY_ID: ${{ secrets.R2_USAGE_ACCESS_KEY_ID }}
+          R2_USAGE_SECRET_ACCESS_KEY: ${{ secrets.R2_USAGE_SECRET_ACCESS_KEY }}
+        run: python seoul-apartment-collector/audit_repaired_capital.py --evidence audit-evidence
+      - name: Save corrected capital verification
+        if: always() && steps.recovery.outcome == 'success'
+        run: |
+          git add seoul-apartment-collector/coverage_audit.json seoul-apartment-collector/state.json
+          if ! git diff --cached --quiet; then
+            git commit -m "data: verify corrected Seoul and Gyeonggi source coverage"
+            git pull --rebase --autostash origin main
+            git push origin HEAD:main
+          fi
       - name: Continue initial Daejeon history in checkpointed batches
-        if: github.event_name == 'push' && steps.backfill_daejeon.outputs.complete != 'true'
+        if: github.event_name == 'push' && steps.backfill_daejeon.outputs.complete != 'true' && steps.capital_ready.outputs.complete == 'true'
         env:
           MOLIT_SERVICE_KEY: ${{ secrets.MOLIT_SERVICE_KEY }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
@@ -338,6 +430,8 @@ jobs:
             seoul-apartment-collector/gyeonggi_backfill_progress.json
             seoul-apartment-collector/daejeon_backfill_progress.json
             seoul-apartment-collector/region_history_audit.json
+            seoul-apartment-collector/coverage_audit.json
+            seoul-apartment-collector/coverage_audit_scopes.jsonl.gz
             seoul-apartment-collector/daejeon_coverage_audit.json
             seoul-apartment-collector/daejeon_coverage_audit_scopes.jsonl.gz
             seoul-apartment-collector/updates/

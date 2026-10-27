@@ -17,6 +17,9 @@ on:
       - "seoul-apartment-collector/test_audit_storage.py"
       - "seoul-apartment-collector/audit_region_history.py"
       - "seoul-apartment-collector/test_region_history.py"
+      - "seoul-apartment-collector/audit_repaired_capital.py"
+      - "seoul-apartment-collector/test_audit_repaired_capital.py"
+      - ".github/workflows/seoul-apartment-history.yml"
       - ".github/workflows/audit-apartment-storage.yml"
       - ".github/workflows/seoul-apartment-history.yml"
       - ".github/workflows/check-seoul-collector.yml"
@@ -41,5 +44,6 @@ jobs:
           python seoul-apartment-collector/test_workflow_commit.py
           python seoul-apartment-collector/test_audit_storage.py
           python seoul-apartment-collector/test_region_history.py
+          python seoul-apartment-collector/test_audit_repaired_capital.py
           python seoul-apartment-collector/test_daejeon.py
 

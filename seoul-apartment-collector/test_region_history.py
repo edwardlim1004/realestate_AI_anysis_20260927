@@ -18,17 +18,17 @@ class FakeAPI:
     limit=128
     def fetch(self,kind,gu,ym):
         self.calls+=1
-        return [{'sggCd':gu,'dealYear':ym[:4]}] if gu=='41591' and ym=='200601' else []
+        return [{'sggCd':gu,'dealYear':ym[:4]}] if kind=='sale' and gu=='41195' and ym=='201608' else []
 
 
 class HistoryTests(unittest.TestCase):
     def test_probes_cover_reorganization_boundaries(self):
         items=set(audit.probes('202610'))
-        for item in [('sale','41591','200601'),('rent','41591','201101'),
-                     ('sale','41591','202601'),('sale','41192','202312'),
-                     ('sale','41195','201608'),('rent','41190','202610')]:
+        for item in [('sale','41195','201608'),('rent','41190','202610')]:
             self.assertIn(item,items)
         self.assertNotIn(('sale','30110','200601'),items)
+        self.assertNotIn(('sale','41591','200601'),items)
+        self.assertNotIn(('rent','41192','201101'),items)
 
     def test_unplanned_available_history_prevents_false_completion(self):
         with tempfile.TemporaryDirectory() as tmp,contextlib.ExitStack() as stack:
