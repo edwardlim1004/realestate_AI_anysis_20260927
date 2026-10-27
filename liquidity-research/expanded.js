@@ -7,7 +7,7 @@
 const ASSET_CSV='../risk-data/liquidity/asset_transmission.csv';
 const OECD_CSV='../risk-data/risk_raw.csv';
 function exShiftQuarter(q,d){
-  const matched=/^(\\d{4})-Q([1-4])$/.exec(q);
+  const matched=/^([0-9]{4})-Q([1-4])$/.exec(q);
   if(!matched)throw Error('Invalid quarter: '+q);
   const n=Number(matched[1])*4+Number(matched[2])-1+d;
   return Math.floor(n/4)+'-Q'+((n%4)+1);
