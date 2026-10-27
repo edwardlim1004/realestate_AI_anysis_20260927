@@ -11,6 +11,9 @@ on:
       - "seoul-apartment-collector/recoveries/**"
       - "seoul-apartment-collector/test_recovery.py"
       - "seoul-apartment-collector/test_workflow_commit.py"
+      - "seoul-apartment-collector/audit_storage.py"
+      - "seoul-apartment-collector/test_audit_storage.py"
+      - ".github/workflows/audit-apartment-storage.yml"
       - ".github/workflows/seoul-apartment-history.yml"
       - ".github/workflows/check-seoul-collector.yml"
 permissions:
@@ -32,3 +35,5 @@ jobs:
           python seoul-apartment-collector/test_incremental.py
           python seoul-apartment-collector/test_recovery.py
           python seoul-apartment-collector/test_workflow_commit.py
+          python seoul-apartment-collector/test_audit_storage.py
+
