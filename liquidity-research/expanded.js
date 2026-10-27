@@ -150,7 +150,6 @@ function createDualSeriesChart(canvasId,records,defs,axes){
       },plugins:{legend:{display:true,position:'bottom',labels:{color:ink,font:{size:10},boxWidth:18}},
         tooltip:{callbacks:{label:item=>item.dataset.label+': '+(item.parsed.y==null?'N/A':item.parsed.y.toFixed(2))}}
       }}
-    }
   });
 }
 function assetChart(canvas,liquidity,other,label,color,unit,sourceId){
