@@ -168,12 +168,22 @@ def build_report(raw_rows: list[dict], risk_rows: list[dict], dashboard: dict) -
 
 def main() -> int:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--write", action="store_true",
+                        help="Refresh research benchmark from updated official source files")
     parser.add_argument("--check", action="store_true",
                         help="Assert committed comparison report matches current source data")
     args = parser.parse_args()
     data = build_report(read_csv(LIQ_DIR / "raw.csv"),
                         read_csv(ROOT / "risk-data" / "risk_raw.csv"),
                         json.loads((LIQ_DIR / "summary.json").read_text(encoding="utf-8-sig")))
+    if args.write:
+        destination = LIQ_DIR / "excess_liquidity_comparison.json"
+        content = json.dumps(data, ensure_ascii=False, indent=2) + "\n"
+        if not destination.exists() or destination.read_text(encoding="utf-8") != content:
+            destination.write_text(content, encoding="utf-8")
+            print("RESEARCH_COMPARISON_UPDATED")
+        else:
+            print("RESEARCH_COMPARISON_UNCHANGED")
     if args.check:
         saved = json.loads((LIQ_DIR / "excess_liquidity_comparison.json").read_text(encoding="utf-8"))
         if data != saved:
