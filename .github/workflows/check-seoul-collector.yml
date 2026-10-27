@@ -7,6 +7,8 @@ on:
       - "seoul-apartment-collector/regions.py"
       - "seoul-apartment-collector/incremental.py"
       - "seoul-apartment-collector/test_incremental.py"
+      - "seoul-apartment-collector/test_daejeon.py"
+      - "seoul-apartment-collector/verify_daejeon_storage.py"
       - "seoul-apartment-collector/recover_failed_run.py"
       - "seoul-apartment-collector/recoveries/**"
       - "seoul-apartment-collector/test_recovery.py"
@@ -36,4 +38,5 @@ jobs:
           python seoul-apartment-collector/test_recovery.py
           python seoul-apartment-collector/test_workflow_commit.py
           python seoul-apartment-collector/test_audit_storage.py
+          python seoul-apartment-collector/test_daejeon.py
 

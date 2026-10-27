@@ -1,4 +1,4 @@
-"""MOLIT five-digit LAWD_CD coverage for Seoul and Gyeonggi.
+"""MOLIT five-digit LAWD_CD coverage for Seoul, Gyeonggi and Daejeon.
 
 Current codes: https://www.naqs.go.kr/f2t/com/searchSgList.do
 Hwaseong (2026-02-01): https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=122595
@@ -39,8 +39,13 @@ GYEONGGI = {
     '41197':'부천시 소사구(구코드)', '41199':'부천시 오정구(구코드)',
     '41590':'화성시', '41730':'여주군',
 }
-DISTRICTS = {**SEOUL, **GYEONGGI}
-LABELS = {'seoul':'서울', 'gyeonggi':'경기도'}
+DAEJEON = {
+    '30110':'동구', '30140':'중구', '30170':'서구',
+    '30200':'유성구', '30230':'대덕구',
+}
+DISTRICTS = {**SEOUL, **GYEONGGI, **DAEJEON}
+LABELS = {'seoul':'서울', 'gyeonggi':'경기도', 'daejeon':'대전'}
+PROVINCE_NAMES = {'seoul':'서울특별시', 'gyeonggi':'경기도', 'daejeon':'대전광역시'}
 PERIODS = {
     '41192':('202401',None), '41194':('202401',None), '41196':('202401',None),
     '41190':('201607','202312'),
@@ -55,6 +60,7 @@ PERIODS = {
 def region_for(code):
     if code.startswith('11'): return 'seoul'
     if code.startswith('41'): return 'gyeonggi'
+    if code.startswith('30'): return 'daejeon'
     raise ValueError('Unsupported province code')
 
 
@@ -66,9 +72,11 @@ def in_month(code, ym):
 def select(region='all'):
     if region == 'seoul': return list(SEOUL)
     if region == 'gyeonggi': return list(GYEONGGI)
+    if region == 'daejeon': return list(DAEJEON)
     if region == 'all': return list(DISTRICTS)
     raise ValueError('Unsupported region')
 
 
 def full_name(code):
-    return ('서울특별시 ' if region_for(code)=='seoul' else '경기도 ') + DISTRICTS[code]
+    return PROVINCE_NAMES[region_for(code)] + ' ' + DISTRICTS[code]
+

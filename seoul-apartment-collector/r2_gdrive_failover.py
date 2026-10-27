@@ -17,7 +17,7 @@ from google_drive_backup import ROOT_NAME, authorized_drive, ensure_folder, exec
 
 FOLDER_NAME="원본월별압축_자동전환"
 SCOPE_MARKER="edward_archive_scope"
-KEY_RE=re.compile(r"^(sale|rent)/(\d{4})/((?:11|41)\d{3})/(\d{6})\.csv\.gz$")
+KEY_RE=re.compile(r"^(sale|rent)/(\d{4})/((?:11|30|41)\d{3})/(\d{6})\.csv\.gz$")
 MAX_BYTES=50*1024*1024
 
 
@@ -62,7 +62,7 @@ class DriveRawArchive:
         checksum=md5.hexdigest()
         if existing and existing.get("md5Checksum")==checksum and int(existing.get("size",0))==size:
             return existing["id"]
-        metadata={"name":rel.replace("/","_"),"description":"Edward Seoul/Gyeonggi apartment public transaction raw compressed scope",
+        metadata={"name":rel.replace("/","_"),"description":"Edward Seoul/Gyeonggi/Daejeon apartment public transaction raw compressed scope",
             "appProperties":{SCOPE_MARKER:rel,"sha256":expected_sha}}
         from storage_usage import check_google_capacity
         check_google_capacity(self.drive,size)
@@ -97,3 +97,4 @@ def have_credentials():
     return bool(all(os.environ.get(k) for k in (
         "GOOGLE_OAUTH_CLIENT_ID","GOOGLE_OAUTH_CLIENT_SECRET","GOOGLE_OAUTH_REFRESH_TOKEN",
         "R2_ACCOUNT_ID","R2_ACCESS_KEY_ID","R2_SECRET_ACCESS_KEY","R2_BUCKET_NAME")))
+

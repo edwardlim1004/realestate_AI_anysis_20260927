@@ -9,7 +9,7 @@ import json
 import os
 import re
 from pathlib import Path
-from regions import select, in_month
+from regions import LABELS, select, in_month
 
 ROOT=Path(__file__).resolve().parent
 MANIFEST=ROOT/"r2_manifest.json"
@@ -69,7 +69,7 @@ def completeness(files,required=None):
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--region',choices=['seoul','gyeonggi'],default='seoul')
+    parser.add_argument('--region',choices=list(LABELS),default='seoul')
     args=parser.parse_args()
     required=list(expected_keys(args.region))
     if not MANIFEST.exists():
@@ -81,7 +81,7 @@ def main():
             raise RuntimeError("R2 bucket mismatch; refusing to report completion")
         report=completeness(m.get("files",{}),required)
     report['region']=args.region
-    destination=REPORT if args.region=='seoul' else ROOT/'gyeonggi_backfill_progress.json'
+    destination=REPORT if args.region=='seoul' else ROOT/(args.region+'_backfill_progress.json')
     destination.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print("BACKFILL",json.dumps({k:v for k,v in report.items() if k!="missing_sample"},ensure_ascii=False),flush=True)
     out=os.getenv("GITHUB_OUTPUT")
@@ -92,3 +92,4 @@ def main():
     return 0
 
 if __name__=="__main__":raise SystemExit(main())
+
