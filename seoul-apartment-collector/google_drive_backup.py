@@ -31,7 +31,7 @@ TOKEN_KEY="internal/google-drive-backup-refresh-v1.enc"
 SCOPE="https://www.googleapis.com/auth/drive.file"
 ROOT_NAME="Edward_부동산데이터_R2백업"
 KINDS={"sale":("서울아파트매매","매매"),"rent":("서울아파트전월세","전월세")}
-VALID=re.compile(r"^(sale|rent)/(\d{4})/((?:11|41)\d{3})/(\d{6})\.csv\.gz$")
+VALID=re.compile(r"^(sale|rent)/(\d{4})/((?:11|30|41)\d{3})/(\d{6})\.csv\.gz$")
 MAX_SRC_BYTES=50*1024*1024
 MAX_YEAR_BYTES=1024*1024*1024
 MAX_FILES=100000
@@ -258,7 +258,7 @@ def annual_key(region,kind,year):
 
 def kind_folders(region):
     return KINDS if region=='seoul' else {
-        'sale':('경기도아파트매매','매매'), 'rent':('경기도아파트전월세','전월세')}
+        'sale':(LABELS[region]+'아파트매매','매매'), 'rent':(LABELS[region]+'아파트전월세','전월세')}
 
 
 def upload_annual(drive,folder,kind,year,entries,csv_path,checksum,size,rows,old=None,region='seoul'):
@@ -354,3 +354,4 @@ def main():
 
 
 if __name__=="__main__":sys.exit(main())
+

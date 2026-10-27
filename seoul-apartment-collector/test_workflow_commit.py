@@ -26,7 +26,7 @@ class WorkflowCommitTests(unittest.TestCase):
             for workspace in (runner,):
                 git(workspace,'config','user.name','test');git(workspace,'config','user.email','test@example.invalid')
             base = runner/'seoul-apartment-collector';base.mkdir()
-            for name in ('r2_manifest.json','state.json','status.json','backfill_progress.json','gyeonggi_backfill_progress.json'):
+            for name in ('r2_manifest.json','state.json','status.json','backfill_progress.json','gyeonggi_backfill_progress.json','daejeon_backfill_progress.json'):
                 (base/name).write_text('{}\n')
             for directory in ('updates','recoveries'):
                 (base/directory).mkdir();(base/directory/'.gitkeep').write_text('')
@@ -52,3 +52,4 @@ class WorkflowCommitTests(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main(verbosity=2)
+

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # coding: utf-8
-"""서울·경기도 아파트 매매/전월세: 과거자료 재개 + 변경분만 저장하는 정기 갱신."""
+"""서울·경기·대전 아파트 매매/전월세: 과거자료 재개 + 변경분만 저장하는 정기 갱신."""
 from __future__ import annotations
 import argparse, csv, datetime as dt, gzip, io, json, os, random, sys, time
 from pathlib import Path
@@ -10,7 +10,7 @@ from urllib.error import HTTPError, URLError
 from xml.etree import ElementTree as ET
 from zoneinfo import ZoneInfo
 from r2_bridge import R2Storage
-from regions import DISTRICTS, full_name, in_month, region_for, select
+from regions import LABELS, DISTRICTS, full_name, in_month, region_for, select
 from incremental import content_hash, change_summary, record_change
 
 BASE=Path(__file__).resolve().parent
@@ -154,7 +154,7 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None,region=
         print('SAFE_STOP: daily collector request budget used',flush=True)
     districts=districts or select(region)
     # A six-month rolling check runs once per day, resumed across 3-hour jobs.
-    # State is shared across BOTH regions, including the 8,000-call daily budget.
+    # State is shared across ALL regions, including the 8,000-call daily budget.
     cycle=now.isoformat()
     if state.get('refresh_cycle')!=cycle:
         state.update({'refresh_cycle':cycle,'refresh_done':[]})
@@ -243,8 +243,8 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None,region=
         'last_run_changed_scopes':changed,'last_run_unchanged_scopes':unchanged,
         'last_run_added_rows':added_rows,'last_run_removed_rows':removed_rows,
         'completed_by_region':{name:sum(1 for key in archive.files
-            if key.split('/')[2].startswith('11' if name=='seoul' else '41'))
-            for name in ('seoul','gyeonggi')},
+            if region_for(key.split('/')[2])==name)
+            for name in LABELS},
         **archive.stats()})
     print('RESULT',json.dumps({'requests':c.calls,'success':success,'failures':failures,'completed_scopes':count}))
     return 0 if failures==0 else 1
@@ -256,7 +256,7 @@ def main():
     parser.add_argument('--delay',type=float,default=3)
     parser.add_argument('--until',default=None)
     parser.add_argument('--district',choices=list(GU),action='append')
-    parser.add_argument('--region',choices=['all','seoul','gyeonggi'],default='all')
+    parser.add_argument('--region',choices=['all',*LABELS],default='all')
     parser.add_argument('--refresh-months',type=int,default=6)
     args=parser.parse_args()
     if not 1<=args.max_requests<=1200 or args.delay<3:parser.error('1-1200 requests; delay>=3')
@@ -269,3 +269,4 @@ def main():
         return 0
     return run(args.mode,args.max_requests,args.delay,args.until,args.district,Collector(key,args.max_requests,args.delay),args.region,args.refresh_months)
 if __name__=='__main__':sys.exit(main())
+
