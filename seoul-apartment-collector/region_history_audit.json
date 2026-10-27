@@ -1,0 +1,881 @@
+{
+  "schema": 1,
+  "checked_at_utc": "2026-10-27T08:13:38.667370+00:00",
+  "configuration_sha256": "4081d7b35cf7d43f0f53f8f4f07f9cfbb9102a0ca335f3607220e60fc596bb3a",
+  "cutoff": "202610",
+  "requested": 60,
+  "checked": 60,
+  "pending": 0,
+  "requests": 63,
+  "unplanned_nonempty_scopes": [
+    {
+      "kind": "rent",
+      "district": "41192",
+      "contract_month": "201101",
+      "rows": 653,
+      "content_sha256": "e4a121be16ab4b3ec2346b8fe3d6c5ee767fea733dd5cbf09499ca9d5a8383e6",
+      "raw_district_codes": [
+        "41192"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41192",
+      "contract_month": "202312",
+      "rows": 695,
+      "content_sha256": "bc798039196d85189be318a9146b4f67c1e2f96159bf4040e9d308102affccf0",
+      "raw_district_codes": [
+        "41192"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41194",
+      "contract_month": "201101",
+      "rows": 153,
+      "content_sha256": "7fb8e82a368a2c8819b13c8fe7a991f7eb9a9a13ee3be1fb05b7f3f9b76db05f",
+      "raw_district_codes": [
+        "41194"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41194",
+      "contract_month": "202312",
+      "rows": 310,
+      "content_sha256": "8535da568c129fcd6d3f2bbc524d02690c8acda31f8a2e53f158afe05349fde6",
+      "raw_district_codes": [
+        "41194"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41196",
+      "contract_month": "201101",
+      "rows": 94,
+      "content_sha256": "8acd7972863e30e11b72c67404d8a55ed9cf88b328836b66d4da5b9dac953e00",
+      "raw_district_codes": [
+        "41196"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41196",
+      "contract_month": "202312",
+      "rows": 108,
+      "content_sha256": "83245cbc35daa76c647dc5c0f8c5eb62db3def9ab8c4a518c3b52e6525384cfa",
+      "raw_district_codes": [
+        "41196"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41591",
+      "contract_month": "201101",
+      "rows": 164,
+      "content_sha256": "f1d7614cdad1292808abd559fe9a4e585121d98be649f90e2d0f59239abf1bbb",
+      "raw_district_codes": [
+        "41591"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41591",
+      "contract_month": "202601",
+      "rows": 630,
+      "content_sha256": "beadd7b58a83968c4feebd730553b07c477aa28841c4bb1ce4def2a08daa8624",
+      "raw_district_codes": [
+        "41591"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41593",
+      "contract_month": "201101",
+      "rows": 142,
+      "content_sha256": "e4490ef1c169967c04569314a3bbba5d659d0767936c51ac40dda71441610dbb",
+      "raw_district_codes": [
+        "41593"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41593",
+      "contract_month": "202601",
+      "rows": 315,
+      "content_sha256": "32926ffc37566c3226af3503a497876accc564c58eeb5fc54a153ed180546899",
+      "raw_district_codes": [
+        "41593"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41595",
+      "contract_month": "201101",
+      "rows": 214,
+      "content_sha256": "f7f0ce0412a9f9126a9f2f48794ea8840b7bd2ba6e29e7753fdeb4aa1704fdf9",
+      "raw_district_codes": [
+        "41595"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41595",
+      "contract_month": "202601",
+      "rows": 392,
+      "content_sha256": "28c00606079e59cbc64e3f693e05e4186f6d0e224b41f1211b98307ebed3e18f",
+      "raw_district_codes": [
+        "41595"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41597",
+      "contract_month": "201101",
+      "rows": 458,
+      "content_sha256": "8ab210325b624d78438dccdbea6c8d219569323b6eb9e6225aeb412444f44116",
+      "raw_district_codes": [
+        "41597"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41597",
+      "contract_month": "202601",
+      "rows": 1642,
+      "content_sha256": "90f5d5ace25cfe804d55d2e639d4425a32829a423a1a8a8dd7343fc9e56e9db2",
+      "raw_district_codes": [
+        "41597"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41670",
+      "contract_month": "201101",
+      "rows": 84,
+      "content_sha256": "77d300f8ee9587895e9a6ed6a8337e3a2ab8e5f692055d168fa062d230c39bc9",
+      "raw_district_codes": [
+        "41670"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41670",
+      "contract_month": "201308",
+      "rows": 72,
+      "content_sha256": "5de74523a0f3655c37237572cfcf1d7183475009f4d49bf73a5ef0f9f80277a7",
+      "raw_district_codes": [
+        "41670"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41192",
+      "contract_month": "200601",
+      "rows": 244,
+      "content_sha256": "5ecccf7ec7a90ac27a6636d98095113e8bc876cf67ab814cc32c0e54c6647532",
+      "raw_district_codes": [
+        "41192"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41192",
+      "contract_month": "202312",
+      "rows": 137,
+      "content_sha256": "3b16fa835537f03f3dcfbeca668496de74bc5218a066e01fb0afe870078b31f0",
+      "raw_district_codes": [
+        "41192"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41194",
+      "contract_month": "200601",
+      "rows": 45,
+      "content_sha256": "3c3e4c94e7cc26c4e7c311cad18f8ef4d16c73872581243129767992dbcef4e0",
+      "raw_district_codes": [
+        "41194"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41194",
+      "contract_month": "202312",
+      "rows": 84,
+      "content_sha256": "76f1a02ec75ea08146676eb9a285b7b5ae82a2dc3264cb7b6725aa792eeceba4",
+      "raw_district_codes": [
+        "41194"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41196",
+      "contract_month": "200601",
+      "rows": 16,
+      "content_sha256": "e6f557e4705cdbed9da5a2d05d4514a22aa4a9c7004ba4655eaf307da6b03052",
+      "raw_district_codes": [
+        "41196"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41196",
+      "contract_month": "202312",
+      "rows": 26,
+      "content_sha256": "3b6c309833d756117be08821e715fde770c876735f0c3a249989136dcbaa8d77",
+      "raw_district_codes": [
+        "41196"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41591",
+      "contract_month": "200601",
+      "rows": 11,
+      "content_sha256": "7dd3112a56219f621e6ca429ec34ddde7bcea0bf579468ccada5100eda3eb9e8",
+      "raw_district_codes": [
+        "41591"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41591",
+      "contract_month": "202601",
+      "rows": 116,
+      "content_sha256": "129537f3453cf358da017ff8f0e5ca6b7e5c6978edb88eeb76bd7f3b38a2c883",
+      "raw_district_codes": [
+        "41591"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41593",
+      "contract_month": "200601",
+      "rows": 39,
+      "content_sha256": "834d12c58aef40215020a1ef5dbf683e5c7f9f761ef7e46a0b79701d4a902eb8",
+      "raw_district_codes": [
+        "41593"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41593",
+      "contract_month": "202601",
+      "rows": 137,
+      "content_sha256": "a5e54b018e4b2b1b0f0f2eba15b07201c7e05a903b37e896698fdef7d3498e3a",
+      "raw_district_codes": [
+        "41593"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41595",
+      "contract_month": "200601",
+      "rows": 136,
+      "content_sha256": "bd0857ea8eb057fd44156f9e190fdade9efa75de3498be072792634e8453dc17",
+      "raw_district_codes": [
+        "41595"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41595",
+      "contract_month": "202601",
+      "rows": 247,
+      "content_sha256": "28acbd046bd0bceee67b5cc3b77aeec9625a8e8348e51b3b599394e5c8eabaa3",
+      "raw_district_codes": [
+        "41595"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41597",
+      "contract_month": "200601",
+      "rows": 7,
+      "content_sha256": "19c3e02198390c6a4a36a4a2469dd51e93e38ca4315cd354c8cb80c92851b226",
+      "raw_district_codes": [
+        "41597"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41597",
+      "contract_month": "202601",
+      "rows": 1023,
+      "content_sha256": "bf5ca98d57b142290d45343cfd0bb9580b86d05f6f276fea3840cf935a4f9107",
+      "raw_district_codes": [
+        "41597"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41670",
+      "contract_month": "200601",
+      "rows": 164,
+      "content_sha256": "e4dd54a61e2cb0b52091e83d3fbb58d32f407ad7a479afa9c1803c3fa51ff162",
+      "raw_district_codes": [
+        "41670"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41670",
+      "contract_month": "201308",
+      "rows": 62,
+      "content_sha256": "9e3c9c08569ef866add3db3931de2d7b63146d9b6024b63a676fa8a5131d39b9",
+      "raw_district_codes": [
+        "41670"
+      ]
+    }
+  ],
+  "errors": [],
+  "probes": [
+    {
+      "kind": "rent",
+      "district": "41190",
+      "contract_month": "201101",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "rent",
+      "district": "41190",
+      "contract_month": "201606",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "rent",
+      "district": "41190",
+      "contract_month": "202401",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "rent",
+      "district": "41190",
+      "contract_month": "202610",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "rent",
+      "district": "41192",
+      "contract_month": "201101",
+      "rows": 653,
+      "content_sha256": "e4a121be16ab4b3ec2346b8fe3d6c5ee767fea733dd5cbf09499ca9d5a8383e6",
+      "raw_district_codes": [
+        "41192"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41192",
+      "contract_month": "202312",
+      "rows": 695,
+      "content_sha256": "bc798039196d85189be318a9146b4f67c1e2f96159bf4040e9d308102affccf0",
+      "raw_district_codes": [
+        "41192"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41194",
+      "contract_month": "201101",
+      "rows": 153,
+      "content_sha256": "7fb8e82a368a2c8819b13c8fe7a991f7eb9a9a13ee3be1fb05b7f3f9b76db05f",
+      "raw_district_codes": [
+        "41194"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41194",
+      "contract_month": "202312",
+      "rows": 310,
+      "content_sha256": "8535da568c129fcd6d3f2bbc524d02690c8acda31f8a2e53f158afe05349fde6",
+      "raw_district_codes": [
+        "41194"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41195",
+      "contract_month": "201608",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "rent",
+      "district": "41195",
+      "contract_month": "202610",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "rent",
+      "district": "41196",
+      "contract_month": "201101",
+      "rows": 94,
+      "content_sha256": "8acd7972863e30e11b72c67404d8a55ed9cf88b328836b66d4da5b9dac953e00",
+      "raw_district_codes": [
+        "41196"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41196",
+      "contract_month": "202312",
+      "rows": 108,
+      "content_sha256": "83245cbc35daa76c647dc5c0f8c5eb62db3def9ab8c4a518c3b52e6525384cfa",
+      "raw_district_codes": [
+        "41196"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41197",
+      "contract_month": "201608",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "rent",
+      "district": "41197",
+      "contract_month": "202610",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "rent",
+      "district": "41199",
+      "contract_month": "201608",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "rent",
+      "district": "41199",
+      "contract_month": "202610",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "rent",
+      "district": "41590",
+      "contract_month": "202602",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "rent",
+      "district": "41590",
+      "contract_month": "202610",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "rent",
+      "district": "41591",
+      "contract_month": "201101",
+      "rows": 164,
+      "content_sha256": "f1d7614cdad1292808abd559fe9a4e585121d98be649f90e2d0f59239abf1bbb",
+      "raw_district_codes": [
+        "41591"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41591",
+      "contract_month": "202601",
+      "rows": 630,
+      "content_sha256": "beadd7b58a83968c4feebd730553b07c477aa28841c4bb1ce4def2a08daa8624",
+      "raw_district_codes": [
+        "41591"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41593",
+      "contract_month": "201101",
+      "rows": 142,
+      "content_sha256": "e4490ef1c169967c04569314a3bbba5d659d0767936c51ac40dda71441610dbb",
+      "raw_district_codes": [
+        "41593"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41593",
+      "contract_month": "202601",
+      "rows": 315,
+      "content_sha256": "32926ffc37566c3226af3503a497876accc564c58eeb5fc54a153ed180546899",
+      "raw_district_codes": [
+        "41593"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41595",
+      "contract_month": "201101",
+      "rows": 214,
+      "content_sha256": "f7f0ce0412a9f9126a9f2f48794ea8840b7bd2ba6e29e7753fdeb4aa1704fdf9",
+      "raw_district_codes": [
+        "41595"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41595",
+      "contract_month": "202601",
+      "rows": 392,
+      "content_sha256": "28c00606079e59cbc64e3f693e05e4186f6d0e224b41f1211b98307ebed3e18f",
+      "raw_district_codes": [
+        "41595"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41597",
+      "contract_month": "201101",
+      "rows": 458,
+      "content_sha256": "8ab210325b624d78438dccdbea6c8d219569323b6eb9e6225aeb412444f44116",
+      "raw_district_codes": [
+        "41597"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41597",
+      "contract_month": "202601",
+      "rows": 1642,
+      "content_sha256": "90f5d5ace25cfe804d55d2e639d4425a32829a423a1a8a8dd7343fc9e56e9db2",
+      "raw_district_codes": [
+        "41597"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41670",
+      "contract_month": "201101",
+      "rows": 84,
+      "content_sha256": "77d300f8ee9587895e9a6ed6a8337e3a2ab8e5f692055d168fa062d230c39bc9",
+      "raw_district_codes": [
+        "41670"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41670",
+      "contract_month": "201308",
+      "rows": 72,
+      "content_sha256": "5de74523a0f3655c37237572cfcf1d7183475009f4d49bf73a5ef0f9f80277a7",
+      "raw_district_codes": [
+        "41670"
+      ]
+    },
+    {
+      "kind": "rent",
+      "district": "41730",
+      "contract_month": "201310",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "rent",
+      "district": "41730",
+      "contract_month": "202610",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41190",
+      "contract_month": "200601",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41190",
+      "contract_month": "201606",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41190",
+      "contract_month": "202401",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41190",
+      "contract_month": "202610",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41192",
+      "contract_month": "200601",
+      "rows": 244,
+      "content_sha256": "5ecccf7ec7a90ac27a6636d98095113e8bc876cf67ab814cc32c0e54c6647532",
+      "raw_district_codes": [
+        "41192"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41192",
+      "contract_month": "202312",
+      "rows": 137,
+      "content_sha256": "3b16fa835537f03f3dcfbeca668496de74bc5218a066e01fb0afe870078b31f0",
+      "raw_district_codes": [
+        "41192"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41194",
+      "contract_month": "200601",
+      "rows": 45,
+      "content_sha256": "3c3e4c94e7cc26c4e7c311cad18f8ef4d16c73872581243129767992dbcef4e0",
+      "raw_district_codes": [
+        "41194"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41194",
+      "contract_month": "202312",
+      "rows": 84,
+      "content_sha256": "76f1a02ec75ea08146676eb9a285b7b5ae82a2dc3264cb7b6725aa792eeceba4",
+      "raw_district_codes": [
+        "41194"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41195",
+      "contract_month": "201608",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41195",
+      "contract_month": "202610",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41196",
+      "contract_month": "200601",
+      "rows": 16,
+      "content_sha256": "e6f557e4705cdbed9da5a2d05d4514a22aa4a9c7004ba4655eaf307da6b03052",
+      "raw_district_codes": [
+        "41196"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41196",
+      "contract_month": "202312",
+      "rows": 26,
+      "content_sha256": "3b6c309833d756117be08821e715fde770c876735f0c3a249989136dcbaa8d77",
+      "raw_district_codes": [
+        "41196"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41197",
+      "contract_month": "201608",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41197",
+      "contract_month": "202610",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41199",
+      "contract_month": "201608",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41199",
+      "contract_month": "202610",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41590",
+      "contract_month": "202602",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41590",
+      "contract_month": "202610",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41591",
+      "contract_month": "200601",
+      "rows": 11,
+      "content_sha256": "7dd3112a56219f621e6ca429ec34ddde7bcea0bf579468ccada5100eda3eb9e8",
+      "raw_district_codes": [
+        "41591"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41591",
+      "contract_month": "202601",
+      "rows": 116,
+      "content_sha256": "129537f3453cf358da017ff8f0e5ca6b7e5c6978edb88eeb76bd7f3b38a2c883",
+      "raw_district_codes": [
+        "41591"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41593",
+      "contract_month": "200601",
+      "rows": 39,
+      "content_sha256": "834d12c58aef40215020a1ef5dbf683e5c7f9f761ef7e46a0b79701d4a902eb8",
+      "raw_district_codes": [
+        "41593"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41593",
+      "contract_month": "202601",
+      "rows": 137,
+      "content_sha256": "a5e54b018e4b2b1b0f0f2eba15b07201c7e05a903b37e896698fdef7d3498e3a",
+      "raw_district_codes": [
+        "41593"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41595",
+      "contract_month": "200601",
+      "rows": 136,
+      "content_sha256": "bd0857ea8eb057fd44156f9e190fdade9efa75de3498be072792634e8453dc17",
+      "raw_district_codes": [
+        "41595"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41595",
+      "contract_month": "202601",
+      "rows": 247,
+      "content_sha256": "28acbd046bd0bceee67b5cc3b77aeec9625a8e8348e51b3b599394e5c8eabaa3",
+      "raw_district_codes": [
+        "41595"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41597",
+      "contract_month": "200601",
+      "rows": 7,
+      "content_sha256": "19c3e02198390c6a4a36a4a2469dd51e93e38ca4315cd354c8cb80c92851b226",
+      "raw_district_codes": [
+        "41597"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41597",
+      "contract_month": "202601",
+      "rows": 1023,
+      "content_sha256": "bf5ca98d57b142290d45343cfd0bb9580b86d05f6f276fea3840cf935a4f9107",
+      "raw_district_codes": [
+        "41597"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41670",
+      "contract_month": "200601",
+      "rows": 164,
+      "content_sha256": "e4dd54a61e2cb0b52091e83d3fbb58d32f407ad7a479afa9c1803c3fa51ff162",
+      "raw_district_codes": [
+        "41670"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41670",
+      "contract_month": "201308",
+      "rows": 62,
+      "content_sha256": "9e3c9c08569ef866add3db3931de2d7b63146d9b6024b63a676fa8a5131d39b9",
+      "raw_district_codes": [
+        "41670"
+      ]
+    },
+    {
+      "kind": "sale",
+      "district": "41730",
+      "contract_month": "201310",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    },
+    {
+      "kind": "sale",
+      "district": "41730",
+      "contract_month": "202610",
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_district_codes": []
+    }
+  ],
+  "passed": false,
+  "verification": "Representative queries immediately outside configured code periods and at historical/current endpoints; not an exhaustive query of excluded months."
+}
