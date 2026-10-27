@@ -6,6 +6,12 @@
 'use strict';
 const ASSET_CSV='../risk-data/liquidity/asset_transmission.csv';
 const OECD_CSV='../risk-data/risk_raw.csv';
+function exShiftQuarter(q,d){
+  const matched=/^(\\d{4})-Q([1-4])$/.exec(q);
+  if(!matched)throw Error('Invalid quarter: '+q);
+  const n=Number(matched[1])*4+Number(matched[2])-1+d;
+  return Math.floor(n/4)+'-Q'+((n%4)+1);
+}
 const EXTRA_COLORS={real:'#079865',m2:'#2469df',marshall:'#743ad3',house:'#2966de',seoul:'#d36d20',stock:'#079865',bond:'#c76b31',liquid:'#c43e52'};
 const expanded={levels:[],charts:[],assets:null,yearRange:'all'};
 function safeNumeric(s){const v=Number(s);return Number.isFinite(v)?v:null;}
@@ -40,7 +46,7 @@ function calculateAbsoluteLevels(rows){
   const levels=[];
   for(const q of qs){
     const monthAverageM2=quarterlyMean(m2,q),monthAverageCpi=quarterlyMean(cpi,q);
-    const quarters=[0,-1,-2,-3].map(d=>gdp.get(quarterShift(q,d)));
+    const quarters=[0,-1,-2,-3].map(d=>gdp.get(exShiftQuarter(q,d)));
     const fourQuarterNominalGDP=sumOrNull(quarters);
     if(!(monthAverageM2>0&&monthAverageCpi>0&&fourQuarterNominalGDP>0))continue;
     const realM2=monthAverageM2/(monthAverageCpi/100);
@@ -56,7 +62,7 @@ function calculateAbsoluteLevels(rows){
     record.realGap=referenceReal?100*(record.realM2/referenceReal-1):null;
     record.marshallGap=referenceMarshall?100*(record.marshall/referenceMarshall-1):null;
     gapReal.push(record.realGap);gapMarshall.push(record.marshallGap);
-    const old=i>=4&&levels[i-4].period===quarterShift(record.period,-4)?levels[i-4].nominalM2:null;
+    const old=i>=4&&levels[i-4].period===exShiftQuarter(record.period,-4)?levels[i-4].nominalM2:null;
     const currentGrowth=old?100*Math.log(record.nominalM2/old):null;
     growth.push(currentGrowth);
     record.realRank=percentileAt(gapReal,record.realGap);
@@ -75,7 +81,7 @@ function quarterlyHpi(rows){
   }
   const yoy=new Map();
   for(const [q,value] of hpi){
-    const lag=hpi.get(quarterShift(q,-4));
+    const lag=hpi.get(exShiftQuarter(q,-4));
     if(lag>0)yoy.set(q,100*(value/lag-1));
   }
   return yoy;
@@ -111,7 +117,7 @@ function quarterSeoulPrices(dataset){
   }
   const yoy=new Map();
   for(const [q,v] of qlevel){
-    const prior=qlevel.get(quarterShift(q,-4));
+    const prior=qlevel.get(exShiftQuarter(q,-4));
     if(prior>0)yoy.set(q,100*(v/prior-1));
   }
   return yoy;
@@ -207,7 +213,7 @@ function drawExpanded(){
   const realYield=new Map();
   const levelMap=new Map(expanded.levels.map(p=>[p.period,p]));
   for(const [q,nominalRate] of market.KTB3Y){
-    const c=levelMap.get(q),old=levelMap.get(quarterShift(q,-4));
+    const c=levelMap.get(q),old=levelMap.get(exShiftQuarter(q,-4));
     if(c&&old&&old.cpi>0)realYield.set(q,nominalRate-100*(c.cpi/old.cpi-1));
   }
   ch=assetChart('bondChart',series,realYield,'사후 실질금리 (3년, %)',EXTRA_COLORS.bond,'금리(%)','bondSource');
