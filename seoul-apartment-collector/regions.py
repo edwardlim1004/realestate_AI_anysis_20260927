@@ -3,9 +3,10 @@
 Current codes: https://www.naqs.go.kr/f2t/com/searchSgList.do
 Hwaseong (2026-02-01): https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=122595
 Bucheon (2024-01-01): https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=105833
-Retired codes remain separate raw API partitions; do not add parent-city codes
-to current child districts, which would double-count the same current area.
-Boundary months are inclusive on both sides of a mid-month reorganization.
+Live API checks on 2026-10-27 confirmed that current Bucheon/Hwaseong/Yeoju
+codes also serve pre-reorganization contracts. Current codes must therefore
+cover the FULL contract history. Retired empty partitions are retained for
+provenance, but excluded from active collection and progress targets.
 """
 
 SEOUL = {
@@ -34,11 +35,13 @@ GYEONGGI = {
     '41595':'화성시 병점구', '41597':'화성시 동탄구',
     '41610':'광주시', '41630':'양주시', '41650':'포천시', '41670':'여주시',
     '41800':'연천군', '41820':'가평군', '41830':'양평군',
-    # Historical LAWD_CD values needed for pre-reorganization contract months.
+    # Retired archive aliases: keep names to read existing raw files.
     '41190':'부천시', '41195':'부천시 원미구(구코드)',
     '41197':'부천시 소사구(구코드)', '41199':'부천시 오정구(구코드)',
     '41590':'화성시', '41730':'여주군',
 }
+LEGACY_GYEONGGI = {'41190','41195','41197','41199','41590','41730'}
+CURRENT_GYEONGGI = {code:name for code,name in GYEONGGI.items() if code not in LEGACY_GYEONGGI}
 DAEJEON = {
     '30110':'동구', '30140':'중구', '30170':'서구',
     '30200':'유성구', '30230':'대덕구',
@@ -47,13 +50,10 @@ DISTRICTS = {**SEOUL, **GYEONGGI, **DAEJEON}
 LABELS = {'seoul':'서울', 'gyeonggi':'경기도', 'daejeon':'대전'}
 PROVINCE_NAMES = {'seoul':'서울특별시', 'gyeonggi':'경기도', 'daejeon':'대전광역시'}
 PERIODS = {
-    '41192':('202401',None), '41194':('202401',None), '41196':('202401',None),
     '41190':('201607','202312'),
     '41195':(None,'201607'), '41197':(None,'201607'), '41199':(None,'201607'),
     '41590':(None,'202601'),
-    '41591':('202602',None), '41593':('202602',None),
-    '41595':('202602',None), '41597':('202602',None),
-    '41670':('201309',None), '41730':(None,'201309'),
+    '41730':(None,'201309'),
 }
 
 
@@ -71,9 +71,9 @@ def in_month(code, ym):
 
 def select(region='all'):
     if region == 'seoul': return list(SEOUL)
-    if region == 'gyeonggi': return list(GYEONGGI)
+    if region == 'gyeonggi': return list(CURRENT_GYEONGGI)
     if region == 'daejeon': return list(DAEJEON)
-    if region == 'all': return list(DISTRICTS)
+    if region == 'all': return [*SEOUL,*CURRENT_GYEONGGI,*DAEJEON]
     raise ValueError('Unsupported region')
 
 

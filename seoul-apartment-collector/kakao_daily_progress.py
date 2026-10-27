@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 from datetime import datetime, timedelta, timezone
 import json
 import os
@@ -12,7 +13,7 @@ from zoneinfo import ZoneInfo
 import backfill_progress as audit
 from collect import START, months, prev
 import kakao_self_alert as kakao
-from regions import in_month, select
+from regions import PERIODS, in_month, select
 
 BASE = Path(__file__).resolve().parent
 REPORT = BASE/'daily_progress_report.json'
@@ -75,7 +76,9 @@ def build_report(manifest, status, now=None):
     reason = ('same_observation_day' if aligned else
               'missing_scopes' if not comparison_complete else
               'observation_date_missing' if comparison_missing_dates else 'observation_days_differ')
-    return {'generated_at_kst':now.isoformat(), 'cutoff':cutoff,
+    basis={region:{code:PERIODS.get(code,(None,None)) for code in select(region)} for region in ('seoul','gyeonggi')}
+    basis_sha=hashlib.sha256(json.dumps([START,basis],sort_keys=True).encode()).hexdigest()
+    return {'generated_at_kst':now.isoformat(), 'cutoff':cutoff, 'scope_basis_sha256':basis_sha,
         'periods_equal':True, 'coverage':coverage,
         'comparison':{'contract_month':comparison_month,'coverage_complete':comparison_complete,
             'observation_dates':comparison_dates,'same_observation_day':aligned,
@@ -89,6 +92,15 @@ def build_report(manifest, status, now=None):
         'verification':'Upload-confirmed manifest coverage, not a live reread or transaction semantic audit.'}
 
 
+def comparable_previous_total(report,previous):
+    current=report['coverage']['gyeonggi']['total']
+    old=(previous or {}).get('report',{}).get('coverage',{}).get('gyeonggi',{}).get('total',{})
+    # A corrected scope definition is not a daily collection delta.
+    previous_report=(previous or {}).get('report',{})
+    same_basis=bool(report.get('scope_basis_sha256') and report['scope_basis_sha256']==previous_report.get('scope_basis_sha256'))
+    return old.get('stored') if same_basis or old.get('target')==current['target'] else None
+
+
 def render_message(report, previous=None):
     if 'storage' in report:return render_combined_message(report,previous)
     day = datetime.fromisoformat(report['generated_at_kst'])
@@ -96,9 +108,9 @@ def render_message(report, previous=None):
     def line(label,kind):
         part = data[kind]
         return f"{label} {part['stored']:,}/{part['target']:,} ({part['percent']:.1f}%)"
-    previous_total = (previous or {}).get('report',{}).get('coverage',{}).get('gyeonggi',{}).get('total',{}).get('stored')
+    previous_total = comparable_previous_total(report,previous)
     delta = (f"전일대비 {data['total']['stored']-previous_total:+,}구간"
-             if isinstance(previous_total,int) else '전일보고 없음')
+             if isinstance(previous_total,int) else '집계기준 변경' if previous else '전일보고 없음')
     cutoff = report['cutoff'][2:4]+'.'+report['cutoff'][4:]
     check = report['comparison']
     check_text = {'same_observation_day':'동일 확인일 '+str(check['common_observation_day_kst'])[5:],
@@ -119,8 +131,8 @@ def render_combined_message(report,previous=None):
     from storage_usage import GB
     day=datetime.fromisoformat(report['generated_at_kst'])
     data=report['coverage']['gyeonggi'];storage=report['storage']
-    old=(previous or {}).get('report',{}).get('coverage',{}).get('gyeonggi',{}).get('total',{}).get('stored')
-    delta=f"·전일{data['total']['stored']-old:+,}" if isinstance(old,int) else ''
+    old=comparable_previous_total(report,previous)
+    delta=f"·전일{data['total']['stored']-old:+,}" if isinstance(old,int) else '·기준변경' if previous else ''
     github=storage.get('github',{});code=github.get('code',{})
     git=(f"Git코드{code['used_bytes']/1e6:.1f}MB(관리1GB {code['percent']:.1f}%)"
          if code.get('status')=='ok' else 'Git 용량미확인')
@@ -276,3 +288,4 @@ def main():
 
 
 if __name__=='__main__':raise SystemExit(main())
+

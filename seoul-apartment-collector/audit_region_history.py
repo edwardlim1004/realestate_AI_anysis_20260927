@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 
 import collect
 from incremental import content_hash
-from regions import PERIODS, in_month
+from regions import PERIODS, in_month, select
 
 BASE=Path(__file__).resolve().parent
 REPORT=BASE/'region_history_audit.json'
@@ -36,7 +36,7 @@ def probes(cutoff):
 
 
 def signature(cutoff):
-    return hashlib.sha256(json.dumps([PERIODS,collect.START,cutoff],sort_keys=True).encode()).hexdigest()
+    return hashlib.sha256(json.dumps([PERIODS,collect.START,select('gyeonggi'),cutoff],sort_keys=True).encode()).hexdigest()
 
 
 def run():

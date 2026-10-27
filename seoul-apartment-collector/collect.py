@@ -243,7 +243,7 @@ def run(mode,max_requests,delay,until=None,districts=None,collector=None,region=
         'last_run_changed_scopes':changed,'last_run_unchanged_scopes':unchanged,
         'last_run_added_rows':added_rows,'last_run_removed_rows':removed_rows,
         'completed_by_region':{name:sum(1 for key in archive.files
-            if region_for(key.split('/')[2])==name)
+            if key.split('/')[2] in select(name))
             for name in LABELS},
         **archive.stats()})
     print('RESULT',json.dumps({'requests':c.calls,'success':success,'failures':failures,'completed_scopes':count}))

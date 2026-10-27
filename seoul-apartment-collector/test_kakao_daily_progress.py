@@ -45,7 +45,7 @@ class DailyReportTests(unittest.TestCase):
     def test_targets_match_seoul_periods_and_actual_district_history(self):
         data = report()
         self.assertEqual(11000,data['coverage']['seoul']['total']['target'])
-        self.assertEqual(19062,data['coverage']['gyeonggi']['total']['target'])
+        self.assertEqual(20680,data['coverage']['gyeonggi']['total']['target'])
         self.assertEqual(25,data['coverage']['seoul']['sale']['stored'])
         self.assertEqual(47,data['coverage']['gyeonggi']['rent']['stored'])
         self.assertEqual('202609',data['comparison']['contract_month'])
@@ -74,15 +74,21 @@ class DailyReportTests(unittest.TestCase):
                 self.assertFalse(check['ready']);self.assertEqual(reason,check['reason'])
 
     def test_text_fits_kakao_and_exposes_errors_with_real_progress_delta(self):
-        data=report();data['coverage']['gyeonggi']['sale'].update(stored=10635,percent=100)
-        data['coverage']['gyeonggi']['rent'].update(stored=8427,percent=100)
-        data['coverage']['gyeonggi']['total'].update(stored=19062,percent=100)
-        previous={'report':{'coverage':{'gyeonggi':{'total':{'stored':1}}}}}
+        data=report();data['coverage']['gyeonggi']['sale'].update(stored=11750,percent=100)
+        data['coverage']['gyeonggi']['rent'].update(stored=8930,percent=100)
+        data['coverage']['gyeonggi']['total'].update(stored=20680,percent=100)
+        previous={'report':{'coverage':{'gyeonggi':{'total':{'stored':1,'target':20680}}}}}
         text=daily.render_message(data,previous)
         self.assertLessEqual(len(text),200)
-        self.assertIn('+19,061구간',text)
+        self.assertIn('+20,679구간',text)
         self.assertIn('오류 3건',text)
         self.assertIn('동일 확인일',text)
+
+    def test_changed_scope_target_is_not_reported_as_new_collection(self):
+        data=report()
+        previous={'report':{'coverage':{'gyeonggi':{'total':{'stored':19062,'target':19062}}}}}
+        self.assertIsNone(daily.comparable_previous_total(data,previous))
+        self.assertIn('집계기준 변경',daily.render_message(data,previous))
 
     def test_once_per_kst_day_and_next_day_delta(self):
         storage=MemoryStorage();sent=[]
@@ -125,3 +131,4 @@ class DailyReportTests(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main(verbosity=2)
+
