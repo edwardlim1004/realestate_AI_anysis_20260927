@@ -119,7 +119,11 @@ def main() -> None:
             daily = download_series(key, series, start_year, today)
             if not daily:
                 raise RuntimeError(f"No valid official ECOS rows for {series}")
+            current_quarter = f"{today.year}-Q{(today.month - 1) // 3 + 1}"
             for record in aggregate_quarterly(series, daily):
+                # A current-quarter observation is not a completed quarter-end close or yield average.
+                if record["Quarter"] >= current_quarter:
+                    continue
                 existing[(series, record["Quarter"])] = record
             print(f"{series}: {len(daily)} daily observations, through {daily[-1][0]}")
         except Exception as error:
