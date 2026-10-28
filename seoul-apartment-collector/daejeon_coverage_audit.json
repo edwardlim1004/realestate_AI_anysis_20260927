@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "checked_at_utc": "2026-10-28T10:41:17.057473+00:00",
+  "source_git_sha": "",
+  "cutoff": "202610",
+  "regions": {
+    "daejeon": {
+      "expected_scopes": 2200,
+      "reread_verified_scopes": 2200,
+      "failed_scopes": 0,
+      "transactions": {
+        "jeonse": 235643,
+        "monthly": 141861,
+        "sale": 393651
+      },
+      "empty_scopes": 0
+    }
+  },
+  "expected_scopes": 2200,
+  "reread_verified_scopes": 2200,
+  "failed_scopes": 0,
+  "failures": [],
+  "empty_scopes": [],
+  "identical_extra_rows_preserved": 14500,
+  "source_checks": {
+    "status": "ok",
+    "requested": 37,
+    "checked": 37,
+    "pending": 0,
+    "empty_scopes": 0,
+    "historical_samples": 37,
+    "requests": 37,
+    "different_scopes": [],
+    "errors": [],
+    "note": "Empty scopes and stratified samples only; not a requery of every transaction."
+  },
+  "storage_complete": true,
+  "passed": true,
+  "verification": "Every required stored object reread: SHA256, gzip, CSV, row count, original JSON, dates, district and rent classification; original API rechecked only as specified under source_checks."
+}
