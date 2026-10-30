@@ -131,3 +131,11 @@ python -m http.server 8000
 - IMF Global Financial Stability Report, April 2019, chapter 2
 
 정확한 URL과 사용 위치는 `risk-data/source_registry.csv`가 기준입니다.
+
+## AI 업무 운영과 기능별 작업지시
+
+[운영 규정·역할·플로우](operations/README.md) · [대화 정리표](operations/CHAT_INDEX.md)
+
+`python tools/ai_task.py liquidity "M2 수준과 GDP 대비 과잉을 구분해 검증"`
+
+기존 실행 경로를 유지하는 기능별 관리 입구입니다. 이 명령은 AI 작업지시문만 출력하며 자동 실행·배포를 하지 않습니다.
