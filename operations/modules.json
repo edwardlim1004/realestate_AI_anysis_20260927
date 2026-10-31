@@ -1,0 +1,65 @@
+{
+  "data": {
+    "name": "01 데이터 수집·품질",
+    "paths": [
+      "seoul-apartment-collector",
+      "api-integration"
+    ],
+    "scope": "서울·경기·대전 매매/전세/월세의 지역×월×유형 coverage, 신고지연, 취소·중복 및 공통 기준일 검증"
+  },
+  "storage": {
+    "name": "02 저장·백업·알림",
+    "paths": [
+      "seoul-apartment-collector",
+      ".github/workflows"
+    ],
+    "scope": "R2/Drive 보관·복구·용량, 카카오 알림. 수집과 공유 경로이므로 파일 단위로 변경 범위를 제한"
+  },
+  "liquidity": {
+    "name": "03 유동성 연구·검증",
+    "paths": [
+      "risk-monitor/liquidity",
+      "risk-data/liquidity",
+      "liquidity-research"
+    ],
+    "scope": "M2 수준·GDP 대비 비율·추세괴리 분리. promotion.enabled=false 확인; 검증과 명시적 결재 전 편입 금지"
+  },
+  "gsadf": {
+    "name": "04 GSADF 버블검정",
+    "paths": [
+      "gsadf"
+    ],
+    "scope": "Monte Carlo 2000회, 시차 0/1/2/4, 난수 seed·검정설정·다중검정·표본 민감도 기록"
+  },
+  "har": {
+    "name": "05 HaR 하방위험",
+    "paths": [
+      "risk-monitor/update_risk_data.py"
+    ],
+    "scope": "현재 본체는 WAITING_DATA. 전용 실행모듈 완성으로 간주하지 말 것. 분위수 손실·포괄률·표본외 검증 설계부터 수행"
+  },
+  "valuation": {
+    "name": "06 장기 가격·전세가치",
+    "paths": [
+      "long-term-value"
+    ],
+    "scope": "과거 추세와 미래 시나리오 분리, 거래구성·표본수·전세갭·금리 민감도 검증"
+  },
+  "dashboard": {
+    "name": "07 위험 대시보드·거래상세",
+    "paths": [
+      "index.html",
+      "apartment-trades.js",
+      "trade-details",
+      "risk-monitor/update_risk_data.py"
+    ],
+    "scope": "거시 역사백분위와 지역 상대점수 구분, 상세팝업·출처·잠정치·연구상태 표시"
+  },
+  "auction": {
+    "name": "08 경공매 서비스",
+    "paths": [
+      "bossauction-lab"
+    ],
+    "scope": "검색·지도·물건 상세·입찰가 시나리오. API와 실물건 연동 여부를 각각 증거로 확인"
+  }
+}
