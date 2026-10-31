@@ -135,6 +135,7 @@ def build_district(code, months, storage):
     valuation={
         "schema":1,"method":"five-year-v1.1","district_code":code,
         "district":DAEJEON[code],"window_start":months[0],"cutoff_month":months[-1],
+        "generated_kst":dt.datetime.now(ZoneInfo("Asia/Seoul")).isoformat(timespec="seconds"),
         "units":"만원","size_bin_m2":5,
         "source":"국토교통부 공식 매매·전월세 수집 원본; 검증된 사설 R2/Google Drive 저장",
         "source_digest":signature,
