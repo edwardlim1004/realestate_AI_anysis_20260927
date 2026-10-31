@@ -48,7 +48,7 @@ function syncControls(){
 }
 function renderRanking(){
  const rows=areaRows().slice().sort((a,b)=>(number(b.scores?.composite)||0)-(number(a.scores?.composite)||0));
- const filtered=state.district?rows.filter(r=>shortName(r.name)===state.district):rows;
+ const filtered=rows; // keep the full comparison table; selected district is highlighted
  txt("priceHeader",state.pricePeriod==="provisional"?"전용80~90㎡ 현재월 잠정":"전용80~90㎡ 완결월");
  if(state.area==="daejeon"){
   const list=(GEO?.regions?.daejeon||[]).map(x=>x.name);
@@ -104,7 +104,7 @@ function renderMap(){
   const c=state.metric==="gap"||state.metric==="risk"?riskColor(v):scoreColor(v);
   const partial=state.area==="gyeonggi"&&r&&r.name!==g.name;
   const paths=g.polygons.map(poly=>poly.map((p,i)=>(i?"L":"M")+x(p)+","+y(p)).join("")+"Z").join(" ");
-  markup+='<path role="button" tabindex="0" aria-label="'+esc(g.name)+' '+esc(metricLabel(r))+'" data-district="'+esc(g.name)+'" class="'+(state.district===g.name?"active":"")+'" fill="'+c+'" d="'+paths+'"><title>'+esc(g.name)+': '+esc(metricLabel(r))+'</title></path>';
+  markup+='<path role="button" tabindex="0" aria-label="'+esc(g.name)+' '+esc(metricLabel(r))+'" data-district="'+esc(g.name)+'" class="'+(state.district===g.name?"active":"")+'" fill="'+c+'" '+(partial?'stroke-dasharray="3,2"':'')+' d="'+paths+'"><title>'+esc(g.name)+': '+esc(metricLabel(r))+(partial?' (일부 권역 표본으로 시 전체를 대표하지 않음)':'')+'</title></path>';
  });
  if(state.district){
   const selected=geo.find(g=>g.name===state.district);
