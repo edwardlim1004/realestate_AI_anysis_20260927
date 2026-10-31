@@ -12,11 +12,12 @@ const state={area:"seoul",district:"송파구",metric:"composite",riskTab:"histo
 const cache={valuation:{},trades:{},tradeIndex:null};
 let historyChart=null,macroChart=null,valueChart=null,asyncSeq=0;
 function txt(id,value){const e=$(id);if(e)e.textContent=value==null?"N/A":String(value);}
-function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","\"":"&quot;"}[c]));}
+function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","\"":"&quot;","'":"&#39;"}[c]));}
 function shortName(s){return String(s||"").replace(/\s+\(.*/,"");}
 function rowFor(name){return (SOURCE?.regions||[]).find(r=>r.province===state.area&&shortName(r.name)===name);}
 function areaRows(){return (SOURCE?.regions||[]).filter(r=>r.province===state.area);}
-function number(v){const n=Number(v);return Number.isFinite(n)?n:null;}
+function number(v){if(v===null||v===undefined||v==="")return null;const n=Number(v);return Number.isFinite(n)?n:null;}
+function moneyBillion(v){const n=number(v);return n==null?"N/A":n.toFixed(2)+"억";}
 function moneyMan(v){const n=number(String(v||"").replace(/,/g,""));return n!=null&&n>0?(n/10000).toLocaleString("ko-KR",{maximumFractionDigits:2})+"억":"N/A";}
 function fmtPct(v,d=1){const n=number(v);return n==null?"N/A":(n>0?"+":"")+n.toFixed(d)+"%";}
 function scoreColor(v){if(v==null)return "#cbd5e1";if(v<20)return "#dc5b56";if(v<40)return "#f3a47e";if(v<60)return "#f8ce8f";if(v<80)return "#9ec8f5";return "#2784e8";}
@@ -48,18 +49,19 @@ function syncControls(){
 function renderRanking(){
  const rows=areaRows().slice().sort((a,b)=>(number(b.scores?.composite)||0)-(number(a.scores?.composite)||0));
  const filtered=state.district?rows.filter(r=>shortName(r.name)===state.district):rows;
+ txt("priceHeader",state.pricePeriod==="provisional"?"전용80~90㎡ 현재월 잠정":"전용80~90㎡ 완결월");
  if(state.area==="daejeon"){
-  $("regionRows").innerHTML='<tr><td colspan="7">대전 5개 구: 행정경계 표시 가능 / 지역별 상대점수는 정규화·검증 전이므로 N/A</td></tr>';
+  $("regionRows").innerHTML='<tr><td colspan="8">대전 5개 구: 행정경계 표시 가능 / 지역별 상대점수는 정규화·검증 전이므로 N/A</td></tr>';
   txt("regionSummary","대전 매매·전월세 원천 수집과 지역 점수 산출은 별도 검증이 필요합니다.");
   return;
  }
- $("regionRows").innerHTML=filtered.map((r,i)=>'<tr tabindex="0" data-district="'+esc(shortName(r.name))+'" class="'+(shortName(r.name)===state.district?"selected":"")+'"><td>'+(rows.indexOf(r)+1)+'</td><td>'+esc(r.name)+'</td><td><b style="color:#1261c4">'+nOrDash(r.scores?.composite)+'</b></td><td>'+fmtPct(r.gapPct)+'</td><td>'+esc(r.trades||"N/A")+'</td><td>'+fmtPct(r.rentalYieldPct,2)+'</td><td><span class="pill '+(r.signal==="buy"?"":"warn")+'">'+(r.signal==="buy"?"상대우위":r.signal==="warning"?"중립":"재검증")+'</span></td></tr>').join("");
+ $("regionRows").innerHTML=filtered.map((r,i)=>'<tr tabindex="0" data-district="'+esc(shortName(r.name))+'" class="'+(shortName(r.name)===state.district?"selected":"")+'"><td>'+(rows.indexOf(r)+1)+'</td><td>'+esc(r.name)+'</td><td><b style="color:#1261c4">'+nOrDash(r.scores?.composite)+'</b></td><td>'+fmtPct(r.gapPct)+'</td><td>'+moneyBillion(state.pricePeriod==="provisional"?r.history?.[r.history.length-1]:r.avg84)+'</td><td>'+esc(r.trades||"N/A")+'</td><td>'+fmtPct(r.rentalYieldPct,2)+'</td><td><span class="pill '+(r.signal==="buy"?"":"warn")+'">'+(r.signal==="buy"?"상대우위":r.signal==="warning"?"중립":"재검증")+'</span></td></tr>').join("");
  $("regionRows").querySelectorAll("tr[data-district]").forEach(tr=>{
   const fn=()=>setDistrict(tr.dataset.district);
   tr.addEventListener("click",fn);
   tr.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();fn();}});
  });
- txt("regionSummary",rows.length+"개 지역 상대순위 · 전용80~90㎡ 단순평균 · 모멘텀·리스크는 검증 중 (상세 지표는 ver0.0)");
+ txt("regionSummary",rows.length+"개 지역 상대순위 · "+(state.pricePeriod==="provisional"?"현재월 잠정가격만 참고 표시; 상대점수는 완결월 기준":"완결월 평가") +" · 모멘텀·리스크는 검증 중");
 }
 function mapMetricValue(r){
  if(!r||state.area==="daejeon")return null;
@@ -270,7 +272,7 @@ function bind(){
  $("riskTabs").querySelectorAll("[data-tab]").forEach(el=>el.addEventListener("click",()=>setRiskTab(el.dataset.tab)));
  $("historyMetric").addEventListener("change",drawRiskHistory);
  $("macroMetric").addEventListener("change",drawMacro);
- $("tradeSearch").addEventListener("input",renderTransactionRows);
+ $("tradeSearch").addEventListener("input",()=>{if(state.tradeType==="sale")renderTransactionRows();});
  $("aptSearch").addEventListener("input",()=>{state.aptIndex=0;renderValuation(asyncSeq);});
  $("unifiedSearch").addEventListener("keydown",e=>{if(e.key!=="Enter")return;const q=e.target.value.trim();if(!q)return;const row=(SOURCE?.regions||[]).find(r=>r.name.includes(q)||shortName(r.name)===q);if(row){state.area=row.province;state.district=shortName(row.name);renderAll();document.getElementById("regional").scrollIntoView({behavior:"smooth"});return;}$("aptSearch").value=q;renderValuation(asyncSeq);document.getElementById("valuation").scrollIntoView({behavior:"smooth"});});
 }
