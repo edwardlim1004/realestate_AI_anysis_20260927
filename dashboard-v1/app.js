@@ -11,6 +11,7 @@ const CODES={"종로구":"11110","중구":"11140","용산구":"11170","성동구
 const state={area:"seoul",district:"송파구",metric:"composite",riskTab:"history",query:"",aptIndex:-1,tradeQuery:"",pricePeriod:"complete",tradeType:"sale"};
 const cache={valuation:{},trades:{},tradeIndex:null};
 let historyChart=null,macroChart=null,valueChart=null,asyncSeq=0;
+let mapNavigator=null,mapProjection=null;
 function txt(id,value){const e=$(id);if(e)e.textContent=value==null?"N/A":String(value);}
 function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","\"":"&quot;","'":"&#39;"}[c]));}
 function shortName(s){return String(s||"").replace(/\s+\(.*/,"");}
@@ -25,11 +26,12 @@ function riskColor(v){if(v==null)return "#cbd5e1";if(v<20)return "#2784e8";if(v<
 function nOrDash(n){return Number.isFinite(Number(n))?Number(n).toFixed(1):"N/A";}
 function setArea(area){
  if(!NAMES[area])return;
+ if(state.area!==area&&mapNavigator)mapNavigator.reset();
  state.area=area;state.district="";state.aptIndex=-1;state.query="";state.tradeQuery="";
  txt("aptName","단지를 검색하거나 지역을 선택하세요");
  $("aptSearch").value="";$("tradeSearch").value="";renderAll();
 }
-function setDistrict(district){state.district=district||"";state.query="";state.aptIndex=-1;$("aptSearch").value="";renderAll();}
+function setDistrict(district,focus=false){state.district=district||"";state.query="";state.aptIndex=-1;$("aptSearch").value="";renderAll();if(focus)focusSelectedMapRegion();}
 function syncControls(){
  document.querySelectorAll("[data-area]").forEach(el=>{const yes=el.dataset.area===state.area;el.classList.toggle("active",yes);el.setAttribute("aria-pressed",yes?"true":"false")});
  const names=(GEO?.regions?.[state.area]||[]).map(g=>g.name).sort((a,b)=>a.localeCompare(b,"ko"));
@@ -53,13 +55,13 @@ function renderRanking(){
  if(state.area==="daejeon"){
   const list=(GEO?.regions?.daejeon||[]).map(x=>x.name);
   $("regionRows").innerHTML=list.map((n,i)=>'<tr tabindex="0" data-district="'+esc(n)+'" class="'+(n===state.district?"selected":"")+'"><td>'+(i+1)+'</td><td>'+esc(n)+'</td><td colspan="5">N/A · 지역별 검증자료 대기</td><td><span class="pill missing">미산출</span></td></tr>').join("");
-  $("regionRows").querySelectorAll("tr[data-district]").forEach(tr=>{const fn=()=>setDistrict(tr.dataset.district);tr.addEventListener("click",fn);tr.addEventListener("keydown",e=>{if(e.key==="Enter"){fn();}});});
+  $("regionRows").querySelectorAll("tr[data-district]").forEach(tr=>{const fn=()=>setDistrict(tr.dataset.district,true);tr.addEventListener("click",fn);tr.addEventListener("keydown",e=>{if(e.key==="Enter"){fn();}});});
   txt("regionSummary","대전 5개 구: 지도·지역 선택 지원 / 지역 점수는 검증 전이므로 생성하지 않음");
   return;
  }
  $("regionRows").innerHTML=filtered.map((r,i)=>'<tr tabindex="0" data-district="'+esc(shortName(r.name))+'" class="'+(shortName(r.name)===state.district?"selected":"")+'"><td>'+(rows.indexOf(r)+1)+'</td><td>'+esc(r.name)+'</td><td><b style="color:#1261c4">'+nOrDash(r.scores?.composite)+'</b></td><td>'+fmtPct(r.gapPct)+'</td><td>'+moneyBillion(state.pricePeriod==="provisional"?r.history?.[r.history.length-1]:r.avg84)+'</td><td>'+esc(r.trades||"N/A")+'</td><td>'+fmtPct(r.rentalYieldPct,2)+'</td><td><span class="pill '+(r.signal==="buy"?"":"warn")+'">'+(r.signal==="buy"?"상대우위":r.signal==="warning"?"중립":"재검증")+'</span></td></tr>').join("");
  $("regionRows").querySelectorAll("tr[data-district]").forEach(tr=>{
-  const fn=()=>setDistrict(tr.dataset.district);
+  const fn=()=>setDistrict(tr.dataset.district,true);
   tr.addEventListener("click",fn);
   tr.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();fn();}});
  });
@@ -98,6 +100,7 @@ function renderMap(){
  const cx=(maxX+minX)/2,cy=(maxY+minY)/2;
  const x=p=>(300+(p[0]-cx)*Math.cos(cy*Math.PI/180)*scale).toFixed(2);
  const y=p=>(160-(p[1]-cy)*scale).toFixed(2);
+ mapProjection={geo,x,y};
  let markup="";
  geo.forEach(g=>{
   const r=rowFor(g.name),v=mapMetricValue(r);
@@ -112,13 +115,14 @@ function renderMap(){
  }
  canvas.innerHTML=markup;
  canvas.querySelectorAll("path").forEach(el=>{
-  const choose=()=>setDistrict(el.getAttribute("data-district"));
+  const choose=()=>{if(mapNavigator?.wasDragged())return;setDistrict(el.getAttribute("data-district"));};
   el.addEventListener("click",choose);
   el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();choose();}});
  });
  let activeRow=state.district?rowFor(state.district):null;
  let details=state.district?state.district+" · "+metricLabel(activeRow)+(state.area==="gyeonggi"&&activeRow&&activeRow.name!==state.district?" · 일부 권역 표본 (시 전체 대표 아님)":""):"지도에서 시군구를 선택하세요";
  txt("mapInspect",details);
+ $("mapZoomSelection").disabled=!state.district;
  const legend=$("mapLegend");
  const unavailable=["credit","supply"].includes(state.metric)||state.area==="daejeon";
  legend.innerHTML=unavailable?'<span>◻ 지역별 검증자료 미확보(N/A) · 경계만 표시</span>':
@@ -129,6 +133,22 @@ function renderMap(){
  if(state.area==="gyeonggi"&&!unavailable)legend.innerHTML+="<span>점선: 일부 권역 대표값, 시 전체 아님</span>";
  txt("mapSource","행정경계: 국가공간정보포털 기반 2023년 자료(경계 갱신 확인 필요). "+
  (state.metric==="risk"?"리스크 항목은 아직 독립 검증되지 않은 연구점수의 역순서입니다.":state.metric==="gap"?"가격 추세괴리 분포이며 적정가나 위기확률이 아닙니다.":state.area==="daejeon"?"대전은 검증된 지역별 지표 미확보로 지도만 표시합니다.":"색상은 지역 간 상대지표이며 절대적인 매수·매도 판정이 아닙니다."));
+}
+
+function updateMapZoomUi(view) {
+  if(!view)return;
+  txt("mapZoomPercent",Math.round(view.zoom*100)+"%");
+  $("mapZoomOut").disabled=view.zoom<=1.0001;
+  $("mapZoomIn").disabled=view.zoom>=8-0.0001;
+}
+function focusSelectedMapRegion() {
+  if(!mapNavigator||!mapProjection||!state.district)return;
+  const region=mapProjection.geo.find(r=>r.name===state.district);
+  if(!region)return;
+  const points=region.polygons.flat();
+  if(!points.length)return;
+  const xs=points.map(p=>Number(mapProjection.x(p))),ys=points.map(p=>Number(mapProjection.y(p)));
+  mapNavigator.focusBounds({x0:Math.min(...xs),x1:Math.max(...xs),y0:Math.min(...ys),y1:Math.max(...ys)},1.65);
 }
 function setRiskTab(name){
  state.riskTab=name;
@@ -271,19 +291,24 @@ function renderAll(){
 }
 function bind(){
  document.querySelectorAll("[data-area]").forEach(el=>el.addEventListener("click",()=>setArea(el.dataset.area)));
- $("districtSelect").addEventListener("change",e=>setDistrict(e.target.value));
+ $("districtSelect").addEventListener("change",e=>setDistrict(e.target.value,true));
  $("applyFilter").addEventListener("click",()=>{state.pricePeriod=$("periodSelect").value;state.tradeType=$("typeSelect").value;renderAll();});
  $("mapMetric").addEventListener("change",e=>{state.metric=e.target.value;renderMap();});
+ $("mapZoomIn").addEventListener("click",()=>mapNavigator?.zoom(1.4));
+ $("mapZoomOut").addEventListener("click",()=>mapNavigator?.zoom(1/1.4));
+ $("mapZoomReset").addEventListener("click",()=>mapNavigator?.reset());
+ $("mapZoomSelection").addEventListener("click",focusSelectedMapRegion);
  $("riskTabs").querySelectorAll("[data-tab]").forEach(el=>el.addEventListener("click",()=>setRiskTab(el.dataset.tab)));
  $("historyMetric").addEventListener("change",drawRiskHistory);
  $("macroMetric").addEventListener("change",drawMacro);
  $("tradeSearch").addEventListener("input",()=>{if(state.tradeType==="sale")renderTransactionRows();});
  $("aptSearch").addEventListener("input",()=>{state.aptIndex=0;renderValuation(asyncSeq);});
- $("unifiedSearch").addEventListener("keydown",e=>{if(e.key!=="Enter")return;const q=e.target.value.trim();if(!q)return;const row=(SOURCE?.regions||[]).find(r=>r.name.includes(q)||shortName(r.name)===q);if(row){state.area=row.province;state.district=shortName(row.name);renderAll();document.getElementById("regional").scrollIntoView({behavior:"smooth"});return;}$("aptSearch").value=q;renderValuation(asyncSeq);document.getElementById("valuation").scrollIntoView({behavior:"smooth"});});
+ $("unifiedSearch").addEventListener("keydown",e=>{if(e.key!=="Enter")return;const q=e.target.value.trim();if(!q)return;const row=(SOURCE?.regions||[]).find(r=>r.name.includes(q)||shortName(r.name)===q);if(row){state.area=row.province;state.district=shortName(row.name);renderAll();focusSelectedMapRegion();document.getElementById("regional").scrollIntoView({behavior:"smooth"});return;}$("aptSearch").value=q;renderValuation(asyncSeq);document.getElementById("valuation").scrollIntoView({behavior:"smooth"});});
 }
 function start(){
  if(!SOURCE||!GEO){txt("updatedAt","핵심 데이터 로딩 실패 · ver0.0 확인");return;}
  txt("updatedAt","실거래 "+(SOURCE.meta?.evaluationMonth||"기준월 불명")+" 완결 · "+(SOURCE.meta?.latestObservationMonth||"")+" 잠정");
+ if(typeof MapNavigation!=="undefined")mapNavigator=MapNavigation.createMapNavigator($("regionMap"),{onChange:updateMapZoomUi});
  bind();renderNational();renderAll();setRiskTab("history");drawMacro();
 }
 start();
