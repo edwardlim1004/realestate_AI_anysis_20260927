@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "status": "VERIFIED_PUBLIC_RECENT_ONLY",
+  "source": "국토교통부 매매 실거래 검증 공개 거래 인덱스 (매매 only)",
+  "warning": "최근 2개월(10월 잠정) 기반 단순 거래 건수·시세입니다. 5년 가격괴리·전세수익률·하방위험·종합점수로 해석하지 마세요.",
+  "regions": [
+    {
+      "code": "30110",
+      "name": "동구",
+      "complete_month": "202609",
+      "complete_month_count": 117,
+      "provisional_month": "202610",
+      "provisional_month_count": 128,
+      "complete_median_84": 30075,
+      "complete_84_n": 44,
+      "coverage": {
+        "expected_scopes": 2,
+        "verified_scopes": 2,
+        "missing_scopes": 0
+      },
+      "source_digest": "6315ece75dacb24b80f7863361d7cadaad0c7131fa77701e1b4969ba0ca6527b"
+    },
+    {
+      "code": "30140",
+      "name": "중구",
+      "complete_month": "202609",
+      "complete_month_count": 129,
+      "provisional_month": "202610",
+      "provisional_month_count": 136,
+      "complete_median_84": 39000,
+      "complete_84_n": 51,
+      "coverage": {
+        "expected_scopes": 2,
+        "verified_scopes": 2,
+        "missing_scopes": 0
+      },
+      "source_digest": "bb4d39c8e30e6730dda58c06238758e5e1ad449aca4a3434ae96e2171bf51a90"
+    },
+    {
+      "code": "30170",
+      "name": "서구",
+      "complete_month": "202609",
+      "complete_month_count": 454,
+      "provisional_month": "202610",
+      "provisional_month_count": 377,
+      "complete_median_84": 48000,
+      "complete_84_n": 196,
+      "coverage": {
+        "expected_scopes": 2,
+        "verified_scopes": 2,
+        "missing_scopes": 0
+      },
+      "source_digest": "a919a8def069e509ab481116ed1dd9b3a84f01d8d7d9d8226dd01a9616ff1f94"
+    },
+    {
+      "code": "30200",
+      "name": "유성구",
+      "complete_month": "202609",
+      "complete_month_count": 280,
+      "provisional_month": "202610",
+      "provisional_month_count": 340,
+      "complete_median_84": 45500,
+      "complete_84_n": 142,
+      "coverage": {
+        "expected_scopes": 2,
+        "verified_scopes": 2,
+        "missing_scopes": 0
+      },
+      "source_digest": "82f25a4134977ef32693bcae46365df593ef0e6b70365a1ce9ab21ce05f22aae"
+    },
+    {
+      "code": "30230",
+      "name": "대덕구",
+      "complete_month": "202609",
+      "complete_month_count": 90,
+      "provisional_month": "202610",
+      "provisional_month_count": 97,
+      "complete_median_84": 31000,
+      "complete_84_n": 17,
+      "coverage": {
+        "expected_scopes": 2,
+        "verified_scopes": 2,
+        "missing_scopes": 0
+      },
+      "source_digest": "19f145ad5c4ee790e1b558544b56b4ae277a49d3dc2427b26b5d7470cfbed9a7"
+    }
+  ]
+}
