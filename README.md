@@ -1,3 +1,13 @@
+# 부동산 AI 투자 분석 대시보드 · ver1.0
+
+- **현재 메인:** https://edwardlim1004.github.io/realestate_AI_anysis_20260927/
+- **과거 버전 ver0.0 (동작 보존):** https://edwardlim1004.github.io/realestate_AI_anysis_20260927/ver0/
+- **ver1.0 인터페이스·데이터제약·지도 출처·테스트:** [dashboard-v1/README.md](dashboard-v1/README.md)
+- 서울 25구 · 경기 31시군 · 대전 5구 지도 탭과 시군구 선택을 공통 연결. 대전 지역별 검증 점수는 아직 N/A입니다.
+- 기존 장기 가치평가 및 OECD·BIS 역사 위험 백분위는 검증된 범위에서 별도 표시하며, 미래 하방확률은 검증 전 수치를 생성하지 않습니다.
+
+---
+
 # 부동산 위험 모니터 v6 — 계산 감사형 GitHub Pages
 
 공개 사이트: https://edwardlim1004.github.io/realestate_AI_anysis_20260927/
