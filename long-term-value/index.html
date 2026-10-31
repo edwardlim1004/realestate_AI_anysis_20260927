@@ -30,7 +30,7 @@ table{border-collapse:collapse;width:100%;font-size:13px;min-width:420px}th,td{t
 <p class="sub">단지·법정동·지번·전용면적 5㎡ 구간을 맞춘 공식 실거래 집계를 사용합니다. 구 평균과 특정 단지의 가격을 혼용하지 않습니다.</p>
 <section class="panel" aria-label="분석대상">
   <div class="controls">
-    <label class="field">서울 자치구<select id="district"></select></label>
+    <label class="field">서울·대전 자치구<select id="district"></select></label>
     <label class="field">단지명 검색<input id="search" type="search" placeholder="예: 헬리오시티" autocomplete="off"></label>
     <label class="field">단지·면적 선택<select id="complex"><option value="">자치구를 선택하세요</option></select></label>
   </div>
@@ -81,7 +81,7 @@ table{border-collapse:collapse;width:100%;font-size:13px;min-width:420px}th,td{t
 <script>
 (function(){
 "use strict";
-const districts={"11110":"종로구","11140":"중구","11170":"용산구","11200":"성동구","11215":"광진구","11230":"동대문구","11260":"중랑구","11290":"성북구","11305":"강북구","11320":"도봉구","11350":"노원구","11380":"은평구","11410":"서대문구","11440":"마포구","11470":"양천구","11500":"강서구","11530":"구로구","11545":"금천구","11560":"영등포구","11590":"동작구","11620":"관악구","11650":"서초구","11680":"강남구","11710":"송파구","11740":"강동구"};
+const districts={"11110":"종로구","11140":"중구","11170":"용산구","11200":"성동구","11215":"광진구","11230":"동대문구","11260":"중랑구","11290":"성북구","11305":"강북구","11320":"도봉구","11350":"노원구","11380":"은평구","11410":"서대문구","11440":"마포구","11470":"양천구","11500":"강서구","11530":"구로구","11545":"금천구","11560":"영등포구","11590":"동작구","11620":"관악구","11650":"서초구","11680":"강남구","11710":"송파구","11740":"강동구","30110":"대전광역시 동구","30140":"대전광역시 중구","30170":"대전광역시 서구","30200":"대전광역시 유성구","30230":"대전광역시 대덕구"};
 const byId = id => document.getElementById(id);
 const params=new URLSearchParams(location.search);
 let doc=null, active=null, request=0, selectedTrade=null;
@@ -193,11 +193,11 @@ async function loadDistrict(){
     set("coverage","확정 데이터 기준: "+date(result.window_start)+" ~ "+date(result.cutoff_month)+
        " / 매매 "+c.sale_months+"/60개월 · 전월세 "+c.rent_months+"/60개월 · 검증 거래 매매 "+
        dispCount(c.sale_rows)+" · 순수 전세 "+dispCount(c.pure_jeonse_rows)+
-       " / 생성 "+result.generated_kst.slice(0,16).replace("T"," "));
+       " / 생성 "+String(result.generated_kst||'일자 미확인').slice(0,16).replace("T"," "));
     filterComplexes();
   }catch(err){
     if(seq!==request)return;
-    status(err.message+". GitHub Actions의 'Build Apartment Five-Year Valuations' 실행·성공 여부를 확인하세요.");
+    status(err.message+". GitHub Actions의 지역별 5년 평가 스냅샷 생성 작업을 확인하세요.");
     byId("complex").innerHTML='<option value="">5년 집계자료 없음</option>';
   }
 }
