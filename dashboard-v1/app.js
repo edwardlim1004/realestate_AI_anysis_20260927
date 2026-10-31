@@ -149,7 +149,7 @@ function metricLabel(r){
  if(!r)return "해당 지역별 검증값 없음";
  if(state.metric==="composite")return state.area==="daejeon"?"대전 4축 참고점수 "+nOrDash(r.partialScore4of5)+"/100 (서울·경기와 비교 불가)":"상대매력도 "+nOrDash(r.scores?.composite)+"/100 (연구용)";
  if(state.metric==="gap")return "장기 추세 대비 "+fmtPct(r.gapPct)+" (가격의 적정성 아님)";
- if(state.metric==="trades")return "거래활성 상대점수 "+nOrDash(r.scores?.liquidity)+"/100";
+ if(state.metric==="trades")return state.area==="daejeon"&&daejeonMeta?.recentOnly?"2026년 9월 매매 "+(r.latest_sales??"N/A")+"건 (규모 미보정)":"거래활성 상대점수 "+nOrDash(r.scores?.liquidity)+"/100";
  if(state.metric==="yield")return state.area==="daejeon"?"전세가율 "+fmtPct(r.jeonseRate,1)+" (임대수익률 아님)":"내재임대수익률 "+fmtPct(r.rentalYieldPct,2);
  if(state.metric==="risk")return "미검증 리스크 참고값 "+nOrDash(100-Number(r.scores?.risk))+"/100";
  return "지역별 검증자료 미확보 · 수치 미표시";
@@ -198,7 +198,7 @@ function renderMap(){
  }).join("");
  if(state.area==="gyeonggi"&&!unavailable)legend.innerHTML+="<span>점선: 일부 권역 대표값, 시 전체 아님</span>";
  txt("mapSource","행정경계: 국가공간정보포털 기반 2023년 자료(경계 갱신 확인 필요). "+
- (state.metric==="risk"?"리스크 항목은 아직 독립 검증되지 않은 연구점수의 역순서입니다.":state.metric==="gap"?"가격 추세괴리 분포이며 적정가나 위기확률이 아닙니다.":state.area==="daejeon"?"대전은 SHA256 검증된 5년 실거래 기반 4축 참고점수입니다. 5축 위험·적정가격 검증 전이며, 전세 항목은 전세가율(임대수익률 아님)입니다. 서울·경기와 직접 비교 불가.":"색상은 지역 간 상대지표이며 절대적인 매수·매도 판정이 아닙니다."));
+ (state.metric==="risk"?"리스크 항목은 아직 독립 검증되지 않은 연구점수의 역순서입니다.":state.metric==="gap"?"가격 추세괴리 분포이며 적정가나 위기확률이 아닙니다.":state.area==="daejeon"?(daejeonMeta?.recentOnly?"대전: 공식 2026년 9월 완결월 매매 거래건수의 5구 내 단순순위입니다. 인구·재고 대비 회전율이나 5년 추세가 아니며, 아직 부분자료만 제공합니다.":"대전은 SHA256 검증된 5년 실거래 기반 4축 참고점수입니다. 5축 위험·적정가격 검증 전이며, 전세 항목은 전세가율(임대수익률 아님)입니다. 서울·경기와 직접 비교 불가."):"색상은 지역 간 상대지표이며 절대적인 매수·매도 판정이 아닙니다."));
 }
 
 function updateMapZoomUi(view) {
