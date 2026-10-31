@@ -1,10 +1,11 @@
-name: Build Seoul + Gyeonggi Transaction Details (56 regions)
+name: Build Seoul + Gyeonggi + Daejeon Transaction Details (61 regions)
 
 on:
   push:
     branches: [main]
     paths:
       - "seoul-apartment-collector/build_public_trade_details.py"
+      - "api-integration/regions_lawd.py"
       - "seoul-apartment-collector/test_build_public_trade_details.py"
       - "apartment-trades.js"
       - ".github/workflows/build-public-trade-details.yml"
@@ -60,9 +61,9 @@ jobs:
               assert not any("원본항목JSON" in record for record in data["rows"])
               assert sum(data["by_month"].values())==len(data["rows"])
               ok+=1
-          assert len(index["regions"])==56, len(index["regions"])
+          assert len(index["regions"])==61, len(index["regions"])
           assert ok>0, "No region has verified transaction rows"
-          print("VERIFIED_SNAPSHOT_REGIONS",ok,"/56",report["summary"])
+          print("VERIFIED_SNAPSHOT_REGIONS",ok,"/61",report["summary"])
           PY
       - name: Commit ONLY compact verified public details; never publish private raw files
         run: |
