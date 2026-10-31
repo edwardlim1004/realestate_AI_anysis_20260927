@@ -26,4 +26,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Check dashboard model, map synchronization and ver0.0 preservation
-        run: node dashboard-v1/tests/smoke.cjs
+        run: |
+          node dashboard-v1/tests/smoke.cjs
+          node dashboard-v1/tests/map-navigation.test.cjs
