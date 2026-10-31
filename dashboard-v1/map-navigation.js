@@ -107,14 +107,18 @@
     function onPointerDown(event) {
       if (event.pointerType==="touch" || event.button!==0) return;
       drag={id:event.pointerId,x:event.clientX,y:event.clientY,prevX:event.clientX,prevY:event.clientY,moved:false};
-      if (typeof svg.setPointerCapture==="function") {
-        try { svg.setPointerCapture(event.pointerId); } catch (_) {}
-      }
+      // Do not capture on pointerdown: a normal path click must select its district.
+      // Capture only after the pointer has actually moved into a drag.
     }
     function onPointerMove(event) {
       if (!drag || event.pointerId!==drag.id) return;
       const distance=Math.hypot(event.clientX-drag.x,event.clientY-drag.y);
-      if (distance>5) drag.moved=true;
+      if (distance>5 && !drag.moved) {
+        drag.moved=true;
+        if (typeof svg.setPointerCapture==="function") {
+          try { svg.setPointerCapture(event.pointerId); } catch (_) {}
+        }
+      }
       if (drag.moved) {
         panPixels(event.clientX-drag.prevX,event.clientY-drag.prevY);
         if (typeof event.preventDefault==="function") event.preventDefault();
