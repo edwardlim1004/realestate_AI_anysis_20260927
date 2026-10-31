@@ -29,7 +29,28 @@ async function fetchDaejeonScores(){
   if(payload.schema!==1||payload.status!=="RESEARCH_ONLY"||!Array.isArray(payload.regions)||payload.regions.length!==5)throw new Error("대전 자료 검증 메타데이터 오류");
   if(!payload.regions.every(x=>DAEJEON_CODES[x.name]===x.code&&x.scope_coverage==="120/120 verified"))throw new Error("대전 5구 파일·검증 범위 불일치");
   daejeonMeta=payload;daejeonRows=payload.regions.map(daejeonView);
- }catch(e){daejeonError=String(e);}
+ }catch(e){
+   daejeonError=String(e);
+   // Public verified sales fallback while the private five-year builder runs.
+   // This is NOT a valid 4/5-axis composite or forecast.
+   try{
+     const recent=await fetch("dashboard-v1/data/daejeon-recent.json",{cache:"no-cache"});
+     if(!recent.ok)throw new Error("최근 거래요약 HTTP "+recent.status);
+     const snapshot=await recent.json();
+     if(snapshot.schema!==1||snapshot.status!=="VERIFIED_PUBLIC_RECENT_ONLY"||snapshot.regions?.length!==5)throw new Error("최근 거래자료 검증 실패");
+     if(!snapshot.regions.every(x=>DAEJEON_CODES[x.name]===x.code&&x.coverage?.missing_scopes===0))throw new Error("최근 거래 범위 불일치");
+     daejeonMeta={...snapshot,cutoff_month:snapshot.regions[0].complete_month,recentOnly:true};
+     const sorted=[...snapshot.regions].sort((a,b)=>a.complete_month_count-b.complete_month_count);
+     daejeonRows=snapshot.regions.map(x=>daejeonView({
+       code:x.code,name:x.name,province:"daejeon",source_digest:x.source_digest,
+       latest_sales:x.complete_month_count,provisional_sales:x.provisional_month_count,
+       avg84:x.complete_median_84!=null?x.complete_median_84/10000:null,
+       gapPct:null,jeonseRate:null,partialScore4of5:null,latest_complete_month:x.complete_month,
+       partial_scores:{liquidity:25*sorted.findIndex(a=>a.code===x.code)},recentOnly:true,
+       scope_coverage:"2/2 verified"
+     }));
+   }catch(fallbackError){daejeonError+=" / "+String(fallbackError);}
+ }
  finally{daejeonLoading=false;if(state.area==="daejeon")renderAll();}
 }
 let historyChart=null,macroChart=null,valueChart=null,asyncSeq=0;
@@ -54,6 +75,8 @@ function setArea(area){
  if(state.area!==area&&mapNavigator)mapNavigator.reset();
  state.area=area;state.district="";state.aptIndex=-1;state.query="";state.tradeQuery="";
  if(area==="daejeon"&&!daejeonRows&&!daejeonLoading)void fetchDaejeonScores();
+ if(area==="daejeon"&&!daejeonRows)state.metric="trades";
+ if(area!=="daejeon"&&state.metric==="trades")state.metric="composite";
  txt("aptName","단지를 검색하거나 지역을 선택하세요");
  $("aptSearch").value="";$("tradeSearch").value="";renderAll();
 }
@@ -66,12 +89,13 @@ function syncControls(){
  txt("globalScopeNote",NAMES[state.area]+" "+COUNTS[state.area]+"개 시군구 · "+(state.district||"전체"));
  txt("regionalTitle","지역 상대매력도 ("+NAMES[state.area]+" "+COUNTS[state.area]+"개 시군구)");
  txt("valueAreaTag",NAMES[state.area]+" 기준");
- txt("regionalTag",state.area==="daejeon"?(daejeonRows?"4축 참고점수 · 위험 미검증":"자료·검증 확인 중"):"연구용 · 상대순위");
+ txt("regionalTag",state.area==="daejeon"?(daejeonMeta?.recentOnly?"실거래 2개월 · 5년 생성 중":daejeonRows?"4축 참고점수 · 위험 미검증":"자료·검증 확인 중"):"연구용 · 상대순위");
  txt("mapTitle","지역별 위험·매력도 지도 ("+NAMES[state.area]+")");
  txt("mapRegionTag","현재 선택: "+NAMES[state.area]);
  txt("transactionRegion",NAMES[state.area]+(state.district?" · "+state.district:""));
  $("mapMetric").value=state.metric;
- $("mapMetric").options[0].textContent=state.area==="daejeon"?"4축 참고점수 (대전)":"상대매력도";
+ $("mapMetric").options[0].textContent=state.area==="daejeon"?"4축 참고점수 (검증 중)":"상대매력도";
+ $("mapMetric").options[2].textContent=state.area==="daejeon"&&daejeonMeta?.recentOnly?"완결월 거래건수 (대전)":"거래유동성";
  $("mapMetric").options[3].textContent=state.area==="daejeon"?"전세가율 (대전)":"내재임대수익률";
  txt("valueAreaTag",NAMES[state.area]+" 기준");
  $("periodSelect").value=state.pricePeriod;
@@ -87,8 +111,8 @@ function renderRanking(){
   $("regionRows").innerHTML=(daejeonRows?actual:list.map(n=>({name:n}))).map((r,i)=>
    '<tr tabindex="0" data-district="'+esc(r.name)+'" class="'+(r.name===state.district?"selected":"")+'"><td>'+(i+1)+'</td><td>'+esc(r.name)+'</td><td>'+nOrDash(r.partialScore4of5)+'</td><td>'+fmtPct(r.gapPct)+'</td><td>'+moneyBillion(r.avg84)+'</td><td>'+esc(r.trades||"N/A")+'</td><td>'+fmtPct(r.jeonseRate,1)+'</td><td><span class="pill missing">'+(r.partialScore4of5!=null?"4축 잠정":"미산출")+'</span></td></tr>').join("");
   $("regionRows").querySelectorAll("tr[data-district]").forEach(tr=>{const fn=()=>setDistrict(tr.dataset.district,true);tr.addEventListener("click",fn);tr.addEventListener("keydown",e=>{if(e.key==="Enter"){fn();}});});
-  txt("priceHeader","전용 80~90㎡ 12개월 중위가");
-  txt("regionSummary",daejeonRows?"대전 5개 구 · 실거래 4축 참고점수(가격괴리35%·모멘텀15%·거래15%·전세가율15%; 합계80% 재정규화). 리스크 20% 미검증. 서울·경기 종합점수와 직접 비교 불가 · "+daejeonMeta.cutoff_month:"대전 원천자료는 보관 중이나 화면용 검증 스냅샷이 아직 공개되지 않았습니다."+(daejeonError?" · "+daejeonError:""));
+  txt("priceHeader",daejeonMeta?.recentOnly?"전용 80~90㎡ 완결월 중위가":"전용 80~90㎡ 12개월 중위가");
+  txt("regionSummary",daejeonRows?(daejeonMeta?.recentOnly?"대전 5개 구: 2026년 9월 완결월 실거래 건수·전용80~90㎡ 중위가격 표시. 5년 가격추세·전세·하방위험은 생성·검증 중이며 N/A. 거래건수는 규모 미보정.":"대전 5개 구 · 실거래 4축 참고점수(가격괴리35%·모멘텀15%·거래15%·전세가율15%; 합계80% 재정규화). 리스크 20% 미검증. 서울·경기 종합점수와 직접 비교 불가 · "+daejeonMeta.cutoff_month):"대전 원천자료는 보관 중이나 화면용 검증 스냅샷이 아직 공개되지 않았습니다."+(daejeonError?" · "+daejeonError:""));
   return;
  }
  $("regionRows").innerHTML=filtered.map((r,i)=>'<tr tabindex="0" data-district="'+esc(shortName(r.name))+'" class="'+(shortName(r.name)===state.district?"selected":"")+'"><td>'+(rows.indexOf(r)+1)+'</td><td>'+esc(r.name)+'</td><td><b style="color:#1261c4">'+nOrDash(r.scores?.composite)+'</b></td><td>'+fmtPct(r.gapPct)+'</td><td>'+moneyBillion(state.pricePeriod==="provisional"?r.history?.[r.history.length-1]:r.avg84)+'</td><td>'+esc(r.trades||"N/A")+'</td><td>'+fmtPct(r.rentalYieldPct,2)+'</td><td><span class="pill '+(r.signal==="buy"?"":"warn")+'">'+(r.signal==="buy"?"상대우위":r.signal==="warning"?"중립":"재검증")+'</span></td></tr>').join("");
