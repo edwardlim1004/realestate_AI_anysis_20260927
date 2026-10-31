@@ -21,7 +21,7 @@ for(const id of ["regionMap","regionRows","tradeRows","historyChart","districtSe
 }
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(x=>x[1]),dom={};
 class MockElement{
- constructor(id,dataset={}){this.id=id;this.dataset=dataset;this.innerHTML="";this.textContent="";this.hidden=false;this.value=({historyMetric:"all",macroMetric:"credit",mapMetric:"composite",periodSelect:"complete",typeSelect:"sale"})[id]||"";this.events={};this.classList={toggle(){}};}
+ constructor(id,dataset={}){this.id=id;this.dataset=dataset;this.innerHTML="";this.textContent="";this.hidden=false;this.value=({historyMetric:"all",macroMetric:"credit",mapMetric:"composite",periodSelect:"complete",typeSelect:"sale"})[id]||"";this.events={};this.options=Array.from({length:8},()=>({textContent:""}));this.classList={toggle(){}};}
  setAttribute(n,v){this.attributes??={};this.attributes[n]=v;}addEventListener(t,f){this.events[t]=f;}
  getBoundingClientRect(){return {width:750,height:320,left:0,top:0};}
  querySelectorAll(selector){if(selector==="path")return [...this.innerHTML.matchAll(/data-district="([^"]+)"/g)].map((m,i)=>new MockElement("path-"+i,{district:m[1]}));return [];}
