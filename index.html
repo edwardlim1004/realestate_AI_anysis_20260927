@@ -6,7 +6,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
 <script src="data.js" defer></script><script src="risk-data.js" defer></script>
 <script src="dashboard-v1/region-boundaries.js" defer></script>
-<script src="dashboard-v1/app.js?v=20261031-2" defer></script>
+<script src="dashboard-v1/map-navigation.js?v=20261031-zoom1" defer></script>
+<script src="dashboard-v1/app.js?v=20261031-zoom1" defer></script>
 </head><body>
 <div class="app">
 <aside class="sidebar" aria-label="주요 메뉴">
@@ -83,7 +84,16 @@
 <section class="panel" id="regional-map"><div class="panelhead teal"><span class="number">4</span><span id="mapTitle">지역별 위험·매력도 지도 (서울)</span><span class="headtag" id="mapRegionTag">현재 선택: 서울</span></div>
 <div class="panelbody">
 <div class="sectionline"><div class="tabs" id="mapRegionTabs" aria-label="지도 지역 선택"><button class="tab active smalltab" data-area="seoul">서울</button><button class="tab smalltab" data-area="gyeonggi">경기</button><button class="tab smalltab" data-area="daejeon">대전</button></div><select id="mapMetric" class="select" aria-label="지도 색칠 지표"><option value="composite">상대매력도</option><option value="gap">가격 추세괴리</option><option value="trades">거래유동성</option><option value="yield">내재임대수익률</option><option value="risk">리스크(검증중)</option><option value="credit">신용(지역자료 없음)</option><option value="supply">공급(지역자료 없음)</option></select></div>
-<svg class="map" id="regionMap" role="img" aria-label="지역 행정구역별 분류도" viewBox="0 0 600 320"></svg>
+<div class="map-zoomtoolbar" role="group" aria-label="지도 확대·축소 및 이동">
+<span class="map-zoom-title">지도 확대</span>
+<button type="button" class="map-zoom-btn" id="mapZoomOut" aria-label="지도 축소" title="축소">−</button>
+<output id="mapZoomPercent" aria-live="off" aria-label="현재 지도 확대율">100%</output>
+<button type="button" class="map-zoom-btn" id="mapZoomIn" aria-label="지도 확대" title="확대">＋</button>
+<button type="button" class="map-zoom-btn map-zoom-text" id="mapZoomReset" title="전체 지도 원래 크기로 보기">전체 보기</button>
+<button type="button" class="map-zoom-btn map-zoom-text" id="mapZoomSelection" title="선택한 구·시·군을 지도의 중앙에 확대" disabled>선택 지역 확대</button>
+</div>
+<div class="map-viewport"><svg class="map" id="regionMap" role="img" aria-label="지역 행정구역별 분류도" viewBox="0 0 600 320"></svg></div>
+<p class="map-gesture-help">마우스 휠: 커서 중심 확대·축소 · 드래그: 이동 · 지역 클릭: 선택 (서울·경기·대전 공통)</p>
 <div class="legend" id="mapLegend"></div><div class="map-inspect" id="mapInspect" aria-live="polite">지도를 선택하면 해당 지역의 상세 분석이 함께 바뀝니다.</div>
 <div class="note" style="margin-top:8px" id="mapSource">지도 경계: 국가공간정보포털 기반 공개 행정구역 경계(2023년 가공). 색상은 현재 확보된 지표만 사용합니다.</div>
 </div></section>
