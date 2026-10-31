@@ -1,6 +1,6 @@
 # AI 투자·부동산 연구기업 운영 규정
 
-2026-10-31 설계. 조사 기준 커밋: ec95db910e22a4112306c75708483410ab7d69be.
+2026-11-01 최신 main 기준 재정비. 보존 기준 커밋: 97c031906243d7124a7bb658848f9672cdf584fd. 원본: Draft PR #36. 관리 전용 브랜치에서만 변경했으며 main 미병합.
 이 문서는 운영 계약이며 다중 모델 자동 호출 시스템 자체는 아니다. ChatGPT/Gemini/Claude 연결, 독립 인증, 보호 브랜치와 승인 게이트는 실제 설정·검증 전까지 미구현으로 취급한다.
 
 ## 목표와 결정권
@@ -83,10 +83,29 @@ flowchart TD
 
 공개 저장소에 개인 자산, 계좌, API 키, 비공개 원자료를 올리지 않는다. GitHub에는 코드·방법·비식별 요약·원자료 저장 위치/해시를 두고 원자료는 기존 저장정책을 따른다.
 
-## 현재 확인한 상태와 다음 단계
+## 2026-11-01 최신 현황과 다음 단계
 
 - 유동성: `promotion.json`의 enabled=false. 이번 작업으로 승격하지 않는다.
 - HaR: 본체의 WAITING_DATA 자리표시자 확인. 구현 완료로 표시하지 않는다.
 - GSADF: 2000회 실행 워크플로 존재. 이번 작업은 실행 성공·유의성 판정 검증이 아니다.
-- 수집/저장: 코드 경로를 확인했다. 원격 저장완료율과 최신 실행 성공률은 별도 점검 대상이다.
+- 수집/저장: 저장 범위 감사와 실거래 원천 전수 대조는 다르다. status.json 지역별 합계와 총계 불일치가 남아 있다. R2·Drive 실물은 이 문서 작업으로 재검증하지 않았다.
 - 다음 구현: 작업패킷 스키마 검증 → 읽기 전용 다중모델 연결 → 독립 리뷰 저장 → 보호 브랜치/승인 강제 → 제한된 운영 자동화. 자금집행 연결은 별도 결정.
+
+## 중앙 관리 문서
+- [프로젝트 상태 / 우선순위](STATUS.md): 최신 확인 증거와 미해결 장애 및 운영/연구 구분
+- [데이터 카탈로그](DATA_CATALOG.md): 출처, 기준일, 감사 범위와 보관 경계
+- [모델 등록부](MODEL_REGISTRY.json): 각 모형의 현행 검증·사용 제한 (설명용 스냅샷, 자동 승인 도구 아님)
+- [변경·승인 게이트](RELEASE_GATES.md): 사용자 승인 전 병합·승격·배포 금지
+- [PR #36 이전 분석](PR36_RECONCILIATION.md): 원 PR과 새 브랜치 변경범위/미포함 내용
+- [장애 대응](runbooks/valuation-r2-failure.md), [범위 집계 조사](runbooks/coverage-count-mismatch.md)
+
+## 읽기 전용 도구
+- python tools/ai_task.py data "요청할 내용": 기능별 작업지시 출력만 수행. 실행·수집·배포 없음
+- python tools/validate_governance.py: 모듈 경로, 모형 검증/승격, 기준 SHA 정합성 점검
+- python -m unittest discover -s tools -p "test_governance.py" -v: 관리 규칙 단위검정
+- 브랜치 파일 범위를 보호하려면 git diff --name-only main...HEAD > /tmp/governance-paths.txt 후 python tools/validate_governance.py --changed-paths /tmp/governance-paths.txt
+  (로컬 main이 비교 대상 최신 커밋을 가리키는지 먼저 확인할 것)
+
+### 중요
+이 관리 문서들은 GitHub Pages, Actions, R2, Drive, 투자 점수 또는 승인 시스템에 자동 연결되지 않는다.
+Draft PR은 사용자 최종 승인이 아니며, commit·데이터 지문이 달라지면 점검을 갱신한다.

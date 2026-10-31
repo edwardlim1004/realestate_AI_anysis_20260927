@@ -5,7 +5,7 @@
       "seoul-apartment-collector",
       "api-integration"
     ],
-    "scope": "서울·경기·대전 매매/전세/월세의 지역×월×유형 coverage, 신고지연, 취소·중복 및 공통 기준일 검증"
+    "scope": "서울·경기·대전 매매/전세/월세의 지역×월×유형 coverage, 신고지연, 취소·중복 및 공통 기준일 검증 · 저장 범위와 원천 거래 전수 검증을 구분; status.json 합계 불일치 조사"
   },
   "storage": {
     "name": "02 저장·백업·알림",
@@ -13,7 +13,7 @@
       "seoul-apartment-collector",
       ".github/workflows"
     ],
-    "scope": "R2/Drive 보관·복구·용량, 카카오 알림. 수집과 공유 경로이므로 파일 단위로 변경 범위를 제한"
+    "scope": "R2/Drive 보관·복구·용량, 카카오 알림. 수집과 공유 경로이므로 파일 단위로 변경 범위를 제한 · 원격 저장소 실제 점검 없이 완료로 판정 금지"
   },
   "liquidity": {
     "name": "03 유동성 연구·검증",
@@ -36,14 +36,14 @@
     "paths": [
       "risk-monitor/update_risk_data.py"
     ],
-    "scope": "현재 본체는 WAITING_DATA. 전용 실행모듈 완성으로 간주하지 말 것. 분위수 손실·포괄률·표본외 검증 설계부터 수행"
+    "scope": "현재 본체는 WAITING_DATA. 전용 실행모듈 완성으로 간주하지 말 것. 분위수 손실·포괄률·표본외 검증 설계부터 수행 · 연구용 전용 코드가 PR #18 Draft에 있으며 main에는 아직 병합되지 않음"
   },
   "valuation": {
     "name": "06 장기 가격·전세가치",
     "paths": [
       "long-term-value"
     ],
-    "scope": "과거 추세와 미래 시나리오 분리, 거래구성·표본수·전세갭·금리 민감도 검증"
+    "scope": "과거 추세와 미래 시나리오 분리, 거래구성·표본수·전세갭·금리 민감도 검증 · 2026-10-31 서울 25구 R2 검증 ValueError 실패 원인 조사 우선"
   },
   "dashboard": {
     "name": "07 위험 대시보드·거래상세",
@@ -51,9 +51,11 @@
       "index.html",
       "apartment-trades.js",
       "trade-details",
-      "risk-monitor/update_risk_data.py"
+      "risk-monitor/update_risk_data.py",
+      "dashboard-v1",
+      "ver0"
     ],
-    "scope": "거시 역사백분위와 지역 상대점수 구분, 상세팝업·출처·잠정치·연구상태 표시"
+    "scope": "거시 역사백분위와 지역 상대점수 구분, 상세팝업·출처·잠정치·연구상태 표시 · ver0 및 ver1.0 서비스 보존; 검증되지 않은 위험확률 공개 금지"
   },
   "auction": {
     "name": "08 경공매 서비스",
@@ -61,5 +63,22 @@
       "bossauction-lab"
     ],
     "scope": "검색·지도·물건 상세·입찰가 시나리오. API와 실물건 연동 여부를 각각 증거로 확인"
+  },
+  "macro": {
+    "name": "09 거시경제·역사적 위험",
+    "paths": [
+      "risk-monitor",
+      "risk-data",
+      "risk-data.js"
+    ],
+    "scope": "OECD/BIS 전국·글로벌 거시 역사 백분위. 서울·경기·대전 지역 단위 위험확률과 구분하고 Observation_Key 및 공표시점 추적"
+  },
+  "governance": {
+    "name": "10 AI 업무 운영·검증·결재",
+    "paths": [
+      "operations",
+      "tools/ai_task.py"
+    ],
+    "scope": "작업패킷·기준 SHA·독립검증·승인기록·배포/롤백 관리. 현재는 문서/정적 검사만 구현; 자율 AI와 승인 강제는 미구현"
   }
 }
