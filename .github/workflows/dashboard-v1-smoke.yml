@@ -1,0 +1,29 @@
+name: Dashboard ver1.0 regression smoke
+on:
+  push:
+    paths:
+      - "index.html"
+      - "ver0/**"
+      - "dashboard-v1/**"
+      - "data.js"
+      - "risk-data.js"
+      - ".github/workflows/dashboard-v1-smoke.yml"
+  pull_request:
+    paths:
+      - "index.html"
+      - "ver0/**"
+      - "dashboard-v1/**"
+      - "data.js"
+      - "risk-data.js"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  dashboard-v1-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Check dashboard model, map synchronization and ver0.0 preservation
+        run: node dashboard-v1/tests/smoke.cjs
