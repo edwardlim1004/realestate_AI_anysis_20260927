@@ -28,7 +28,7 @@ class DaejeonTests(unittest.TestCase):
         self.assertEqual('대전광역시 유성구',regions.full_name('30200'))
         self.assertTrue(backup.VALID.fullmatch('rent/2026/30200/202610.csv.gz'))
         self.assertTrue(r2_gdrive_failover.KEY_RE.fullmatch('rent/2026/30200/202610.csv.gz'))
-        self.assertEqual(3,len({backup.kind_folders(region)['rent'][0] for region in regions.LABELS}))
+        self.assertEqual(len(regions.LABELS),len({backup.kind_folders(region)['rent'][0] for region in regions.LABELS}))
         entries={f'rent/2026/{code}/202610.csv.gz':{'sha256':'a'*64,'bytes':100}
                  for code in ('11110','41111','30200')}
         with tempfile.TemporaryDirectory() as tmp:
@@ -58,7 +58,7 @@ class DaejeonTests(unittest.TestCase):
                 return api,json.loads(collect.STATUS.read_text())
             api,status=execute()
             self.assertEqual(36,api.calls);self.assertEqual(2,store.uploads)
-            self.assertEqual({'seoul':440,'gyeonggi':440,'daejeon':440},status['completed_by_region'])
+            self.assertEqual({'seoul':440,'gyeonggi':440,'daejeon':440,'busan':0,'daegu':0,'gwangju':0},status['completed_by_region'])
             self.assertEqual(0,execute()[0].calls)
             day[0]=date(2026,10,28)
             api,status=execute()

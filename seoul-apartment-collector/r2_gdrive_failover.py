@@ -17,7 +17,7 @@ from google_drive_backup import ROOT_NAME, authorized_drive, ensure_folder, exec
 
 FOLDER_NAME="원본월별압축_자동전환"
 SCOPE_MARKER="edward_archive_scope"
-KEY_RE=re.compile(r"^(sale|rent)/(\d{4})/((?:11|30|41)\d{3})/(\d{6})\.csv\.gz$")
+KEY_RE=re.compile(r"^(sale|rent)/(\d{4})/((?:11|12|26|27|29|30|41|47)\d{3})/(\d{6})\.csv\.gz$")
 MAX_BYTES=50*1024*1024
 
 

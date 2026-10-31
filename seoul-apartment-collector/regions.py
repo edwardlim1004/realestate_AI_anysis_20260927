@@ -46,9 +46,30 @@ DAEJEON = {
     '30110':'동구', '30140':'중구', '30170':'서구',
     '30200':'유성구', '30230':'대덕구',
 }
-DISTRICTS = {**SEOUL, **GYEONGGI, **DAEJEON}
-LABELS = {'seoul':'서울', 'gyeonggi':'경기도', 'daejeon':'대전'}
-PROVINCE_NAMES = {'seoul':'서울특별시', 'gyeonggi':'경기도', 'daejeon':'대전광역시'}
+BUSAN = {
+    '26110':'중구', '26140':'서구', '26170':'동구', '26200':'영도구',
+    '26230':'부산진구', '26260':'동래구', '26290':'남구', '26320':'북구',
+    '26350':'해운대구', '26380':'사하구', '26410':'금정구', '26440':'강서구',
+    '26470':'연제구', '26500':'수영구', '26530':'사상구', '26710':'기장군',
+}
+DAEGU = {
+    '27110':'중구', '27140':'동구', '27170':'서구', '27200':'남구',
+    '27230':'북구', '27260':'수성구', '27290':'달서구', '27710':'달성군',
+    '27720':'군위군', '47720':'군위군(경북 구코드)',
+}
+GWANGJU = {
+    '29110':'동구', '29140':'서구', '29155':'남구', '29170':'북구', '29200':'광산구',
+    '12210':'동구', '12240':'서구', '12270':'남구', '12300':'북구', '12330':'광산구',
+}
+# Source-code partitions, NOT additional geographic districts. Preserve both
+# sides over the full history: MOLIT migrations can serve past contracts under
+# current codes. Do not concatenate aliases into price/volume aggregates.
+METRO_REGIONS = {'busan':BUSAN, 'daegu':DAEGU, 'gwangju':GWANGJU}
+CODE_ALIASES = {'47720':'27720','29110':'12210','29140':'12240',
+                '29155':'12270','29170':'12300','29200':'12330'}
+DISTRICTS = {**SEOUL, **GYEONGGI, **DAEJEON, **BUSAN, **DAEGU, **GWANGJU}
+LABELS = {'seoul':'서울', 'gyeonggi':'경기도', 'daejeon':'대전', 'busan':'부산', 'daegu':'대구', 'gwangju':'광주(기존 5구)'}
+PROVINCE_NAMES = {'seoul':'서울특별시', 'gyeonggi':'경기도', 'daejeon':'대전광역시', 'busan':'부산광역시', 'daegu':'대구광역시', 'gwangju':'광주광역시'}
 PERIODS = {
     '41190':('201607','202312'),
     '41195':(None,'201607'), '41197':(None,'201607'), '41199':(None,'201607'),
@@ -58,6 +79,8 @@ PERIODS = {
 
 
 def region_for(code):
+    for name, codes in METRO_REGIONS.items():
+        if code in codes: return name
     if code.startswith('11'): return 'seoul'
     if code.startswith('41'): return 'gyeonggi'
     if code.startswith('30'): return 'daejeon'
@@ -70,6 +93,8 @@ def in_month(code, ym):
 
 
 def select(region='all'):
+    if region in METRO_REGIONS: return list(METRO_REGIONS[region])
+    # Existing all means existing three-city job; metros have a serial queue.
     if region == 'seoul': return list(SEOUL)
     if region == 'gyeonggi': return list(CURRENT_GYEONGGI)
     if region == 'daejeon': return list(DAEJEON)
@@ -78,5 +103,8 @@ def select(region='all'):
 
 
 def full_name(code):
+    if code in {'12210','12240','12270','12300','12330'}:
+        return '전남광주통합특별시 ' + DISTRICTS[code]
+    if code == '47720': return '경상북도 군위군'
     return PROVINCE_NAMES[region_for(code)] + ' ' + DISTRICTS[code]
 
