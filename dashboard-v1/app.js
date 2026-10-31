@@ -69,7 +69,7 @@ function moneyMan(v){const n=number(String(v||"").replace(/,/g,""));return n!=nu
 function fmtPct(v,d=1){const n=number(v);return n==null?"N/A":(n>0?"+":"")+n.toFixed(d)+"%";}
 function scoreColor(v){if(v==null)return "#cbd5e1";if(v<20)return "#dc5b56";if(v<40)return "#f3a47e";if(v<60)return "#f8ce8f";if(v<80)return "#9ec8f5";return "#2784e8";}
 function riskColor(v){if(v==null)return "#cbd5e1";if(v<20)return "#2784e8";if(v<40)return "#9ec8f5";if(v<60)return "#f8ce8f";if(v<80)return "#f3a47e";return "#dc5b56";}
-function nOrDash(n){return Number.isFinite(Number(n))?Number(n).toFixed(1):"N/A";}
+function nOrDash(n){return n===null||n===undefined||n===""||!Number.isFinite(Number(n))?"N/A":Number(n).toFixed(1);}
 function setArea(area){
  if(!NAMES[area])return;
  if(state.area!==area&&mapNavigator)mapNavigator.reset();
