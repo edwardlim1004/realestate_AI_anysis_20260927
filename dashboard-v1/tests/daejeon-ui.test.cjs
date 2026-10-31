@@ -9,7 +9,13 @@ class Node{
  setAttribute(k,v){this.attrs[k]=v;}
  getAttribute(k){return k==="data-district"?this.dataset.district:this.attrs[k];}
  getBoundingClientRect(){return {width:700,height:320,left:0,top:0};}
- querySelectorAll(sel){if(sel==="path")return [...this.innerHTML.matchAll(/data-district="([^"]+)"/g)].map((m,i)=>new Node("map-path-"+i,{district:m[1]}));return [];}
+ querySelectorAll(sel){if(sel==="path"){
+   if(this._pathsHtml!==this.innerHTML){
+     this._pathsHtml=this.innerHTML;
+     this._pathNodes=[...this.innerHTML.matchAll(/data-district="([^"]+)"/g)].map((m,i)=>new Node("map-path-"+i,{district:m[1]}));
+   }
+   return this._pathNodes;
+ }return [];}
  scrollIntoView(){}
 }
 for(const m of html.matchAll(/\bid="([^"]+)"/g))dom[m[1]]=new Node(m[1]);
