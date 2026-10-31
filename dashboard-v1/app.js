@@ -51,7 +51,14 @@ async function fetchDaejeonScores(){
      }));
    }catch(fallbackError){daejeonError+=" / "+String(fallbackError);}
  }
- finally{daejeonLoading=false;if(state.area==="daejeon")renderAll();}
+ finally{
+   daejeonLoading=false;
+   if(state.area==="daejeon"){
+     // Use the four-axis map by default only after its validated 60-month file loads.
+     if(daejeonRows&&!daejeonMeta?.recentOnly&&state.metric==="trades")state.metric="composite";
+     renderAll();
+   }
+ }
 }
 let historyChart=null,macroChart=null,valueChart=null,asyncSeq=0;
 let mapNavigator=null,mapProjection=null;
