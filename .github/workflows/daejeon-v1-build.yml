@@ -1,0 +1,75 @@
+name: Build Verified Daejeon Dashboard + 5-Year Apartments
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "20 7 * * *"  # ~16:20 Korea, after collector refresh
+  push:
+    branches: [main]
+    paths:
+      - "dashboard-v1/build_daejeon.py"
+      - "dashboard-v1/test_daejeon_build.py"
+      - ".github/workflows/daejeon-v1-build.yml"
+permissions:
+  contents: write
+concurrency:
+  group: verified-daejeon-five-year-dashboard
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test independent Daejeon data conversion and sample coverage
+        run: python -m unittest discover -s dashboard-v1 -p "test_daejeon_build.py" -v
+      - name: Install existing R2 and verified Google Drive archive readers
+        run: python -m pip install boto3 google-api-python-client google-auth google-auth-oauthlib cryptography
+      - name: Build five-year Daejeon apartments and regional metrics from existing verified archives
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
+        run: python dashboard-v1/build_daejeon.py
+      - name: Verify all five districts and fail closed on gaps
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from sys import path
+          path.insert(0, "seoul-apartment-collector")
+          from regions import DAEJEON
+          p=json.loads(Path("dashboard-v1/data/daejeon-regions.json").read_text())
+          assert len(p["regions"])==5 and p["status"]=="RESEARCH_ONLY"
+          assert {r["code"] for r in p["regions"]}==set(DAEJEON)
+          for r in p["regions"]:
+              assert r["scope_coverage"]=="120/120 verified"
+              assert r["riskVerified"] is False
+              f=Path("long-term-value/data")/(r["code"]+".json")
+              v=json.loads(f.read_text())
+              assert v["coverage"]["scopes_verified"]==120
+              assert v["coverage"]["missing_scopes"]==0
+              assert v["source_digest"]==r["source_digest"]
+              assert v["complex_count"]>0
+          print("DAEJEON_5_DISTRICTS_VERIFIED",p["cutoff_month"])
+          PY
+      - name: Commit only verified regional aggregates and 5-year valuations
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dashboard-v1/data/daejeon-regions.json
+          git add long-term-value/data/30110.json long-term-value/data/30140.json long-term-value/data/30170.json long-term-value/data/30200.json long-term-value/data/30230.json
+          if ! git diff --cached --quiet; then
+            git commit -m "data: publish verified Daejeon 5-year apartment and district snapshots"
+            git pull --rebase --autostash origin main
+            git push origin HEAD:main
+          fi
