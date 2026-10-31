@@ -71,6 +71,9 @@ function syncControls(){
  txt("mapRegionTag","현재 선택: "+NAMES[state.area]);
  txt("transactionRegion",NAMES[state.area]+(state.district?" · "+state.district:""));
  $("mapMetric").value=state.metric;
+ $("mapMetric").options[0].textContent=state.area==="daejeon"?"4축 참고점수 (대전)":"상대매력도";
+ $("mapMetric").options[3].textContent=state.area==="daejeon"?"전세가율 (대전)":"내재임대수익률";
+ txt("valueAreaTag",NAMES[state.area]+" 기준");
  $("periodSelect").value=state.pricePeriod;
  $("typeSelect").value=state.tradeType;
 }
@@ -244,6 +247,7 @@ function drawMacro(){
 async function fetchJSON(path){const res=await fetch(path,{cache:"no-store"});if(!res.ok)throw new Error("HTTP "+res.status);return res.json();}
 async function renderValuation(seq){
  const select=$("aptSelect"),name=state.district,code=state.area==="daejeon"?DAEJEON_CODES[name]:CODES[name];
+ $("valuationFullLink").href="long-term-value/"+(code?"?district="+code:"");
  select.innerHTML='<option>조회 준비 중…</option>';
  if((state.area!=="seoul"&&state.area!=="daejeon")||!code){
   txt("aptName","이 지역의 5년 단지별 평가자료 검증 대기");
@@ -278,6 +282,8 @@ async function renderValuation(seq){
 function showApartment(apt,doc){
  if(!apt)return;
  txt("aptName",apt.name);
+ const code=doc.district_code;
+ $("valuationFullLink").href="long-term-value/?district="+encodeURIComponent(code)+"&apt="+encodeURIComponent(apt.name)+"&size="+encodeURIComponent(apt.size)+"&dong="+encodeURIComponent(apt.dong)+"&jibun="+encodeURIComponent(apt.jibun);
  txt("aptAddress",NAMES[state.area]+" "+state.district+" "+apt.dong+(apt.jibun?" "+apt.jibun:"")+" · 전용 "+apt.size+"㎡");
  txt("aptCoverage",(doc.window_start||"")+"~"+(doc.cutoff_month||"")+" · 자료 "+(apt.sale_count_5y||0)+"건");
  txt("aptDataTag","5년 관측중위가격 · 미래 예측 아님");
