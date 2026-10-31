@@ -285,12 +285,12 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
   </section>
 
   <section>
-    <h2 class="section-title">서울 25구·경기 31개 시군 — 지역 상대 비교 실험모델</h2>
+    <h2 class="section-title">서울 25구·경기 31개 시군·대전 5구 — 지역 비교</h2>
     <p class="section-sub">아래 지역점수는 전국 위험지수와 별개입니다. 56개 지역 안의 상대순위이며 매수·매도 신호나 가격예측 확률이 아닙니다.</p>
     <div class="kpi-grid">
       <div class="kpi"><div class="tag">실거래 데이터 최신월</div><div class="val num" id="localLatestMonth">-</div><div class="sub" id="localLatestNote">국토교통부 매매·전월세 API</div></div>
       <div class="kpi"><div class="tag">서울 추세선 괴리율 중앙값</div><div class="val num" id="seoulMedianGap">-</div><div class="sub">25개 구 단순 중앙값·구성효과 주의</div></div>
-      <div class="kpi"><div class="tag">수집 지역</div><div class="val num" id="regionCoverage">-</div><div class="sub">서울 25구 + 경기 31개 시군</div></div>
+      <div class="kpi"><div class="tag">수집 지역</div><div class="val num" id="regionCoverage">-</div><div class="sub">서울 25구 + 경기 31개 시군 · 대전 5구 별도 연결</div></div>
       <div class="kpi"><div class="tag">지역모델 상태</div><div class="val" style="font-size:18px">검증 중</div><div class="sub">모멘텀·리스크 고정값 제거 전 투자판단 금지</div></div>
     </div>
     <div class="disclaimer">
@@ -368,7 +368,8 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
     <div class="board-controls">
       <input type="search" id="searchInput" placeholder="지역 검색..." oninput="renderBoard()">
       <select id="provinceSel" onchange="renderBoard()">
-        <option value="all">전체 지역</option>
+        <option value="daejeon">대전 (5구 · 별도 참고지표)</option>
+        <option value="all" selected>서울·경기 전체 지역</option>
         <option value="seoul">서울특별시</option>
         <option value="gyeonggi">경기도</option>
       </select>
@@ -468,7 +469,7 @@ footer{border-top:1px solid var(--outline-2); padding:26px 0; color:var(--on-sur
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="risk-data.js"></script>
 <script src="data.js"></script>
-<script src="apartment-trades.js?v=20261027-56regions" defer></script>
+<script src="apartment-trades.js?v=20261031-61regions" defer></script>
 <script>
 const REGIONS = ENHANCED_DATA.regions;
 const MONTHS = ENHANCED_DATA.months;
@@ -725,11 +726,12 @@ function sigLabel(sig){ return sig==='buy'?'🔵 상대우위':sig==='warning'?'
 function renderBoard(){
   const provSel = document.getElementById('provinceSel').value;
   state.province = provSel;
+  if (state.province==='daejeon') { renderDaejeonBoard(); return; }
   const q = document.getElementById('searchInput').value.trim().toLowerCase();
   const budgetOn = document.getElementById('budgetFilterChk').checked;
 
   let rows = REGIONS.filter(r =>
-    (state.province==='all' || r.province===state.province) &&
+    r.province!=='daejeon' && (state.province==='all' || r.province===state.province) &&
     (state.signal==='all' || r.signal===state.signal) &&
     (!q || r.name.toLowerCase().includes(q)) &&
     (!budgetOn || !state.budget || r.avg84 <= state.budget)
@@ -769,6 +771,8 @@ let lineChart, radarChart;
 function openModalByName(name){ openModal(REGIONS.find(r=>r.name===name)); }
 function openModal(r){
   if(!r) return;
+  if(r.province==='daejeon'){openDaejeonModal(r);return;}
+  document.getElementById('lineChart').previousElementSibling.textContent='5년 월별 단순평균 vs 로그 추세선';
   tradeDetailSeq++; document.getElementById('tradeDetailPanel').hidden=true;
   document.getElementById('mName').textContent = r.name;
   const badge = document.getElementById('mSignal');
@@ -828,6 +832,42 @@ function closeModal(){tradeDetailSeq++;document.getElementById('tradeDetailPanel
 
 calcGate();
 renderBoard();
+</script>
+
+<script>
+let daejeonStatus='대전 검증자료를 불러오는 중입니다.';
+function renderDaejeonBoard(){
+ const q=document.getElementById('searchInput').value.trim();
+ let rows=REGIONS.filter(r=>r.province==='daejeon'&&r.name.includes(q));
+ if(document.getElementById('budgetFilterChk').checked&&state.budget)rows=rows.filter(r=>r.avg84<=state.budget);
+ const key=state.sortKey;
+ rows.sort((a,b)=>{const x=key==='name'?a.name:key==='composite'?a.partialScore4of5:key==='trades'?a.latest_sales:a[key];const y=key==='name'?b.name:key==='composite'?b.partialScore4of5:key==='trades'?b.latest_sales:b[key];return (state.sortDir==='asc'?1:-1)*(typeof x==='string'?x.localeCompare(y):(x??0)-(y??0));});
+ document.getElementById('boardBody').innerHTML='<tr><td colspan="8" style="white-space:normal">'+tradeSafe(daejeonStatus)+' 신호 필터는 대전에 적용하지 않습니다. 가격은 전용80~90㎡ 최근 12개월 중위가, 거래수는 완결월 동일면적 건수입니다. 실거래 상세는 전체면적입니다.</td></tr>'+rows.map(r=>`<tr onclick="openModalByName('${r.name}')"><td>연구용 · 4축</td><td><b>${r.name}</b></td><td>${r.partialScore4of5.toFixed(1)} (대전 내)</td><td>${r.gapPct.toFixed(1)}%</td><td>${r.avg84.toFixed(2)}억</td><td>N/A</td><td>${r.jeonseRate.toFixed(1)}%</td><td><button class="trade-trigger" onclick="event.stopPropagation();openModalByName('${r.name}');showApartmentTrades('${r.name}')">${r.trades}</button></td></tr>`).join('');
+}
+function openDaejeonModal(r){
+ tradeDetailSeq++;document.getElementById('tradeDetailPanel').hidden=true;
+ const put=(id,v)=>document.getElementById(id).textContent=v;
+ put('mName',r.name);put('mSignal','연구용 · 대전 4축');document.getElementById('mSignal').className='sig-pill';
+ put('mVerdict',`${r.latest_complete_month} 기준 · 전용80~90㎡ 최근 12개월 중위가. 대전 5구 내 4축 참고점수 ${r.partialScore4of5}점. 서울·경기 5축 점수와 직접 비교 불가. 위험·하락확률 미검증.`);
+ put('mPrice',r.avg84.toFixed(2)+'억 (12개월 중위가)');put('mGap',r.gapPct.toFixed(1)+'%');put('mJeonse',r.jeonseRate.toFixed(1)+'%');put('mTrades',r.trades);
+ ['mK','mYield','mSpread','mPhase'].forEach(id=>put(id,'N/A · 미검증'));
+ if(lineChart)lineChart.destroy();if(radarChart)radarChart.destroy();
+ document.getElementById('lineChart').previousElementSibling.textContent='5년 월별 중위가격 · 전용80~90㎡ (억원)';
+ lineChart=new Chart(document.getElementById('lineChart'),{type:'line',data:{labels:r.history.map(x=>x[0]),datasets:[{label:'월별 중위가격 (단순평균·적정가 아님)',data:r.history.map(x=>x[1]),borderColor:'#7d98ff',pointRadius:0}]},options:{responsive:true}});
+ radarChart=new Chart(document.getElementById('radarChart'),{type:'radar',data:{labels:['추세괴리','모멘텀','거래유동성','전세가율'],datasets:[{label:'대전 5구 내 4축 · 위험 제외',data:['valuation','momentum','liquidity','jeonse'].map(k=>r.partial_scores[k]),borderColor:'#7d98ff'}]},options:{scales:{r:{min:0,max:100}}}});
+ document.getElementById('modalBackdrop').classList.add('open');
+}
+document.addEventListener('DOMContentLoaded',async()=>{
+ try{
+  const res=await fetch('dashboard-v1/data/daejeon-regions.json',{cache:'no-cache'});if(!res.ok)throw Error('자료 HTTP '+res.status);
+  const p=await res.json(), codes={'동구':'30110','중구':'30140','서구':'30170','유성구':'30200','대덕구':'30230'};
+  if(p.schema!==1||p.status!=='RESEARCH_ONLY'||p.regions?.length!==5||new Set(p.regions.map(r=>r.code)).size!==5||!p.regions.every(r=>codes[r.name]===r.code&&r.scope_coverage==='120/120 verified'&&Array.isArray(r.history)&&Number.isFinite(r.partialScore4of5)))throw Error('검증 메타데이터 불일치');
+  REGIONS.push(...p.regions.map(r=>({...r,name:'대전광역시 '+r.name,province:'daejeon',trades:r.latest_sales+'건 (전용80~90㎡ 완결월)',scores:{composite:null}})));
+  daejeonStatus=p.cutoff_month+' 기준 · 대전 5구 연결 완료. '+p.warning;
+  document.getElementById('regionCoverage').textContent='56 + 5 / 61';
+ }catch(e){daejeonStatus='대전 자료 연결 실패: '+e.message;}
+ if(state.province==='daejeon')renderDaejeonBoard();
+});
 </script>
 </body>
 </html>
