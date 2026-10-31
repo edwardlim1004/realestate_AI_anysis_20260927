@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "status": "VERIFIED_PUBLIC_RECENT_ONLY",
-  "source": "국토교통부 매매 실거래 검증 공개 거래 인덱스 (매매 only)",
-  "warning": "최근 2개월(10월 잠정) 기반 단순 거래 건수·시세입니다. 5년 가격괴리·전세수익률·하방위험·종합점수로 해석하지 마세요.",
+  "source": "국토교통부 매매 실거래 공개 요약: sha256 검증 R2/Google Drive 소스",
+  "warning": "최근 완결월 거래량은 주택 재고 대비 회전율이 아님. 5년 추세·전세수익률·리스크 미포함.",
   "regions": [
     {
       "code": "30110",
@@ -11,7 +11,7 @@
       "complete_month_count": 117,
       "provisional_month": "202610",
       "provisional_month_count": 128,
-      "complete_median_84": 30075,
+      "complete_median_84": 30075.0,
       "complete_84_n": 44,
       "coverage": {
         "expected_scopes": 2,
@@ -27,7 +27,7 @@
       "complete_month_count": 129,
       "provisional_month": "202610",
       "provisional_month_count": 136,
-      "complete_median_84": 39000,
+      "complete_median_84": 39000.0,
       "complete_84_n": 51,
       "coverage": {
         "expected_scopes": 2,
@@ -43,7 +43,7 @@
       "complete_month_count": 454,
       "provisional_month": "202610",
       "provisional_month_count": 377,
-      "complete_median_84": 48000,
+      "complete_median_84": 48000.0,
       "complete_84_n": 196,
       "coverage": {
         "expected_scopes": 2,
@@ -59,7 +59,7 @@
       "complete_month_count": 280,
       "provisional_month": "202610",
       "provisional_month_count": 340,
-      "complete_median_84": 45500,
+      "complete_median_84": 45500.0,
       "complete_84_n": 142,
       "coverage": {
         "expected_scopes": 2,
@@ -75,7 +75,7 @@
       "complete_month_count": 90,
       "provisional_month": "202610",
       "provisional_month_count": 97,
-      "complete_median_84": 31000,
+      "complete_median_84": 31000.0,
       "complete_84_n": 17,
       "coverage": {
         "expected_scopes": 2,
