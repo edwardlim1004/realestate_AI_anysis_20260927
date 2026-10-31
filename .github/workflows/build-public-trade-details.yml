@@ -6,6 +6,7 @@ on:
     paths:
       - "seoul-apartment-collector/build_public_trade_details.py"
       - "api-integration/regions_lawd.py"
+      - "dashboard-v1/build_recent_daejeon.py"
       - "seoul-apartment-collector/test_build_public_trade_details.py"
       - "apartment-trades.js"
       - ".github/workflows/build-public-trade-details.yml"
@@ -65,11 +66,13 @@ jobs:
           assert ok>0, "No region has verified transaction rows"
           print("VERIFIED_SNAPSHOT_REGIONS",ok,"/61",report["summary"])
           PY
+      - name: Build Daejeon latest complete-month map fallback from verified public trades
+        run: python dashboard-v1/build_recent_daejeon.py
       - name: Commit ONLY compact verified public details; never publish private raw files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add trade-details/
+          git add trade-details/ dashboard-v1/data/daejeon-recent.json
           if ! git diff --cached --quiet; then
             git commit -m "data: publish verified Seoul/Gyeonggi recent apartment sale details"
             git pull --rebase --autostash origin main
