@@ -51,8 +51,10 @@ function renderRanking(){
  const filtered=state.district?rows.filter(r=>shortName(r.name)===state.district):rows;
  txt("priceHeader",state.pricePeriod==="provisional"?"전용80~90㎡ 현재월 잠정":"전용80~90㎡ 완결월");
  if(state.area==="daejeon"){
-  $("regionRows").innerHTML='<tr><td colspan="8">대전 5개 구: 행정경계 표시 가능 / 지역별 상대점수는 정규화·검증 전이므로 N/A</td></tr>';
-  txt("regionSummary","대전 매매·전월세 원천 수집과 지역 점수 산출은 별도 검증이 필요합니다.");
+  const list=(GEO?.regions?.daejeon||[]).map(x=>x.name);
+  $("regionRows").innerHTML=list.map((n,i)=>'<tr tabindex="0" data-district="'+esc(n)+'" class="'+(n===state.district?"selected":"")+'"><td>'+(i+1)+'</td><td>'+esc(n)+'</td><td colspan="5">N/A · 지역별 검증자료 대기</td><td><span class="pill missing">미산출</span></td></tr>').join("");
+  $("regionRows").querySelectorAll("tr[data-district]").forEach(tr=>{const fn=()=>setDistrict(tr.dataset.district);tr.addEventListener("click",fn);tr.addEventListener("keydown",e=>{if(e.key==="Enter"){fn();}});});
+  txt("regionSummary","대전 5개 구: 지도·지역 선택 지원 / 지역 점수는 검증 전이므로 생성하지 않음");
   return;
  }
  $("regionRows").innerHTML=filtered.map((r,i)=>'<tr tabindex="0" data-district="'+esc(shortName(r.name))+'" class="'+(shortName(r.name)===state.district?"selected":"")+'"><td>'+(rows.indexOf(r)+1)+'</td><td>'+esc(r.name)+'</td><td><b style="color:#1261c4">'+nOrDash(r.scores?.composite)+'</b></td><td>'+fmtPct(r.gapPct)+'</td><td>'+moneyBillion(state.pricePeriod==="provisional"?r.history?.[r.history.length-1]:r.avg84)+'</td><td>'+esc(r.trades||"N/A")+'</td><td>'+fmtPct(r.rentalYieldPct,2)+'</td><td><span class="pill '+(r.signal==="buy"?"":"warn")+'">'+(r.signal==="buy"?"상대우위":r.signal==="warning"?"중립":"재검증")+'</span></td></tr>').join("");
@@ -100,6 +102,7 @@ function renderMap(){
  geo.forEach(g=>{
   const r=rowFor(g.name),v=mapMetricValue(r);
   const c=state.metric==="gap"||state.metric==="risk"?riskColor(v):scoreColor(v);
+  const partial=state.area==="gyeonggi"&&r&&r.name!==g.name;
   const paths=g.polygons.map(poly=>poly.map((p,i)=>(i?"L":"M")+x(p)+","+y(p)).join("")+"Z").join(" ");
   markup+='<path role="button" tabindex="0" aria-label="'+esc(g.name)+' '+esc(metricLabel(r))+'" data-district="'+esc(g.name)+'" class="'+(state.district===g.name?"active":"")+'" fill="'+c+'" d="'+paths+'"><title>'+esc(g.name)+': '+esc(metricLabel(r))+'</title></path>';
  });
@@ -113,7 +116,8 @@ function renderMap(){
   el.addEventListener("click",choose);
   el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();choose();}});
  });
- let details=state.district?state.district+" · "+metricLabel(rowFor(state.district)):"지도에서 시군구를 선택하세요";
+ let activeRow=state.district?rowFor(state.district):null;
+ let details=state.district?state.district+" · "+metricLabel(activeRow)+(state.area==="gyeonggi"&&activeRow&&activeRow.name!==state.district?" · 일부 권역 표본 (시 전체 대표 아님)":""):"지도에서 시군구를 선택하세요";
  txt("mapInspect",details);
  const legend=$("mapLegend");
  const unavailable=["credit","supply"].includes(state.metric)||state.area==="daejeon";
@@ -122,6 +126,7 @@ function renderMap(){
   const c=(state.metric==="gap"||state.metric==="risk")?riskColor(i*20+10):scoreColor(i*20+10);
   return '<span><i style="background:'+c+'"></i>'+label+'</span>';
  }).join("");
+ if(state.area==="gyeonggi"&&!unavailable)legend.innerHTML+="<span>점선: 일부 권역 대표값, 시 전체 아님</span>";
  txt("mapSource","행정경계: 국가공간정보포털 기반 2023년 자료(경계 갱신 확인 필요). "+
  (state.metric==="risk"?"리스크 항목은 아직 독립 검증되지 않은 연구점수의 역순서입니다.":state.metric==="gap"?"가격 추세괴리 분포이며 적정가나 위기확률이 아닙니다.":state.area==="daejeon"?"대전은 검증된 지역별 지표 미확보로 지도만 표시합니다.":"색상은 지역 간 상대지표이며 절대적인 매수·매도 판정이 아닙니다."));
 }
