@@ -10,13 +10,38 @@ const COUNTS={seoul:25,gyeonggi:31,daejeon:5};
 const CODES={"종로구":"11110","중구":"11140","용산구":"11170","성동구":"11200","광진구":"11215","동대문구":"11230","중랑구":"11260","성북구":"11290","강북구":"11305","도봉구":"11320","노원구":"11350","은평구":"11380","서대문구":"11410","마포구":"11440","양천구":"11470","강서구":"11500","구로구":"11530","금천구":"11545","영등포구":"11560","동작구":"11590","관악구":"11620","서초구":"11650","강남구":"11680","송파구":"11710","강동구":"11740"};
 const state={area:"seoul",district:"송파구",metric:"composite",riskTab:"history",query:"",aptIndex:-1,tradeQuery:"",pricePeriod:"complete",tradeType:"sale"};
 const cache={valuation:{},trades:{},tradeIndex:null};
+const DAEJEON_CODES={"동구":"30110","중구":"30140","서구":"30170","유성구":"30200","대덕구":"30230"};
+let daejeonRows=null,daejeonMeta=null,daejeonLoading=false,daejeonError=null;
+function daejeonView(r){
+ if(!r)return null;
+ return {...r, scores:{composite:null,partialScore4of5:r.partialScore4of5??null,
+     valuation:r.partial_scores?.valuation??null,momentum:r.partial_scores?.momentum??null,
+     liquidity:r.partial_scores?.liquidity??null,jeonse:r.partial_scores?.jeonse??null,risk:null},
+     trades:r.latest_sales==null?"N/A":r.latest_sales+"건 (완결월)",rentalYieldPct:null,signal:"research"};
+}
+async function fetchDaejeonScores(){
+ if(daejeonRows||daejeonLoading)return;
+ daejeonLoading=true;daejeonError=null;
+ try{
+  const res=await fetch("dashboard-v1/data/daejeon-regions.json",{cache:"no-cache"});
+  if(!res.ok)throw new Error("HTTP "+res.status);
+  const payload=await res.json();
+  if(payload.schema!==1||payload.status!=="RESEARCH_ONLY"||!Array.isArray(payload.regions)||payload.regions.length!==5)throw new Error("대전 자료 검증 메타데이터 오류");
+  if(!payload.regions.every(x=>DAEJEON_CODES[x.name]===x.code&&x.scope_coverage==="120/120 verified"))throw new Error("대전 5구 파일·검증 범위 불일치");
+  daejeonMeta=payload;daejeonRows=payload.regions.map(daejeonView);
+ }catch(e){daejeonError=String(e);}
+ finally{daejeonLoading=false;if(state.area==="daejeon")renderAll();}
+}
 let historyChart=null,macroChart=null,valueChart=null,asyncSeq=0;
 let mapNavigator=null,mapProjection=null;
 function txt(id,value){const e=$(id);if(e)e.textContent=value==null?"N/A":String(value);}
 function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","\"":"&quot;","'":"&#39;"}[c]));}
 function shortName(s){return String(s||"").replace(/\s+\(.*/,"");}
-function rowFor(name){return (SOURCE?.regions||[]).find(r=>r.province===state.area&&shortName(r.name)===name);}
-function areaRows(){return (SOURCE?.regions||[]).filter(r=>r.province===state.area);}
+function rowFor(name){
+ if(state.area==="daejeon")return daejeonRows?.find(r=>r.name===name)||null;
+ return (SOURCE?.regions||[]).find(r=>r.province===state.area&&shortName(r.name)===name);
+}
+function areaRows(){return state.area==="daejeon"?(daejeonRows||[]):(SOURCE?.regions||[]).filter(r=>r.province===state.area);}
 function number(v){if(v===null||v===undefined||v==="")return null;const n=Number(v);return Number.isFinite(n)?n:null;}
 function moneyBillion(v){const n=number(v);return n==null?"N/A":n.toFixed(2)+"억";}
 function moneyMan(v){const n=number(String(v||"").replace(/,/g,""));return n!=null&&n>0?(n/10000).toLocaleString("ko-KR",{maximumFractionDigits:2})+"억":"N/A";}
@@ -28,6 +53,7 @@ function setArea(area){
  if(!NAMES[area])return;
  if(state.area!==area&&mapNavigator)mapNavigator.reset();
  state.area=area;state.district="";state.aptIndex=-1;state.query="";state.tradeQuery="";
+ if(area==="daejeon"&&!daejeonRows&&!daejeonLoading)void fetchDaejeonScores();
  txt("aptName","단지를 검색하거나 지역을 선택하세요");
  $("aptSearch").value="";$("tradeSearch").value="";renderAll();
 }
@@ -40,7 +66,7 @@ function syncControls(){
  txt("globalScopeNote",NAMES[state.area]+" "+COUNTS[state.area]+"개 시군구 · "+(state.district||"전체"));
  txt("regionalTitle","지역 상대매력도 ("+NAMES[state.area]+" "+COUNTS[state.area]+"개 시군구)");
  txt("valueAreaTag",NAMES[state.area]+" 기준");
- txt("regionalTag",state.area==="daejeon"?"지역점수 검증 대기":"연구용 · 상대순위");
+ txt("regionalTag",state.area==="daejeon"?(daejeonRows?"4축 참고점수 · 위험 미검증":"자료·검증 확인 중"):"연구용 · 상대순위");
  txt("mapTitle","지역별 위험·매력도 지도 ("+NAMES[state.area]+")");
  txt("mapRegionTag","현재 선택: "+NAMES[state.area]);
  txt("transactionRegion",NAMES[state.area]+(state.district?" · "+state.district:""));
@@ -54,9 +80,12 @@ function renderRanking(){
  txt("priceHeader",state.pricePeriod==="provisional"?"전용80~90㎡ 현재월 잠정":"전용80~90㎡ 완결월");
  if(state.area==="daejeon"){
   const list=(GEO?.regions?.daejeon||[]).map(x=>x.name);
-  $("regionRows").innerHTML=list.map((n,i)=>'<tr tabindex="0" data-district="'+esc(n)+'" class="'+(n===state.district?"selected":"")+'"><td>'+(i+1)+'</td><td>'+esc(n)+'</td><td colspan="5">N/A · 지역별 검증자료 대기</td><td><span class="pill missing">미산출</span></td></tr>').join("");
+  const actual=areaRows().slice().sort((a,b)=>(b.partialScore4of5??-1)-(a.partialScore4of5??-1));
+  $("regionRows").innerHTML=(daejeonRows?actual:list.map(n=>({name:n}))).map((r,i)=>
+   '<tr tabindex="0" data-district="'+esc(r.name)+'" class="'+(r.name===state.district?"selected":"")+'"><td>'+(i+1)+'</td><td>'+esc(r.name)+'</td><td>'+nOrDash(r.partialScore4of5)+'</td><td>'+fmtPct(r.gapPct)+'</td><td>'+moneyBillion(r.avg84)+'</td><td>'+esc(r.trades||"N/A")+'</td><td>'+fmtPct(r.jeonseRate,1)+'</td><td><span class="pill missing">'+(r.partialScore4of5!=null?"4축 잠정":"미산출")+'</span></td></tr>').join("");
   $("regionRows").querySelectorAll("tr[data-district]").forEach(tr=>{const fn=()=>setDistrict(tr.dataset.district,true);tr.addEventListener("click",fn);tr.addEventListener("keydown",e=>{if(e.key==="Enter"){fn();}});});
-  txt("regionSummary","대전 5개 구: 지도·지역 선택 지원 / 지역 점수는 검증 전이므로 생성하지 않음");
+  txt("priceHeader","전용 80~90㎡ 12개월 중위가");
+  txt("regionSummary",daejeonRows?"대전 5개 구 · 실거래 4축 참고점수(가격괴리35%·모멘텀15%·거래15%·전세가율15%; 합계80% 재정규화). 리스크 20% 미검증. 서울·경기 종합점수와 직접 비교 불가 · "+daejeonMeta.cutoff_month:"대전 원천자료는 보관 중이나 화면용 검증 스냅샷이 아직 공개되지 않았습니다."+(daejeonError?" · "+daejeonError:""));
   return;
  }
  $("regionRows").innerHTML=filtered.map((r,i)=>'<tr tabindex="0" data-district="'+esc(shortName(r.name))+'" class="'+(shortName(r.name)===state.district?"selected":"")+'"><td>'+(rows.indexOf(r)+1)+'</td><td>'+esc(r.name)+'</td><td><b style="color:#1261c4">'+nOrDash(r.scores?.composite)+'</b></td><td>'+fmtPct(r.gapPct)+'</td><td>'+moneyBillion(state.pricePeriod==="provisional"?r.history?.[r.history.length-1]:r.avg84)+'</td><td>'+esc(r.trades||"N/A")+'</td><td>'+fmtPct(r.rentalYieldPct,2)+'</td><td><span class="pill '+(r.signal==="buy"?"":"warn")+'">'+(r.signal==="buy"?"상대우위":r.signal==="warning"?"중립":"재검증")+'</span></td></tr>').join("");
@@ -68,7 +97,17 @@ function renderRanking(){
  txt("regionSummary",rows.length+"개 지역 상대순위 · "+(state.pricePeriod==="provisional"?"현재월 잠정가격만 참고 표시; 상대점수는 완결월 기준":"완결월 평가") +" · 모멘텀·리스크는 검증 중");
 }
 function mapMetricValue(r){
- if(!r||state.area==="daejeon")return null;
+ if(!r)return null;
+ if(state.area==="daejeon"){
+  const d=r.partial_scores||{};
+  switch(state.metric){
+   case "composite":return number(r.partialScore4of5);
+   case "gap":return number(r.gapPct)==null?null:Math.max(0,Math.min(100,50+Number(r.gapPct)*1.5));
+   case "trades":return number(d.liquidity);
+   case "yield":return number(d.jeonse); // Daejeon 4th proxy: actual jeonse ratio, NOT rental yield
+   default:return null;
+  }
+ }
  const s=r.scores||{};
  switch(state.metric){
   case "composite":return number(s.composite);
@@ -81,10 +120,10 @@ function mapMetricValue(r){
 }
 function metricLabel(r){
  if(!r)return "해당 지역별 검증값 없음";
- if(state.metric==="composite")return "상대매력도 "+nOrDash(r.scores?.composite)+"/100 (연구용)";
+ if(state.metric==="composite")return state.area==="daejeon"?"대전 4축 참고점수 "+nOrDash(r.partialScore4of5)+"/100 (서울·경기와 비교 불가)":"상대매력도 "+nOrDash(r.scores?.composite)+"/100 (연구용)";
  if(state.metric==="gap")return "장기 추세 대비 "+fmtPct(r.gapPct)+" (가격의 적정성 아님)";
  if(state.metric==="trades")return "거래활성 상대점수 "+nOrDash(r.scores?.liquidity)+"/100";
- if(state.metric==="yield")return "내재임대수익률 "+fmtPct(r.rentalYieldPct,2);
+ if(state.metric==="yield")return state.area==="daejeon"?"전세가율 "+fmtPct(r.jeonseRate,1)+" (임대수익률 아님)":"내재임대수익률 "+fmtPct(r.rentalYieldPct,2);
  if(state.metric==="risk")return "미검증 리스크 참고값 "+nOrDash(100-Number(r.scores?.risk))+"/100";
  return "지역별 검증자료 미확보 · 수치 미표시";
 }
@@ -124,7 +163,7 @@ function renderMap(){
  txt("mapInspect",details);
  $("mapZoomSelection").disabled=!state.district;
  const legend=$("mapLegend");
- const unavailable=["credit","supply"].includes(state.metric)||state.area==="daejeon";
+ const unavailable=["credit","supply"].includes(state.metric)||(state.area==="daejeon"&&(!daejeonRows||state.metric==="risk"));
  legend.innerHTML=unavailable?'<span>◻ 지역별 검증자료 미확보(N/A) · 경계만 표시</span>':
  ["매우 낮음 (0~20)","낮음 (20~40)","보통 (40~60)","높음 (60~80)","매우 높음 (80~100)"].map((label,i)=>{
   const c=(state.metric==="gap"||state.metric==="risk")?riskColor(i*20+10):scoreColor(i*20+10);
@@ -132,7 +171,7 @@ function renderMap(){
  }).join("");
  if(state.area==="gyeonggi"&&!unavailable)legend.innerHTML+="<span>점선: 일부 권역 대표값, 시 전체 아님</span>";
  txt("mapSource","행정경계: 국가공간정보포털 기반 2023년 자료(경계 갱신 확인 필요). "+
- (state.metric==="risk"?"리스크 항목은 아직 독립 검증되지 않은 연구점수의 역순서입니다.":state.metric==="gap"?"가격 추세괴리 분포이며 적정가나 위기확률이 아닙니다.":state.area==="daejeon"?"대전은 검증된 지역별 지표 미확보로 지도만 표시합니다.":"색상은 지역 간 상대지표이며 절대적인 매수·매도 판정이 아닙니다."));
+ (state.metric==="risk"?"리스크 항목은 아직 독립 검증되지 않은 연구점수의 역순서입니다.":state.metric==="gap"?"가격 추세괴리 분포이며 적정가나 위기확률이 아닙니다.":state.area==="daejeon"?"대전은 SHA256 검증된 5년 실거래 기반 4축 참고점수입니다. 5축 위험·적정가격 검증 전이며, 전세 항목은 전세가율(임대수익률 아님)입니다. 서울·경기와 직접 비교 불가.":"색상은 지역 간 상대지표이며 절대적인 매수·매도 판정이 아닙니다."));
 }
 
 function updateMapZoomUi(view) {
@@ -160,6 +199,7 @@ function renderLocalRisk(){
  const r=state.district?rowFor(state.district):null;
  txt("regionalRiskTitle",(state.district||NAMES[state.area])+" 지역 위험 분석");
  if(!r){$("regionalRiskBody").textContent="해당 지역의 검증된 하방위험 추정치가 없습니다. OECD·BIS 시계열은 전국 공통값입니다.";return;}
+ if(state.area==="daejeon"){$("regionalRiskBody").textContent="대전은 위험점수·하락확률 검증이 완료되지 않았습니다. 4축 참고점수에 위험 20%는 포함하지 않습니다.";return;}
  $("regionalRiskBody").innerHTML='<strong>리스크 상대점수 '+nOrDash(r.scores?.risk)+'/100 · 지역 실험모형</strong><p>이 점수는 검증되지 않은 보조항목이며 가격하락 확률이나 위기확률로 사용할 수 없습니다.</p><p>현재월 잠정 거래와 과거 완결 거래를 직접 비교하지 않도록 분리했습니다.</p>';
 }
 function crisisPlugin(labels,events){
@@ -203,17 +243,17 @@ function drawMacro(){
 }
 async function fetchJSON(path){const res=await fetch(path,{cache:"no-store"});if(!res.ok)throw new Error("HTTP "+res.status);return res.json();}
 async function renderValuation(seq){
- const select=$("aptSelect"),name=state.district,code=CODES[name];
+ const select=$("aptSelect"),name=state.district,code=state.area==="daejeon"?DAEJEON_CODES[name]:CODES[name];
  select.innerHTML='<option>조회 준비 중…</option>';
- if(state.area!=="seoul"||!code){
+ if((state.area!=="seoul"&&state.area!=="daejeon")||!code){
   txt("aptName","이 지역의 5년 단지별 평가자료 검증 대기");
-  txt("aptAddress",NAMES[state.area]+(name?" "+name:"")+" · 기존 독립 모형은 서울 25개 구를 우선 지원합니다.");
+  txt("aptAddress",NAMES[state.area]+(name?" "+name:"")+" · 이 지역의 개별 5년 평가 파일이 아직 생성되지 않았습니다.");
   txt("aptCoverage","지역별 자료를 임의로 대체하지 않습니다.");
   ["aptPrice","aptCount","aptJeonse"].forEach(k=>txt(k,"N/A"));
   txt("aptDataTag","N/A");
   select.innerHTML='<option value="">단지별 평가 미지원</option>';
   if(valueChart){valueChart.destroy();valueChart=null;}
-  txt("valuationMessage","경기·대전은 공식 5년 단지별 평가모형 검증 이후 동일 인터페이스로 제공됩니다.");
+  txt("valuationMessage",state.area==="gyeonggi"?"경기는 독립적인 5년 단지평가 자료 생성·검증이 필요합니다.":"대전의 5년 실거래 파일은 수집 검증 완료 후 공개 생성됩니다.");
   return;
  }
  try{
