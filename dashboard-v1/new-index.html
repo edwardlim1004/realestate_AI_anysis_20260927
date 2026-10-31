@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="서울·경기·대전 부동산 투자 분석. 지역 상대매력도, 5년 실거래 평가, 역사적 위험과 실제 거래내역을 구분합니다.">
+<title>부동산 AI 투자 분석 · ver1.0</title>
+<link rel="stylesheet" href="dashboard-v1/styles.css?v=1.0.0">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+<script src="data.js" defer></script><script src="risk-data.js" defer></script>
+<script src="dashboard-v1/region-boundaries.js" defer></script>
+<script src="dashboard-v1/app.js?v=1.0.0" defer></script>
+</head><body>
+<div class="app">
+<aside class="sidebar" aria-label="주요 메뉴">
+<div class="brand">⌂ 부동산 AI 분석</div>
+<nav><a class="navlink active" href="#regional">▣ 대시보드</a><a class="navlink" href="#regional">◇ 지역 분석</a>
+<a class="navlink" href="#valuation">▥ 아파트 분석</a><a class="navlink" href="#risk">▤ 하방위험 분석</a>
+<a class="navlink" href="#regional-map">▱ 지도 보기</a><a class="navlink" href="#transactions">◷ 실거래 상세</a>
+<a class="navlink" href="#economy">◉ 데이터·거시지표</a><a class="navlink" href="long-term-value/">∑ 5년 평가모형</a>
+<a class="navlink" href="liquidity-research/">≋ 유동성 연구</a></nav>
+<div class="version-side"><div class="side-note">버전 바로가기</div>
+<a class="active" href="./">ver1.0 (현재)</a><a href="ver0/">ver0.0 (과거)</a></div>
+<div class="side-note">별도 검증되지 않은 모형의 결과는 투자 권고나 확정 하락확률로 표시하지 않습니다.</div>
+</aside>
+<div class="main">
+<header class="topbar"><div><h1>서울·경기·대전 아파트 투자 분석 대시보드</h1>
+<div class="subtitle">ver1.0 · 지역 상대매력도 / 아파트별 장기 가치평가 / 역사적 위험과 미래 하방위험 분리</div></div>
+<div class="tools"><input class="input" type="search" id="unifiedSearch" placeholder="지역·단지명을 검색하세요" aria-label="단지 검색">
+<span class="small" id="updatedAt">데이터 기준 조회 중…</span>
+<div class="version-row"><a class="current" href="./">ver1.0<br>현재 버전</a><a href="ver0/">ver0.0<br>과거 화면</a></div></div></header>
+<div class="filters" aria-label="분석 범위 공통 선택">
+<strong class="filterlabel">지역 선택</strong>
+<div class="tabs" id="topRegionTabs" role="group" aria-label="지역 선택"><button class="tab active" data-area="seoul">서울</button><button class="tab" data-area="gyeonggi">경기</button><button class="tab" data-area="daejeon">대전</button></div>
+<label class="filterlabel" for="districtSelect">시군구</label><select class="select" id="districtSelect"><option value="">전체</option></select>
+<label class="filterlabel" for="periodSelect">가격기준</label><select id="periodSelect" class="select"><option value="complete">최신 완결월</option><option value="provisional">현재월(잠정)</option></select>
+<label class="filterlabel" for="typeSelect">거래유형</label><select id="typeSelect" class="select"><option value="sale">매매</option><option value="rent">전월세</option></select>
+<button id="applyFilter" class="action primary">적용</button>
+<span class="small" id="globalScopeNote">서울 25개 구</span>
+</div>
+<div class="layout">
+<div class="column">
+<section class="panel" id="regional" aria-labelledby="regionalTitle"><div class="panelhead"><span class="number">1</span><span id="regionalTitle">지역 상대매력도</span><span class="headtag" id="regionalTag">연구용 · 상대순위</span></div>
+<div class="panelbody">
+<div class="cards">
+<div class="stat"><div class="statname">추세괴리</div><b>35%</b><small>과거 추세 대비</small></div>
+<div class="stat"><div class="statname">모멘텀*</div><b>15%</b><small>최신 검증 필요</small></div>
+<div class="stat"><div class="statname">거래유동성</div><b>15%</b><small>거래 증가율</small></div>
+<div class="stat"><div class="statname">리스크*</div><b>20%</b><small>검증 미완료</small></div>
+<div class="stat"><div class="statname">내재임대수익률</div><b>15%</b><small>전월세 가치</small></div>
+</div>
+<div class="table-scroll" style="margin-top:10px"><table class="tbl"><thead><tr><th>순위</th><th>지역</th><th>상대점수</th><th>추세괴리</th><th>거래</th><th>임대수익률</th><th>분류</th></tr></thead><tbody id="regionRows"></tbody></table></div>
+<div class="panel-foot"><span class="note" id="regionSummary">56개 지역 비교 실험모형 · 높은 점수는 매수추천이 아닙니다.</span><a href="ver0/#regional">기존 계산·산식 확인 ↗</a></div>
+</div></section>
+<section class="panel" id="valuation" aria-labelledby="valueTitle"><div class="panelhead green"><span class="number">2</span><span id="valueTitle">아파트별 장기 가치평가</span><span class="headtag" id="valueAreaTag">서울 기준</span></div>
+<div class="panelbody">
+<div class="sectionline" style="margin-bottom:10px">
+<input id="aptSearch" class="input" type="search" placeholder="단지명을 검색하세요 (예: 잠실엘스)" aria-label="단지명 검색">
+<select id="aptSelect" class="select" aria-label="조회 가능한 단지 목록"><option>지역을 선택하세요</option></select>
+<a class="action" href="long-term-value/" id="valuationFullLink">5년 상세 분석 ↗</a></div>
+<div class="focus-grid"><div class="focus-left"><div class="apartment-tile" aria-hidden="true">▥</div><div>
+<div class="focus-name" id="aptName">단지 선택 대기</div><div class="note" id="aptAddress">동일단지·유사면적 비교</div>
+<div class="note" id="aptCoverage">검증된 5년 모형의 관측 자료 사용</div>
+<div class="badge" id="aptDataTag">자료 조회</div></div></div>
+<div><div class="mini-metrics"><div><small>최근 12개월 중위가</small><b id="aptPrice">N/A</b></div><div><small>5년 거래 건수</small><b id="aptCount">N/A</b></div><div><small>전세가율</small><b id="aptJeonse">N/A</b></div></div>
+<div class="canvasbox" style="height:155px"><canvas id="valueChart" aria-label="선택 아파트의 최근 거래가격 시계열"></canvas></div></div></div>
+<div id="valuationMessage" class="note" style="margin-top:9px">역사적 실거래 추세는 구조적 적정가격이나 미래 확정 전망이 아닙니다.</div>
+</div></section>
+<section class="panel" id="transactions" aria-labelledby="transTitle"><div class="panelhead teal"><span class="number">▣</span><span id="transTitle">실거래 상세 · 주소·계약내용</span><span class="headtag" id="transactionRegion">지역 선택</span></div>
+<div class="panelbody">
+<div class="sectionline"><input class="input" id="tradeSearch" type="search" placeholder="아파트명·법정동·지번 검색"><span class="small" id="tradeStatus">공식 공개 거래자료 연결 확인 중…</span></div>
+<div class="table-scroll" style="max-height:265px;margin-top:9px"><table class="tbl"><thead><tr><th>계약일</th><th>단지·주소</th><th>전용면적</th><th>층</th><th>매매가격</th></tr></thead><tbody id="tradeRows"></tbody></table></div>
+<div class="note" id="tradeLimit" style="margin-top:8px">수집·공개된 범위만 표시하며, 수집되지 않은 거래를 임의로 생성하지 않습니다.</div>
+</div></section>
+</div>
+<div class="column">
+<section class="panel" id="risk" aria-labelledby="riskTitle"><div class="panelhead red"><span class="number">3</span><span id="riskTitle">하방위험 분석</span><span class="headtag">역사적 전국 공통 자료</span></div>
+<div class="r-tabs" id="riskTabs"><button class="tab active" data-tab="history">역사적 위험 백분위와 위기 구간</button><button class="tab" data-tab="regional">지역별 위험지표</button><button class="tab" data-tab="forecast">미래 하방위험</button></div>
+<div class="panelbody"><div id="historyPanel"><div class="risk-meta"><span class="chart-caption">역사적 위험 백분위 (2003년 4분기~최신 공표분기)</span><select id="historyMetric" class="select" aria-label="역사적 위험 시계열" style="font-size:11px"><option value="all">종합·가격·신용</option><option value="score">종합만</option><option value="valuation">가격평가만</option><option value="credit">신용만</option><option value="momentum">모멘텀만</option></select></div><div class="canvasbox tall"><canvas id="historyChart" aria-label="2003년 이후 역사적 위험 및 글로벌 금융위기와 COVID-19 구간"></canvas></div>
+<div class="note" style="padding:4px 4px 0">2007~2009 글로벌 금융위기와 2020 COVID-19 충격을 음영 표시합니다. 0~100은 과거 백분위이지 하락확률이 아닙니다.</div></div>
+<div id="regionalRiskPanel" hidden><div class="sectionline"><h3 id="regionalRiskTitle">선택 지역의 참고 위험점수</h3><span class="badge">RESEARCH ONLY</span></div><div id="regionalRiskBody" class="skeleton">최신 지역 위험 검증 완료 전입니다.</div></div>
+<div id="forecastPanel" hidden><h3>향후 6개월·1년·3년 하방확률</h3><div class="risk-stats" id="futureRiskStats"><div class="risk-stat"><strong>6개월</strong><b>N/A</b><small>검증 대기</small></div><div class="risk-stat"><strong>1년</strong><b>N/A</b><small>검증 대기</small></div><div class="risk-stat"><strong>3년</strong><b>N/A</b><small>검증 대기</small></div></div><p class="notice">실제 하락확률을 제시하려면 HaR 모형의 표본외 성능, 빈티지 및 보정 검증을 통과해야 합니다. 시안의 15%·28%·42%는 예시였으며 실제 계산값이 아닙니다.</p></div>
+</div></section>
+<div class="twocol"><section class="panel" aria-labelledby="riskSummaryTitle"><div class="panelbody"><h3 id="riskSummaryTitle">대한민국 역사 위험백분위 (공통)</h3><div class="gauge"><span id="nationalScore">N/A</span><small style="font-size:13px">/100</small></div><div class="note" id="nationalStatus">공식 자료 산출값 조회</div><div id="nationalFactors"></div></div></section>
+<section class="panel"><div class="panelbody"><h3>미래 하방위험 (모형 검증 상태)</h3><div class="risk-stats"><div class="risk-stat"><strong>6개월</strong><b>N/A</b><small>검증 전</small></div><div class="risk-stat"><strong>1년</strong><b>N/A</b><small>검증 전</small></div><div class="risk-stat"><strong>3년</strong><b>N/A</b><small>검증 전</small></div></div><div class="note" style="margin-top:13px">지역별 가격 하락확률로 오해하지 않도록 미검증 시 수치를 숨깁니다.</div></div></section></div>
+<section class="panel" id="regional-map"><div class="panelhead teal"><span class="number">4</span><span id="mapTitle">지역별 위험·매력도 지도 (서울)</span><span class="headtag" id="mapRegionTag">현재 선택: 서울</span></div>
+<div class="panelbody">
+<div class="sectionline"><div class="tabs" id="mapRegionTabs" aria-label="지도 지역 선택"><button class="tab active smalltab" data-area="seoul">서울</button><button class="tab smalltab" data-area="gyeonggi">경기</button><button class="tab smalltab" data-area="daejeon">대전</button></div><select id="mapMetric" class="select" aria-label="지도 색칠 지표"><option value="composite">상대매력도</option><option value="gap">가격 추세괴리</option><option value="trades">거래유동성</option><option value="yield">내재임대수익률</option><option value="risk">리스크(검증중)</option><option value="credit">신용(지역자료 없음)</option><option value="supply">공급(지역자료 없음)</option></select></div>
+<svg class="map" id="regionMap" role="img" aria-label="지역 행정구역별 분류도" viewBox="0 0 600 320"></svg>
+<div class="legend" id="mapLegend"></div><div class="map-inspect" id="mapInspect" aria-live="polite">지도를 선택하면 해당 지역의 상세 분석이 함께 바뀝니다.</div>
+<div class="note" style="margin-top:8px" id="mapSource">지도 경계: 국가공간정보포털 기반 공개 행정구역 경계(2023년 가공). 색상은 현재 확보된 지표만 사용합니다.</div>
+</div></section>
+<section class="panel" id="economy"><div class="panelhead"><span class="number">5</span><span>전국 공식 거시지표 · 검증상태</span><span class="headtag">서울·경기·대전 공통</span></div><div class="panelbody"><div class="sectionline"><select class="select" id="macroMetric"><option value="credit">신용 위험백분위</option><option value="valuation">가격평가 백분위</option><option value="momentum">실질주택가격 모멘텀 백분위</option></select><span class="small" id="macroPeriod"></span></div><div class="canvasbox" style="height:135px"><canvas id="macroChart" aria-label="전국 공식 거시지표 추이"></canvas></div><div class="note">한국 전국 단위 OECD·BIS 자료입니다. 시군구별 국고채 금리나 신용위험으로 표시하지 않습니다.</div></div></section>
+</div></div>
+<footer class="footer">출처: 국토교통부 아파트 매매·전월세 실거래, OECD·BIS 공식 거시계열, 국가공간정보포털 기반 행정경계. 상대점수·단기 참고지표는 연구용이며 손실위험 확률이 아닙니다. <a href="ver0/">ver0.0 원본 화면</a> · <a href="risk-data/source_registry.csv">위험지표 출처 CSV</a> · <a href="https://github.com/edwardlim1004/realestate_AI_anysis_20260927">소스 저장소</a></footer>
+</div></div>
+</body></html>
