@@ -207,6 +207,23 @@ def main(argv=None, storage=None):
     if storage is None:
         from r2_bridge import R2Storage
         storage=R2Storage()
+    # Incremental build: private raw data is not re-downloaded when SHA256
+    # source fingerprints and the last completed month have not changed.
+    existing_file=OUTPUT/"daejeon-regions.json"
+    if existing_file.exists():
+        try:
+            prior=json.loads(existing_file.read_text(encoding="utf-8"))
+            if (prior.get("status")=="RESEARCH_ONLY"
+                    and prior.get("cutoff_month")==last
+                    and len(prior.get("regions",[]))==len(DAEJEON)
+                    and all(next((r.get("source_digest") for r in prior["regions"] if r.get("code")==code),None)
+                            ==source_specs({"files":storage.files},code,months)[1]
+                            and (VALUATION/"data"/(code+".json")).exists()
+                            for code in DAEJEON)):
+                print("DAEJEON_SOURCE_UNCHANGED_SKIP",last,flush=True)
+                return prior
+        except (ValueError,TypeError,KeyError,OSError):
+            pass
     vals=[];rows=[]
     for code in DAEJEON:
         val,reg=build_district(code,months,storage)
