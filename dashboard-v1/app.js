@@ -254,8 +254,17 @@ function showApartment(apt,doc){
 async function getTradeIndex(){if(!cache.tradeIndex)cache.tradeIndex=await fetchJSON("trade-details/index.json");return cache.tradeIndex;}
 function tradeIndexMatch(index,district){
  const e=index?.regions||{};
- if(e[district])return {key:district,item:e[district]};
- const k=Object.keys(e).find(key=>shortName(key)===district);
+ // Daejeon district labels overlap Seoul (e.g. 중구).
+ // Always resolve within the selected province to prevent cross-city trades.
+ if(state.area==="daejeon"){
+   const key="대전광역시 "+district;
+   return e[key]?{key,item:e[key]}:null;
+ }
+ if(state.area==="seoul"){
+   const item=e[district];
+   return item&&item.codes?.every(c=>c.startsWith("11"))?{key:district,item}:null;
+ }
+ const k=Object.keys(e).find(key=>shortName(key)===district&&e[key].codes?.every(c=>c.startsWith("41")));
  return k?{key:k,item:e[k]}:null;
 }
 function renderTransactionRows(){
@@ -280,7 +289,7 @@ async function renderTransactions(seq){
   if(seq!==asyncSeq)return;
   const d=cache.trades[cacheKey+"_meta"];
   const rows=cache.trades[cacheKey];
-  txt("tradeStatus",rows.length.toLocaleString()+"건 공개 · "+(d.months||[]).join(" / ")+(match.key!==state.district?" · "+match.key+" 일부 권역만":""));
+  txt("tradeStatus",rows.length.toLocaleString()+"건 공개 · "+(d.months||[]).join(" / ")+(state.area==="gyeonggi"&&match.key!==state.district?" · "+match.key+" 일부 권역만":""));
   txt("tradeLimit","2026년 9~10월 공개 매매 계약 기준 · "+(d.updated_at_kst||"")+" 갱신 · 취소·중복 자료는 생성자 검증 방식에 따름. "+(rows.length>70?"최신 70건 표시, 검색으로 상세 확인.":""));
   renderTransactionRows();
  }catch(e){if(seq!==asyncSeq)return;txt("tradeStatus","거래파일 조회 실패");$("tradeRows").innerHTML='<tr><td colspan="5">'+esc(String(e))+'</td></tr>';}
