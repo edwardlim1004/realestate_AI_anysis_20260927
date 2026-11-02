@@ -1,17 +1,57 @@
 {
-  "checkedAtKST": "2026-11-01T08:57:44+09:00",
+  "checkedAtKST": "2026-11-02T09:11:56+09:00",
   "status": "REVIEW",
   "structuralErrors": [],
   "qualityWarnings": [
     {
-      "region": "가평군",
+      "region": "종로구",
+      "code": "LOW_CONVERSION_SAMPLE",
+      "value": 9
+    },
+    {
+      "region": "양평군",
+      "code": "LOW_CONVERSION_SAMPLE",
+      "value": 7
+    },
+    {
+      "region": "포천시",
       "code": "LOW_CONVERSION_SAMPLE",
       "value": 6
     },
     {
+      "region": "여주시",
+      "code": "JEONSE_OVER_100",
+      "value": 108.4
+    },
+    {
+      "region": "여주시",
+      "code": "LOW_CONVERSION_SAMPLE",
+      "value": 5
+    },
+    {
+      "region": "가평군",
+      "code": "LOW_CONVERSION_SAMPLE",
+      "value": 3
+    },
+    {
+      "region": "동두천시",
+      "code": "LOW_CONVERSION_SAMPLE",
+      "value": 4
+    },
+    {
+      "region": "연천군",
+      "code": "JEONSE_OVER_100",
+      "value": 160.0
+    },
+    {
       "region": "연천군",
       "code": "LOW_CONVERSION_SAMPLE",
-      "value": 7
+      "value": 3
+    },
+    {
+      "region": "연천군",
+      "code": "EXTREME_TREND_GAP",
+      "value": -66.65
     }
   ],
   "notes": [
