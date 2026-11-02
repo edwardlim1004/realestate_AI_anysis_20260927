@@ -15,9 +15,9 @@
     "busan": {
       "cutoff": "202610",
       "expected_scopes": 7040,
-      "verified_manifest_scopes": 4360,
-      "missing_scopes": 2680,
-      "percent": 61.932,
+      "verified_manifest_scopes": 4556,
+      "missing_scopes": 2484,
+      "percent": 64.716,
       "completed": false,
       "missing_sample": [
         "sale/2006/26110/200601.csv.gz",
@@ -83,7 +83,7 @@
       ],
       "verification": "R2 or Google Drive upload-verified manifest; not a live reread or transaction semantic audit",
       "source_code_partitions": 16,
-      "stored_rows": 1052667,
+      "stored_rows": 1104692,
       "storage_reread_passed": false,
       "verified": false
     },
