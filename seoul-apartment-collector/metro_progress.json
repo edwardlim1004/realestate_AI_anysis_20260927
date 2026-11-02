@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "as_of_kst": "2026-11-02",
+  "as_of_kst": "2026-11-03",
   "order": [
     "busan",
     "daegu",
@@ -15,9 +15,9 @@
     "busan": {
       "cutoff": "202610",
       "expected_scopes": 7040,
-      "verified_manifest_scopes": 3965,
-      "missing_scopes": 3075,
-      "percent": 56.321,
+      "verified_manifest_scopes": 4164,
+      "missing_scopes": 2876,
+      "percent": 59.148,
       "completed": false,
       "missing_sample": [
         "sale/2006/26110/200601.csv.gz",
@@ -83,7 +83,7 @@
       ],
       "verification": "R2 or Google Drive upload-verified manifest; not a live reread or transaction semantic audit",
       "source_code_partitions": 16,
-      "stored_rows": 959881,
+      "stored_rows": 1003004,
       "storage_reread_passed": false,
       "verified": false
     },
