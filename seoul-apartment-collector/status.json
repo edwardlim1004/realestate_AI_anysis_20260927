@@ -1,18 +1,18 @@
 {
   "as_of_kst": "2026-11-04",
   "total_completed_scopes": 42384,
-  "last_run_requests": 2,
-  "last_run_success": 2,
-  "last_run_failures": 0,
+  "last_run_requests": 9,
+  "last_run_success": 0,
+  "last_run_failures": 3,
   "refresh_cycle": "2026-11-04",
-  "last_run_mode": "refresh",
-  "requests_today": 2279,
+  "last_run_mode": "backfill",
+  "requests_today": 2291,
   "daily_cap": 8000,
   "r2_storage_safety_cap_bytes": 8000000000,
   "google_drive_fallback_enabled": true,
-  "last_run_changed_scopes": 1,
-  "last_run_unchanged_scopes": 1,
-  "last_run_added_rows": 1,
+  "last_run_changed_scopes": 0,
+  "last_run_unchanged_scopes": 0,
+  "last_run_added_rows": 0,
   "last_run_removed_rows": 0,
   "completed_by_region": {
     "seoul": 11050,
@@ -27,5 +27,5 @@
   "gdrive_scopes": 21618,
   "r2_compressed_bytes": 449601145,
   "r2_objects_uploaded": 0,
-  "gdrive_objects_uploaded": 1
+  "gdrive_objects_uploaded": 0
 }
