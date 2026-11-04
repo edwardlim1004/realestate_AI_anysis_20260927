@@ -1,0 +1,39 @@
+name: BossAuction feature history guard
+
+on:
+  pull_request:
+    paths:
+      - 'bossauction-lab/**'
+      - '.github/workflows/bossauction-history-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  require-history:
+    name: Require HISTORY for auction feature changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout both PR revisions
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Detect feature-code changes without history update
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --name-only "$BASE_SHA" "$HEAD_SHA" > /tmp/bossauction-changed-files
+          echo 'Changed files:'
+          cat /tmp/bossauction-changed-files
+          if grep -Eq '^bossauction-lab/(src/|classic/|advanced/|assets/|tools/|index\.html$|legacy\.html$|package\.json$)' /tmp/bossauction-changed-files; then
+            if ! grep -Fxq 'bossauction-lab/HISTORY.md' /tmp/bossauction-changed-files; then
+              echo "::error file=bossauction-lab/HISTORY.md::기능 코드가 변경되었습니다. HISTORY.md에 날짜·변경 사항·검증·제약을 같은 PR에 기록하세요."
+              exit 1
+            fi
+            echo 'OK: feature change includes HISTORY.md.'
+          else
+            echo 'OK: no auction feature-code changes detected.'
+          fi
