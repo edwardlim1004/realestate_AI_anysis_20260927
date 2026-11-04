@@ -1,3 +1,5 @@
+> **옥션프로그램(BossAuction Lab)**: [프로젝트 운영·개발 지침](bossauction-lab/docs/PROJECT_GUIDELINES.md) · [개발·변경 이력 (HISTORY)](bossauction-lab/HISTORY.md) · [프로그램 소스](bossauction-lab/)
+
 # 부동산 AI 투자 분석 대시보드 · ver1.0
 
 - **현재 메인:** https://edwardlim1004.github.io/realestate_AI_anysis_20260927/
