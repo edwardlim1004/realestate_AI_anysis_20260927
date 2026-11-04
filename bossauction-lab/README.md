@@ -1,3 +1,10 @@
+> **프로젝트 지침과 개발 이력**  
+> - [프로젝트 운영·개발 지침](docs/PROJECT_GUIDELINES.md) — 옥션프로그램의 작업 원칙과 K-Skill 연결 현황  
+> - [기능별 변경 이력 (HISTORY)](HISTORY.md) — 신규 기능/수정/제약·테스트 결과의 누적 기록  
+> - 새로운 기능을 추가하거나 기존 동작을 변경하는 작업에서는 **같은 PR에서 HISTORY를 반드시 업데이트**합니다.
+
+---
+
 # 기존 경매·공매 지도검색 화면 복원 (기본)
 
 **기본 실행:** https://edwardlim1004.github.io/realestate_AI_anysis_20260927/bossauction-lab/
