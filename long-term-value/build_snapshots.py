@@ -190,7 +190,7 @@ def build_one(gu, months, last, manifest, storage, force=False):
         "window_start": months[0], "cutoff_month": last,
         "generated_kst": dt.datetime.now(ZoneInfo("Asia/Seoul")).isoformat(timespec="seconds"),
         "units": "만원", "size_bin_m2": 5,
-        "source": "국토교통부 아파트 매매·전월세 API / 내부 R2 보관 원본",
+        "source": "국토교통부 아파트 매매·전월세 API / 내부 R2·Google Drive 검증 원본",
         "source_digest": signature,
         "coverage": {"sale_months": sale_coverage, "rent_months": rent_coverage,
                      "target_months": len(months), "missing_scopes": len(missing),
@@ -230,17 +230,10 @@ def main():
         def storage(relative, entry):
             return (archive / relative).read_bytes()
     else:
-        import boto3
-        endpoint = "https://" + os.environ["R2_ACCOUNT_ID"] + ".r2.cloudflarestorage.com"
-        client = boto3.client("s3", endpoint_url=endpoint,
-            aws_access_key_id=os.environ["R2_ACCESS_KEY_ID"],
-            aws_secret_access_key=os.environ["R2_SECRET_ACCESS_KEY"], region_name="auto")
-        bucket = os.environ["R2_BUCKET_NAME"]
-        prefix = "seoul-apartments/v1/"
-        def storage(relative, entry):
-            if entry.get("storage", "r2") != "r2":
-                raise ValueError("Google Drive fallback requires separate authenticated reader")
-            return client.get_object(Bucket=bucket, Key=prefix+relative)["Body"].read()
+        import sys
+        sys.path.insert(0, str(BASE.parent / "seoul-apartment-collector"))
+        from archive_reader import VerifiedArchiveReader
+        storage = VerifiedArchiveReader()
     names = list(DISTRICTS) if args.district == "all" else [args.district]
     errors = []
     for gu in names:

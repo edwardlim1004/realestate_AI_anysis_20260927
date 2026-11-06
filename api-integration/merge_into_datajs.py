@@ -112,7 +112,7 @@ def main():
             r["kSamples"] = d.get("kSamples", 0)
             r["rentalYieldPct"] = d["rentalYieldPct"]
             r["spreadPct"] = d["spreadPct"]
-            r["jeonseEstimated"] = False
+            r["jeonseEstimated"] = d.get("conversionEstimated", d.get("kSamples", 0) < 5)
         elif r.get("kLocal") is not None and r.get("rentalYieldPct") is not None:
             # 공급자 장애 또는 cache-only 재계산 때 이미 검증된 마지막 전월세
             # 파생값을 보존한다. 신규 공식값이 없다는 이유로 기본값으로 덮지 않는다.

@@ -32,7 +32,7 @@ def load_env_file(path=".env"):
 
 load_env_file()
 SERVICE_KEY = os.environ.get("MOLIT_SERVICE_KEY", "")
-BASE_URL = "http://apis.data.go.kr/1613000/RTMSDataSvcAptRent/getRTMSDataSvcAptRent"
+BASE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptRent/getRTMSDataSvcAptRent"
 
 JEONSE_MONTHS = 6
 REFRESH_WINDOW = 2
@@ -265,6 +265,7 @@ def main():
             "sampleSize": total_sample,
             "kLocal": round(k_local, 4),
             "kSamples": k_samples,
+            "conversionEstimated": k_samples < MIN_WOLSE_SAMPLES,
             "impliedAnnualRent": round(implied_annual_rent, 3),
             "rentalYieldPct": round(rental_yield_pct, 2),
             "spreadPct": round(spread_pct, 2),

@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "long-term-value/build_snapshots.py"
+      - "seoul-apartment-collector/archive_reader.py"
       - "long-term-value/model.js"
       - "long-term-value/index.html"
       - "long-term-value/test_build_snapshots.py"
@@ -29,7 +30,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install private R2 SDK
-        run: python -m pip install boto3
+        run: python -m pip install boto3 google-api-python-client google-auth cryptography
       - name: Verify offline valuation rules
         run: |
           python -m unittest discover -s long-term-value -p 'test_*.py' -v
@@ -41,6 +42,9 @@ jobs:
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
         run: python long-term-value/build_snapshots.py
       - name: Commit only changed aggregate snapshots
         run: |
@@ -52,4 +56,4 @@ jobs:
             exit 0
           fi
           git commit -m "chore: refresh five-year apartment valuation snapshots"
-          git push origin HEAD:main
+          bash scripts/push-generated.sh

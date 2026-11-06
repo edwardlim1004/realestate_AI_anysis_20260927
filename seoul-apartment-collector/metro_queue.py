@@ -31,7 +31,9 @@ def snapshot():
         fp=fingerprint(files,keys)
         audit=read(BASE/(city+'_metro_audit.json'))
         receipt=read(BASE/(city+'_metro_verified.json'))
-        row.update(source_code_partitions=len(METRO_REGIONS[city]),
+        row.update(manifest_fingerprint=fp,
+                   identical_extra_rows_preserved=audit.get('identical_extra_rows_preserved') if audit.get('manifest_fingerprint')==fp else None,
+                   source_code_partitions=len(METRO_REGIONS[city]),
                    stored_rows=sum(files.get(k,{}).get('rows',0) for k in keys),
                    storage_reread_passed=bool(audit.get('passed') and audit.get('manifest_fingerprint')==fp),
                    verified=bool(receipt.get('passed') and receipt.get('manifest_fingerprint')==fp))

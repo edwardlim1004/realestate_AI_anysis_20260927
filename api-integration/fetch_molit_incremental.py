@@ -50,7 +50,7 @@ def load_env_file(path=".env"):
 load_env_file()
 SERVICE_KEY = os.environ.get("MOLIT_SERVICE_KEY", "")
 CACHE_ONLY = os.environ.get("MOLIT_CACHE_ONLY", "").strip() == "1"
-BASE_URL = "http://apis.data.go.kr/1613000/RTMSDataSvcAptTradeDev/getRTMSDataSvcAptTradeDev"
+BASE_URL = "https://apis.data.go.kr/1613000/RTMSDataSvcAptTradeDev/getRTMSDataSvcAptTradeDev"
 
 MONTHS_BACK = 61          # 유지할 전체 윈도우(5년+1개월)
 REFRESH_WINDOW = 3        # 매번 무조건 다시 받아오는 "최근 N개월" (신고 지연 대비)
