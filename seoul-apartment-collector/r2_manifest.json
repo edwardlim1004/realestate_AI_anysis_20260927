@@ -2,7 +2,7 @@
   "schema": 1,
   "bucket": "edward-seoul-apartment-data",
   "prefix": "seoul-apartments/v1/",
-  "updated_at_utc": "2026-11-06T01:42:23.869569+00:00",
+  "updated_at_utc": "2026-11-06T02:37:40.262677+00:00",
   "files": {
     "rent/2011/11110/201101.csv.gz": {
       "sha256": "a6697b6f2e0ddc59fcf7d163a8c6bf4da0602e9bb7af281c184e0639f2295301",
@@ -188432,6 +188432,406 @@
       "rows": 30,
       "checked_at_utc": "2026-11-03T20:51:01.333417+00:00"
     },
+    "sale/2008/27110/200808.csv.gz": {
+      "sha256": "5554caecaa1e8b7b509815a18e10ab67965b04e04d79b4cdd4abfdf9fbe9ed8a",
+      "bytes": 2307,
+      "storage": "gdrive",
+      "drive_file_id": "1Cag5YimG1_MWPL9VXjhR4oL_xRIBz7Ns",
+      "retained_r2_bytes": 0,
+      "content_sha256": "c3be04cd7f3bbdbcd3a8eef6c237cfac1d26cb542e8594b975d2fc477c79115e",
+      "rows": 32,
+      "checked_at_utc": "2026-11-06T02:37:30.567010+00:00"
+    },
+    "sale/2008/27110/200809.csv.gz": {
+      "sha256": "eb9dc62b0dd60ae414b7dd91bf32894e67974600711850dcc65f699caaa09ad0",
+      "bytes": 2656,
+      "storage": "gdrive",
+      "drive_file_id": "1Xf-6kMgq5upCClzATmUsLw9M0qJtC1RU",
+      "retained_r2_bytes": 0,
+      "content_sha256": "238280ec42c09c7a49fe17df0cf2b7910a4b829b3db8c168a986a89c7675ed17",
+      "rows": 36,
+      "checked_at_utc": "2026-11-06T02:36:01.360148+00:00"
+    },
+    "sale/2008/27110/200810.csv.gz": {
+      "sha256": "e7a5d8d096a3c34aabc31f1612a521c21784546f96b686b8a32de08681d49f53",
+      "bytes": 2821,
+      "storage": "gdrive",
+      "drive_file_id": "1gQwg0qbJCnFwRBh0n0qE7fVc6Cnpaqfn",
+      "retained_r2_bytes": 0,
+      "content_sha256": "ca29affe04808b9b47094364abc57759bacc57ec0cd96438aa0963fd9d5e0571",
+      "rows": 64,
+      "checked_at_utc": "2026-11-06T02:35:30.677846+00:00"
+    },
+    "sale/2008/27110/200811.csv.gz": {
+      "sha256": "6bd33dc8498a54f7cfd14ab32f2cbe76170a2cd3a6725f0629f5b9310ebb596c",
+      "bytes": 1911,
+      "storage": "gdrive",
+      "drive_file_id": "102oVXH8JmeJhAoQT4Db7k32W60xCs8l0",
+      "retained_r2_bytes": 0,
+      "content_sha256": "a29a744457b6f4a3010ec593fc53ee2b28b521f2af8491b532e94faafaee7e68",
+      "rows": 21,
+      "checked_at_utc": "2026-11-06T02:34:03.318472+00:00"
+    },
+    "sale/2008/27110/200812.csv.gz": {
+      "sha256": "3317a4da2b0bdcdaeaeb5770fe1bc550db471beb1685bd1a1599237a8cec6001",
+      "bytes": 2064,
+      "storage": "gdrive",
+      "drive_file_id": "1uMMA-BvgTj484W1uuVj-fzOdcSFlj8SH",
+      "retained_r2_bytes": 0,
+      "content_sha256": "0fff9baf206a310f07211371cd3c0c05179abc16b5ade1504268b13557147a2c",
+      "rows": 21,
+      "checked_at_utc": "2026-11-06T02:32:35.676954+00:00"
+    },
+    "sale/2008/27140/200808.csv.gz": {
+      "sha256": "cc7a7650559017c9ef9ee4a4191408f9bb1577b0727c470b99b913a3c05dd04d",
+      "bytes": 8003,
+      "storage": "gdrive",
+      "drive_file_id": "1zvfBCKZm8Phpqyw5ARGw_StMErZgFs0n",
+      "retained_r2_bytes": 0,
+      "content_sha256": "c99675ee120242361be49d4ad4f2b41d6a6cf510a07e9d0168fd7394583c9580",
+      "rows": 137,
+      "checked_at_utc": "2026-11-06T02:37:34.289274+00:00"
+    },
+    "sale/2008/27140/200809.csv.gz": {
+      "sha256": "a546004bf3d0b0a059d082c01945652bec3215f894efe23a52b361b75176c9a2",
+      "bytes": 12317,
+      "storage": "gdrive",
+      "drive_file_id": "18LEw4hk3Kd1zYRVpPD4FntBxGZbFKfBy",
+      "retained_r2_bytes": 0,
+      "content_sha256": "9907faa706dd7588bc2c499db2b15564c3aad486b580533f55331ea278ade96b",
+      "rows": 747,
+      "checked_at_utc": "2026-11-06T02:36:07.328603+00:00"
+    },
+    "sale/2008/27140/200810.csv.gz": {
+      "sha256": "0a75341c3e5d197d81c259960f930afd29b97dc0644b3f6f63b7b243f1643f52",
+      "bytes": 7754,
+      "storage": "gdrive",
+      "drive_file_id": "1yz-gA1uDQ8VACqdX9UbeoZPv0QSP-jQU",
+      "retained_r2_bytes": 0,
+      "content_sha256": "3a5f14c4eb30b98829f3fac7b10c36094bd0aedafb178205f9dcc00312e16e86",
+      "rows": 144,
+      "checked_at_utc": "2026-11-06T02:35:34.117741+00:00"
+    },
+    "sale/2008/27140/200811.csv.gz": {
+      "sha256": "92708727576798e2b6fee1bf1ec602513ff0f9d5efd34bc97ef0e828bc9a1321",
+      "bytes": 8087,
+      "storage": "gdrive",
+      "drive_file_id": "1Sg6xMEF44FC1nvE_1jdLvQD5gP2XluCQ",
+      "retained_r2_bytes": 0,
+      "content_sha256": "963ee907bf333f2c13b57e52671681b8a9d3bc2d6d590c8e5f2d5bb8da8a40d3",
+      "rows": 301,
+      "checked_at_utc": "2026-11-06T02:34:06.774025+00:00"
+    },
+    "sale/2008/27140/200812.csv.gz": {
+      "sha256": "58d13219d4f6cc01252888f15119e048647fc1aa718c966555af167599e1c74e",
+      "bytes": 6969,
+      "storage": "gdrive",
+      "drive_file_id": "1fiFmo0Qri4RtSUX2NR2EK_TMWuaq0t-p",
+      "retained_r2_bytes": 0,
+      "content_sha256": "ccc7ebadf592586301040e70830ef2b31e700d25f6a4f8a17b4a425f122f5422",
+      "rows": 148,
+      "checked_at_utc": "2026-11-06T02:32:39.247495+00:00"
+    },
+    "sale/2008/27170/200808.csv.gz": {
+      "sha256": "8a4fb69487542cd4cb0eab27a662530f29c447d06a518464b2e35730e9780ada",
+      "bytes": 2432,
+      "storage": "gdrive",
+      "drive_file_id": "11r71YNF6p4ICi0pl5WrpECUZQ4SH7i8d",
+      "retained_r2_bytes": 0,
+      "content_sha256": "6ae355db708819a3ac18a1ec7cd88ba99b4116ab140e8b1123edc4b60b452a78",
+      "rows": 28,
+      "checked_at_utc": "2026-11-06T02:37:37.286494+00:00"
+    },
+    "sale/2008/27170/200809.csv.gz": {
+      "sha256": "bbff0355b3c6005bbc3248480d724f20820a208caadcac7aea0bde6838b96498",
+      "bytes": 3478,
+      "storage": "gdrive",
+      "drive_file_id": "1-uiif4a8z3xtK4rjujUSNievGbtmoXO7",
+      "retained_r2_bytes": 0,
+      "content_sha256": "803bfefe0a7c9ffcfaee6887eb3a61ed9b2a722002ffd04ff2b318c3861cb9df",
+      "rows": 47,
+      "checked_at_utc": "2026-11-06T02:37:05.551696+00:00"
+    },
+    "sale/2008/27170/200810.csv.gz": {
+      "sha256": "a2ebfa1c74ab27aa25962aca89d2f2a3b6f4b57bf1ab2503cafeb37c2ff3aba6",
+      "bytes": 2441,
+      "storage": "gdrive",
+      "drive_file_id": "1BjAzjZdY-1qrO9afvx9qat9O1XBYyPU0",
+      "retained_r2_bytes": 0,
+      "content_sha256": "2804ddb0360af9c160ceff4d29d129f18390263a4c0ed9be1b5b861ff815deff",
+      "rows": 27,
+      "checked_at_utc": "2026-11-06T02:35:36.487913+00:00"
+    },
+    "sale/2008/27170/200811.csv.gz": {
+      "sha256": "89cd588698e7ea9b8d6dbdf15833a76985700acc65e770e9d1dca2125c6192a6",
+      "bytes": 1985,
+      "storage": "gdrive",
+      "drive_file_id": "1e2GOmg6t-kWzmc_AYD7UrrjI2tQb8qHS",
+      "retained_r2_bytes": 0,
+      "content_sha256": "f38ee195b471a758d84053204dfdf30fe4b774b64a77ebdd2f3666a35f78e596",
+      "rows": 19,
+      "checked_at_utc": "2026-11-06T02:34:09.421118+00:00"
+    },
+    "sale/2008/27170/200812.csv.gz": {
+      "sha256": "53e7860fbaedf6070559b1d5bf44b136d448a70fa1f1235d1ffdc678686b6f08",
+      "bytes": 2171,
+      "storage": "gdrive",
+      "drive_file_id": "1aisacwE9abU8wk17gxcdqAMTgqgrIrzT",
+      "retained_r2_bytes": 0,
+      "content_sha256": "baa66a13cc03d91317b1578e5cd23fd71c99ae6903bcb9ddbf854d1a2e0f9c77",
+      "rows": 20,
+      "checked_at_utc": "2026-11-06T02:32:42.252994+00:00"
+    },
+    "sale/2008/27200/200808.csv.gz": {
+      "sha256": "9425baeaa96e80e61de8aa99d32046b189ebe0b32bbe8ae0eaf21f6c33ed2f5b",
+      "bytes": 3245,
+      "storage": "gdrive",
+      "drive_file_id": "1mIIs6cyM47slut6_E-7dZc4DLVYnqx9h",
+      "retained_r2_bytes": 0,
+      "content_sha256": "5408bdd79b5036cba928c0a7672df8eec31cb9bac64c44e72d52b3c6e25ea925",
+      "rows": 49,
+      "checked_at_utc": "2026-11-06T02:37:40.262671+00:00"
+    },
+    "sale/2008/27200/200809.csv.gz": {
+      "sha256": "65ac64980aa897d0cf5e4e5d4a2c92cc543d3042af0b3c852ed1c6451117ddce",
+      "bytes": 5104,
+      "storage": "gdrive",
+      "drive_file_id": "1BFwm-AwsJY_q58ixIPxGL6LJ4aQBCu22",
+      "retained_r2_bytes": 0,
+      "content_sha256": "7de6746b59e0252b410ccd5a65da56668a63c0ab7a9e162a0d4c1216603b6204",
+      "rows": 152,
+      "checked_at_utc": "2026-11-06T02:37:08.958233+00:00"
+    },
+    "sale/2008/27200/200810.csv.gz": {
+      "sha256": "093270870241c4a9b1c5f27012417d553d0e32a3d92bc1e75327dc27ea8d222e",
+      "bytes": 3346,
+      "storage": "gdrive",
+      "drive_file_id": "1Yyl1vq6_wC8YeELIXPVOpWuHOkWu3gHD",
+      "retained_r2_bytes": 0,
+      "content_sha256": "25413c25367b0672520863f6fd587123eac085b06f4306bf4522110a6f3f9291",
+      "rows": 47,
+      "checked_at_utc": "2026-11-06T02:35:39.944266+00:00"
+    },
+    "sale/2008/27200/200811.csv.gz": {
+      "sha256": "7addf6c4c4813b8515754f0fe6a6b4e7c69ac9baffff388d89dab22835d69b42",
+      "bytes": 2392,
+      "storage": "gdrive",
+      "drive_file_id": "11KeHHFUhskqMLpsMeVSamGnANDIElK9P",
+      "retained_r2_bytes": 0,
+      "content_sha256": "4febdae6baee26f9155455f775212e9e847b95d2e897efd566528ba8f8f6ce69",
+      "rows": 30,
+      "checked_at_utc": "2026-11-06T02:34:12.302353+00:00"
+    },
+    "sale/2008/27200/200812.csv.gz": {
+      "sha256": "2e05d93012f61d408edf8a583d5f4d07535170bec83140e3e54a2ebbc103b954",
+      "bytes": 2339,
+      "storage": "gdrive",
+      "drive_file_id": "1hlppmJ7BowTMLWbqDsmUnvUqyC4lPE2a",
+      "retained_r2_bytes": 0,
+      "content_sha256": "974182f2602628d59002b4dd00cdbff099e413d38e9e731186143ae5dc71e7a8",
+      "rows": 26,
+      "checked_at_utc": "2026-11-06T02:32:44.800742+00:00"
+    },
+    "sale/2008/27230/200809.csv.gz": {
+      "sha256": "3a27ab3795e5570db3cb982d4224e64d707a52526b51ac9c0717a6cfa204815f",
+      "bytes": 18491,
+      "storage": "gdrive",
+      "drive_file_id": "1zy5vhuBDlQZEiyLy6cCVU-yfvVOPrbkP",
+      "retained_r2_bytes": 0,
+      "content_sha256": "fd1309a7221733b1bf626fa471980e5b560a374847e346541678b0ad0bfdc1ee",
+      "rows": 446,
+      "checked_at_utc": "2026-11-06T02:37:12.663144+00:00"
+    },
+    "sale/2008/27230/200810.csv.gz": {
+      "sha256": "c9315ace89ded8d16bf3f48cbf7afe9837a506baf65bb3f8305279480209ac91",
+      "bytes": 16521,
+      "storage": "gdrive",
+      "drive_file_id": "1O0EH8jX3BtnYehfZvWAOo3Ww0l6VyigV",
+      "retained_r2_bytes": 0,
+      "content_sha256": "4068af8afb472c24b0c276e887360763e565a1f0ec047640e9d4170b13874449",
+      "rows": 408,
+      "checked_at_utc": "2026-11-06T02:35:43.376000+00:00"
+    },
+    "sale/2008/27230/200811.csv.gz": {
+      "sha256": "403277cb30d9521764a84f869328acf245f8d6fbafc465583afe07bbc4b0db89",
+      "bytes": 12620,
+      "storage": "gdrive",
+      "drive_file_id": "1XbQFz8vFjoxN8eaqgPxH3K7gEVU_hOu5",
+      "retained_r2_bytes": 0,
+      "content_sha256": "54268092859ee7d00a11894846d1b992a4803507a8e301ad96b092e82ad82a34",
+      "rows": 221,
+      "checked_at_utc": "2026-11-06T02:34:16.188037+00:00"
+    },
+    "sale/2008/27230/200812.csv.gz": {
+      "sha256": "2e3567aeb8ad4295414150d5a60c4e03391d9cd619204f846ebb26d029ed89e1",
+      "bytes": 12990,
+      "storage": "gdrive",
+      "drive_file_id": "1hbYYSTP3DSRaabjAroQUKFsQmor7tWzc",
+      "retained_r2_bytes": 0,
+      "content_sha256": "68aefa82630c43c6e0387c69e9a566738ff93428c547cd18281248952de1b6f8",
+      "rows": 323,
+      "checked_at_utc": "2026-11-06T02:33:44.384395+00:00"
+    },
+    "sale/2008/27260/200809.csv.gz": {
+      "sha256": "6ffeec5366b47e86f5caf875dacad6b56b9576ab036c7f2376d7dc1912d6bd42",
+      "bytes": 15279,
+      "storage": "gdrive",
+      "drive_file_id": "1zjklyE2l6t6RjRKROeMCIEbIL2LuHlhj",
+      "retained_r2_bytes": 0,
+      "content_sha256": "20dcd4f3dd08c289fabde36b90af4f22914a790eb4409a1ba5da6e697fb2eb6d",
+      "rows": 293,
+      "checked_at_utc": "2026-11-06T02:37:15.801804+00:00"
+    },
+    "sale/2008/27260/200810.csv.gz": {
+      "sha256": "523947fda52c7b3e2cbc08d0d3cd1ba0c3e9282be793e2e1c0ec6e0e6e9a127c",
+      "bytes": 13810,
+      "storage": "gdrive",
+      "drive_file_id": "193syvUq13xDfR86OqduVRemKq988NyGU",
+      "retained_r2_bytes": 0,
+      "content_sha256": "cccb823c97479f22cabaffe1abe3324a46719a5ad9d3821b737b63f766627222",
+      "rows": 266,
+      "checked_at_utc": "2026-11-06T02:35:46.263145+00:00"
+    },
+    "sale/2008/27260/200811.csv.gz": {
+      "sha256": "0aa2720ef0206866e3d5e85aa701c72bb841daaf9088e270e671f1e506ca6b3f",
+      "bytes": 11401,
+      "storage": "gdrive",
+      "drive_file_id": "18VEYAbs8TaDhjfjF6C62DM8CbGgeKg9B",
+      "retained_r2_bytes": 0,
+      "content_sha256": "c5718b12f5ed78cc1aa5e05f5ba5daf5d3d2e011395050c9a625be8964dbb10c",
+      "rows": 191,
+      "checked_at_utc": "2026-11-06T02:34:19.151126+00:00"
+    },
+    "sale/2008/27260/200812.csv.gz": {
+      "sha256": "7c2376226058b9dbd97f7c6e0ae5b2d57e63112056c9d43777f79a4f2db8580d",
+      "bytes": 12549,
+      "storage": "gdrive",
+      "drive_file_id": "1QwO0nGQR-IHx5bi6peeR1TR4JrAgEsjC",
+      "retained_r2_bytes": 0,
+      "content_sha256": "6e8edc7dde2bf60e07fa026b668328de4cde39d48f17206d46015913c5de9b12",
+      "rows": 282,
+      "checked_at_utc": "2026-11-06T02:33:48.012485+00:00"
+    },
+    "sale/2008/27290/200809.csv.gz": {
+      "sha256": "8eb53598480011bdccda1c100dc8794cdfc0610e62c611aaa34d688a8ecc84ef",
+      "bytes": 17386,
+      "storage": "gdrive",
+      "drive_file_id": "12fKtF2gPiqV1aGdF22_BAFiHlXDiV81g",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e9e83e742ab780cbccaa02c84472b330bdaa7b5c40fadaef0c4b839580f66bc4",
+      "rows": 379,
+      "checked_at_utc": "2026-11-06T02:37:18.946380+00:00"
+    },
+    "sale/2008/27290/200810.csv.gz": {
+      "sha256": "278aea90562ef715ef2772df0fdd0484f62b14e31c0b7e36ab13daf7a8eebad2",
+      "bytes": 18207,
+      "storage": "gdrive",
+      "drive_file_id": "17dtyp5Pt7oiVgzfLhqY6aF1xkeQJ28Ko",
+      "retained_r2_bytes": 0,
+      "content_sha256": "21b8ac787b4c992aa7b0fd47b6fc914c2c9820ed80a4564c78d33d75d1f1089d",
+      "rows": 377,
+      "checked_at_utc": "2026-11-06T02:35:49.520416+00:00"
+    },
+    "sale/2008/27290/200811.csv.gz": {
+      "sha256": "c84f36232eea9ae25949a19ea0ce579374b6c4963c7feadb992734a71f15fe75",
+      "bytes": 14379,
+      "storage": "gdrive",
+      "drive_file_id": "1huGhVfpZdyg8G8aN7_l-OILEHu0vUVWr",
+      "retained_r2_bytes": 0,
+      "content_sha256": "06cd1d8d33f640844621aaf42c77743b2e46ce44bc97fad2a972dead342ab232",
+      "rows": 278,
+      "checked_at_utc": "2026-11-06T02:34:22.227359+00:00"
+    },
+    "sale/2008/27290/200812.csv.gz": {
+      "sha256": "557797451d34157e40c59f50fad9fc2b37f48ac09f703f492b3a580031f2d095",
+      "bytes": 16115,
+      "storage": "gdrive",
+      "drive_file_id": "1fIkOsI6jz5kU1xc7qSMAjv6Ycgrt1ZlC",
+      "retained_r2_bytes": 0,
+      "content_sha256": "197e53ee7edf2ba0aa08ef5cbff572d1ceaf3e250ad7a9c25f545d8a90f195e4",
+      "rows": 354,
+      "checked_at_utc": "2026-11-06T02:33:51.405634+00:00"
+    },
+    "sale/2008/27710/200809.csv.gz": {
+      "sha256": "4f3bfe7011f341c8b4f1a6562bad0af06cf3116b3c419ff73e86b9c8acf4cdc2",
+      "bytes": 7666,
+      "storage": "gdrive",
+      "drive_file_id": "17P_gFWOR9HIXQDs4WWlHeDEgT_x64sII",
+      "retained_r2_bytes": 0,
+      "content_sha256": "4b2c6543cc42716e78a3b46525d1ce39125aea45a9ad5cbe9e169f6f66d2e078",
+      "rows": 266,
+      "checked_at_utc": "2026-11-06T02:37:22.161562+00:00"
+    },
+    "sale/2008/27710/200810.csv.gz": {
+      "sha256": "1592be49fb49192109c12089cf534bcc0f473c10d528e896e5ac9e949077ae38",
+      "bytes": 6262,
+      "storage": "gdrive",
+      "drive_file_id": "12c6PsU-E_IGr-LfjFQiN8l1AfLOFkbnl",
+      "retained_r2_bytes": 0,
+      "content_sha256": "b57dcdfd0ab61aac5462eadce1baa38ca1a5c6a338d4709dbb186c9d73820db9",
+      "rows": 121,
+      "checked_at_utc": "2026-11-06T02:35:52.781485+00:00"
+    },
+    "sale/2008/27710/200811.csv.gz": {
+      "sha256": "e27cea2bc015467f34dc0c2d62fae6e298027d08e19eee38bbb80c8d54e4826b",
+      "bytes": 5523,
+      "storage": "gdrive",
+      "drive_file_id": "1whyU21Di6ZYKN76DK5rdoTbRyUXf81hh",
+      "retained_r2_bytes": 0,
+      "content_sha256": "5ede08ffa0e038bf30a41c82c0e717c55c2fa1c0a455b77769a5b51481e94f02",
+      "rows": 101,
+      "checked_at_utc": "2026-11-06T02:35:21.416007+00:00"
+    },
+    "sale/2008/27710/200812.csv.gz": {
+      "sha256": "85168528c5b0ffc541b600f9cd0420dc88d054584283226db4f05d6107f796b3",
+      "bytes": 5146,
+      "storage": "gdrive",
+      "drive_file_id": "1CdUrAzgRYTM51asWmxatBV4hKuGinldz",
+      "retained_r2_bytes": 0,
+      "content_sha256": "3bbae728fda3056183b40041410831875afb0a65f15a9c229627dbb28977214f",
+      "rows": 86,
+      "checked_at_utc": "2026-11-06T02:33:54.407506+00:00"
+    },
+    "sale/2008/27720/200809.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1xhZa95WcOqbxEfsCzPfzN6xX1Z0dXnMC",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:37:24.684543+00:00"
+    },
+    "sale/2008/27720/200810.csv.gz": {
+      "sha256": "37f8ceb0be8a3bb09e6618361caf24876c3a9af6cc7a2b457d12017296d10636",
+      "bytes": 677,
+      "storage": "gdrive",
+      "drive_file_id": "13YS-Mht1P110sRCvuHBOGoUfKou-0tQD",
+      "retained_r2_bytes": 0,
+      "content_sha256": "0c8c3b1198bac6d52a1bd35f798ca93dfe5376c282197e193f6908e35e690ff7",
+      "rows": 2,
+      "checked_at_utc": "2026-11-06T02:35:55.440374+00:00"
+    },
+    "sale/2008/27720/200811.csv.gz": {
+      "sha256": "756102191b90b73bda49e46a445542a85fd53ee69f708e8600d252d599eb358e",
+      "bytes": 707,
+      "storage": "gdrive",
+      "drive_file_id": "1R0r_fK7CilbaYZmYNBmwBsIVDTqucI-H",
+      "retained_r2_bytes": 0,
+      "content_sha256": "a38ebd73b9546b51c03d891c38330feea82025498747d220bc220669ac25f92b",
+      "rows": 5,
+      "checked_at_utc": "2026-11-06T02:35:24.431803+00:00"
+    },
+    "sale/2008/27720/200812.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1HLfhiPJ21pwNfSJ8auDyiCZ3vpQPRbMa",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:33:57.315008+00:00"
+    },
     "sale/2008/30110/200801.csv.gz": {
       "sha256": "e8f67dd743f9127193b65aa480e40d15f4313863809b140322f9f58b10c4d003",
       "bytes": 8637,
@@ -195272,6 +195672,46 @@
       "rows": 14,
       "checked_at_utc": "2026-10-26T14:20:02.764651+00:00"
     },
+    "sale/2008/47720/200809.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1VOR_1JBCzSVXxg-b1jjoQs7e1Ma1T3qX",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:37:27.533566+00:00"
+    },
+    "sale/2008/47720/200810.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1e2QSUcvsUs4ZDxFxAdU_1Y7CtBqRpcoH",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:35:58.273137+00:00"
+    },
+    "sale/2008/47720/200811.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1oCvBnwU7I0QgN2SR1-Q4QzVy_2NdoSQW",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:35:27.747803+00:00"
+    },
+    "sale/2008/47720/200812.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1Gistbw-y003ShWFFFEjAVOkovfTqg_QX",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:34:00.561492+00:00"
+    },
     "sale/2009/11110/200901.csv.gz": {
       "sha256": "4f42976a38fea29ac0c89f74cb84766e6270a9c6609464ea55dab69f4ada0a51",
       "bytes": 2131,
@@ -198691,6 +199131,1086 @@
       "content_sha256": "2296912eb912f402e2ce1b794ce6f3ae57afd5944c0d80395b66d434061c20a1",
       "rows": 220,
       "checked_at_utc": "2026-11-03T12:34:26.353834+00:00"
+    },
+    "sale/2009/27110/200901.csv.gz": {
+      "sha256": "2483380274efdc9b969b9b6c0117cb39ace82970c2f6d8fce326db8c57bf288b",
+      "bytes": 1705,
+      "storage": "gdrive",
+      "drive_file_id": "1wQ4l0CpOI1lz1H_ZcknI_44bEpsuYYV8",
+      "retained_r2_bytes": 0,
+      "content_sha256": "1b503e147284b912f3c5ca5145e56d5aa6f330b9550b135495f2df4b3f7cceb8",
+      "rows": 19,
+      "checked_at_utc": "2026-11-06T02:31:08.706863+00:00"
+    },
+    "sale/2009/27110/200902.csv.gz": {
+      "sha256": "f05272bff6cefc04cf482712d9f76337ee22762d00f196e8739159bda49fd9e7",
+      "bytes": 2203,
+      "storage": "gdrive",
+      "drive_file_id": "12eujU5AMtNGml6nOvaW_DzWpJcTng6LQ",
+      "retained_r2_bytes": 0,
+      "content_sha256": "3ee34c680ac037cf814bcc1e68365171f6a0d4963c488c0552013ebfc0ae0e22",
+      "rows": 29,
+      "checked_at_utc": "2026-11-06T02:28:40.300762+00:00"
+    },
+    "sale/2009/27110/200903.csv.gz": {
+      "sha256": "1c515e204defac467b10bf10f69218dbf1f5755cf5f19cbeb15fc05d09b6017c",
+      "bytes": 3330,
+      "storage": "gdrive",
+      "drive_file_id": "1_-OTLBgr_JaEwmNazvsURqr9p7Q1ylHi",
+      "retained_r2_bytes": 0,
+      "content_sha256": "005ee3b3ddf3fcb5c5209394440d96687bac309c941fe2e94a58f83c3b098741",
+      "rows": 54,
+      "checked_at_utc": "2026-11-06T02:28:05.764617+00:00"
+    },
+    "sale/2009/27110/200904.csv.gz": {
+      "sha256": "cf9e54ed02444e2725d468d9a133dfff453b2714935c1460cecd1653763b609c",
+      "bytes": 3067,
+      "storage": "gdrive",
+      "drive_file_id": "14Q2ReG9tIXyGaL83FVUhTAobYAkhgntv",
+      "retained_r2_bytes": 0,
+      "content_sha256": "8e8e1af04278f7fecf53fb9e1c24e3984267145faa37abfbcb90115a783fa780",
+      "rows": 51,
+      "checked_at_utc": "2026-11-06T02:27:32.745184+00:00"
+    },
+    "sale/2009/27110/200905.csv.gz": {
+      "sha256": "5fb045f6864c4ff254f1d1a58e4a4c30101770658603cde443da4ab806fae09b",
+      "bytes": 2653,
+      "storage": "gdrive",
+      "drive_file_id": "19KIUN7VgDOaZ9YASXpiTpOy-NJc9Y2K5",
+      "retained_r2_bytes": 0,
+      "content_sha256": "eba5feab9eee04d3a008c43f4e26b903edb065ffe20565312df771b106d30395",
+      "rows": 42,
+      "checked_at_utc": "2026-11-06T02:26:57.132725+00:00"
+    },
+    "sale/2009/27110/200906.csv.gz": {
+      "sha256": "b064b66bf933ed2f6fa79570a68d5899f7a1534104443d7c40e489bd99fde1bc",
+      "bytes": 3128,
+      "storage": "gdrive",
+      "drive_file_id": "1PJYbQQVH-VJ8-5b1mB6K2sO5cbynu_Pl",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e47dcf8259f1f8037a46d49baa24726e1f9cbdf0925649f0d493abcb9846eb2a",
+      "rows": 56,
+      "checked_at_utc": "2026-11-06T02:26:21.042001+00:00"
+    },
+    "sale/2009/27110/200907.csv.gz": {
+      "sha256": "d2dd75f0c5b516fa98a9dbd1ee9a58166896449068d8e70327385f0a1184b1eb",
+      "bytes": 3452,
+      "storage": "gdrive",
+      "drive_file_id": "1SGKAhmm8_uSD9jiuwgefj7Yp_phaqDsE",
+      "retained_r2_bytes": 0,
+      "content_sha256": "2db301bf7c452203b50a79478ec8339c527b10f7d4ac582ac654c9bdb61ab2a5",
+      "rows": 89,
+      "checked_at_utc": "2026-11-06T02:24:51.814336+00:00"
+    },
+    "sale/2009/27110/200908.csv.gz": {
+      "sha256": "39062b462e82b654fcffc3af77c545411eb0d023c7bd6ce001cf0f8d6e00a139",
+      "bytes": 3200,
+      "storage": "gdrive",
+      "drive_file_id": "1KK2uhFOZbfFgAUxwn5G-KKDfbjXL_u_m",
+      "retained_r2_bytes": 0,
+      "content_sha256": "64405d094fc7bf246c676d6368b239bfbc0b0e5e567da56adcb5a1bd02622091",
+      "rows": 61,
+      "checked_at_utc": "2026-11-06T02:22:22.209226+00:00"
+    },
+    "sale/2009/27110/200909.csv.gz": {
+      "sha256": "5975ee0bc90aee6487983e67cbf4d4f7d8d81a5e8ba757480eef864cd12de93f",
+      "bytes": 3160,
+      "storage": "gdrive",
+      "drive_file_id": "1nmoB8mI6FNo8zn8vdk0R2epLKYOYQvsh",
+      "retained_r2_bytes": 0,
+      "content_sha256": "69f60421607d4ec6be4999e4c91ce55ee160c39a2bb9c72aefd18c946865936b",
+      "rows": 53,
+      "checked_at_utc": "2026-11-06T02:21:41.500579+00:00"
+    },
+    "sale/2009/27110/200910.csv.gz": {
+      "sha256": "3ffc26e894505a09f1a7cf3394e23213c16cccd808d801bb2604297ddc19d2ae",
+      "bytes": 3340,
+      "storage": "gdrive",
+      "drive_file_id": "1W2us0_2hPK7S2EqKdowIkiMoNZ8q08Zv",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e150fdced138c3cac8b0d8991939f6db885967135a368950e38b0778ecf6442f",
+      "rows": 64,
+      "checked_at_utc": "2026-11-06T02:21:07.553969+00:00"
+    },
+    "sale/2009/27110/200911.csv.gz": {
+      "sha256": "ef1aa98ff6afc0412ad25faf349a2a14fc9699c3ca928b36454881a2444fb900",
+      "bytes": 2943,
+      "storage": "gdrive",
+      "drive_file_id": "1aZFWp_uWT283Vm0LP4pc3RCGkvvcp4so",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e1b57323b98f58c18467fc408157b6b16b24ee00e07bff349b0f103afd09a25b",
+      "rows": 41,
+      "checked_at_utc": "2026-11-06T02:20:34.762213+00:00"
+    },
+    "sale/2009/27110/200912.csv.gz": {
+      "sha256": "7bbec2ad67bdd005624d4d128aa53d3e73c2040177fc856a418d4ac406992a0d",
+      "bytes": 3003,
+      "storage": "gdrive",
+      "drive_file_id": "10E4HPizxb9VadyhShBaJBSxr1jqGjDNO",
+      "retained_r2_bytes": 0,
+      "content_sha256": "2503892e22013c49939c09ebb9e25205fdbd327f6a48bf388c6bb7eacc7fbd67",
+      "rows": 45,
+      "checked_at_utc": "2026-11-06T02:19:06.433566+00:00"
+    },
+    "sale/2009/27140/200901.csv.gz": {
+      "sha256": "c000d9683f355b2d5beb351c0b860aadf02fc474630eda238ed1e39b2b0e63e3",
+      "bytes": 7144,
+      "storage": "gdrive",
+      "drive_file_id": "1rU7BFDGcOmGtS1EherCSxPDC-X9nNbP2",
+      "retained_r2_bytes": 0,
+      "content_sha256": "d21375396a5c13489736e54d520083a11a98693bd4f6aae8855a974c9dbd2fd7",
+      "rows": 113,
+      "checked_at_utc": "2026-11-06T02:31:11.864182+00:00"
+    },
+    "sale/2009/27140/200902.csv.gz": {
+      "sha256": "1a1c7afd2db9ed407cc2cfce3450042809d6fde865717f4599a76d4cc3ec69ee",
+      "bytes": 10150,
+      "storage": "gdrive",
+      "drive_file_id": "1BMCUGjcUrcuAdPrkCim98f7uRdG0tUSQ",
+      "retained_r2_bytes": 0,
+      "content_sha256": "abb12b8ce7b544af9e96092d0f1f99767ba6023272385da9ffe2542e2253ec2c",
+      "rows": 189,
+      "checked_at_utc": "2026-11-06T02:28:44.339280+00:00"
+    },
+    "sale/2009/27140/200903.csv.gz": {
+      "sha256": "792312298796f1ea5e3712a034173bf5a2528ddb6e8ff5898a2c3209e4c21ef3",
+      "bytes": 10361,
+      "storage": "gdrive",
+      "drive_file_id": "1AFOEQwPguKF6-NbLvudt847H49jDUqFi",
+      "retained_r2_bytes": 0,
+      "content_sha256": "68fa806294181200d14abcb7911124f2df5bd22ab0d63242a40ef83f03cdadd4",
+      "rows": 211,
+      "checked_at_utc": "2026-11-06T02:28:09.009613+00:00"
+    },
+    "sale/2009/27140/200904.csv.gz": {
+      "sha256": "de85d3bf702188ee2bf9c6fe16eb9b53d0b38adbd387e56455054a49d12bb5a9",
+      "bytes": 9661,
+      "storage": "gdrive",
+      "drive_file_id": "1oCtyEEVJjodAIzjKI05ApkX-AX2L2Cpu",
+      "retained_r2_bytes": 0,
+      "content_sha256": "0895a53fecd538d0b54801cf9076afaf0d7d71a5acd20539092109c87d516358",
+      "rows": 190,
+      "checked_at_utc": "2026-11-06T02:27:36.025470+00:00"
+    },
+    "sale/2009/27140/200905.csv.gz": {
+      "sha256": "d67d94907ff8dae1bbc646b96fc44fc10e3793357350b722fb3fafc8fe34a209",
+      "bytes": 11751,
+      "storage": "gdrive",
+      "drive_file_id": "1G-5oP4hj3Ql-6G1mI4wqHhPgNv0vFKfb",
+      "retained_r2_bytes": 0,
+      "content_sha256": "1451945448ed5fd2f1c2d3dd3e0a9a64c09c94f54f71b7992a7efb6ca7fdef78",
+      "rows": 256,
+      "checked_at_utc": "2026-11-06T02:27:00.362693+00:00"
+    },
+    "sale/2009/27140/200906.csv.gz": {
+      "sha256": "8c010a93a2109c5de48463b0e120dd9b559f4419828810ace6de9ea3153db073",
+      "bytes": 10361,
+      "storage": "gdrive",
+      "drive_file_id": "1wXCLj4HaHEYv3KQE6USLAcZzB7xPp5Fu",
+      "retained_r2_bytes": 0,
+      "content_sha256": "d9f900803001f153bb107c6c5a3b32dbcf9222ed3304a3d9bad1008e4deb6e0e",
+      "rows": 207,
+      "checked_at_utc": "2026-11-06T02:26:24.930826+00:00"
+    },
+    "sale/2009/27140/200907.csv.gz": {
+      "sha256": "e5111637f29ec278d415cae83bdf0ba496b19a67fdd7c15da309c462e5649b77",
+      "bytes": 10552,
+      "storage": "gdrive",
+      "drive_file_id": "1kfI7F57D2oozQ5l1ICz3q75kAKhMDzVu",
+      "retained_r2_bytes": 0,
+      "content_sha256": "ae6e39df41a72ce62cb167f62baa30664f8f67e4a3d87b3faa51eafaa869d716",
+      "rows": 223,
+      "checked_at_utc": "2026-11-06T02:24:55.117300+00:00"
+    },
+    "sale/2009/27140/200908.csv.gz": {
+      "sha256": "3de1345d533889b25204dff1bb6c877ccab071d5e9166cf83fa96bbd6f3bd170",
+      "bytes": 14535,
+      "storage": "gdrive",
+      "drive_file_id": "1qGvknnyVb9K11U1znjU4MaPtoX1xvTk5",
+      "retained_r2_bytes": 0,
+      "content_sha256": "a4440d6c5cc85c4f5b949eee5a26cefef783bd3d89a8af7042d771d2ff043245",
+      "rows": 359,
+      "checked_at_utc": "2026-11-06T02:22:25.181314+00:00"
+    },
+    "sale/2009/27140/200909.csv.gz": {
+      "sha256": "17baa7802d3649d959bd26f266082a4c217044c95bc8bc7652f20467ed40fdfd",
+      "bytes": 13548,
+      "storage": "gdrive",
+      "drive_file_id": "11hNMYODU1INs-08khvE_8EjoemIEReOz",
+      "retained_r2_bytes": 0,
+      "content_sha256": "154898c0b428fd2be3634260012d335be83ecbf72417cee72a2d6e9225c1382e",
+      "rows": 316,
+      "checked_at_utc": "2026-11-06T02:21:44.774661+00:00"
+    },
+    "sale/2009/27140/200910.csv.gz": {
+      "sha256": "841dfeb1d41f00984a799e7e51dbe7aed0d46c91f733d8b6423b3ebefeaeca17",
+      "bytes": 15090,
+      "storage": "gdrive",
+      "drive_file_id": "1ovPaXyu7O6gIljkNWzJ80BW3ZTAwtQAH",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e6fab4e83a07330460dc1e92a6c6c4bc18235ceaa34e62c69d80baa2f73133ed",
+      "rows": 532,
+      "checked_at_utc": "2026-11-06T02:21:12.061770+00:00"
+    },
+    "sale/2009/27140/200911.csv.gz": {
+      "sha256": "b7d95cb8b769d83d1337c1d99ac772433a920ecd3e65e4bb7c62db2d4f629048",
+      "bytes": 11219,
+      "storage": "gdrive",
+      "drive_file_id": "1MdGqR_lu-tHS6JfcTDVkGAUA03U_e6yb",
+      "retained_r2_bytes": 0,
+      "content_sha256": "cdb126320c470dadb238e43b8fe571ce916a90c9fae538bbce9f0026681fcbbf",
+      "rows": 229,
+      "checked_at_utc": "2026-11-06T02:20:38.369843+00:00"
+    },
+    "sale/2009/27140/200912.csv.gz": {
+      "sha256": "e67df93e39e5a69305bb6a5c96273969276fbad1b23763c2aa46fd0869212167",
+      "bytes": 11292,
+      "storage": "gdrive",
+      "drive_file_id": "1mPIL1udXb8uG8Qt4ArkxLOCYuJhofJas",
+      "retained_r2_bytes": 0,
+      "content_sha256": "488578d150fe4f3d9b5a331a9efd63c38d81e8d4e85fa61ed97d1cc8b2581f81",
+      "rows": 268,
+      "checked_at_utc": "2026-11-06T02:19:10.277188+00:00"
+    },
+    "sale/2009/27170/200901.csv.gz": {
+      "sha256": "df2a9cfb9b2ed879add17a80440f89b3a4e405d6323c8fb8fe4d73fbaba078e2",
+      "bytes": 2818,
+      "storage": "gdrive",
+      "drive_file_id": "1bpR-6uYgF06ojUIdZVsVifqM8XBPrLrg",
+      "retained_r2_bytes": 0,
+      "content_sha256": "8c4c09e831102cfd8d1f6849d6720ba7a2375d7c531bbf416cefc6dff5332a47",
+      "rows": 38,
+      "checked_at_utc": "2026-11-06T02:31:14.804297+00:00"
+    },
+    "sale/2009/27170/200902.csv.gz": {
+      "sha256": "47742930d25c8ed53192ae3a9cd2baaea61725cbafd2248a99470173d63b649b",
+      "bytes": 3434,
+      "storage": "gdrive",
+      "drive_file_id": "1QXOpEfisuCGz44tA5rSjuZ8Sn3Md58U6",
+      "retained_r2_bytes": 0,
+      "content_sha256": "7a0409a93ef75f482442b42ac14e7b8be70361399f5f56869f36579610ab9369",
+      "rows": 55,
+      "checked_at_utc": "2026-11-06T02:28:47.282445+00:00"
+    },
+    "sale/2009/27170/200903.csv.gz": {
+      "sha256": "e5a19afb79a8bce20d990b3e06f2aeb3719b95d41f0f0d171904df6613f50c1c",
+      "bytes": 3512,
+      "storage": "gdrive",
+      "drive_file_id": "1wvrzHxfL3qifK0-NS2fPtNXykLp88uCV",
+      "retained_r2_bytes": 0,
+      "content_sha256": "5e1ee30f41aad6192dba7c46f0ddef5075a13c41250a10da309ec870532b7925",
+      "rows": 59,
+      "checked_at_utc": "2026-11-06T02:28:11.546013+00:00"
+    },
+    "sale/2009/27170/200904.csv.gz": {
+      "sha256": "0448786de5090a4550a98cbb00600b9e2f62b84632ec6679cc05211d960aa68d",
+      "bytes": 4363,
+      "storage": "gdrive",
+      "drive_file_id": "1wXXNwaKqDaNoa0r9bR-eAntr_kMEf59R",
+      "retained_r2_bytes": 0,
+      "content_sha256": "05f8dc85a6aa5a524cd7a7c34336e1f605ece8e46e3a0293f65213b2313a057e",
+      "rows": 69,
+      "checked_at_utc": "2026-11-06T02:27:39.724417+00:00"
+    },
+    "sale/2009/27170/200905.csv.gz": {
+      "sha256": "e5e320f18e08a127756e658ba355420a4de93175ba4f6b05dd07b0a84d9eec4d",
+      "bytes": 4038,
+      "storage": "gdrive",
+      "drive_file_id": "1SgBKrbETzhVJTAR8VgvijGYd2Tg_O05Q",
+      "retained_r2_bytes": 0,
+      "content_sha256": "041d1d20fb9d72c8f134043b2001f04aef1557e3c7df7ed3d77fc3139f2cbb4b",
+      "rows": 63,
+      "checked_at_utc": "2026-11-06T02:27:03.365832+00:00"
+    },
+    "sale/2009/27170/200906.csv.gz": {
+      "sha256": "528804b735466c9de27d1c7e6f78e184fdadd5a6c64b86400de72e47fc8c0f7b",
+      "bytes": 2730,
+      "storage": "gdrive",
+      "drive_file_id": "1az851UTSLwP7wB2-V1H9gltzxCc6ZZ6U",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e268d83aeb43a3a0fc0eec0708a892f78eeb0cc4aca5c5e756bad199fd85bd51",
+      "rows": 41,
+      "checked_at_utc": "2026-11-06T02:26:28.038438+00:00"
+    },
+    "sale/2009/27170/200907.csv.gz": {
+      "sha256": "da58261c73f7b4daf16024386903d14afa63af0d2518460308655f5a4d0e1c1a",
+      "bytes": 3318,
+      "storage": "gdrive",
+      "drive_file_id": "1D2bqZeZ9dj66ZuZB1eGeVwMs_1L5G6Zt",
+      "retained_r2_bytes": 0,
+      "content_sha256": "bab8f4bba9441b908de6a9b08e872f6b11840dc4ede247ea96d9f416bf953ef3",
+      "rows": 48,
+      "checked_at_utc": "2026-11-06T02:24:58.104126+00:00"
+    },
+    "sale/2009/27170/200908.csv.gz": {
+      "sha256": "431f1b93020d945673e200b14fe7ecea8b9d26b06bc2939edef4b0830e876c6a",
+      "bytes": 3880,
+      "storage": "gdrive",
+      "drive_file_id": "1c6aV-MMomMkvyHYOF_SoSvwvkAm0wQnD",
+      "retained_r2_bytes": 0,
+      "content_sha256": "4621b8bdf445cf1994a76a65246e1f1514f71df1706d0daf39f6d23c00cc2883",
+      "rows": 56,
+      "checked_at_utc": "2026-11-06T02:22:27.628055+00:00"
+    },
+    "sale/2009/27170/200909.csv.gz": {
+      "sha256": "560b24f7d07dd9778aa82064afd01dca1b7489e9bbb98a1d801144a2a8408f71",
+      "bytes": 3932,
+      "storage": "gdrive",
+      "drive_file_id": "18jWp_n7wluRY7ipXZx7ffqqi_colwZ42",
+      "retained_r2_bytes": 0,
+      "content_sha256": "57ef97decdc7b074522a4d10a03fe7a0a25619ef5efb057f18ac1139334009bf",
+      "rows": 61,
+      "checked_at_utc": "2026-11-06T02:21:47.510768+00:00"
+    },
+    "sale/2009/27170/200910.csv.gz": {
+      "sha256": "1cd26ef4e0a50d4771cd5c847e73952771d3a9f13da1676cbaa2a34e9caad927",
+      "bytes": 4640,
+      "storage": "gdrive",
+      "drive_file_id": "1GOS3DGnaVfSoTgL3UkTx7UCSUcHcYqH1",
+      "retained_r2_bytes": 0,
+      "content_sha256": "5ac37b9c3428e2bd0b601da0a280877003c42709d851cf4495e636ad1156f531",
+      "rows": 77,
+      "checked_at_utc": "2026-11-06T02:21:15.328846+00:00"
+    },
+    "sale/2009/27170/200911.csv.gz": {
+      "sha256": "ed74675d77178e0dd6bc1863d730da9dd92baa06ffab209e8f196c8106ae44ed",
+      "bytes": 4540,
+      "storage": "gdrive",
+      "drive_file_id": "1GIecVerqTkupBa40QlkuuarlHKW-6_n6",
+      "retained_r2_bytes": 0,
+      "content_sha256": "06112c3afd7faf547ed1e1a3b747be107d2337ecf58c9a91c6b7736e6dc704cc",
+      "rows": 73,
+      "checked_at_utc": "2026-11-06T02:20:41.272402+00:00"
+    },
+    "sale/2009/27170/200912.csv.gz": {
+      "sha256": "bcd5fc7a0bd7dbf0e5c7e7b74887b7ac9915542b525c7463a2a9bf2e34afdcad",
+      "bytes": 3785,
+      "storage": "gdrive",
+      "drive_file_id": "1obS_DwRgHdMW-R2p_9phgS3-ZBofw2QO",
+      "retained_r2_bytes": 0,
+      "content_sha256": "96ff7312115a01b7190b9536b8db065d38ae0944d1dcb588665dd32513b1c74c",
+      "rows": 54,
+      "checked_at_utc": "2026-11-06T02:19:12.918382+00:00"
+    },
+    "sale/2009/27200/200901.csv.gz": {
+      "sha256": "eabf32d5e3ff8e408222df63c0b8fbd6826c22aa62883e119db5e44cd2efbee2",
+      "bytes": 2145,
+      "storage": "gdrive",
+      "drive_file_id": "1F9P1Jdut3jy286aGd3PogfaByGxVPN2K",
+      "retained_r2_bytes": 0,
+      "content_sha256": "25e4193f167918da07899f8a337aa16c4299c3fe704fd01774b5fcadc7014764",
+      "rows": 31,
+      "checked_at_utc": "2026-11-06T02:31:17.821961+00:00"
+    },
+    "sale/2009/27200/200902.csv.gz": {
+      "sha256": "bceac094ac74667648006bf13b9fde2485adba05e82d72afae55d04314817b05",
+      "bytes": 3495,
+      "storage": "gdrive",
+      "drive_file_id": "1faGKacw5CZjUZsQdqcFv5Crk1tc0dwZP",
+      "retained_r2_bytes": 0,
+      "content_sha256": "9a7fc3c9c10fa2f5686aecb1f780736ae9a89ee4bea8a30fb0abb28c1ee8603a",
+      "rows": 54,
+      "checked_at_utc": "2026-11-06T02:28:49.752888+00:00"
+    },
+    "sale/2009/27200/200903.csv.gz": {
+      "sha256": "8a00b3b5af38fa47ac50c233a39aff1b420d095deac3b3f03e02288b4dbeda9e",
+      "bytes": 3679,
+      "storage": "gdrive",
+      "drive_file_id": "1R6B_X74fRmVOW_DRjL4Vx2zHb6f_URrF",
+      "retained_r2_bytes": 0,
+      "content_sha256": "2aabfa74450b0c9ee93c924cf5e01c76a8df14542cbd5c90b2d4bebc29fea05b",
+      "rows": 56,
+      "checked_at_utc": "2026-11-06T02:28:14.598293+00:00"
+    },
+    "sale/2009/27200/200904.csv.gz": {
+      "sha256": "4071329991abcf5bd6eac95a7c7e0630218aa1208007de91bdbbfb03215744e6",
+      "bytes": 3619,
+      "storage": "gdrive",
+      "drive_file_id": "1j8Mi90sQ2NzXT72k_TidJzXhZ918DeGA",
+      "retained_r2_bytes": 0,
+      "content_sha256": "7f096690fa97a6e6caa9cd5da01e107d11dd739384c7f5cc7c3207ee31f486b9",
+      "rows": 57,
+      "checked_at_utc": "2026-11-06T02:27:42.465270+00:00"
+    },
+    "sale/2009/27200/200905.csv.gz": {
+      "sha256": "aa751d38542ea6141031a24e73bb72f698cdf3e2491f1025c9e6abd90f91ef7b",
+      "bytes": 4680,
+      "storage": "gdrive",
+      "drive_file_id": "1oKpmJikLC0bfKd7pfJYfe5v_Zh46BD6o",
+      "retained_r2_bytes": 0,
+      "content_sha256": "9e6ff959f3cfd033a28f3bca9f49404eb35845f408d4035dfc7615e5bb5fd5e3",
+      "rows": 118,
+      "checked_at_utc": "2026-11-06T02:27:06.271079+00:00"
+    },
+    "sale/2009/27200/200906.csv.gz": {
+      "sha256": "d71d35a09a2d282d2df2a422623614d7b2acf7e6acfce075ec0145c82d845dea",
+      "bytes": 4251,
+      "storage": "gdrive",
+      "drive_file_id": "1fpWh-4bWoT6zLQl1t0VhppJEv7nJX95p",
+      "retained_r2_bytes": 0,
+      "content_sha256": "03fdf9ea811bad59f7a8d645861d5a11e164763f56956b7c0b45564cdcfb5996",
+      "rows": 80,
+      "checked_at_utc": "2026-11-06T02:26:30.892247+00:00"
+    },
+    "sale/2009/27200/200907.csv.gz": {
+      "sha256": "7bd9ea288002a765bf601a06a007d781efa385f1736d326fc2d91248a8dd1c3e",
+      "bytes": 4702,
+      "storage": "gdrive",
+      "drive_file_id": "1uuuRRnKSJlNCIaPfgel3wwteFGBkHAmy",
+      "retained_r2_bytes": 0,
+      "content_sha256": "17171e2f2739b378ab84707f825d873f2e3d7f70a9d2d8d9d08d385853feb309",
+      "rows": 102,
+      "checked_at_utc": "2026-11-06T02:25:01.500428+00:00"
+    },
+    "sale/2009/27200/200908.csv.gz": {
+      "sha256": "a63b44d3ec62aa24073c02aaf6c2dab69ce9f673de92b2528f12c301d33f9129",
+      "bytes": 4512,
+      "storage": "gdrive",
+      "drive_file_id": "1oglp0HsUJ0sTkcr9A7EGK0-NElrZ-FKy",
+      "retained_r2_bytes": 0,
+      "content_sha256": "73f7a907b2a96a046309f68e9cd357117d536fa46b45a0bc53a93d7c6f8017bc",
+      "rows": 77,
+      "checked_at_utc": "2026-11-06T02:22:31.257909+00:00"
+    },
+    "sale/2009/27200/200909.csv.gz": {
+      "sha256": "b53f1bc3b91c72177ac823b377e89f421ddb28e61fb662029bd137897d641fc1",
+      "bytes": 4548,
+      "storage": "gdrive",
+      "drive_file_id": "1RWvrpcog8GDfMsAOetQZ_B16AInCYlld",
+      "retained_r2_bytes": 0,
+      "content_sha256": "417bcec98c6000f123d3069c7e2263f77bae23cf6406cec0c5559f523f9495f4",
+      "rows": 90,
+      "checked_at_utc": "2026-11-06T02:21:50.652798+00:00"
+    },
+    "sale/2009/27200/200910.csv.gz": {
+      "sha256": "d02cde73179b6278319994d8af4b50b9141b31a21dc20019f6516747766579a5",
+      "bytes": 4452,
+      "storage": "gdrive",
+      "drive_file_id": "1wYPG80ehPOScn1gbvkkjvlNZHUaJEmqw",
+      "retained_r2_bytes": 0,
+      "content_sha256": "6007b6fe812e98ee55a01ae7ae73de847de422571f6d5b5bc5683307490cc9e2",
+      "rows": 83,
+      "checked_at_utc": "2026-11-06T02:21:18.305608+00:00"
+    },
+    "sale/2009/27200/200911.csv.gz": {
+      "sha256": "63f39a01c95025769ebc17f7c6c7e90f234c3f899a9d0ab7953d00248ef664e6",
+      "bytes": 3718,
+      "storage": "gdrive",
+      "drive_file_id": "1fIsEe1PNfO6e11iH8QLL_FulPZEO6fKW",
+      "retained_r2_bytes": 0,
+      "content_sha256": "64fc26c2457d17cd138603ab30a8618c3d13258eb076005a1162edee16a3cb76",
+      "rows": 59,
+      "checked_at_utc": "2026-11-06T02:20:44.904491+00:00"
+    },
+    "sale/2009/27200/200912.csv.gz": {
+      "sha256": "f68398469c3186e942d6c764df5f70202c12c70a954f25e479857c6409c39d4b",
+      "bytes": 3899,
+      "storage": "gdrive",
+      "drive_file_id": "1ubeNRXSWxMLkIYlVQuCS0Vv-1ERFiAu6",
+      "retained_r2_bytes": 0,
+      "content_sha256": "f0040ca2f8e893d5d7c341109825e9e133a235f5c0d0b48de0230efdd93b547b",
+      "rows": 64,
+      "checked_at_utc": "2026-11-06T02:19:16.559558+00:00"
+    },
+    "sale/2009/27230/200901.csv.gz": {
+      "sha256": "ba8faf458c564853cca7f05ec2c10f4794ca10aedf23f93f2394e31ac86f0ae6",
+      "bytes": 14348,
+      "storage": "gdrive",
+      "drive_file_id": "1_aJo0QjzOX40VLuzXyf_yA52CCw4CXjd",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e26be4facce8aa4e8a68d2bc847469c73852e39196f84c41c632426fd9fba6fb",
+      "rows": 321,
+      "checked_at_utc": "2026-11-06T02:31:21.182816+00:00"
+    },
+    "sale/2009/27230/200902.csv.gz": {
+      "sha256": "42c9acc078cdd16c38d104dddaa009805905d0e6ee703de1ddfb01367f0dd196",
+      "bytes": 28946,
+      "storage": "gdrive",
+      "drive_file_id": "1LNs9dHJKkX_9Z6qb3GbQZCH68PyussSR",
+      "retained_r2_bytes": 0,
+      "content_sha256": "726b70645972b756d3823d8a8b5c0f32a9858a3189588adf72391f970d186079",
+      "rows": 1183,
+      "checked_at_utc": "2026-11-06T02:28:56.820281+00:00"
+    },
+    "sale/2009/27230/200903.csv.gz": {
+      "sha256": "9a78dc5bee6940a516436c39b90773855bd2da6ac5ed42262a52d5394dae09ec",
+      "bytes": 25262,
+      "storage": "gdrive",
+      "drive_file_id": "1uncwNq26Zpc2zshG3xl-R1XfYLACAvC6",
+      "retained_r2_bytes": 0,
+      "content_sha256": "61a4cacc551a254be54d68bbdb5e996c24b4b0fb7489d1a89261be205dd90b00",
+      "rows": 987,
+      "checked_at_utc": "2026-11-06T02:28:19.598925+00:00"
+    },
+    "sale/2009/27230/200904.csv.gz": {
+      "sha256": "7d4b9c5efa26fbad229bc4dece056847d6f28c3d68c309831e966f1c8cc1eb3c",
+      "bytes": 20962,
+      "storage": "gdrive",
+      "drive_file_id": "1Uz_-omce51hu6xxQwfX6gWlGlAbd2s8d",
+      "retained_r2_bytes": 0,
+      "content_sha256": "b5a3daeb9a016addfd9852fe7fdad7f5b4eb3f4ced4a7a9e6cc7a6e269084403",
+      "rows": 501,
+      "checked_at_utc": "2026-11-06T02:27:46.595158+00:00"
+    },
+    "sale/2009/27230/200905.csv.gz": {
+      "sha256": "fd0b7a7f1fabdf52f55d035a48ea5cb4f1c85e13017d2c4cae5586a8aa980825",
+      "bytes": 26729,
+      "storage": "gdrive",
+      "drive_file_id": "1ZNXktb770sqpRaUxMO6Oaxm0I8MAdrG4",
+      "retained_r2_bytes": 0,
+      "content_sha256": "3e4e507418f5fa1b613dba3d46388b01eb551cf1aa7166827d136aaad099ba26",
+      "rows": 1266,
+      "checked_at_utc": "2026-11-06T02:27:12.679806+00:00"
+    },
+    "sale/2009/27230/200906.csv.gz": {
+      "sha256": "cd4041055e08713bc5351d91b53d0b7230abe695839f8cec1db0829be10def17",
+      "bytes": 21784,
+      "storage": "gdrive",
+      "drive_file_id": "1ppZR7mjK6XyA6q70p5GBr-cgZ9AYk6ay",
+      "retained_r2_bytes": 0,
+      "content_sha256": "457a0d3e55f8ac1112b45f8248d339de3b16646516ab0500d34c706cbd8709dc",
+      "rows": 740,
+      "checked_at_utc": "2026-11-06T02:26:35.768181+00:00"
+    },
+    "sale/2009/27230/200907.csv.gz": {
+      "sha256": "102456060ea4572c6f8ed47850551020612fc7a21412dbf79a3ec254a910da54",
+      "bytes": 21290,
+      "storage": "gdrive",
+      "drive_file_id": "1JYAGdlwb25xPwmVDqhNhZ4W2WLB2ung5",
+      "retained_r2_bytes": 0,
+      "content_sha256": "1b93a19e7b00b7e2192a4b53d829f9ae7ce03eb585eb7ef6add2e0c78d4c96db",
+      "rows": 502,
+      "checked_at_utc": "2026-11-06T02:25:05.487096+00:00"
+    },
+    "sale/2009/27230/200908.csv.gz": {
+      "sha256": "5d9c5884c5f34e57a75693f47b474382679ba70655eaa07b93ee7dc3a18b002d",
+      "bytes": 24370,
+      "storage": "gdrive",
+      "drive_file_id": "1fE7Pn3vEkP4uuS0gRhBuRcfQFrllgXGB",
+      "retained_r2_bytes": 0,
+      "content_sha256": "cb2be68b75a253db3cc74eeedc06ad6c7e6d0e6b076890ad250ede7e967fa662",
+      "rows": 607,
+      "checked_at_utc": "2026-11-06T02:22:35.856715+00:00"
+    },
+    "sale/2009/27230/200909.csv.gz": {
+      "sha256": "ec0bd18433a90df406f99400de74f473829487129ec300c8c7987a87db50dc76",
+      "bytes": 35461,
+      "storage": "gdrive",
+      "drive_file_id": "1gy59WAi1kBelt4beDX2BUmnGOBtgB6Xc",
+      "retained_r2_bytes": 0,
+      "content_sha256": "638ad708dbe3300b7d77c574d9b2c38a5a06dd636a5b1c2abaaa222961604362",
+      "rows": 1929,
+      "checked_at_utc": "2026-11-06T02:22:00.652724+00:00"
+    },
+    "sale/2009/27230/200910.csv.gz": {
+      "sha256": "e76a786353c962ac8c6b297927a22a08ecd5892c5d8ec126848d9840bc4b3c29",
+      "bytes": 23402,
+      "storage": "gdrive",
+      "drive_file_id": "190ROKyVSaETso2EXdmM2xHo166nAVEDX",
+      "retained_r2_bytes": 0,
+      "content_sha256": "81afc6c188cc3b05f193bf3bc6568493f8a0b4a8ed937c9393e4335c30555d01",
+      "rows": 565,
+      "checked_at_utc": "2026-11-06T02:21:22.118060+00:00"
+    },
+    "sale/2009/27230/200911.csv.gz": {
+      "sha256": "76587f23b6cac1a702e94986f37564f4e7b10b217647faafce4d9665ff464f7c",
+      "bytes": 20751,
+      "storage": "gdrive",
+      "drive_file_id": "1K1JXQeQixRQIeL62ImFQpiJ9SBipH6V_",
+      "retained_r2_bytes": 0,
+      "content_sha256": "ca789bfc3c85fb6171044d9b723d8effc64e16bab6734c5a68cb26c4134e434a",
+      "rows": 452,
+      "checked_at_utc": "2026-11-06T02:20:48.516868+00:00"
+    },
+    "sale/2009/27230/200912.csv.gz": {
+      "sha256": "6861e4e805a7c01c0bd06fc51592488d14f9071cb0a1186fafbe6c5574529a56",
+      "bytes": 20299,
+      "storage": "gdrive",
+      "drive_file_id": "1HpjtXli4mF4N_HcavQE4dy9GHvy3sRGJ",
+      "retained_r2_bytes": 0,
+      "content_sha256": "453e52767022d0fa48d3aeeb53d75c212bf0a8e9e4202f6c1221681a0c5d4793",
+      "rows": 442,
+      "checked_at_utc": "2026-11-06T02:19:19.748907+00:00"
+    },
+    "sale/2009/27260/200901.csv.gz": {
+      "sha256": "2e1bc8fe533da98c9484601a4ecd49c18b7c0aff94a0cc9185d77ccc7b6ae7d2",
+      "bytes": 14033,
+      "storage": "gdrive",
+      "drive_file_id": "15HF4rSGC3oBUJx1-iIe65RMj9GGZJoD9",
+      "retained_r2_bytes": 0,
+      "content_sha256": "f7a4093f849117726340a349037fd8374b5763188f02735b45b59d7bb944a985",
+      "rows": 273,
+      "checked_at_utc": "2026-11-06T02:31:24.491725+00:00"
+    },
+    "sale/2009/27260/200902.csv.gz": {
+      "sha256": "08812aba8d432ca0d3ce7ea67b0e437f7fc30b4a479df3facb36e32c8c1a97a5",
+      "bytes": 18157,
+      "storage": "gdrive",
+      "drive_file_id": "1qnCABcTEsxsbWjlDZLJLdTIuZ3ExP8UE",
+      "retained_r2_bytes": 0,
+      "content_sha256": "3f046609db8530a17f7269f34955504085a2c3b12c7a61ff28b1dec3d7732b09",
+      "rows": 426,
+      "checked_at_utc": "2026-11-06T02:29:00.688857+00:00"
+    },
+    "sale/2009/27260/200903.csv.gz": {
+      "sha256": "cada5403d1e81fadd9a118031fdff33be5ced2886186eb4da7766cfe2784a721",
+      "bytes": 18072,
+      "storage": "gdrive",
+      "drive_file_id": "1v0pLBhGWWZrYp51FYWu9e_zKvHiaBLp_",
+      "retained_r2_bytes": 0,
+      "content_sha256": "d3c33c836a23bd62a51a560594bfb8a3ac742e4d00b9540572efe64aef6b560d",
+      "rows": 352,
+      "checked_at_utc": "2026-11-06T02:28:23.194655+00:00"
+    },
+    "sale/2009/27260/200904.csv.gz": {
+      "sha256": "a89bc267e69056816abbf610301aa181f775c35bed0e4baa4a9795b3456a9714",
+      "bytes": 19843,
+      "storage": "gdrive",
+      "drive_file_id": "1RaZCgLMaHgTZQ0Okkr8RYL1e1NOWMhqA",
+      "retained_r2_bytes": 0,
+      "content_sha256": "d0445990d8c82f3fcefb40c51abf04f0f21800ab89fc5d0cb8c266129053a9cd",
+      "rows": 430,
+      "checked_at_utc": "2026-11-06T02:27:50.391493+00:00"
+    },
+    "sale/2009/27260/200905.csv.gz": {
+      "sha256": "2ed9d93f304bf432390061057236b226db414c0babcd68aa3e3e851183168601",
+      "bytes": 21710,
+      "storage": "gdrive",
+      "drive_file_id": "1sFNaKcj6uxmnQP2h6xFHFo9_c--hTBQg",
+      "retained_r2_bytes": 0,
+      "content_sha256": "948000b136f240bf781450e48e404cabf20299d119bc88d48d1ce7bd55316f36",
+      "rows": 473,
+      "checked_at_utc": "2026-11-06T02:27:16.519308+00:00"
+    },
+    "sale/2009/27260/200906.csv.gz": {
+      "sha256": "6e203a6c5529266536337655eb953c9306a230159b2917b675ae1563613d885a",
+      "bytes": 26266,
+      "storage": "gdrive",
+      "drive_file_id": "1dl34dpuYAIuX1xEu0n3PrDp2T9BME8I3",
+      "retained_r2_bytes": 0,
+      "content_sha256": "c6080c552c5a45051f7cb56d14c7cc8fc86138d6de35d3ba86a87dbd7e9e3930",
+      "rows": 761,
+      "checked_at_utc": "2026-11-06T02:26:40.871669+00:00"
+    },
+    "sale/2009/27260/200907.csv.gz": {
+      "sha256": "8774b9d1bd0186ecf0e9edcd738a77c681e6cb2ca59f9475f00e459932583e4f",
+      "bytes": 25421,
+      "storage": "gdrive",
+      "drive_file_id": "1nHhDnoPafaEDnI3LhyknK9uGFLdp3xUx",
+      "retained_r2_bytes": 0,
+      "content_sha256": "f71f78d59dcd65e8d83888628652341277d7abda1c34e346d414c4d8bba64c5e",
+      "rows": 589,
+      "checked_at_utc": "2026-11-06T02:25:09.272631+00:00"
+    },
+    "sale/2009/27260/200908.csv.gz": {
+      "sha256": "5f7091149106b0094f55a9c4031c02719d46400984f3218ff68be38ac0160975",
+      "bytes": 29095,
+      "storage": "gdrive",
+      "drive_file_id": "1a9EQg03eJLdxYhebG1iZEXqWTQ7ktzYk",
+      "retained_r2_bytes": 0,
+      "content_sha256": "632762f040eb35186ca1b4d0a0ec759c4b8cae1995c3d4d7d232fbc0ac2a7f43",
+      "rows": 782,
+      "checked_at_utc": "2026-11-06T02:23:36.341618+00:00"
+    },
+    "sale/2009/27260/200909.csv.gz": {
+      "sha256": "271a91fa3b832c8ca12eaae0990d13e8c0326cca025412c5235666696a9c1498",
+      "bytes": 26913,
+      "storage": "gdrive",
+      "drive_file_id": "1wImfbJLBlCWVVPfNwBAhZ8sd_yJONrIj",
+      "retained_r2_bytes": 0,
+      "content_sha256": "dffbf0f664ac81529cd70115404a84ed584a32b6db8b46f20c83104a566a39aa",
+      "rows": 623,
+      "checked_at_utc": "2026-11-06T02:22:05.892544+00:00"
+    },
+    "sale/2009/27260/200910.csv.gz": {
+      "sha256": "2035723416e21500848ef0b45cf27f8a50888593e3dce0f90ac701a18045a66f",
+      "bytes": 23521,
+      "storage": "gdrive",
+      "drive_file_id": "11fSW9VhswpoTMtP_6R2i3kV-qxtG8_TA",
+      "retained_r2_bytes": 0,
+      "content_sha256": "0321dacfd54184e17ee52c2407501bf303341e4656098208bea2e8146f507ee0",
+      "rows": 536,
+      "checked_at_utc": "2026-11-06T02:21:25.856288+00:00"
+    },
+    "sale/2009/27260/200911.csv.gz": {
+      "sha256": "03c615f066636144db36d48537030ec4774a832ac15ab6d98b6b77cb9d718f47",
+      "bytes": 21832,
+      "storage": "gdrive",
+      "drive_file_id": "1tbND4q1wtnH55FVXQExwOLopmSwXz9NI",
+      "retained_r2_bytes": 0,
+      "content_sha256": "d8497ef42c478f731b6ef656e55b95aa53a7675337a023d5a1e29a9831d1461e",
+      "rows": 457,
+      "checked_at_utc": "2026-11-06T02:20:52.044767+00:00"
+    },
+    "sale/2009/27260/200912.csv.gz": {
+      "sha256": "8e68f1da3b2e89ed2b35f1c0d488004633a03fbf24c80ece9155e9264255c056",
+      "bytes": 21116,
+      "storage": "gdrive",
+      "drive_file_id": "1MWtQd2NcMGOYj5RT9yfmIvgTt-vxwCCA",
+      "retained_r2_bytes": 0,
+      "content_sha256": "697ce91e44d00b5d7ac12674be363c8313fde33c4675b7735dbc0b38046b47bc",
+      "rows": 457,
+      "checked_at_utc": "2026-11-06T02:19:22.899335+00:00"
+    },
+    "sale/2009/27290/200901.csv.gz": {
+      "sha256": "6da420b92480dff1f998cddd29ef0ac942640930848b78f3ebf9821b823d976d",
+      "bytes": 19448,
+      "storage": "gdrive",
+      "drive_file_id": "1Il6Aaj_-q5NWqw-TY7MejMEqjCuJT-0t",
+      "retained_r2_bytes": 0,
+      "content_sha256": "6a5debf5466c023876b69198cc9108c438b96dfded2864d6e84557f4add7b768",
+      "rows": 470,
+      "checked_at_utc": "2026-11-06T02:31:28.441558+00:00"
+    },
+    "sale/2009/27290/200902.csv.gz": {
+      "sha256": "a874d84c449e2f05a181301edc397f2781964a88a7b9f98e5426c2592cdc88df",
+      "bytes": 29340,
+      "storage": "gdrive",
+      "drive_file_id": "1kiQmpqUVpsRR1BiqK8ecy1RWPQUQ0-LX",
+      "retained_r2_bytes": 0,
+      "content_sha256": "0875421218dac0beaceb548f909b9d4d91c9462425a0af0b128262b81aa91d51",
+      "rows": 800,
+      "checked_at_utc": "2026-11-06T02:30:01.540371+00:00"
+    },
+    "sale/2009/27290/200903.csv.gz": {
+      "sha256": "fd391fb26261f61eb4fc897a1ea63ec5cfc1f541fb6c064c3a900d33c7397271",
+      "bytes": 29686,
+      "storage": "gdrive",
+      "drive_file_id": "151jiMu0_bZkV64m6rBdn3YAOFVxKefiP",
+      "retained_r2_bytes": 0,
+      "content_sha256": "272ef6cd5bdc44ccc6e08d68366b71033e8f861e13ecb07e4c7b3b3484c76d79",
+      "rows": 801,
+      "checked_at_utc": "2026-11-06T02:28:27.189891+00:00"
+    },
+    "sale/2009/27290/200904.csv.gz": {
+      "sha256": "7a575e4d83fa531bec0e8fc3f5883c03216bfedb5d9ec1c1296fe2e85846fafe",
+      "bytes": 28599,
+      "storage": "gdrive",
+      "drive_file_id": "1w3eC-FLfBFhBjBU2L0I3AbdBs7MUb9bU",
+      "retained_r2_bytes": 0,
+      "content_sha256": "0532d1a80e87bdb8567eeff55fe0bb035c17d134f04c0bdf5b265524381a642b",
+      "rows": 734,
+      "checked_at_utc": "2026-11-06T02:27:54.093487+00:00"
+    },
+    "sale/2009/27290/200905.csv.gz": {
+      "sha256": "17646bcf4ebd6c7c37520df9ed5ac600f245b83d0a87e77812eb96d0938e24f5",
+      "bytes": 30141,
+      "storage": "gdrive",
+      "drive_file_id": "1rVTFANlkHFUFhCdrrYS7GTGpviu05N5j",
+      "retained_r2_bytes": 0,
+      "content_sha256": "247024025bf7319b77b5319cede7609b7fdfb1013782ccc7724cb72211120921",
+      "rows": 786,
+      "checked_at_utc": "2026-11-06T02:27:21.115306+00:00"
+    },
+    "sale/2009/27290/200906.csv.gz": {
+      "sha256": "a44e728e118feab261de95944c0eee515d79ab831a66cf79bdcc188ca98d6417",
+      "bytes": 29578,
+      "storage": "gdrive",
+      "drive_file_id": "1NuJ5_ErgJHY9fTFzinST82V6VpMwAHAj",
+      "retained_r2_bytes": 0,
+      "content_sha256": "72f718917401e4bb065fe8f18213db23bb39bd92c418ac7e4b22e0322a8b02f4",
+      "rows": 804,
+      "checked_at_utc": "2026-11-06T02:26:45.391324+00:00"
+    },
+    "sale/2009/27290/200907.csv.gz": {
+      "sha256": "bbb8853bf3c9f50f287b31b7aa1b5c7a833c5b0aa380499066c272d41746c6b6",
+      "bytes": 26540,
+      "storage": "gdrive",
+      "drive_file_id": "18ulGVl0URXXt4Qk69zT4J3tbL3S0jOrL",
+      "retained_r2_bytes": 0,
+      "content_sha256": "6b0f589f02decce627a9702215333bba527ed6c00bc922508b02e5f36a9e4f88",
+      "rows": 661,
+      "checked_at_utc": "2026-11-06T02:25:12.976021+00:00"
+    },
+    "sale/2009/27290/200908.csv.gz": {
+      "sha256": "65ed83de658bb17c07d7c4b7202cd249955d2c78f136685c62c146417d293723",
+      "bytes": 34282,
+      "storage": "gdrive",
+      "drive_file_id": "1Sz1WNc7D7TcRVCJZGMeJJcBODA7UN5aw",
+      "retained_r2_bytes": 0,
+      "content_sha256": "0ef571ef4aacf2778c25f214e9811fa383557127212f9530ed48a37fa5238422",
+      "rows": 1153,
+      "checked_at_utc": "2026-11-06T02:24:39.775709+00:00"
+    },
+    "sale/2009/27290/200909.csv.gz": {
+      "sha256": "14215d9edb0fe2040bea5929075b9d97459d7084904bf1b2e1d4e899b9f8b4f9",
+      "bytes": 31412,
+      "storage": "gdrive",
+      "drive_file_id": "1XOC1YlcGQFWRzoBOazytvkGsliZ5Z4GX",
+      "retained_r2_bytes": 0,
+      "content_sha256": "260367e5c7a741f39e40037a8db899bfe4226f0af163ab110842f7acd3c3a350",
+      "rows": 785,
+      "checked_at_utc": "2026-11-06T02:22:09.727670+00:00"
+    },
+    "sale/2009/27290/200910.csv.gz": {
+      "sha256": "f0798f3fa758d75f6703d2f59b41db325d3cbc39ebc9f59487ccf1114b730061",
+      "bytes": 29820,
+      "storage": "gdrive",
+      "drive_file_id": "1JPJPj7Al_t_PhUVwasmvJVHOdTtMbKXZ",
+      "retained_r2_bytes": 0,
+      "content_sha256": "19e8e9111a2a65ff7093a89b013989c6f8b6a49bf3de615f4d6afcec83052992",
+      "rows": 861,
+      "checked_at_utc": "2026-11-06T02:21:29.510253+00:00"
+    },
+    "sale/2009/27290/200911.csv.gz": {
+      "sha256": "850d67b5b2c58de4008d68e1fb2cfa7dfe73eb41daacf598b7cd2b5d0e9780c6",
+      "bytes": 23809,
+      "storage": "gdrive",
+      "drive_file_id": "1YDV6-8KZ2rjfEqRzrcm5fk_KZAgQCttA",
+      "retained_r2_bytes": 0,
+      "content_sha256": "8294453074d9c09c381313e44df91704a0400e8ce8ff5497c6b1d35bbec29dd1",
+      "rows": 541,
+      "checked_at_utc": "2026-11-06T02:20:55.868258+00:00"
+    },
+    "sale/2009/27290/200912.csv.gz": {
+      "sha256": "327b0bf90064b6cc5d46c2b4bbe3ca62d1fdff112da8b8cc0de68876dd49cdd8",
+      "bytes": 25141,
+      "storage": "gdrive",
+      "drive_file_id": "1HavR6BeubkHiuHYpJESz_NbfALzByJNo",
+      "retained_r2_bytes": 0,
+      "content_sha256": "53f28ecd90ff79a9aa3fbbdfdb7d24bfaabf72a93a1fb89358eb7c9c93442ea2",
+      "rows": 621,
+      "checked_at_utc": "2026-11-06T02:19:26.861531+00:00"
+    },
+    "sale/2009/27710/200901.csv.gz": {
+      "sha256": "afc30e32ac2bcfc6035cc12ad8bbe6ad1d7aa0231ec42779c96a068d42a17ff4",
+      "bytes": 5826,
+      "storage": "gdrive",
+      "drive_file_id": "1qG4hi1en5JR1Q6ivlj0jSCX5oIlMUaRF",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3bb5023057b3d9a06a44d3a8f0c1ad38dcc50f4355ee4b0da0569e5879220c1",
+      "rows": 164,
+      "checked_at_utc": "2026-11-06T02:31:31.252611+00:00"
+    },
+    "sale/2009/27710/200902.csv.gz": {
+      "sha256": "ad01ef065af579ee12ed14acb3e3371646ae78b3352708aeb41c3fe6955df405",
+      "bytes": 6935,
+      "storage": "gdrive",
+      "drive_file_id": "1oYk1YGIH0uqbKfwj4fdAYYDgHfVV4oPb",
+      "retained_r2_bytes": 0,
+      "content_sha256": "5369263618971d19bdee91acee20ffdc18a29f901a9397088b2a9c7087acf243",
+      "rows": 138,
+      "checked_at_utc": "2026-11-06T02:30:04.489287+00:00"
+    },
+    "sale/2009/27710/200903.csv.gz": {
+      "sha256": "e16307e71ecdf07e3461598a42525aee5286f2aa06a209247d1b2eac51c04802",
+      "bytes": 14650,
+      "storage": "gdrive",
+      "drive_file_id": "1Hn7l65S-17h5DUVPxC8zl_EgmzPNtdK5",
+      "retained_r2_bytes": 0,
+      "content_sha256": "d1002d4cfcb009dddcb8547944fc81c54342f82ed1ab12fff345ab72bcb2e3e1",
+      "rows": 828,
+      "checked_at_utc": "2026-11-06T02:28:31.731176+00:00"
+    },
+    "sale/2009/27710/200904.csv.gz": {
+      "sha256": "e6be9fbb9b506b8717be4fb539bddb8703ad895572055b449e097c64e5916f9e",
+      "bytes": 9757,
+      "storage": "gdrive",
+      "drive_file_id": "1EuLDX2sI0VCQRAvpHjMapfDBP_Me8fZ9",
+      "retained_r2_bytes": 0,
+      "content_sha256": "4bb1d34c287d2b157a6732826eeb058368582ec3daf28040ffe43bdf0dc81029",
+      "rows": 328,
+      "checked_at_utc": "2026-11-06T02:27:57.062858+00:00"
+    },
+    "sale/2009/27710/200905.csv.gz": {
+      "sha256": "bbbec909154a69763421fcef441237df0bad78410665aa5f3dd485aafd02c662",
+      "bytes": 8395,
+      "storage": "gdrive",
+      "drive_file_id": "10svrs22QH38asLCA2hKm_YyU8CtgFkry",
+      "retained_r2_bytes": 0,
+      "content_sha256": "fec6ff54c2776f2c1c2218af7d30fd971c419ec446ef6765651ae058afe60889",
+      "rows": 186,
+      "checked_at_utc": "2026-11-06T02:27:24.053197+00:00"
+    },
+    "sale/2009/27710/200906.csv.gz": {
+      "sha256": "589dd306f0e28c6a6b8919e207d14e249624423610c787f98b5033f4895595b2",
+      "bytes": 9281,
+      "storage": "gdrive",
+      "drive_file_id": "1RLawO_Jv27nFInp-kwx3JsruIbCFOv_u",
+      "retained_r2_bytes": 0,
+      "content_sha256": "94d6169c65a41cd601e2ab462fae298aae316c54466b2f46dc6ed0b068a58460",
+      "rows": 247,
+      "checked_at_utc": "2026-11-06T02:26:48.487601+00:00"
+    },
+    "sale/2009/27710/200907.csv.gz": {
+      "sha256": "05a5e6f09524b5e646a453f92960fffcb24a9ffa900ff2f0ba54daa205676be7",
+      "bytes": 10493,
+      "storage": "gdrive",
+      "drive_file_id": "1Y9e2LSU_rNgWpEXZJYuP47Mji5WJoKDr",
+      "retained_r2_bytes": 0,
+      "content_sha256": "55af3f6c7280429ff16ebf4dba4f70b22e14c6974167645f4ccb590e361e99da",
+      "rows": 271,
+      "checked_at_utc": "2026-11-06T02:26:12.274920+00:00"
+    },
+    "sale/2009/27710/200908.csv.gz": {
+      "sha256": "63c467833b4341012a538490fd0021c5e5419242a4e791d6d35b9c63afbc07d0",
+      "bytes": 10241,
+      "storage": "gdrive",
+      "drive_file_id": "1_FR1pediiV10Ed4JSf9q0DJhl6UIx4zX",
+      "retained_r2_bytes": 0,
+      "content_sha256": "420830cabc4e05489a4409c1529696095ea3d9115c85cce48c7563b71bb7895a",
+      "rows": 272,
+      "checked_at_utc": "2026-11-06T02:24:42.828094+00:00"
+    },
+    "sale/2009/27710/200909.csv.gz": {
+      "sha256": "ed15ff8ae76a214e3a2806cb51de12a110b31baa59263b995d82b87501b733e5",
+      "bytes": 9625,
+      "storage": "gdrive",
+      "drive_file_id": "1r9scNnPJfKv-q_RpAvKiPi-9OzzDcOU6",
+      "retained_r2_bytes": 0,
+      "content_sha256": "59e94683e01ee43a87f69029c3e95917164f8d652c407c2ae20d750d8e57c79a",
+      "rows": 230,
+      "checked_at_utc": "2026-11-06T02:22:12.874411+00:00"
+    },
+    "sale/2009/27710/200910.csv.gz": {
+      "sha256": "5ec45a9bea32b174d312279e35fe8ab919381dc452dd2b876edf5c3f271c8b14",
+      "bytes": 9142,
+      "storage": "gdrive",
+      "drive_file_id": "10sk_LASxkEInqi-cU9F26-yZOMZ5w1KW",
+      "retained_r2_bytes": 0,
+      "content_sha256": "d7215b21027398148e331116f05d835afcf6eae2a5ba3e39061345d155f38ebb",
+      "rows": 200,
+      "checked_at_utc": "2026-11-06T02:21:32.752038+00:00"
+    },
+    "sale/2009/27710/200911.csv.gz": {
+      "sha256": "b6c525799cc5a58c2e892b02385e7178923f1fafca40e7d5a42d430096c93f12",
+      "bytes": 8288,
+      "storage": "gdrive",
+      "drive_file_id": "17K63JQoFIvehsQ6XvrhE_AdOCGGSKpvn",
+      "retained_r2_bytes": 0,
+      "content_sha256": "bccc3906d49e0dc8b5f9f099049c1345cec87c6428b2edb916e6b098396e1b0f",
+      "rows": 171,
+      "checked_at_utc": "2026-11-06T02:20:58.835382+00:00"
+    },
+    "sale/2009/27710/200912.csv.gz": {
+      "sha256": "6700fb62eae0a9a5895cbd74dd9c6cad39d6eb6e4be0b69918c50ec95213c0df",
+      "bytes": 8930,
+      "storage": "gdrive",
+      "drive_file_id": "1JB76kL2z7K7fR68-_2eMKznZHJd7DDyO",
+      "retained_r2_bytes": 0,
+      "content_sha256": "0c4b33f437c39ea9c532cf2314a7b6d38c0bdbbe196056a202d954b17277d084",
+      "rows": 202,
+      "checked_at_utc": "2026-11-06T02:19:29.473561+00:00"
+    },
+    "sale/2009/27720/200901.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1WJHqJmU8mw7qYJyjELXgioI-1rZijf4e",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:31:33.759107+00:00"
+    },
+    "sale/2009/27720/200902.csv.gz": {
+      "sha256": "203a4701491e4c735adb59293331e25f4a5a7c538be8cfeb91c6166d151244ce",
+      "bytes": 631,
+      "storage": "gdrive",
+      "drive_file_id": "1u9-FuvuxhD-8VYbt3FwSiQQpcvV0fbeB",
+      "retained_r2_bytes": 0,
+      "content_sha256": "3efd340de4a9dc3410c07035c370588cd1fe270180d1c68fc7b11cd14aca8c74",
+      "rows": 1,
+      "checked_at_utc": "2026-11-06T02:30:06.983367+00:00"
+    },
+    "sale/2009/27720/200903.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "17jK-RvN6j-To6PCaYXrOMFuVTJluCKEv",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:28:34.110872+00:00"
+    },
+    "sale/2009/27720/200904.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1IvbSAccVwldat809_Hmg_Ow7z_Zsia_A",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:27:59.550706+00:00"
+    },
+    "sale/2009/27720/200905.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1F4gErjrywhEJt9S8mlLwFf0oEJ_9NOXe",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:27:26.524254+00:00"
+    },
+    "sale/2009/27720/200906.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1YemOIaprvX78t4EIBWjbR6bxpksdgNtL",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:26:51.055399+00:00"
+    },
+    "sale/2009/27720/200907.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1lK1Emfbh4UTxlDXOgFOa0xgviq8_oOqk",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:26:14.923469+00:00"
+    },
+    "sale/2009/27720/200908.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1SyXweTHWMo6Ax8xKB28NcrAcB_F0HhTo",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:24:45.790735+00:00"
+    },
+    "sale/2009/27720/200909.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1kUEz5TpPJIIPmx8nTEFHvVrqJ5FKZpOi",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:22:15.352596+00:00"
+    },
+    "sale/2009/27720/200910.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1ny0oiu4OByZr0VrtKvTsHfLv6chdrCTu",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:21:35.796297+00:00"
+    },
+    "sale/2009/27720/200911.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "19zGT3pWeDGEz_L5Ss_FfO8eRp_rdNQkO",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:21:01.522563+00:00"
+    },
+    "sale/2009/27720/200912.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1mu0_nunbAS83YctO9l6fRuPXqYBBE-eG",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:19:32.322444+00:00"
     },
     "sale/2009/30110/200901.csv.gz": {
       "sha256": "02b03d2ea2d17ee86adf99abf6488a766f56faa3be3f7d4d5cf82bac07d96c97",
@@ -205532,6 +207052,126 @@
       "rows": 48,
       "checked_at_utc": "2026-10-26T13:47:40.602162+00:00"
     },
+    "sale/2009/47720/200901.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1dsPCzBjgIB3qMy3xNJaZYvF34rBWDF-P",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:32:32.382542+00:00"
+    },
+    "sale/2009/47720/200902.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1FY9QGoGRqA63PGlnd8ml0XjqomPKOrb8",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:31:06.107095+00:00"
+    },
+    "sale/2009/47720/200903.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1zRsw1ftwvcXCeiu_UqJujnorvjnV7Uwv",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:28:37.116601+00:00"
+    },
+    "sale/2009/47720/200904.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1Yn9iELTThx_ihqEoiE8Q9wlMtgDoIyPQ",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:28:02.559828+00:00"
+    },
+    "sale/2009/47720/200905.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1qcIpdxJCayfTbcpQO322c4rRtDeckSiV",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:27:29.638854+00:00"
+    },
+    "sale/2009/47720/200906.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1sOjjM6GaRniQ5vMdL52X_mngy0thUt6E",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:26:53.952672+00:00"
+    },
+    "sale/2009/47720/200907.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1NQQtX-c_QTR8hmKz2cnnNXyO32anorq5",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:26:17.843303+00:00"
+    },
+    "sale/2009/47720/200908.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1quyTNK2NRJ6gnWWDPPy8i42zrGwAs8NW",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:24:48.597967+00:00"
+    },
+    "sale/2009/47720/200909.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1A0gottNLkRDP4XOGfBxjFrkvGkg-ZlVf",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:22:18.197884+00:00"
+    },
+    "sale/2009/47720/200910.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "14pfsE1k2Xrb8pDj9OhNFJ91Xj2wsNA2Y",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:21:38.617229+00:00"
+    },
+    "sale/2009/47720/200911.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1PTZDNA2PvVYB2RNU2b_svU3UB1Oz7jV-",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:21:05.015565+00:00"
+    },
+    "sale/2009/47720/200912.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1V2wYeQSCWy_PM1zU5aBxu5d14L4DgVL7",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:20:31.536738+00:00"
+    },
     "sale/2010/11110/201001.csv.gz": {
       "sha256": "a1616cd006a368795cc3e8f407fdf4ed00424be71473e4a58731abc735df7cf3",
       "bytes": 2183,
@@ -208952,6 +210592,16 @@
       "rows": 126,
       "checked_at_utc": "2026-11-03T12:22:49.054066+00:00"
     },
+    "sale/2010/27110/201001.csv.gz": {
+      "sha256": "881f27476561cf2be837375a225165aea4f831ac9f1b960128e649b86c259c05",
+      "bytes": 2734,
+      "storage": "gdrive",
+      "drive_file_id": "1SjNNjhkA8WxxOk-ozrJBygkK6U_REsNU",
+      "retained_r2_bytes": 0,
+      "content_sha256": "551b90db4a3fe7562e6a3a9a8836c0ee3a10f33b35e4eac39584767bffb49d1c",
+      "rows": 37,
+      "checked_at_utc": "2026-11-06T02:17:38.677911+00:00"
+    },
     "sale/2010/27110/201002.csv.gz": {
       "sha256": "d5d1764d7e09662e7d31a2ea8d392ac6d89b27b3fdd98f2a933a6285a217d823",
       "bytes": 2876,
@@ -209062,6 +210712,26 @@
       "rows": 61,
       "checked_at_utc": "2026-11-05T22:28:15.398605+00:00"
     },
+    "sale/2010/27140/201001.csv.gz": {
+      "sha256": "0416c7c5809f98005cd8594144bcccb3f67f94d4ac96b4b93bc6f302be8cf4cb",
+      "bytes": 11774,
+      "storage": "gdrive",
+      "drive_file_id": "1rOTMEVCP-oIgDCA12ZYJUOvmV1ae9-uF",
+      "retained_r2_bytes": 0,
+      "content_sha256": "77ab90b44f99b5d1660a03fe43c60d527e44f15dda1d0bf704822495647b172e",
+      "rows": 243,
+      "checked_at_utc": "2026-11-06T02:17:41.763318+00:00"
+    },
+    "sale/2010/27140/201002.csv.gz": {
+      "sha256": "625b1d94d987b6177958ca0045fdc60efad0760ba3d6a4deda56175b4778a4e9",
+      "bytes": 12297,
+      "storage": "gdrive",
+      "drive_file_id": "1GRt2IROD5ImaoOP2YE4F6adIilbxqPWq",
+      "retained_r2_bytes": 0,
+      "content_sha256": "743c5f2f47c0b9649483ebc40de5b32af2c3e128a1f9696b494082125e1316f5",
+      "rows": 278,
+      "checked_at_utc": "2026-11-06T02:16:09.063223+00:00"
+    },
     "sale/2010/27140/201003.csv.gz": {
       "sha256": "094de9c795a4f624fd94ea7d6d571255a399666256f0cf7d2d046c1c32077c11",
       "bytes": 13843,
@@ -209161,6 +210831,26 @@
       "content_sha256": "bda4985dc99eec86e5d8bd37ea48a1580cd3b897f61dc3d591f1aa1dd15f563b",
       "rows": 667,
       "checked_at_utc": "2026-11-05T22:28:19.607929+00:00"
+    },
+    "sale/2010/27170/201001.csv.gz": {
+      "sha256": "b3849ad8f0e2b623d959fb4e8091195582863baecfd2906c980cab34bd77338a",
+      "bytes": 4928,
+      "storage": "gdrive",
+      "drive_file_id": "1hYqycRK0CWH8cFJImwP9qqA4imXjrHYS",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e668cc83a64b7defc5e41b2552dcc1f7d7128a6b6104ab3915f59bfa1dd39c1f",
+      "rows": 95,
+      "checked_at_utc": "2026-11-06T02:17:45.140185+00:00"
+    },
+    "sale/2010/27170/201002.csv.gz": {
+      "sha256": "88f88579a3a4966e9781f44ad80c8f24078dbddd62030d566a7a7ec9d6abd204",
+      "bytes": 4152,
+      "storage": "gdrive",
+      "drive_file_id": "1y5a8Qku6wT1F5dui97iei99sRpFyCx7z",
+      "retained_r2_bytes": 0,
+      "content_sha256": "b48f3550db128f34f6ac3fe0715c295ff2bd140b8b7ac63489a3ba209c4985e2",
+      "rows": 73,
+      "checked_at_utc": "2026-11-06T02:16:12.580763+00:00"
     },
     "sale/2010/27170/201003.csv.gz": {
       "sha256": "86c3990735d43f07a45d75df997ab2e20a0d16866f641bbabb8742288565017b",
@@ -209262,6 +210952,26 @@
       "rows": 104,
       "checked_at_utc": "2026-11-05T22:28:22.856340+00:00"
     },
+    "sale/2010/27200/201001.csv.gz": {
+      "sha256": "10b85b94d247e6fccd416a4a78e2d606e750ff89c6e6174701815c72afd59796",
+      "bytes": 3529,
+      "storage": "gdrive",
+      "drive_file_id": "1oRJC920ZNktLHstsy5aKKwLCc-9rKfnt",
+      "retained_r2_bytes": 0,
+      "content_sha256": "7b07f37ae952562d8c7ea3cedb7b823d1197aff01bb7dde3b209750090807aa7",
+      "rows": 59,
+      "checked_at_utc": "2026-11-06T02:17:47.768765+00:00"
+    },
+    "sale/2010/27200/201002.csv.gz": {
+      "sha256": "04365fe2fa7ce17987abf98f9e97f33b9e0defaecf4bb49a730356f0e4c63b12",
+      "bytes": 3975,
+      "storage": "gdrive",
+      "drive_file_id": "1Io8-J_aAFDhkcEdvow68O9y-qPsyl7yH",
+      "retained_r2_bytes": 0,
+      "content_sha256": "93b02d32000484902693b403df8c19ce855df48a8ff1ca4f9527426592bec3f6",
+      "rows": 66,
+      "checked_at_utc": "2026-11-06T02:16:15.590579+00:00"
+    },
     "sale/2010/27200/201003.csv.gz": {
       "sha256": "65b6b9ac96155d2fa351b2e665b904522b156e1a1a29fabd685d0e6c7624e9ea",
       "bytes": 4514,
@@ -209361,6 +211071,26 @@
       "content_sha256": "adba01152cc11560a051550bc6c6216836495ed1344804e48918641db83c4146",
       "rows": 65,
       "checked_at_utc": "2026-11-05T22:28:25.780854+00:00"
+    },
+    "sale/2010/27230/201001.csv.gz": {
+      "sha256": "469b3f547e1c67fc868acd0d9a2654fb3980a6727457e7cc81988ea2a71f29aa",
+      "bytes": 21760,
+      "storage": "gdrive",
+      "drive_file_id": "1qHgCrw2tNCQhTjJ67fzKrRKgi3UoEz_g",
+      "retained_r2_bytes": 0,
+      "content_sha256": "8c9c3db81634058751147942f7f5d03cb21911e39826e37d30e6b3d333af69ad",
+      "rows": 505,
+      "checked_at_utc": "2026-11-06T02:17:51.770380+00:00"
+    },
+    "sale/2010/27230/201002.csv.gz": {
+      "sha256": "a6d16b33ef7eade07b003aa7ed1e4caca875fe067b7e93cf84d2a3df4c6818ae",
+      "bytes": 27033,
+      "storage": "gdrive",
+      "drive_file_id": "1AujgMEYhxQfLzII-B6IA9NxtZVzXQliB",
+      "retained_r2_bytes": 0,
+      "content_sha256": "538e89b906ce27d0f13530067daa54bc25a11b0cefe1a82646b89a9daabfe90f",
+      "rows": 1350,
+      "checked_at_utc": "2026-11-06T02:16:21.729842+00:00"
     },
     "sale/2010/27230/201003.csv.gz": {
       "sha256": "46169d68d53c076fd85380707d9ff534f3d376980b2219e5f98dcad2e0e505e5",
@@ -209462,6 +211192,26 @@
       "rows": 740,
       "checked_at_utc": "2026-11-05T22:28:30.212564+00:00"
     },
+    "sale/2010/27260/201001.csv.gz": {
+      "sha256": "400fddedc1894c18941a596324100878bb0ae5f9b5d32e364347a05675801ea0",
+      "bytes": 24140,
+      "storage": "gdrive",
+      "drive_file_id": "1HuoymTQ6IsyoW9ZLiPrnP5_Ce4Q9P607",
+      "retained_r2_bytes": 0,
+      "content_sha256": "2ea1036a47476487490d4f67e4b7d7269296e41120f158c39c6a3fafa6e59ecf",
+      "rows": 512,
+      "checked_at_utc": "2026-11-06T02:18:50.833153+00:00"
+    },
+    "sale/2010/27260/201002.csv.gz": {
+      "sha256": "940d4f9f4d38f815282eaeaa547117f981f11616fbabce911f43a176e9c6f3ac",
+      "bytes": 20889,
+      "storage": "gdrive",
+      "drive_file_id": "16eEPV_0mKuEpCq6_IsvUToko--yJUr_N",
+      "retained_r2_bytes": 0,
+      "content_sha256": "fbb4a96353b488bab1127ad64703b3577ba8f9d71e167728602755875a0eefee",
+      "rows": 448,
+      "checked_at_utc": "2026-11-06T02:16:25.486871+00:00"
+    },
     "sale/2010/27260/201003.csv.gz": {
       "sha256": "d8d4a597460f99f9ca84275e2d9997476f94876a409c039434335e9d55eeb39e",
       "bytes": 23016,
@@ -209561,6 +211311,26 @@
       "content_sha256": "40ec71d6dbb87163afe469d1f2612ee8932eb5f1770e435bafa50f106ab5debe",
       "rows": 653,
       "checked_at_utc": "2026-11-05T22:28:34.069064+00:00"
+    },
+    "sale/2010/27290/201001.csv.gz": {
+      "sha256": "183360acbdb0a7a9861baeb64115fc029ae299995b822584150b71b0f2977d44",
+      "bytes": 28686,
+      "storage": "gdrive",
+      "drive_file_id": "1GIMVXGlnp7xa7vq93e8GRu51PFCXsTl9",
+      "retained_r2_bytes": 0,
+      "content_sha256": "ad57858937011dff43352f943928ed412ae15c06b9ced71a722038329377f154",
+      "rows": 720,
+      "checked_at_utc": "2026-11-06T02:18:54.460762+00:00"
+    },
+    "sale/2010/27290/201002.csv.gz": {
+      "sha256": "ff26f044b366d71226db4e2b7edf3d6282b7993b6e50181a06be7a2f082e5c75",
+      "bytes": 27307,
+      "storage": "gdrive",
+      "drive_file_id": "1JMOPgYE-8ZHOMwx5TnQvM4aoUwExKyaO",
+      "retained_r2_bytes": 0,
+      "content_sha256": "368f5d405022e17910c1d2d1f6a1233fbcca8a21365989e9f868054de0067603",
+      "rows": 661,
+      "checked_at_utc": "2026-11-06T02:16:30.523325+00:00"
     },
     "sale/2010/27290/201003.csv.gz": {
       "sha256": "92a445f9d3cc8a2461a0ce6bdf47fea18867125a6568e710caf7a31e8534b684",
@@ -209662,6 +211432,26 @@
       "rows": 1264,
       "checked_at_utc": "2026-11-05T22:28:40.677229+00:00"
     },
+    "sale/2010/27710/201001.csv.gz": {
+      "sha256": "646e7b7ddbe48e0d73f57769e8f63c60b861e704ac34ce9b8c22bb2ccfc1980c",
+      "bytes": 9168,
+      "storage": "gdrive",
+      "drive_file_id": "139-xbQiw3Nbj-l0nZe9Cltg6eWW5mxMy",
+      "retained_r2_bytes": 0,
+      "content_sha256": "d422298384cd3651189280e065027f308cb679524b449c8dbb3ec59f76e41e7f",
+      "rows": 219,
+      "checked_at_utc": "2026-11-06T02:18:57.661648+00:00"
+    },
+    "sale/2010/27710/201002.csv.gz": {
+      "sha256": "fa27540d625def324a3c95903ec38283f4d7e72853363b98db0a8ecdc6eaa843",
+      "bytes": 9360,
+      "storage": "gdrive",
+      "drive_file_id": "1qh3Kbx_DapntUItZozVlh62_3LnAphgz",
+      "retained_r2_bytes": 0,
+      "content_sha256": "eec06b68f1a82706b2e1f27fc1894f05f2281936e0332030caa4b506c9a6c0e5",
+      "rows": 200,
+      "checked_at_utc": "2026-11-06T02:16:33.404547+00:00"
+    },
     "sale/2010/27710/201003.csv.gz": {
       "sha256": "bea324a8158f87baed48edbef729da7de930048248ba7c8996c845f0a9b496cf",
       "bytes": 10987,
@@ -209761,6 +211551,26 @@
       "content_sha256": "412b2e5c89cb442745ae65df325c88d7a7218d4683f543cea71bf706683c13a6",
       "rows": 283,
       "checked_at_utc": "2026-11-05T22:28:44.115262+00:00"
+    },
+    "sale/2010/27720/201001.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1eZ-CNte5UupKQcLmmvwqetb7bnnPZ9eW",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:19:00.770224+00:00"
+    },
+    "sale/2010/27720/201002.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1DJFDTU32gITVOF_0iNRJNKnC0VsDLV07",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:16:36.593913+00:00"
     },
     "sale/2010/27720/201003.csv.gz": {
       "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
@@ -216701,6 +218511,26 @@
       "content_sha256": "44e915980436ea3b350ba0f4fe0cd7053c7079313117df45d0297d00428c8cc0",
       "rows": 15,
       "checked_at_utc": "2026-10-26T06:16:28.108833+00:00"
+    },
+    "sale/2010/47720/201001.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "1pVuK-ng1weKh4abc1noi_mWOeo7JEsyS",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:19:03.765528+00:00"
+    },
+    "sale/2010/47720/201002.csv.gz": {
+      "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
+      "bytes": 206,
+      "storage": "gdrive",
+      "drive_file_id": "18_xJ6hrYaD0sI8V6LpBhXAIjcEic-Ktc",
+      "retained_r2_bytes": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": 0,
+      "checked_at_utc": "2026-11-06T02:16:39.289532+00:00"
     },
     "sale/2010/47720/201003.csv.gz": {
       "sha256": "106e66450e84b8b33000fb9fe9a7b26692782a5f47ee99aad6d9f1caf1061f94",
