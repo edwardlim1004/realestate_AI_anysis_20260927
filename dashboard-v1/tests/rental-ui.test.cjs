@@ -33,7 +33,7 @@ async function mockedFetch(url){
  if(safe==="trade-details/rent/index.json")return {ok:true,json:async()=>({regions:{"송파구":{codes:["11710"],file:"11710.json"}}})};
  if(safe==="trade-details/rent/11710.json")return {ok:true,json:async()=>({months:["202610"],rows:[
  {date:"2026-10-10",apt:"전세테스트",city:"서울특별시 송파구",area:"84",floor:"3",deposit:"50000",monthlyRent:"0",rentalType:"jeonse"},
- {date:"2026-10-11",apt:"월세테스트",city:"서울특별시 송파구",area:"84",floor:"4",deposit:"10000",monthlyRent:"150",rentalType:"monthly"}]})};
+ {date:"2026-10-11",apt:"월세테스트",city:"서울특별시 송파구",area:"84",floor:"4",deposit:"0",monthlyRent:"150",rentalType:"monthly"}]})};
  const file=path.join(ROOT,safe);
  if(!fs.existsSync(file))return {ok:false,status:404,json:async()=>({})};
  return {ok:true,status:200,json:async()=>JSON.parse(load(safe))};
@@ -48,7 +48,7 @@ function wait(){return new Promise(resolve=>setTimeout(resolve,100))}
  assert.match(dom.tradeRows.innerHTML,/전세테스트/);assert.ok(!dom.tradeRows.innerHTML.includes("월세테스트"));
  assert.equal(dom.tradePriceHeader.textContent,"전세 보증금");assert.equal(dom.typeSelect.value,"jeonse");
  tradeButtons.find(b=>b.id==="monthly").events.click();await wait();
- assert.match(dom.tradeRows.innerHTML,/월세테스트/);assert.match(dom.tradeRows.innerHTML,/150만원/);assert.ok(!dom.tradeRows.innerHTML.includes("전세테스트"));
+ assert.match(dom.tradeRows.innerHTML,/월세테스트/);assert.match(dom.tradeRows.innerHTML,/150만원/);assert.match(dom.tradeRows.innerHTML,/보증금 0만원/);assert.ok(!dom.tradeRows.innerHTML.includes("전세테스트"));
  assert.equal(dom.tradePriceHeader.textContent,"보증금 / 월 임대료");
  dom.tradeSearch.value="없는단지";dom.tradeSearch.events.input();assert.match(dom.tradeRows.innerHTML,/표시할 거래가 없습니다/);
  dom.tradeSearch.value="";tradeButtons.find(b=>b.id==="sale").events.click();await wait();

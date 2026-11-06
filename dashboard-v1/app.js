@@ -330,6 +330,7 @@ function showApartment(apt,doc){
 }
 async function getTradeIndex(){const key=state.tradeType==="sale"?"tradeIndex":"rentIndex";if(!cache[key])cache[key]=await fetchJSON("trade-details/"+(key==="rentIndex"?"rent/":"")+"index.json");return cache[key];}
 function tradeCacheKey(){return state.area+":"+state.district+(state.tradeType==="sale"?"":":rent");}
+function depositMoney(v){const n=number(v);return n==null||n<0?"N/A":n<10000?n.toLocaleString("ko-KR")+"만원":(n/10000).toLocaleString("ko-KR",{maximumFractionDigits:4})+"억";}
 function tradeLabel(){return {sale:"매매",jeonse:"전세",monthly:"월세"}[state.tradeType]||"전세";}
 function tradeIndexMatch(index,district){
  const e=index?.regions||{};
@@ -350,7 +351,7 @@ function renderTransactionRows(){
  const query=$("tradeSearch").value.trim().toLowerCase(),records=cache.trades[tradeCacheKey()]||[];
  const matched=records.filter(r=>(state.tradeType==="sale"||r.rentalType===state.tradeType)&&(!query||[r.apt,r.city,r.dong,r.jibun].join(" ").toLowerCase().includes(query)));
  const shown=matched.slice(0,70);
- $("tradeRows").innerHTML=shown.length?shown.map(r=>'<tr><td>'+esc(r.date)+'</td><td style="text-align:left"><b>'+esc(r.apt)+'</b><div class="small">'+esc([r.city,r.dong,r.jibun].filter(Boolean).join(" "))+'</div></td><td>'+esc(r.area)+'㎡</td><td>'+esc(r.floor)+'</td><td>'+(state.tradeType==="sale"?moneyMan(r.price):state.tradeType==="jeonse"?moneyMan(r.deposit):"보증금 "+moneyMan(r.deposit)+"<br><span class=small>월 "+esc(Number(r.monthlyRent).toLocaleString())+"만원</span>")+'</td></tr>').join(""):'<tr><td colspan="5">표시할 거래가 없습니다.</td></tr>';
+ $("tradeRows").innerHTML=shown.length?shown.map(r=>'<tr><td>'+esc(r.date)+'</td><td style="text-align:left"><b>'+esc(r.apt)+'</b><div class="small">'+esc([r.city,r.dong,r.jibun].filter(Boolean).join(" "))+'</div></td><td>'+esc(r.area)+'㎡</td><td>'+esc(r.floor)+'</td><td>'+(state.tradeType==="sale"?moneyMan(r.price):state.tradeType==="jeonse"?depositMoney(r.deposit):"보증금 "+depositMoney(r.deposit)+"<br><span class=small>월 "+esc(Number(r.monthlyRent).toLocaleString())+"만원</span>")+'</td></tr>').join(""):'<tr><td colspan="5">표시할 거래가 없습니다.</td></tr>';
 }
 async function renderTransactions(seq){
  document.querySelectorAll("[data-trade-type]").forEach(el=>el.setAttribute("aria-pressed",String(el.dataset.tradeType===state.tradeType)));
