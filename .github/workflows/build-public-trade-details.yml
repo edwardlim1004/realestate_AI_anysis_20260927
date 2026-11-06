@@ -27,6 +27,8 @@ jobs:
     timeout-minutes: 110
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -43,7 +45,9 @@ jobs:
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
           GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
           GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
-        run: python seoul-apartment-collector/build_public_trade_details.py
+        run: |
+          python seoul-apartment-collector/build_public_trade_details.py
+          python seoul-apartment-collector/build_public_trade_details.py --kind rent
       - name: Verify published regions, no raw original JSON, and scope audit
         run: |
           python - <<'PY'
@@ -65,6 +69,17 @@ jobs:
           assert len(index["regions"])==61, len(index["regions"])
           assert ok>0, "No region has verified transaction rows"
           print("VERIFIED_SNAPSHOT_REGIONS",ok,"/61",report["summary"])
+          rental_index=json.loads((folder/"rent/index.json").read_text())
+          for name,info in rental_index["regions"].items():
+              path=folder/"rent"/info["file"]
+              if not path.exists(): continue
+              data=json.loads(path.read_text())
+              assert data["region"]==name and data["coverage"]["missing_scopes"]==0
+              for row in data["rows"]:
+                  assert "price" not in row and "원본항목JSON" not in row
+                  assert float(row["deposit"])>=0
+                  assert (float(row["monthlyRent"])==0)==(row["rentalType"]=="jeonse")
+
           PY
       - name: Build Daejeon latest complete-month map fallback from verified public trades
         run: python dashboard-v1/build_recent_daejeon.py
@@ -75,6 +90,5 @@ jobs:
           git add trade-details/ dashboard-v1/data/daejeon-recent.json
           if ! git diff --cached --quiet; then
             git commit -m "data: publish verified Seoul/Gyeonggi recent apartment sale details"
-            git pull --rebase --autostash origin main
-            git push origin HEAD:main
+            bash scripts/push-generated.sh
           fi

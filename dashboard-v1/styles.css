@@ -22,3 +22,5 @@
 .map path{cursor:pointer}
 .map-gesture-help{color:#647c94;font-size:11px;line-height:1.45;margin:7px 0 4px}
 @media(max-width:700px){.map{height:290px}.map-zoomtoolbar{gap:4px}.map-zoom-title{width:100%}}
+
+.trade-type-buttons{display:flex;gap:8px;margin:0 0 12px;flex-wrap:wrap}.trade-type-buttons button{border:1px solid #b7ccd9;border-radius:8px;padding:9px 24px;background:#fff;color:#335574;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}.trade-type-buttons button[aria-pressed="true"]{background:#008d84;color:#fff;border-color:#008d84}.trade-type-buttons button:focus-visible{outline:3px solid #5ea9ff;outline-offset:2px}

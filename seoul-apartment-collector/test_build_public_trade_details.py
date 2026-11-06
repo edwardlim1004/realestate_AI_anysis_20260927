@@ -52,6 +52,19 @@ class TradeDetailTest(unittest.TestCase):
         self.assertNotIn("원본항목JSON",json.dumps(payload))
         out2=builder.build_region("성남시 (분당/판교)", codes, ["202610"],store,store.files)
         self.assertEqual(out2["status"],"unchanged")
+    def test_rent_split_and_zero_deposit(self):
+        jeonse={**RAW,"deposit":"50,000","monthlyRent":"0"}
+        monthly={**RAW,"deposit":"0","monthlyRent":"150"}
+        source=builder.entry_key("11710","202610","rent")
+        store=FakeStore({source:[jeonse,monthly,{**monthly,"monthlyRent":""},{**jeonse,"cdealDay":"20261012"}]})
+        result=builder.build_region("송파구",["11710"],["202610"],store,store.files,kind="rent")
+        self.assertEqual(2,result["count"])
+        data=json.loads((builder.OUTPUT/"rent/11710.json").read_text())
+        self.assertEqual({"jeonse","monthly"},{r["rentalType"] for r in data["rows"]})
+        self.assertTrue(all("price" not in r for r in data["rows"]))
+        self.assertEqual(2,data["excluded_rows"])
+        self.assertFalse((builder.OUTPUT/"11710.json").exists())
+
     def test_missing_scope_never_mints_transactions(self):
         output=builder.build_region("송파구",["11710"],["202609","202610"],FakeStore({}),{})
         self.assertEqual(output["status"],"missing_source")

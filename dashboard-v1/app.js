@@ -328,7 +328,9 @@ function showApartment(apt,doc){
  }
  txt("valuationMessage","이 단지의 최근 5년 실제 거래 중위가격 기반입니다. 장기 적정가격 추정은 별도 모형 상세보기에서 근거·표본 조건을 확인하십시오.");
 }
-async function getTradeIndex(){if(!cache.tradeIndex)cache.tradeIndex=await fetchJSON("trade-details/index.json");return cache.tradeIndex;}
+async function getTradeIndex(){const key=state.tradeType==="sale"?"tradeIndex":"rentIndex";if(!cache[key])cache[key]=await fetchJSON("trade-details/"+(key==="rentIndex"?"rent/":"")+"index.json");return cache[key];}
+function tradeCacheKey(){return state.area+":"+state.district+(state.tradeType==="sale"?"":":rent");}
+function tradeLabel(){return {sale:"매매",jeonse:"전세",monthly:"월세"}[state.tradeType]||"전세";}
 function tradeIndexMatch(index,district){
  const e=index?.regions||{};
  // Daejeon district labels overlap Seoul (e.g. 중구).
@@ -345,31 +347,33 @@ function tradeIndexMatch(index,district){
  return k?{key:k,item:e[k]}:null;
 }
 function renderTransactionRows(){
- const query=$("tradeSearch").value.trim().toLowerCase(),records=cache.trades[state.area+":"+state.district]||[];
- const matched=records.filter(r=>!query||[r.apt,r.city,r.dong,r.jibun].join(" ").toLowerCase().includes(query));
+ const query=$("tradeSearch").value.trim().toLowerCase(),records=cache.trades[tradeCacheKey()]||[];
+ const matched=records.filter(r=>(state.tradeType==="sale"||r.rentalType===state.tradeType)&&(!query||[r.apt,r.city,r.dong,r.jibun].join(" ").toLowerCase().includes(query)));
  const shown=matched.slice(0,70);
- $("tradeRows").innerHTML=shown.length?shown.map(r=>'<tr><td>'+esc(r.date)+'</td><td style="text-align:left"><b>'+esc(r.apt)+'</b><div class="small">'+esc([r.city,r.dong,r.jibun].filter(Boolean).join(" "))+'</div></td><td>'+esc(r.area)+'㎡</td><td>'+esc(r.floor)+'</td><td>'+moneyMan(r.price)+'</td></tr>').join(""):'<tr><td colspan="5">표시할 거래가 없습니다.</td></tr>';
+ $("tradeRows").innerHTML=shown.length?shown.map(r=>'<tr><td>'+esc(r.date)+'</td><td style="text-align:left"><b>'+esc(r.apt)+'</b><div class="small">'+esc([r.city,r.dong,r.jibun].filter(Boolean).join(" "))+'</div></td><td>'+esc(r.area)+'㎡</td><td>'+esc(r.floor)+'</td><td>'+(state.tradeType==="sale"?moneyMan(r.price):state.tradeType==="jeonse"?moneyMan(r.deposit):"보증금 "+moneyMan(r.deposit)+"<br><span class=small>월 "+esc(Number(r.monthlyRent).toLocaleString())+"만원</span>")+'</td></tr>').join(""):'<tr><td colspan="5">표시할 거래가 없습니다.</td></tr>';
 }
 async function renderTransactions(seq){
+ document.querySelectorAll("[data-trade-type]").forEach(el=>el.setAttribute("aria-pressed",String(el.dataset.tradeType===state.tradeType)));
+ txt("tradePriceHeader",state.tradeType==="sale"?"매매가격":state.tradeType==="jeonse"?"전세 보증금":"보증금 / 월 임대료");
  txt("tradeStatus","공식 실거래 원자료 조회 중…");
  txt("tradeLimit","화면에 공개된 검증 자료만 표시합니다.");
  $("tradeRows").innerHTML='<tr><td colspan="5">원자료 조회 중…</td></tr>';
  if(!state.district){txt("tradeStatus","시군구를 선택하면 거래 목록을 불러옵니다.");$("tradeRows").innerHTML='<tr><td colspan="5">상단 시군구 또는 지도에서 지역을 선택하세요.</td></tr>';return;}
- if(state.tradeType==="rent"){txt("tradeStatus","전월세 개별 공개 데이터 연결 대기");$("tradeRows").innerHTML='<tr><td colspan="5">현재 공개 상세목록은 매매 중심입니다. 전월세 데이터를 매매로 오인하지 않도록 비워 둡니다.</td></tr>';return;}
+
  try{
   const index=await getTradeIndex();if(seq!==asyncSeq)return;
   const match=tradeIndexMatch(index,state.district);
   if(!match){txt("tradeStatus","이 지역의 공개 개별 거래파일이 없습니다.");$("tradeRows").innerHTML='<tr><td colspan="5">집계 데이터와 원본 거래파일은 별개입니다. 현재 공개 상세 거래파일 미확보</td></tr>';return;}
   const file=match.item.file;if(!/^[0-9]{5}\.json$/.test(file))throw new Error("데이터 파일명 불일치");
-  const cacheKey=state.area+":"+state.district;
-  if(!cache.trades[cacheKey]){const d=await fetchJSON("trade-details/"+file);cache.trades[cacheKey]=d.rows||[];cache.trades[cacheKey+"_meta"]=d;}
+  const cacheKey=tradeCacheKey();
+  if(!cache.trades[cacheKey]){const d=await fetchJSON("trade-details/"+(state.tradeType==="sale"?"":"rent/")+file);cache.trades[cacheKey]=d.rows||[];cache.trades[cacheKey+"_meta"]=d;}
   if(seq!==asyncSeq)return;
   const d=cache.trades[cacheKey+"_meta"];
-  const rows=cache.trades[cacheKey];
+  const rows=cache.trades[cacheKey].filter(r=>state.tradeType==="sale"||r.rentalType===state.tradeType);
   txt("tradeStatus",rows.length.toLocaleString()+"건 공개 · "+(d.months||[]).join(" / ")+(state.area==="gyeonggi"&&match.key!==state.district?" · "+match.key+" 일부 권역만":""));
-  txt("tradeLimit","2026년 9~10월 공개 매매 계약 기준 · "+(d.updated_at_kst||"")+" 갱신 · 취소·중복 자료는 생성자 검증 방식에 따름. "+(rows.length>70?"최신 70건 표시, 검색으로 상세 확인.":""));
+  txt("tradeLimit",(d.months||[]).join(" / ")+" 공개 "+tradeLabel()+" 계약 기준 · "+(d.updated_at_kst||"")+" 갱신 · 취소·중복 자료는 생성자 검증 방식에 따름. "+(rows.length>70?"최신 70건 표시, 검색으로 상세 확인.":""));
   renderTransactionRows();
- }catch(e){if(seq!==asyncSeq)return;txt("tradeStatus","거래파일 조회 실패");$("tradeRows").innerHTML='<tr><td colspan="5">'+esc(String(e))+'</td></tr>';}
+ }catch(e){if(seq!==asyncSeq)return;txt("tradeStatus",tradeLabel()+" 공개 상세자료 연결 확인 중");$("tradeRows").innerHTML='<tr><td colspan="5">'+"현재 선택 지역의 "+tradeLabel()+" 상세자료를 불러오지 못했습니다. 공개 스냅샷 생성 중이거나 연결 오류일 수 있습니다."+'</td></tr>';}
 }
 function renderAll(){
  ++asyncSeq;const seq=asyncSeq;
@@ -387,7 +391,8 @@ function bind(){
  $("riskTabs").querySelectorAll("[data-tab]").forEach(el=>el.addEventListener("click",()=>setRiskTab(el.dataset.tab)));
  $("historyMetric").addEventListener("change",drawRiskHistory);
  $("macroMetric").addEventListener("change",drawMacro);
- $("tradeSearch").addEventListener("input",()=>{if(state.tradeType==="sale")renderTransactionRows();});
+ $("tradeSearch").addEventListener("input",renderTransactionRows);
+ document.querySelectorAll("[data-trade-type]").forEach(el=>el.addEventListener("click",()=>{state.tradeType=el.dataset.tradeType;renderAll();}));
  $("aptSearch").addEventListener("input",()=>{state.aptIndex=0;renderValuation(asyncSeq);});
  $("unifiedSearch").addEventListener("keydown",e=>{if(e.key!=="Enter")return;const q=e.target.value.trim();if(!q)return;const row=(SOURCE?.regions||[]).find(r=>r.name.includes(q)||shortName(r.name)===q);if(row){state.area=row.province;state.district=shortName(row.name);renderAll();focusSelectedMapRegion();document.getElementById("regional").scrollIntoView({behavior:"smooth"});return;}$("aptSearch").value=q;renderValuation(asyncSeq);document.getElementById("valuation").scrollIntoView({behavior:"smooth"});});
 }
