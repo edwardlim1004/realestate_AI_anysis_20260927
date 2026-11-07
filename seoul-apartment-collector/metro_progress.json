@@ -47,9 +47,9 @@
     "gwangju": {
       "cutoff": "202610",
       "expected_scopes": 4400,
-      "verified_manifest_scopes": 2349,
-      "missing_scopes": 2051,
-      "percent": 53.386,
+      "verified_manifest_scopes": 2547,
+      "missing_scopes": 1853,
+      "percent": 57.886,
       "completed": false,
       "missing_sample": [
         "sale/2006/29110/200601.csv.gz",
@@ -114,10 +114,10 @@
         "sale/2006/12330/200606.csv.gz"
       ],
       "verification": "R2 or Google Drive upload-verified manifest; not a live reread or transaction semantic audit",
-      "manifest_fingerprint": "9f35b7faa36da6645488d8a1fc4ae99f9748fc946a31f98342cae6bc21746cbb",
+      "manifest_fingerprint": "bdc91d8e8a2255fd0bc4ad052a04e70fea58371c93026f0863a69a61edec69b6",
       "identical_extra_rows_preserved": null,
       "source_code_partitions": 10,
-      "stored_rows": 444166,
+      "stored_rows": 475466,
       "storage_reread_passed": false,
       "verified": false
     }
