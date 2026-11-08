@@ -34,6 +34,10 @@ async function mockedFetch(url){
  if(safe==="trade-details/rent/11710.json")return {ok:true,json:async()=>({months:["202610"],rows:[
  {date:"2026-10-10",apt:"전세테스트",city:"서울특별시 송파구",area:"84",floor:"3",deposit:"50000",monthlyRent:"0",rentalType:"jeonse"},
  {date:"2026-10-11",apt:"월세테스트",city:"서울특별시 송파구",area:"84",floor:"4",deposit:"0",monthlyRent:"150",rentalType:"monthly"}]})};
+ if(safe==="trade-details/latest/11710.json")return {ok:true,json:async()=>({earliest_scanned_month:"202501",before_month:"202610",archive_scan_complete:false,rows:[
+ {date:"2026-09-01",apt:"과거단지",city:"서울특별시 송파구",area:"84",floor:"3",deposit:"50000",monthlyRent:"0",rentalType:"jeonse"},
+ {date:"2026-08-02",apt:"과거단지",city:"서울특별시 송파구",area:"84",floor:"4",deposit:"0",monthlyRent:"150",rentalType:"monthly"},
+ {date:"2026-07-03",apt:"과거단지",city:"서울특별시 송파구",area:"84",floor:"5",price:"70000",rentalType:"sale"}]})};
  const file=path.join(ROOT,safe);
  if(!fs.existsSync(file))return {ok:false,status:404,json:async()=>({})};
  return {ok:true,status:200,json:async()=>JSON.parse(load(safe))};
@@ -50,7 +54,12 @@ function wait(){return new Promise(resolve=>setTimeout(resolve,100))}
  tradeButtons.find(b=>b.id==="monthly").events.click();await wait();
  assert.match(dom.tradeRows.innerHTML,/월세테스트/);assert.match(dom.tradeRows.innerHTML,/150만원/);assert.match(dom.tradeRows.innerHTML,/보증금 0만원/);assert.ok(!dom.tradeRows.innerHTML.includes("전세테스트"));
  assert.equal(dom.tradePriceHeader.textContent,"보증금 / 월 임대료");
- dom.tradeSearch.value="없는단지";dom.tradeSearch.events.input();assert.match(dom.tradeRows.innerHTML,/표시할 거래가 없습니다/);
+ dom.tradeSearch.value="없는단지";dom.tradeSearch.events.input();await wait();assert.match(dom.tradeRows.innerHTML,/표시할 거래가 없습니다/);
+ dom.tradeSearch.value="과거단지";dom.tradeSearch.events.input();await wait();
+ assert.match(dom.tradeRows.innerHTML,/2026-08-02/);assert.ok(!dom.tradeRows.innerHTML.includes("2026-09-01"));
+ assert.match(dom.tradeStatus.textContent,/과거 최근 기록/);assert.match(dom.tradeLimit.textContent,/현재 시세가 아닙니다/);
+ tradeButtons.find(b=>b.id==="jeonse").events.click();await wait();assert.match(dom.tradeRows.innerHTML,/2026-09-01/);
+ tradeButtons.find(b=>b.id==="sale").events.click();await wait();assert.match(dom.tradeRows.innerHTML,/2026-07-03/);
  dom.tradeSearch.value="";tradeButtons.find(b=>b.id==="sale").events.click();await wait();
  assert.equal(dom.tradePriceHeader.textContent,"매매가격");assert.ok(!dom.tradeRows.innerHTML.includes("월세테스트"));
  console.log("PASS sale/jeonse/monthly buttons, amounts, search and independent caches");

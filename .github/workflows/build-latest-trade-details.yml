@@ -1,0 +1,58 @@
+name: Build Latest Available Apartment Contracts
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "seoul-apartment-collector/build_latest_trade_details.py"
+      - "seoul-apartment-collector/build_public_trade_details.py"
+      - "api-integration/regions_lawd.py"
+      - "dashboard-v1/build_recent_daejeon.py"
+      - "seoul-apartment-collector/test_build_public_trade_details.py"
+      - "apartment-trades.js"
+      - ".github/workflows/build-latest-trade-details.yml"
+  schedule:
+    - cron: "35 0,6,12,18 * * *" # 14:10 Korea; after collector and data.js refresh
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: latest-available-contracts
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Test transaction conversion and missing-source safety
+        run: python -m unittest discover -s seoul-apartment-collector -p "test_*trade_details.py" -v
+      - name: Install existing R2 and Google Drive archive readers
+        run: python -m pip install boto3 google-api-python-client google-auth google-auth-oauthlib cryptography
+      - name: Generate detailed public snapshots from privately stored verified official scopes
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
+        run: python seoul-apartment-collector/build_latest_trade_details.py --max-scopes 24
+      - name: Commit ONLY compact verified public details; never publish private raw files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add trade-details/latest/
+          if ! git diff --cached --quiet; then
+            git commit -m "data: extend latest available apartment contract history"
+            bash scripts/push-generated.sh
+          fi

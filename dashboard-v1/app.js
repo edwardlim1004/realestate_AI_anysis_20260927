@@ -347,13 +347,47 @@ function tradeIndexMatch(index,district){
  const k=Object.keys(e).find(key=>shortName(key)===district&&e[key].codes?.every(c=>c.startsWith("41")));
  return k?{key:k,item:e[k]}:null;
 }
-function renderTransactionRows(){
- const query=$("tradeSearch").value.trim().toLowerCase(),records=cache.trades[tradeCacheKey()]||[];
- const matched=records.filter(r=>(state.tradeType==="sale"||r.rentalType===state.tradeType)&&(!query||[r.apt,r.city,r.dong,r.jibun].join(" ").toLowerCase().includes(query)));
+let tradeRowsRequest=0;
+async function renderTransactionRows(){
+ const request=++tradeRowsRequest,seq=asyncSeq,type=state.tradeType,key=tradeCacheKey();
+ const query=$("tradeSearch").value.trim().toLowerCase(),records=cache.trades[key]||[];
+ const matches=r=>!query||[r.apt,r.city,r.dong,r.jibun].join(" ").toLowerCase().includes(query);
+ let matched=records.filter(r=>(type==="sale"||r.rentalType===type)&&matches(r));
+ const meta=cache.trades[key+"_meta"]||{};
+ let historical=false,history=null;
+ if(!matched.length){
+  const file=cache.trades[key+"_file"];
+  if(file){
+   txt("tradeStatus","최신 기간에 일치 기록 없음 · 가장 가까운 과거 계약 조회 중…");
+   $("tradeRows").innerHTML='<tr><td colspan="5">과거 실거래 기록을 확인하고 있습니다.</td></tr>';
+   try{
+    const historyKey="latest:"+file;
+    if(!cache.trades[historyKey])cache.trades[historyKey]=await fetchJSON("trade-details/latest/"+file);
+    if(request!==tradeRowsRequest||seq!==asyncSeq)return;
+    history=cache.trades[historyKey];
+    matched=(history.rows||[]).filter(r=>r.rentalType===type&&matches(r));
+    historical=matched.length>0;
+   }catch(e){
+    if(request!==tradeRowsRequest||seq!==asyncSeq)return;
+    txt("tradeStatus","최신 기간 일치 기록 없음 · 과거 자료 연결 확인 중");
+    $("tradeRows").innerHTML='<tr><td colspan="5">과거 기록 조회파일이 준비 중이거나 연결되지 않았습니다. 거래가 없다는 의미는 아닙니다.</td></tr>';return;
+   }
+  }
+ }
+ if(request!==tradeRowsRequest||seq!==asyncSeq)return;
+ matched.sort((a,b)=>b.date.localeCompare(a.date));
  const shown=matched.slice(0,70);
+ if(historical){
+  txt("tradeStatus","과거 최근 기록 · 계약일 "+matched[0].date+" · "+matched.length.toLocaleString()+"건 일치");
+  txt("tradeLimit","최신 공개기간에 일치하는 "+tradeLabel()+" 계약이 없어, 단지·주소별 가장 최근 계약일의 기록을 표시합니다. 조회 범위 "+history.earliest_scanned_month+" ~ "+history.before_month+" 이전 · "+(history.archive_scan_complete?"보관자료 조회 완료":"더 오래된 보관자료 추가 확인 중")+" · 과거 가격이며 현재 시세가 아닙니다.");
+ }else{
+  txt("tradeStatus",matched.length.toLocaleString()+"건 검색 일치 / "+records.filter(r=>type==="sale"||r.rentalType===type).length.toLocaleString()+"건 공개 · "+(meta.months||[]).join(" / "));
+  txt("tradeLimit",history?"확인된 과거 보관자료에도 일치 기록이 없습니다. "+(history.archive_scan_complete?"보관자료 조회 완료":"더 오래된 보관자료는 추가 확인 중입니다."):(meta.months||[]).join(" / ")+" 공개 "+tradeLabel()+" 계약 기준 · "+(meta.updated_at_kst||"")+" 갱신 · 최신 70건 표시, 검색으로 상세 확인.");
+ }
  $("tradeRows").innerHTML=shown.length?shown.map(r=>'<tr><td>'+esc(r.date)+'</td><td style="text-align:left"><b>'+esc(r.apt)+'</b><div class="small">'+esc([r.city,r.dong,r.jibun].filter(Boolean).join(" "))+'</div></td><td>'+esc(r.area)+'㎡</td><td>'+esc(r.floor)+'</td><td>'+(state.tradeType==="sale"?moneyMan(r.price):state.tradeType==="jeonse"?depositMoney(r.deposit):"보증금 "+depositMoney(r.deposit)+"<br><span class=small>월 "+esc(Number(r.monthlyRent).toLocaleString())+"만원</span>")+'</td></tr>').join(""):'<tr><td colspan="5">표시할 거래가 없습니다.</td></tr>';
 }
 async function renderTransactions(seq){
+ ++tradeRowsRequest;
  document.querySelectorAll("[data-trade-type]").forEach(el=>el.setAttribute("aria-pressed",String(el.dataset.tradeType===state.tradeType)));
  txt("tradePriceHeader",state.tradeType==="sale"?"매매가격":state.tradeType==="jeonse"?"전세 보증금":"보증금 / 월 임대료");
  txt("tradeStatus","공식 실거래 원자료 조회 중…");
@@ -367,6 +401,7 @@ async function renderTransactions(seq){
   if(!match){txt("tradeStatus","이 지역의 공개 개별 거래파일이 없습니다.");$("tradeRows").innerHTML='<tr><td colspan="5">집계 데이터와 원본 거래파일은 별개입니다. 현재 공개 상세 거래파일 미확보</td></tr>';return;}
   const file=match.item.file;if(!/^[0-9]{5}\.json$/.test(file))throw new Error("데이터 파일명 불일치");
   const cacheKey=tradeCacheKey();
+  cache.trades[cacheKey+"_file"]=file;
   if(!cache.trades[cacheKey]){const d=await fetchJSON("trade-details/"+(state.tradeType==="sale"?"":"rent/")+file);cache.trades[cacheKey]=d.rows||[];cache.trades[cacheKey+"_meta"]=d;}
   if(seq!==asyncSeq)return;
   const d=cache.trades[cacheKey+"_meta"];
