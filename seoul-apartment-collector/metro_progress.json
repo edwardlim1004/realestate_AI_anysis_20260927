@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "as_of_kst": "2026-11-09",
+  "as_of_kst": "2026-11-10",
   "order": [
     "busan",
     "daegu",
@@ -21,12 +21,12 @@
       "completed": true,
       "missing_sample": [],
       "verification": "R2 or Google Drive upload-verified manifest; not a live reread or transaction semantic audit",
-      "manifest_fingerprint": "71a3f0951d0e60cdd92bad4b943529dfab093151d93f4a16ee348a1b7b42d568",
-      "identical_extra_rows_preserved": 33047,
+      "manifest_fingerprint": "d97d3b4802f2fdc4700b871c66b137f1b0344583ba6b6441a8f8b2a72cb269c6",
+      "identical_extra_rows_preserved": null,
       "source_code_partitions": 16,
-      "stored_rows": 1626819,
-      "storage_reread_passed": true,
-      "verified": true
+      "stored_rows": 1627733,
+      "storage_reread_passed": false,
+      "verified": false
     },
     "daegu": {
       "cutoff": "202610",
@@ -37,12 +37,12 @@
       "completed": true,
       "missing_sample": [],
       "verification": "R2 or Google Drive upload-verified manifest; not a live reread or transaction semantic audit",
-      "manifest_fingerprint": "8eaddca3e16d3e6927e14afe0cf76b3f08b5b269ce009c74083010a03c51a463",
-      "identical_extra_rows_preserved": 28131,
+      "manifest_fingerprint": "c7be5b5adcf33edb17540f8dc22ffea63a95909034dc91f1ff73e0523b0a2224",
+      "identical_extra_rows_preserved": null,
       "source_code_partitions": 10,
-      "stored_rows": 1048991,
-      "storage_reread_passed": true,
-      "verified": true
+      "stored_rows": 1049256,
+      "storage_reread_passed": false,
+      "verified": false
     },
     "gwangju": {
       "cutoff": "202610",
@@ -53,12 +53,12 @@
       "completed": true,
       "missing_sample": [],
       "verification": "R2 or Google Drive upload-verified manifest; not a live reread or transaction semantic audit",
-      "manifest_fingerprint": "467e3dd36fc8a961f8aaac04a47b51a8b58cb863cab7b4b848b6f549030266d7",
-      "identical_extra_rows_preserved": 31642,
+      "manifest_fingerprint": "1f45e3417f9aafdd89d17fceeafd2dd670a8b1b2779a88529b6052b7c5a23e70",
+      "identical_extra_rows_preserved": null,
       "source_code_partitions": 10,
-      "stored_rows": 816189,
-      "storage_reread_passed": true,
-      "verified": true
+      "stored_rows": 816229,
+      "storage_reread_passed": false,
+      "verified": false
     }
   },
   "raw_only": true,
