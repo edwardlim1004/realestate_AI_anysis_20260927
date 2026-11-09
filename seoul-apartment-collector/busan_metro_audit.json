@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "checked_at_utc": "2026-11-09T16:48:10.739669+00:00",
+  "checked_at_utc": "2026-11-09T20:57:31.670720+00:00",
   "source_git_sha": "",
   "cutoff": "202610",
   "regions": {
@@ -9,9 +9,9 @@
       "reread_verified_scopes": 7040,
       "failed_scopes": 0,
       "transactions": {
-        "monthly": 304963,
-        "jeonse": 453652,
-        "sale": 869118
+        "monthly": 305002,
+        "jeonse": 453691,
+        "sale": 869125
       },
       "empty_scopes": 8
     }
@@ -30,12 +30,12 @@
     "sale/2007/26440/200708.csv.gz",
     "sale/2007/26440/200712.csv.gz"
   ],
-  "identical_extra_rows_preserved": 33078,
+  "identical_extra_rows_preserved": 33092,
   "source_checks": {
     "status": "not_requested"
   },
   "storage_complete": true,
   "passed": true,
   "verification": "Every required stored object reread: SHA256, gzip, CSV, row count, original JSON, dates, district and rent classification; original API rechecked only as specified under source_checks.",
-  "manifest_fingerprint": "d97d3b4802f2fdc4700b871c66b137f1b0344583ba6b6441a8f8b2a72cb269c6"
+  "manifest_fingerprint": "a0c889344d072504e11003c8fb39bc7f09f83097a39f5d24b9cd3a8c744b09fc"
 }
