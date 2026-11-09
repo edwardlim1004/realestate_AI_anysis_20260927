@@ -703,9 +703,147 @@
       "archive_fingerprint": "8eaddca3e16d3e6927e14afe0cf76b3f08b5b269ce009c74083010a03c51a463"
     },
     "gwangju": {
-      "status": "pending",
+      "status": "verified",
       "progress": 100.0,
-      "districts": []
+      "districts": [
+        {
+          "code": "12210",
+          "name": "동구",
+          "alias_overlap_months": [],
+          "status": "ready",
+          "sale": {
+            "rows": 526,
+            "identical_extra_rows": 0,
+            "median_manwon": 43990.0,
+            "distinct_row_median_manwon": 43990.0,
+            "monthly_rent_median_manwon": null
+          },
+          "jeonse": {
+            "rows": 346,
+            "identical_extra_rows": 22,
+            "median_manwon": 31000.0,
+            "distinct_row_median_manwon": 31000.0,
+            "monthly_rent_median_manwon": null
+          },
+          "monthly": {
+            "rows": 357,
+            "identical_extra_rows": 32,
+            "median_manwon": 20000.0,
+            "distinct_row_median_manwon": 10000.0,
+            "monthly_rent_median_manwon": 25.0
+          }
+        },
+        {
+          "code": "12240",
+          "name": "서구",
+          "alias_overlap_months": [],
+          "status": "ready",
+          "sale": {
+            "rows": 1306,
+            "identical_extra_rows": 0,
+            "median_manwon": 37400.0,
+            "distinct_row_median_manwon": 37400.0,
+            "monthly_rent_median_manwon": null
+          },
+          "jeonse": {
+            "rows": 830,
+            "identical_extra_rows": 69,
+            "median_manwon": 30000.0,
+            "distinct_row_median_manwon": 30000.0,
+            "monthly_rent_median_manwon": null
+          },
+          "monthly": {
+            "rows": 476,
+            "identical_extra_rows": 14,
+            "median_manwon": 5000.0,
+            "distinct_row_median_manwon": 5000.0,
+            "monthly_rent_median_manwon": 95.0
+          }
+        },
+        {
+          "code": "12270",
+          "name": "남구",
+          "alias_overlap_months": [],
+          "status": "ready",
+          "sale": {
+            "rows": 1199,
+            "identical_extra_rows": 1,
+            "median_manwon": 36500.0,
+            "distinct_row_median_manwon": 36400.0,
+            "monthly_rent_median_manwon": null
+          },
+          "jeonse": {
+            "rows": 794,
+            "identical_extra_rows": 56,
+            "median_manwon": 28350.0,
+            "distinct_row_median_manwon": 28500.0,
+            "monthly_rent_median_manwon": null
+          },
+          "monthly": {
+            "rows": 529,
+            "identical_extra_rows": 20,
+            "median_manwon": 4000.0,
+            "distinct_row_median_manwon": 4000.0,
+            "monthly_rent_median_manwon": 85.0
+          }
+        },
+        {
+          "code": "12300",
+          "name": "북구",
+          "alias_overlap_months": [],
+          "status": "ready",
+          "sale": {
+            "rows": 2050,
+            "identical_extra_rows": 13,
+            "median_manwon": 36000.0,
+            "distinct_row_median_manwon": 36000.0,
+            "monthly_rent_median_manwon": null
+          },
+          "jeonse": {
+            "rows": 1391,
+            "identical_extra_rows": 133,
+            "median_manwon": 27000.0,
+            "distinct_row_median_manwon": 27000.0,
+            "monthly_rent_median_manwon": null
+          },
+          "monthly": {
+            "rows": 821,
+            "identical_extra_rows": 31,
+            "median_manwon": 5000.0,
+            "distinct_row_median_manwon": 5000.0,
+            "monthly_rent_median_manwon": 80.0
+          }
+        },
+        {
+          "code": "12330",
+          "name": "광산구",
+          "alias_overlap_months": [],
+          "status": "ready",
+          "sale": {
+            "rows": 2121,
+            "identical_extra_rows": 0,
+            "median_manwon": 35000.0,
+            "distinct_row_median_manwon": 35000.0,
+            "monthly_rent_median_manwon": null
+          },
+          "jeonse": {
+            "rows": 1564,
+            "identical_extra_rows": 282,
+            "median_manwon": 25710.0,
+            "distinct_row_median_manwon": 25710.0,
+            "monthly_rent_median_manwon": null
+          },
+          "monthly": {
+            "rows": 620,
+            "identical_extra_rows": 20,
+            "median_manwon": 3750.0,
+            "distinct_row_median_manwon": 4000.0,
+            "monthly_rent_median_manwon": 95.0
+          }
+        }
+      ],
+      "source_digest": "6a7fdd9d8c6f471c7742a0720d5c67962ccae83c5d752fd8ebab15e9f4007f64",
+      "archive_fingerprint": "467e3dd36fc8a961f8aaac04a47b51a8b58cb863cab7b4b848b6f549030266d7"
     }
   }
 }
