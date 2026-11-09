@@ -27,6 +27,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Check dashboard model, map synchronization and ver0.0 preservation
         run: |
+          node dashboard-v1/tests/metro-history.test.cjs
           node dashboard-v1/tests/smoke.cjs
           node dashboard-v1/tests/map-navigation.test.cjs
           if [ -f dashboard-v1/data/daejeon-regions.json ]; then node dashboard-v1/tests/daejeon-ui.test.cjs; fi

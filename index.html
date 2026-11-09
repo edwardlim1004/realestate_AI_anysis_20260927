@@ -8,6 +8,8 @@
 <script src="dashboard-v1/region-boundaries.js" defer></script>
 <script src="dashboard-v1/map-navigation.js?v=20261031-zoom2" defer></script>
 <script src="dashboard-v1/app.js?v=20261108-history1" defer></script>
+<script src="dashboard-v1/metro-history.js?v=20261110-1" defer></script>
+<style>.metro-mode .layout{display:none}.metro-mode .filters>label,.metro-mode .filters>select,.metro-mode #applyFilter,.metro-mode #globalScopeNote,.metro-mode .tools>input,.metro-mode #updatedAt{display:none}#metroHistory[hidden]{display:none}#metroHistory .sectionline{flex-wrap:wrap;gap:10px}#metroHistory .tbl td{white-space:normal}#topRegionTabs{flex-wrap:wrap}</style>
 </head><body>
 <div class="app">
 <aside class="sidebar" aria-label="주요 메뉴">
@@ -22,20 +24,29 @@
 <div class="side-note">별도 검증되지 않은 모형의 결과는 투자 권고나 확정 하락확률로 표시하지 않습니다.</div>
 </aside>
 <div class="main">
-<header class="topbar"><div><h1>서울·경기·대전 아파트 투자 분석 대시보드</h1>
+<header class="topbar"><div><h1>서울·경기·대전·부산·대구·광주 아파트 대시보드</h1>
 <div class="subtitle">ver1.0 · 지역 상대매력도 / 아파트별 장기 가치평가 / 역사적 위험과 미래 하방위험 분리</div></div>
 <div class="tools"><input class="input" type="search" id="unifiedSearch" placeholder="지역·단지명을 검색하세요" aria-label="단지 검색">
 <span class="small" id="updatedAt">데이터 기준 조회 중…</span>
 <div class="version-row"><a class="current" href="./">ver1.0<br>현재 버전</a><a href="ver0/">ver0.0<br>과거 화면</a></div></div></header>
 <div class="filters" aria-label="분석 범위 공통 선택">
 <strong class="filterlabel">지역 선택</strong>
-<div class="tabs" id="topRegionTabs" role="group" aria-label="지역 선택"><button class="tab active" data-area="seoul">서울</button><button class="tab" data-area="gyeonggi">경기</button><button class="tab" data-area="daejeon">대전</button></div>
+<div class="tabs" id="topRegionTabs" role="group" aria-label="지역 선택"><button class="tab active" data-area="seoul">서울</button><button class="tab" data-area="gyeonggi">경기</button><button class="tab" data-area="daejeon">대전</button><button class="tab" data-metro="busan" aria-pressed="false">부산</button><button class="tab" data-metro="daegu" aria-pressed="false">대구</button><button class="tab" data-metro="gwangju" aria-pressed="false">광주</button></div>
 <label class="filterlabel" for="districtSelect">시군구</label><select class="select" id="districtSelect"><option value="">전체</option></select>
 <label class="filterlabel" for="periodSelect">가격기준</label><select id="periodSelect" class="select"><option value="complete">최신 완결월</option><option value="provisional">현재월(잠정)</option></select>
 <label class="filterlabel" for="typeSelect">거래유형</label><select id="typeSelect" class="select"><option value="sale">매매</option><option value="jeonse">전세</option><option value="monthly">월세</option></select>
 <button id="applyFilter" class="action primary">적용</button>
 <span class="small" id="globalScopeNote">서울 25개 구</span>
 </div>
+<section class="panel" id="metroHistory" hidden aria-labelledby="metroHeading">
+<div class="panelhead teal"><span id="metroHeading">광역시 월별 실거래</span><span class="headtag">국토교통부 저장자료</span></div><div class="panelbody">
+<div class="sectionline"><label>시군구 <select class="select" id="metroDistrict"></select></label><label>거래유형 <select class="select" id="metroType"><option value="sale">매매</option><option value="jeonse">전세</option><option value="monthly">월세</option></select></label><label>시작월 <input class="input" id="metroFrom" type="month" value="2006-01"></label><label>종료월 <input class="input" id="metroTo" type="month"></label><button class="action" id="metroDownload">월별 CSV 다운로드</button></div>
+<p class="note" id="metroHistoryStatus" role="status"></p><div class="canvasbox" style="height:300px"><canvas id="metroHistoryChart" aria-label="월별 매매·전세·월세 가격 추이"></canvas></div>
+<p class="note">매매 2006년 1월부터 · 전월세 2011년 1월부터 현재월까지. 가격·행수는 전용 80~90㎡ 기준입니다. 누락월은 연결하거나 0원으로 대체하지 않습니다. 중위가격은 거래된 단지 구성에 영향을 받으며 가격지수가 아닙니다. 월세 보증금과 임대료는 각각의 중위값입니다. 동일 반복행은 보존하며 확정 고유 거래 건수가 아닙니다.</p>
+<div class="table-scroll" style="max-height:330px"><table class="tbl"><thead><tr><th>계약월</th><th>가격 / 보증금 (만원)</th><th>월 임대료 (만원)</th><th>원본 행수 (80~90㎡)</th><th>자료 상태</th></tr></thead><tbody id="metroMonthlyRows"></tbody></table></div>
+<h3>실거래 상세 · 선택월 및 가장 가까운 과거 기록</h3><div class="sectionline"><label>계약월 <select id="metroContractMonth" class="select"></select></label><input id="metroContractSearch" class="input" type="search" aria-label="광역시 계약 검색" placeholder="단지·법정동·지번 (공개 표본 내)"></div><p id="metroContractsStatus" class="note" role="status"></p>
+<div class="table-scroll" style="max-height:340px"><table class="tbl"><thead><tr><th>계약일</th><th>단지·주소</th><th>전용면적</th><th>층</th><th>계약금액</th></tr></thead><tbody id="metroContractRows"></tbody></table></div>
+<p class="note">최신 일치 기록이 없으면 조회기간 안의 이전 공개 표본으로 이동하며 실제 계약일을 표시합니다. 과거 가격은 현재 시세가 아닙니다. 지역 점수·위험모형·지도 및 5년 가치평가는 이 월별 실거래 자료와 별도입니다.</p></div></section>
 <div class="layout">
 <div class="column">
 <section class="panel" id="regional" aria-labelledby="regionalTitle"><div class="panelhead"><span class="number">1</span><span id="regionalTitle">지역 상대매력도</span><span class="headtag" id="regionalTag">연구용 · 상대순위</span></div>
