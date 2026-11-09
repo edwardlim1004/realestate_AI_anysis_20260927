@@ -84,7 +84,16 @@ def source_audit(city, limit):
     return not pending and not errors, mismatch
 
 def run(limit):
-    report=snapshot();city=next_city(report)
+    report=snapshot()
+    # Once every historical partition exists, keep the current month moving
+    # even while source revalidation of an older month is still pending.
+    if all(info['completed'] for info in report['cities'].values()):
+        for name in ORDER:
+            rc=collect.run('refresh',max(1,limit//6),3,region=name,refresh_months=1)
+            if rc:return rc
+        limit=max(1,limit//2)
+        report=snapshot()
+    city=next_city(report)
     if city is None:
         # After initial validation, maintain recent six months sequentially.
         for name in ORDER:

@@ -59,6 +59,14 @@ class MetroTests(unittest.TestCase):
             api=MemoryAPI(data);collect.run('test',8,3,districts=[code],collector=api,region='busan')
             self.assertEqual(0,api.calls)
 
+    def test_current_month_refresh_not_blocked_by_old_audit(self):
+        report={'cities':{c:{'completed':True,'verified':True} for c in queue.ORDER}}
+        with patch.object(queue,'snapshot',return_value=report),patch.object(collect,'run',return_value=0) as run:
+            self.assertEqual(0,queue.run(200))
+        calls=run.call_args_list
+        self.assertEqual(list(queue.ORDER),[c.kwargs['region'] for c in calls[:3]])
+        self.assertTrue(all(c.kwargs['refresh_months']==1 for c in calls[:3]))
+
     def test_fingerprint_invalidates_changed_or_missing_scope(self):
         key='sale/2006/26110/200601.csv.gz'
         self.assertNotEqual(queue.fingerprint({key:{'sha256':'a'}},[key]),queue.fingerprint({key:{'sha256':'b'}},[key]))
