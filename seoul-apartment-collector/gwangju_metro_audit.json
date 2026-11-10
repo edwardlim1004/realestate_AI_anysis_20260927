@@ -1,25 +1,31 @@
 {
   "schema": 1,
-  "checked_at_utc": "2026-11-09T21:09:20.640592+00:00",
+  "checked_at_utc": "2026-11-10T12:49:20.154728+00:00",
   "source_git_sha": "",
   "cutoff": "202610",
   "regions": {
     "gwangju": {
       "expected_scopes": 4400,
-      "reread_verified_scopes": 4400,
-      "failed_scopes": 0,
+      "reread_verified_scopes": 4399,
+      "failed_scopes": 1,
       "transactions": {
-        "monthly": 148746,
+        "monthly": 148748,
         "jeonse": 188993,
-        "sale": 478496
+        "sale": 478027
       },
       "empty_scopes": 2200
     }
   },
   "expected_scopes": 4400,
-  "reread_verified_scopes": 4400,
-  "failed_scopes": 0,
-  "failures": [],
+  "reread_verified_scopes": 4399,
+  "failed_scopes": 1,
+  "failures": [
+    {
+      "scope": "sale/2026/12300/202607.csv.gz",
+      "status": "error",
+      "error_type": "ValueError"
+    }
+  ],
   "empty_scopes": [
     "rent/2011/29110/201101.csv.gz",
     "rent/2011/29110/201102.csv.gz",
@@ -2226,8 +2232,8 @@
   "source_checks": {
     "status": "not_requested"
   },
-  "storage_complete": true,
-  "passed": true,
+  "storage_complete": false,
+  "passed": false,
   "verification": "Every required stored object reread: SHA256, gzip, CSV, row count, original JSON, dates, district and rent classification; original API rechecked only as specified under source_checks.",
-  "manifest_fingerprint": "d050bd1440d513e87707b7768018fc9c5ea6c072544b1d391090e1ede14dc17b"
+  "manifest_fingerprint": "0474e5a750bb20e381ee5346ca78840aab97b740fe02fa278a36cd0d3edd8c2b"
 }
