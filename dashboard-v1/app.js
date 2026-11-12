@@ -380,10 +380,10 @@ async function renderTransactionRows(){
    records=history.rows||[];
   }catch(e){
    if(request!==tradeRowsRequest||seq!==asyncSeq)return;
-   $("tradeRows").innerHTML='<tr><td colspan="5">이 지역의 5년 상세 거래파일을 아직 불러올 수 없습니다.</td></tr>';
-   $("tradeMore").hidden=true;
-   txt("tradeStatus","5년 누적자료 확인 필요");
-   txt("tradeLimit","지역별 공식 원자료 보관 범위 및 생성 상태를 확인 중입니다. 최근 공개 자료를 보려면 ‘최근 2개월’을 선택하세요.");
+   $("tradeRange").value="recent";
+   txt("tradeStatus","5년 자료 준비 중 · 최근 2개월 임시 표시");
+   await renderTransactionRows();
+   txt("tradeLimit","5년 누적 원자료 생성이 끝나면 조회기간에서 ‘최근 5년 누적’을 선택할 수 있습니다. 현재는 최근 2개월 공개자료를 표시합니다.");
    return;
   }
  }
