@@ -1,0 +1,60 @@
+name: Notify Kakao When Five-Year Trade History Is Published
+
+on:
+  workflow_run:
+    workflows: ["Build Five-Year Apartment Transaction History"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Kakao and R2 clients
+        run: python -m pip install boto3 cryptography
+      - name: Confirm five-year archive is live on GitHub Pages
+        run: |
+          python - <<'PY'
+          import json, time, urllib.request
+          from pathlib import Path
+          root=Path("trade-details/history")
+          local=json.loads((root/"index.json").read_text(encoding="utf-8"))
+          report=json.loads((root/"build-report.json").read_text(encoding="utf-8"))
+          if len(report.get("months",[])) != 60 or len(local.get("regions",{})) != 61:
+              raise SystemExit("Five-year archive scope is incomplete")
+          if len(report.get("regions",[])) != 122 or any(int(x.get("missing_scopes",1)) for x in report["regions"]):
+              raise SystemExit("Five-year archive has missing verified source scopes")
+          url="https://edwardlim1004.github.io/realestate_AI_anysis_20260927/trade-details/history/index.json"
+          for attempt in range(180):
+              try:
+                  req=urllib.request.Request(url,headers={"Cache-Control":"no-cache","User-Agent":"EdwardAptHistoryNotifier/1.0"})
+                  with urllib.request.urlopen(req,timeout=20) as response:
+                      remote=json.loads(response.read().decode("utf-8"))
+                  if remote.get("start_month")==local.get("start_month") and remote.get("end_month")==local.get("end_month") and remote.get("regions")==local.get("regions"):
+                      print("PUBLIC_HISTORY_CONFIRMED",remote["start_month"],remote["end_month"],len(remote["regions"]))
+                      break
+              except Exception:
+                  pass
+              time.sleep(10)
+          else:
+              raise SystemExit("Five-year archive was not confirmed on GitHub Pages")
+          PY
+      - name: Send one Kakao My Chat completion alert
+        env:
+          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+          KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+        run: python seoul-apartment-collector/kakao_self_alert.py --mode history5y
