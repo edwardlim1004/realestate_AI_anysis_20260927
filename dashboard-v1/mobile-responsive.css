@@ -1,0 +1,124 @@
+/* Mobile layout: same dashboard state, reorganized for touch and narrow screens. */
+.mobile-nav{display:none}
+@media(max-width:700px){
+  html{scroll-padding-top:12px;scroll-padding-bottom:84px}
+  body{overflow-x:hidden}
+  .app{display:block;min-height:100vh}
+  .sidebar{display:none}
+  .main{min-width:0;padding:12px 12px calc(88px + env(safe-area-inset-bottom))}
+  .topbar{display:block}
+  .topbar h1{font-size:18px;line-height:1.35;margin:0}
+  .subtitle{font-size:11px;line-height:1.5;margin-top:4px}
+  .tools{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:10px}
+  .tools>.input{grid-column:1/-1;width:100%;min-width:0;min-height:42px}
+  .tools .small{align-self:center}
+  .tools .version-row{display:none}
+
+  .filters{display:grid;grid-template-columns:76px minmax(0,1fr);align-items:center;gap:8px;margin:12px 0;padding:12px}
+  .filters>.filterlabel:first-child{grid-column:1/-1}
+  #topRegionTabs{grid-column:1/-1;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding-bottom:2px}
+  #topRegionTabs::-webkit-scrollbar{display:none}
+  #topRegionTabs .tab{flex:0 0 auto;min-height:40px;padding:9px 13px}
+  .filters>label[for]{display:block;font-size:11px;white-space:nowrap}
+  .filters>.select{grid-column:2;width:100%;max-width:none;min-width:0;min-height:42px}
+  #applyFilter{grid-column:1;min-height:42px}
+  #globalScopeNote{grid-column:2;text-align:right;line-height:1.4}
+
+  .layout{display:flex;flex-direction:column;gap:12px}
+  .layout>.column{display:contents}
+  #regional-map{order:1}
+  #regional{order:2}
+  #transactions{order:3}
+  #valuation{order:4}
+  #risk{order:5}
+  .twocol{order:6}
+  #economy{order:7}
+  .panel{border-radius:12px}
+  .panelhead{min-height:48px;padding:10px 12px;font-size:15px;gap:8px}
+  .headtag{font-size:10px;padding:4px 8px;white-space:normal;text-align:center}
+  .number{width:27px;height:27px;font-size:15px}
+  .panelbody{padding:12px}
+
+  #regional-map .sectionline{align-items:stretch}
+  #mapRegionTabs{flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none}
+  #mapRegionTabs .tab{min-height:40px}
+  #mapMetric{flex:1;min-width:130px;min-height:42px}
+  .map-zoomtoolbar{gap:6px}
+  .map-zoom-title{width:auto;margin-right:auto}
+  .map-zoom-btn{min-height:42px;min-width:42px}
+  .map-zoom-text{font-size:11px}
+  #mapZoomPercent{min-height:38px}
+  .map-viewport{min-height:280px}
+  .map{height:clamp(280px,82vw,360px);touch-action:pan-y}
+  .map-gesture-help{font-size:0;margin:7px 0}
+  .map-gesture-help:after{content:"두 손가락으로 확대하고, 지역을 터치해 선택하세요.";font-size:11px}
+  .legend{gap:7px 10px;font-size:10px}
+  .legend span{min-height:24px}
+  .map-inspect{font-size:13px;line-height:1.5;padding:11px}
+  .map-source,.note{line-height:1.55}
+
+  #regional .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  #regional .stat{padding:10px 7px}
+  #regional .stat b{font-size:17px}
+  #regional .table-scroll{max-height:none;overflow:visible;margin-top:10px}
+  #regional .tbl{display:block;width:100%}
+  #regional .tbl thead{display:none}
+  #regional .tbl tbody{display:grid;gap:8px}
+  #regional .tbl tbody tr{display:grid;grid-template-columns:34px minmax(0,1fr) auto;grid-template-areas:"rank name score" "rank price price" "rank trades trades";align-items:center;gap:3px 8px;padding:10px;border:1px solid #e3ebf4;border-radius:10px;background:#fff}
+  #regional .tbl tbody tr.selected{background:#e8f3ff;border-color:#8dbdf1}
+  #regional .tbl td{display:block;padding:2px 0;border:0;text-align:left;white-space:normal}
+  #regional .tbl td:nth-child(1){grid-area:rank;font-weight:800;color:#1763bb}
+  #regional .tbl td:nth-child(2){grid-area:name;font-size:14px;font-weight:800}
+  #regional .tbl td:nth-child(3){grid-area:score;text-align:right;font-size:16px;font-weight:900;color:#145fc2;white-space:nowrap}
+  #regional .tbl td:nth-child(4),#regional .tbl td:nth-child(7),#regional .tbl td:nth-child(8){display:none}
+  #regional .tbl td:nth-child(5){grid-area:price;color:#335571;font-size:12px}
+  #regional .tbl td:nth-child(5):before{content:"가격  ";font-weight:700;color:#72849a}
+  #regional .tbl td:nth-child(6){grid-area:trades;color:#5f748a;font-size:11px}
+  #regional .tbl td:nth-child(6):before{content:"거래  ";font-weight:700;color:#72849a}
+  #regional .panel-foot{align-items:flex-start}
+
+  #transactions .sectionline{align-items:stretch}
+  #tradeSearch{width:100%;min-width:0;min-height:42px}
+  #tradeStatus{line-height:1.5}
+  .trade-type-buttons{gap:6px}
+  .trade-type-buttons button{flex:1;min-height:44px;padding:8px 10px;font-size:13px}
+  #transactions .table-scroll{max-height:none;overflow:visible}
+  #transactions .tbl{display:block;width:100%}
+  #transactions .tbl thead{display:none}
+  #transactions .tbl tbody{display:grid;gap:8px}
+  #transactions .tbl tbody tr{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"date date" "apt apt" "area price";align-items:center;gap:4px 8px;padding:10px;border:1px solid #e3ebf4;border-radius:10px;background:#fff}
+  #transactions .tbl td{display:block;padding:0;border:0;text-align:left;white-space:normal}
+  #transactions .tbl td:nth-child(1){grid-area:date;color:#708198;font-size:11px}
+  #transactions .tbl td:nth-child(2){grid-area:apt;font-weight:800;font-size:13px;line-height:1.45}
+  #transactions .tbl td:nth-child(3){grid-area:area;color:#536a82;font-size:11px}
+  #transactions .tbl td:nth-child(3):before{content:"전용 "}
+  #transactions .tbl td:nth-child(4){display:none}
+  #transactions .tbl td:nth-child(5){grid-area:price;text-align:right;font-size:14px;font-weight:900;color:#155dbb;white-space:nowrap}
+
+  .focus-grid,.twocol{grid-template-columns:1fr}
+  .focus-left{align-items:center}
+  .apartment-tile{width:58px;height:62px;font-size:28px}
+  .mini-metrics{gap:6px}
+  .mini-metrics div{padding:10px 5px}
+  .mini-metrics b{font-size:13px}
+  .canvasbox{height:235px}
+  .canvasbox.tall{height:250px}
+  .risk-meta{align-items:stretch}
+  .risk-meta .select{min-height:40px}
+  .r-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .r-tabs .tab{flex:0 0 auto;min-height:42px}
+  .footer{padding:18px 2px 8px;font-size:10px}
+
+  .mobile-nav{position:fixed;z-index:1000;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);min-height:62px;padding:6px 8px calc(6px + env(safe-area-inset-bottom));background:#11243b;border-top:1px solid #35516e;box-shadow:0 -5px 18px #10243b24}
+  .mobile-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#dbe8fc;text-decoration:none;min-height:48px;border-radius:8px}
+  .mobile-nav a span{font-size:18px;line-height:1}
+  .mobile-nav a small{font-size:10px;font-weight:700}
+  .mobile-nav a:active,.mobile-nav a:focus-visible{color:#55e1d6;background:#1c3c5d;outline:none}
+}
+@media(max-width:370px){
+  .main{padding-left:9px;padding-right:9px}
+  .filters{grid-template-columns:68px minmax(0,1fr);padding:10px}
+  .panelhead{font-size:14px}
+  #regional .tbl tbody tr{grid-template-columns:30px minmax(0,1fr) auto;gap:3px 6px}
+  .map-zoom-text{padding-left:7px;padding-right:7px}
+}
