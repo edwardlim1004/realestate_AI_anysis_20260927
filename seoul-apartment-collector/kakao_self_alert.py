@@ -23,6 +23,7 @@ from pathlib import Path
 BASE = Path(__file__).resolve().parent
 PROGRESS = BASE / "backfill_progress.json"
 TOKEN_OBJECT = "internal/kakao-selfchat-refresh-v1.enc"
+HISTORY_SENT_OBJECT = "internal/kakao-five-year-trade-history-sent-v1"
 ISSUE_TITLE = "서울 아파트 실거래 과거자료 수집 완료 (2026-10)"
 COMMENT_MARK = "<!-- edward-kakao-sent:seoul-history-202610 -->"
 LINK = "https://edwardlim1004.github.io/realestate_AI_anysis_20260927/"
@@ -193,9 +194,36 @@ def record_sent_comment(issue):
     })
 
 
+def five_year_history_summary():
+    root=BASE.parent/"trade-details"/"history"
+    try:
+        report=json.loads((root/"build-report.json").read_text(encoding="utf-8"))
+        index=json.loads((root/"index.json").read_text(encoding="utf-8"))
+    except (OSError,ValueError):
+        print("KAKAO_SKIP: five-year public archive report unavailable")
+        return None
+    entries=report.get("regions",[])
+    months=report.get("months",[])
+    if len(months)!=60 or len(index.get("regions",{}))!=61 or len(entries)!=122:
+        print("KAKAO_SKIP: five-year archive scope is incomplete")
+        return None
+    if any(int(x.get("missing_scopes",1))>0 for x in entries):
+        print("KAKAO_SKIP: five-year archive has missing source scopes")
+        return None
+    if {(x.get("region"),x.get("kind")) for x in entries} != {
+        (region,kind) for region in index["regions"] for kind in ("sale","rent")
+    }:
+        print("KAKAO_SKIP: five-year archive region/type coverage mismatch")
+        return None
+    return report["start_month"],report["end_month"]
+
+
 def notify(mode,storage=None,refresh=None,send=send_to_me):
-    if mode not in ("complete","test","refresh"):
+    if mode not in ("complete","test","refresh","history5y"):
         raise ValueError("Invalid alert mode")
+    history_period=five_year_history_summary() if mode=="history5y" else None
+    if mode=="history5y" and not history_period:
+        return "skipped"
     required=("KAKAO_REST_API_KEY","KAKAO_CLIENT_SECRET","R2_ACCOUNT_ID",
               "R2_ACCESS_KEY_ID","R2_SECRET_ACCESS_KEY","R2_BUCKET_NAME")
     absent=[key for key in required if not os.getenv(key)]
@@ -222,6 +250,17 @@ def notify(mode,storage=None,refresh=None,send=send_to_me):
 
     from cryptography.fernet import Fernet
     client=storage or r2_client()
+    if mode=="history5y":
+        from botocore.exceptions import ClientError
+        try:
+            client.head_object(Bucket=os.environ["R2_BUCKET_NAME"],Key=HISTORY_SENT_OBJECT)
+            print("KAKAO_SKIP: five-year completion message already sent")
+            return "already_sent"
+        except ClientError as error:
+            code=str(error.response.get("Error",{}).get("Code",""))
+            status=error.response.get("ResponseMetadata",{}).get("HTTPStatusCode")
+            if code not in ("NoSuchKey","404","NotFound") and status!=404:
+                raise NotificationError("Unable to verify prior five-year Kakao notification") from None
     cipher=token_cipher_secret()
     refresh_token=refresh if refresh is not None else get_refresh_token(client,cipher)
     if not refresh_token:
@@ -237,10 +276,17 @@ def notify(mode,storage=None,refresh=None,send=send_to_me):
     if mode=="refresh":
         return "refreshed"
     if mode=="test":
-        text="[테스트] 서울 아파트 수집 알림 연결 확인\n이 메시지는 실제 수집 완료 알림이 아닙니다."
+        text="[테스트] 서울 아파트 수집 알림 연결 확인\\n이 메시지는 실제 수집 완료 알림이 아닙니다."
+    elif mode=="history5y":
+        start_month,end_month=history_period
+        text=f"[부동산 실거래 5년 누적 완료]\\n기간 {start_month[:4]}.{start_month[4:]}~{end_month[:4]}.{end_month[4:]} · 서울·경기·대전 61개 지역\\n매매·전월세 기록을 사이트에서 확인할 수 있습니다."
     else:
-        text="[서울 아파트 과거자료 수집 완료]\n매매 6,250개 / 전월세 4,750개\n총 11,000개 지역·계약월 R2 저장 확인\nGitHub에서 검증결과 확인"
+        text="[서울 아파트 과거자료 수집 완료]\\n매매 6,250개 / 전월세 4,750개\\n총 11,000개 지역·계약월 R2 저장 확인\\nGitHub에서 검증결과 확인"
     send(access,text)
+    if mode=="history5y":
+        client.put_object(Bucket=os.environ["R2_BUCKET_NAME"],Key=HISTORY_SENT_OBJECT,
+                          Body=b"sent",ContentType="text/plain",ServerSideEncryption="AES256")
+        print("KAKAO_COMPLETE: five-year message sent and idempotency marker saved")
     if issue is not None:
         record_sent_comment(issue)
         print("KAKAO_COMPLETE: one-time message sent and GitHub issue marked")
@@ -251,7 +297,7 @@ def notify(mode,storage=None,refresh=None,send=send_to_me):
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument("--mode",choices=("test","complete","refresh"),required=True)
+    parser.add_argument("--mode",choices=("test","complete","refresh","history5y"),required=True)
     args=parser.parse_args()
     try:
         notify(args.mode)
