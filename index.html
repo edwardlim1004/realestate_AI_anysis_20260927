@@ -3,6 +3,7 @@
 <meta name="description" content="서울·경기·대전 부동산 투자 분석. 지역 상대매력도, 5년 실거래 평가, 역사적 위험과 실제 거래내역을 구분합니다.">
 <title>부동산 AI 투자 분석 · ver1.0</title>
 <link rel="stylesheet" href="dashboard-v1/styles.css?v=20261106-rental1">
+<link rel="stylesheet" href="dashboard-v1/mobile-responsive.css?v=20261113-mobile1">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
 <script src="data.js" defer></script><script src="risk-data.js" defer></script>
 <script src="dashboard-v1/region-boundaries.js" defer></script>
@@ -111,6 +112,12 @@
 </div></section>
 <section class="panel" id="economy"><div class="panelhead"><span class="number">5</span><span>전국 공식 거시지표 · 검증상태</span><span class="headtag">서울·경기·대전 공통</span></div><div class="panelbody"><div class="sectionline"><select class="select" id="macroMetric"><option value="credit">신용 위험백분위</option><option value="valuation">가격평가 백분위</option><option value="momentum">실질주택가격 모멘텀 백분위</option></select><span class="small" id="macroPeriod"></span></div><div class="canvasbox" style="height:135px"><canvas id="macroChart" aria-label="전국 공식 거시지표 추이"></canvas></div><div class="note">한국 전국 단위 OECD·BIS 자료입니다. 시군구별 국고채 금리나 신용위험으로 표시하지 않습니다.</div></div></section>
 </div></div>
+<nav class="mobile-nav" aria-label="모바일 빠른 메뉴">
+<a href="#regional-map"><span aria-hidden="true">⌖</span><small>지도</small></a>
+<a href="#regional"><span aria-hidden="true">▤</span><small>지역 순위</small></a>
+<a href="#transactions"><span aria-hidden="true">◷</span><small>실거래</small></a>
+<a href="#risk"><span aria-hidden="true">◉</span><small>위험 분석</small></a>
+</nav>
 <footer class="footer">출처: 국토교통부 아파트 매매·전월세 실거래, OECD·BIS 공식 거시계열, 국가공간정보포털 기반 행정경계. 상대점수·단기 참고지표는 연구용이며 손실위험 확률이 아닙니다. <a href="ver0/">ver0.0 원본 화면</a> · <a href="risk-data/source_registry.csv">위험지표 출처 CSV</a> · <a href="https://github.com/edwardlim1004/realestate_AI_anysis_20260927">소스 저장소</a></footer>
 </div></div>
 </body></html>
