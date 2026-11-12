@@ -46,6 +46,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           python seoul-apartment-collector/build_metro_history.py
+          for city in seoul gyeonggi daejeon; do
+            python seoul-apartment-collector/build_metro_history.py --city "$city" --workers 8
+          done
           git add -f dashboard-v1/data/metro-history/
           if ! git diff --cached --quiet; then
             git commit -m "data: publish monthly metro history and contracts"

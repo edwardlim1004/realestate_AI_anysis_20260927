@@ -1,13 +1,13 @@
 /* Public monthly histories; raw storage credentials never reach the browser. */
 (function(){
 'use strict';
-const $=id=>document.getElementById(id),names={busan:'부산',daegu:'대구',gwangju:'광주'},types={sale:'매매',jeonse:'전세',monthly:'월세'};
-const base='dashboard-v1/data/metro-history/';let city='busan',index,series,chart,request=0;
+const $=id=>document.getElementById(id),names={seoul:'서울',gyeonggi:'경기',daejeon:'대전',busan:'부산',daegu:'대구',gwangju:'광주'},types={sale:'매매',jeonse:'전세',monthly:'월세'};
+const base='dashboard-v1/data/metro-history/';let city='seoul',activeArea='seoul',series,chart,request=0;const indexes={};
 const cache={};const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num=x=>x==null?'—':Number(x).toLocaleString('ko-KR',{maximumFractionDigits:2});
 const date=x=>x.slice(0,4)+'-'+x.slice(4);
 function status(r){return ({missing:'미수집',not_available:'제공기간 이전',alias_review_required:'행정코드 중복 검토',error:'자료 확인 필요'})[r?.status]||'거래 없음';}
-async function json(path,compressed=false){const r=await fetch(base+path,{cache:'no-cache'});if(!r.ok)throw Error('자료 생성 또는 갱신 중입니다. 잠시 후 다시 조회해 주세요.');if(!compressed)return r.json();const bytes=await r.arrayBuffer();return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).json();}
+async function json(path,compressed=false){const r=await fetch(base+path,{cache:'no-cache'});if(!r.ok)throw Error('자료 생성 또는 갱신 중입니다. 잠시 후 다시 조회해 주세요.');if(!compressed)return r.json();const bytes=await r.arrayBuffer();const header=new Uint8Array(bytes);if(header[0]!==31||header[1]!==139)return new Response(bytes).json();return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).json();}
 function metrics(ym,type){const r=series.months[ym]?.[type==='sale'?'sale':'rent'];return {record:r,value:r?.metrics?.[type]};}
 function render(){
  if(!series)return;
@@ -29,17 +29,21 @@ function renderContracts(){
  let chosen=selected,rows=[],record;
  const months=Object.keys(series.months).filter(m=>m<=selected&&m>=$('metroFrom').value.replace('-','')).sort().reverse();
  for(const ym of months){const item=metrics(ym,type);const matching=(item.record?.latest?.[type]||[]).filter(r=>[r.apt,r.dong,r.jibun].join(' ').toLowerCase().includes(query));if(matching.length){chosen=ym;rows=matching;record=item.record;break;}}
- $('metroContractsStatus').textContent=rows.length?`${chosen===selected?'선택월 기록':'과거 최근 기록'} · ${date(chosen)} · ${rows.length}행 표시 · 월별 거래유형 최신 70행 내 검색 (전 면적)`:`조회기간의 공개 표본에서 일치하는 기록이 없습니다. 월별 최신 70행만 공개하므로 전체 거래 부재를 뜻하지 않습니다.`;
+ $('metroContractsStatus').textContent=rows.length?`${chosen===selected?'선택월 기록':'과거 공개 표본 중 최근 기록'} · ${date(chosen)} · ${rows.length}행 표시 · 월별 거래유형 최신 70행 내 검색 (전 면적)`:`조회기간의 공개 표본에서 일치하는 기록이 없습니다. 월별 최신 70행만 공개하므로 전체 거래 부재를 뜻하지 않습니다.`;
  $('metroContractRows').innerHTML=rows.map(r=>`<tr><td>${esc(r.date)}</td><td><b>${esc(r.apt)}</b><br>${esc(r.city+' '+r.dong+' '+r.jibun)}</td><td>${esc(r.area)}㎡</td><td>${esc(r.floor)}</td><td>${type==='sale'?num(r.price):num(r.deposit)}만원${type==='monthly'?'<br>월 '+num(r.monthlyRent)+'만원':''}</td></tr>`).join('')||'<tr><td colspan="5">표시할 공개 표본이 없습니다.</td></tr>';
 }
 async function loadDistrict(){const seq=++request;series=null;$('metroHistoryStatus').textContent='월별 기록을 불러오는 중…';$('metroMonthlyRows').innerHTML='';$('metroContractRows').innerHTML='';if(chart){chart.destroy();chart=null;}
  try{const file=$('metroDistrict').value;if(!file)throw Error('조회 가능한 지역 자료를 생성 중입니다.');const data=cache[file]||(cache[file]=await json(file,true));if(seq!==request)return;series=data;$('metroFrom').value=date(data.start);$('metroTo').value=date(data.end);render();}catch(e){if(seq===request)$('metroHistoryStatus').textContent=e.message;}}
-async function open(value){city=value;document.body.classList.add('metro-mode');$('metroHistory').hidden=false;$('metroHeading').textContent=names[city]+' 아파트 · 과거부터 현재까지';
- document.querySelectorAll('#topRegionTabs button').forEach(b=>{const yes=b.dataset.metro===city;b.classList.toggle('active',yes);b.setAttribute('aria-pressed',String(yes));});
+async function open(value){city=value;series=null;$('metroMonthlyRows').innerHTML='';$('metroContractRows').innerHTML='';$('metroContractsStatus').textContent='';$('metroDistrict').innerHTML='';$('metroCity').value=city;if(chart){chart.destroy();chart=null;}document.body.classList.add('metro-mode');$('metroHistory').hidden=false;$('metroHeading').textContent=names[city]+' 아파트 · 과거부터 현재까지';
+ document.querySelectorAll('#topRegionTabs button').forEach(b=>{const yes=(b.dataset.metro||b.dataset.area)===city;b.classList.toggle('active',yes);b.setAttribute('aria-pressed',String(yes));});
  $('metroHistoryStatus').textContent='월별 자료 목록 확인 중…';const seq=++request;
- try{index=index||await json('index.json');if(seq!==request)return;$('metroDistrict').innerHTML=index.cities[city].filter(d=>d.status==='ready').map(d=>`<option value="${esc(d.file)}">${esc(d.name)}</option>`).join('');await loadDistrict();}catch(e){if(seq===request)$('metroHistoryStatus').textContent=e.message;}}
+ try{const indexKey=['seoul','gyeonggi','daejeon'].includes(value)?'index-'+value+'.json':'index.json';const index=indexes[indexKey]||(indexes[indexKey]=await json(indexKey));if(seq!==request)return;$('metroDistrict').innerHTML=(index.cities[value]||[]).filter(d=>d.status==='ready').map(d=>`<option value="${esc(d.file)}">${esc(d.name)}</option>`).join('');await loadDistrict();}catch(e){if(seq===request)$('metroHistoryStatus').textContent=e.message;}}
  document.querySelectorAll('[data-metro]').forEach(b=>b.addEventListener('click',()=>open(b.dataset.metro)));
- document.querySelectorAll('[data-area]').forEach(b=>b.addEventListener('click',()=>{++request;document.body.classList.remove('metro-mode');$('metroHistory').hidden=true;document.querySelectorAll('[data-metro]').forEach(x=>{x.classList.remove('active');x.setAttribute('aria-pressed','false');});}));
+ function close(){++request;document.body.classList.remove('metro-mode');$('metroHistory').hidden=true;document.querySelectorAll('[data-metro]').forEach(x=>{x.classList.remove('active');x.setAttribute('aria-pressed','false');});}
+ document.querySelectorAll('[data-area]').forEach(b=>b.addEventListener('click',()=>{activeArea=b.dataset.area;if(document.body.classList.contains('metro-mode'))void open(activeArea);else close();}));
+ document.querySelectorAll('[data-open-history]').forEach(b=>b.addEventListener('click',()=>open(activeArea)));
+ $('metroCity').addEventListener('change',()=>open($('metroCity').value));
+ $('metroClose').addEventListener('click',()=>{close();document.querySelector('#topRegionTabs [data-area="'+activeArea+'"]').click();});
  $('metroDistrict').addEventListener('change',loadDistrict);['metroType','metroFrom','metroTo'].forEach(id=>$(id).addEventListener('change',render));$('metroContractMonth').addEventListener('change',renderContracts);$('metroContractSearch').addEventListener('input',renderContracts);
  $('metroDownload').addEventListener('click',()=>{if(!series)return;const type=$('metroType').value;const lines=['계약월,가격또는보증금_만원,월임대료_만원,원본행수,상태'];for(const m of Object.keys(series.months)){if(m<$('metroFrom').value.replace('-','')||m>$('metroTo').value.replace('-',''))continue;const {record:r,value:v}=metrics(m,type);lines.push([m,v?.median_manwon??'',v?.monthly_rent_median_manwon??'',v?.rows??'',r?.status??'missing'].join(','));}const url=URL.createObjectURL(new Blob(['\ufeff'+lines.join('\n')],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=`${city}-${series.code}-${type}-monthly.csv`;a.click();URL.revokeObjectURL(url);});
 })();
