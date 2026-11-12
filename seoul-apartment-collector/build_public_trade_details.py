@@ -25,7 +25,7 @@ from regions import in_month, full_name, DISTRICTS
 from collect import row
 
 DISPLAY_FIELDS = ("date", "apt", "city", "dong", "jibun", "area", "floor", "year", "price", "type", "code")
-VERSION = 1
+VERSION = 2
 
 
 def dashboard_periods():
@@ -125,12 +125,15 @@ def build_region(name, codes, months, storage, files, *, force=False, kind="sale
                 by_month[month] += 1
             else:
                 removed += 1
+    unique = {json.dumps(item, ensure_ascii=False, sort_keys=True, separators=(",", ":")): item for item in rows}
+    duplicate_rows = len(rows) - len(unique)
+    rows = list(unique.values())
     rows.sort(key=lambda item: (item["date"], item["apt"], item.get("price", item.get("deposit", ""))), reverse=True)
     snapshot = {
         "schema": VERSION, "region": name, "codes": codes, "months": months,
         "source_digest": digest, "updated_at_kst": datetime.now(ZoneInfo("Asia/Seoul")).isoformat(timespec="seconds"),
         "source": "국토교통부 아파트 " + ("매매" if kind == "sale" else "전월세") + " 실거래 원자료 (비공개 R2/Google Drive 저장본)",
-        "by_month": by_month, "raw_by_month": raw_counts, "excluded_rows": removed,
+        "by_month": by_month, "raw_by_month": raw_counts, "excluded_rows": removed, "duplicate_rows": duplicate_rows,
         "coverage": {"expected_scopes": len(sources), "verified_scopes": len(sources), "missing_scopes": 0},
         "rows": rows,
     }
@@ -138,7 +141,7 @@ def build_region(name, codes, months, storage, files, *, force=False, kind="sale
     tmp = target.with_suffix(".json.tmp")
     tmp.write_text(json.dumps(snapshot, ensure_ascii=False, separators=(",", ":"), allow_nan=False) + "\n", encoding="utf-8")
     tmp.replace(target)
-    return {"region": name, "status": "updated", "count": len(rows), "excluded": removed}
+    return {"region": name, "status": "updated", "count": len(rows), "excluded": removed, "duplicate_rows": duplicate_rows}
 
 
 def build_all(storage, months, names, *, force=False, kind="sale"):
