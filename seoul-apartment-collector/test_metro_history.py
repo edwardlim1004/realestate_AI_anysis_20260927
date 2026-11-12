@@ -11,6 +11,13 @@ class HistoryTests(unittest.TestCase):
   files={f'sale/2026/{c}/202611.csv.gz':{'sha256':c,'rows':1} for c in ['27720','47720']}
   result=h.month_record(['27720','47720'],'202611','sale',files,lambda *x:gzip.compress('계약년월,원본항목JSON\n202611,{}\n'.encode()))
   self.assertEqual('alias_review_required',result['status']);self.assertNotIn('metrics',result)
+ def test_seoul_gyeonggi_coverage(self):
+  self.assertEqual(25,len(h.HISTORY_REGIONS['seoul']))
+  self.assertEqual(47,len(h.HISTORY_REGIONS['gyeonggi']))
+  self.assertEqual('송파구',h.HISTORY_REGIONS['seoul']['11710'])
+  self.assertEqual('성남시 분당구',h.HISTORY_REGIONS['gyeonggi']['41135'])
+  self.assertNotIn('41190',h.HISTORY_REGIONS['gyeonggi'])
+
  def test_wrong_month_rejected(self):
   with self.assertRaises(ValueError):h.month_record(['26110'],'202611','sale',{'sale/2026/26110/202611.csv.gz':{'sha256':'a'}},lambda *x:gzip.compress('계약년월\n202610\n'.encode()))
 if __name__=='__main__':unittest.main()
