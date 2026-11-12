@@ -79,8 +79,9 @@
 <section class="panel" id="transactions" aria-labelledby="transTitle"><div class="panelhead teal"><span class="number">▣</span><span id="transTitle">실거래 상세 · 주소·계약내용</span><span class="headtag" id="transactionRegion">지역 선택</span></div>
 <div class="panelbody">
 <div class="trade-type-buttons" role="group" aria-label="실거래 거래유형"><button type="button" data-trade-type="sale" aria-pressed="true">매매</button><button type="button" data-trade-type="jeonse" aria-pressed="false">전세</button><button type="button" data-trade-type="monthly" aria-pressed="false">월세</button></div>
-<div class="sectionline"><input class="input" id="tradeSearch" type="search" placeholder="아파트명·법정동·지번 검색"><span class="small" id="tradeStatus">공식 공개 거래자료 연결 확인 중…</span></div>
-<div class="table-scroll" style="max-height:265px;margin-top:9px"><table class="tbl"><thead><tr><th>계약일</th><th>단지·주소</th><th>전용면적</th><th>층</th><th id="tradePriceHeader">매매가격</th></tr></thead><tbody id="tradeRows"></tbody></table></div>
+<div class="sectionline trade-tools"><input class="input" id="tradeSearch" type="search" placeholder="아파트명·법정동·지번 검색"><select class="select" id="tradeRange" aria-label="실거래 조회기간"><option value="5y" selected>최근 5년 누적</option><option value="recent">최근 2개월</option></select><span class="small" id="tradeStatus">공식 공개 거래자료 연결 확인 중…</span></div>
+<div class="table-scroll" style="max-height:360px;margin-top:9px"><table class="tbl"><thead><tr><th>계약일</th><th>단지·주소</th><th>전용면적</th><th>층</th><th id="tradePriceHeader">매매가격</th></tr></thead><tbody id="tradeRows"></tbody></table></div>
+<button type="button" id="tradeMore" class="trade-more" hidden>더 많은 거래 보기</button>
 <div class="note" id="tradeLimit" style="margin-top:8px">수집·공개된 범위만 표시하며, 수집되지 않은 거래를 임의로 생성하지 않습니다.</div>
 </div></section>
 </div>
