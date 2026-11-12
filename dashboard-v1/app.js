@@ -347,15 +347,48 @@ function tradeIndexMatch(index,district){
  const k=Object.keys(e).find(key=>shortName(key)===district&&e[key].codes?.every(c=>c.startsWith("41")));
  return k?{key:k,item:e[k]}:null;
 }
-let tradeRowsRequest=0;
+let tradeRowsRequest=0,tradeRowsShown=70;
+async function loadTradeHistory(match,type,request,seq){
+ const key="tradeHistoryIndex";
+ if(!cache.trades[key])cache.trades[key]=await fetchJSON("trade-details/history/index.json");
+ const index=cache.trades[key],entry=index.regions?.[match.key];
+ if(!entry)throw new Error("5년 상세 자료 미지원 지역");
+ const file=entry.files?.[type==="sale"?"sale":"rent"];
+ if(!file)throw new Error("5년 상세 자료 미생성");
+ const cacheKey="history:"+match.key+":"+type;
+ if(!cache.trades[cacheKey]){
+  const res=await fetch("trade-details/history/"+file,{cache:"no-store"});
+  if(!res.ok)throw new Error("5년 자료 HTTP "+res.status);
+  if(!("DecompressionStream" in window))throw new Error("이 브라우저는 압축자료 열기를 지원하지 않습니다.");
+  const stream=new Blob([await res.arrayBuffer()]).stream().pipeThrough(new DecompressionStream("gzip"));
+  cache.trades[cacheKey]=await new Response(stream).json();
+ }
+ if(request!==tradeRowsRequest||seq!==asyncSeq)return null;
+ return cache.trades[cacheKey];
+}
 async function renderTransactionRows(){
  const request=++tradeRowsRequest,seq=asyncSeq,type=state.tradeType,key=tradeCacheKey();
- const query=$("tradeSearch").value.trim().toLowerCase(),records=cache.trades[key]||[];
+ const query=$("tradeSearch").value.trim().toLowerCase(),recent=cache.trades[key]||[];
  const matches=r=>!query||[r.apt,r.city,r.dong,r.jibun].join(" ").toLowerCase().includes(query);
+ let records=recent,meta=cache.trades[key+"_meta"]||{},history=null;
+ const isFiveYear=$("tradeRange")?.value==="5y";
+ if(isFiveYear){
+  try{
+   const idx=await getTradeIndex(),match=tradeIndexMatch(idx,state.district);
+   history=await loadTradeHistory(match,type,request,seq);
+   if(!history)return;
+   records=history.rows||[];
+  }catch(e){
+   if(request!==tradeRowsRequest||seq!==asyncSeq)return;
+   $("tradeRows").innerHTML='<tr><td colspan="5">이 지역의 5년 상세 거래파일을 아직 불러올 수 없습니다.</td></tr>';
+   $("tradeMore").hidden=true;
+   txt("tradeStatus","5년 누적자료 확인 필요");
+   txt("tradeLimit","지역별 공식 원자료 보관 범위 및 생성 상태를 확인 중입니다. 최근 공개 자료를 보려면 ‘최근 2개월’을 선택하세요.");
+   return;
+  }
+ }
  let matched=records.filter(r=>(type==="sale"||r.rentalType===type)&&matches(r));
- const meta=cache.trades[key+"_meta"]||{};
- let historical=false,history=null;
- if(!matched.length){
+ if(!isFiveYear&&!matched.length){
   const file=cache.trades[key+"_file"];
   if(file){
    txt("tradeStatus","최신 기간에 일치 기록 없음 · 가장 가까운 과거 계약 조회 중…");
@@ -366,28 +399,31 @@ async function renderTransactionRows(){
     if(request!==tradeRowsRequest||seq!==asyncSeq)return;
     history=cache.trades[historyKey];
     matched=(history.rows||[]).filter(r=>r.rentalType===type&&matches(r));
-    historical=matched.length>0;
    }catch(e){
     if(request!==tradeRowsRequest||seq!==asyncSeq)return;
-    txt("tradeStatus","최신 기간 일치 기록 없음 · 과거 자료 연결 확인 중");
+    txt("tradeStatus","최신 기간 일치 기록 없음 · 과거 자료 확인 중");
     $("tradeRows").innerHTML='<tr><td colspan="5">과거 기록 조회파일이 준비 중이거나 연결되지 않았습니다. 거래가 없다는 의미는 아닙니다.</td></tr>';return;
    }
   }
  }
  if(request!==tradeRowsRequest||seq!==asyncSeq)return;
  matched.sort((a,b)=>b.date.localeCompare(a.date));
- const shown=matched.slice(0,70);
- if(historical){
-  txt("tradeStatus","과거 최근 기록 · 계약일 "+matched[0].date+" · "+matched.length.toLocaleString()+"건 일치");
+ const shown=matched.slice(0,tradeRowsShown);
+ if(isFiveYear){
+  const missing=(history.missing_months||[]).length;
+  txt("tradeStatus",matched.length.toLocaleString()+"건 검색 일치 / "+records.filter(r=>type==="sale"||r.rentalType===type).length.toLocaleString()+"건 공개 · "+(history.start_month||"")+"~"+(history.end_month||""));
+  txt("tradeLimit","공식 보관 원자료 누적 · "+(history.generated_at_kst||"")+" 생성 · "+(missing?missing+"개 월 자료 미확보":"요청 기간 자료 확인")+(history.duplicate_rows? " · 완전 동일 "+history.duplicate_rows+"행 제외":"")+" · 계약일 최신순");
+ }else if(history){
+  txt("tradeStatus","과거 최근 기록 · 계약일 "+matched[0]?.date+" · "+matched.length.toLocaleString()+"건 일치");
   txt("tradeLimit","최신 공개기간에 일치하는 "+tradeLabel()+" 계약이 없어, 단지·주소별 가장 최근 계약일의 기록을 표시합니다. 조회 범위 "+history.earliest_scanned_month+" ~ "+history.before_month+" 이전 · "+(history.archive_scan_complete?"보관자료 조회 완료":"더 오래된 보관자료 추가 확인 중")+" · 과거 가격이며 현재 시세가 아닙니다.");
  }else{
   txt("tradeStatus",matched.length.toLocaleString()+"건 검색 일치 / "+records.filter(r=>type==="sale"||r.rentalType===type).length.toLocaleString()+"건 공개 · "+(meta.months||[]).join(" / "));
-  txt("tradeLimit",history?"확인된 과거 보관자료에도 일치 기록이 없습니다. "+(history.archive_scan_complete?"보관자료 조회 완료":"더 오래된 보관자료는 추가 확인 중입니다."):(meta.months||[]).join(" / ")+" 공개 "+tradeLabel()+" 계약 기준 · "+(meta.updated_at_kst||"")+" 갱신 · 최신 70건 표시, 검색으로 상세 확인.");
+  txt("tradeLimit",(meta.months||[]).join(" / ")+" 공개 "+tradeLabel()+" 계약 기준 · "+(meta.updated_at_kst||"")+" 갱신 · 최신순");
  }
- $("tradeRows").innerHTML=shown.length?shown.map(r=>'<tr><td>'+esc(r.date)+'</td><td style="text-align:left"><b>'+esc(r.apt)+'</b><div class="small">'+esc([r.city,r.dong,r.jibun].filter(Boolean).join(" "))+'</div></td><td>'+esc(r.area)+'㎡</td><td>'+esc(r.floor)+'</td><td>'+(state.tradeType==="sale"?moneyMan(r.price):state.tradeType==="jeonse"?depositMoney(r.deposit):"보증금 "+depositMoney(r.deposit)+"<br><span class=small>월 "+esc(Number(r.monthlyRent).toLocaleString())+"만원</span>")+'</td></tr>').join(""):'<tr><td colspan="5">표시할 거래가 없습니다.</td></tr>';
-}
-async function renderTransactions(seq){
- ++tradeRowsRequest;
+ $("tradeRows").innerHTML=shown.length?shown.map(r=>'<tr><td>'+esc(r.date)+'</td><td style="text-align:left"><b>'+esc(r.apt)+'</b><div class="small">'+esc([r.city,r.dong,r.jibun].filter(Boolean).join(" "))+'</div></td><td>'+esc(r.area)+'㎡</td><td>'+esc(r.floor)+'</td><td>'+(type==="sale"?moneyMan(r.price):type==="jeonse"?depositMoney(r.deposit):"보증금 "+depositMoney(r.deposit)+"<br><span class=small>월 "+esc(Number(r.monthlyRent).toLocaleString())+"만원</span>")+'</td></tr>').join(""):'<tr><td colspan="5">표시할 거래가 없습니다.</td></tr>';
+ const more=$("tradeMore");more.hidden=shown.length>=matched.length;more.textContent="더 많은 거래 보기 ("+shown.length.toLocaleString()+" / "+matched.length.toLocaleString()+")";
+}async function renderTransactions(seq){
+ ++tradeRowsRequest;tradeRowsShown=70;
  document.querySelectorAll("[data-trade-type]").forEach(el=>el.setAttribute("aria-pressed",String(el.dataset.tradeType===state.tradeType)));
  txt("tradePriceHeader",state.tradeType==="sale"?"매매가격":state.tradeType==="jeonse"?"전세 보증금":"보증금 / 월 임대료");
  txt("tradeStatus","공식 실거래 원자료 조회 중…");
@@ -427,7 +463,9 @@ function bind(){
  $("riskTabs").querySelectorAll("[data-tab]").forEach(el=>el.addEventListener("click",()=>setRiskTab(el.dataset.tab)));
  $("historyMetric").addEventListener("change",drawRiskHistory);
  $("macroMetric").addEventListener("change",drawMacro);
- $("tradeSearch").addEventListener("input",renderTransactionRows);
+ $("tradeSearch").addEventListener("input",()=>{tradeRowsShown=70;renderTransactionRows();});
+ $("tradeRange").addEventListener("change",()=>{tradeRowsShown=70;renderTransactionRows();});
+ $("tradeMore").addEventListener("click",()=>{tradeRowsShown+=70;renderTransactionRows();});
  document.querySelectorAll("[data-trade-type]").forEach(el=>el.addEventListener("click",()=>{state.tradeType=el.dataset.tradeType;renderAll();}));
  $("aptSearch").addEventListener("input",()=>{state.aptIndex=0;renderValuation(asyncSeq);});
  $("unifiedSearch").addEventListener("keydown",e=>{if(e.key!=="Enter")return;const q=e.target.value.trim();if(!q)return;const row=(SOURCE?.regions||[]).find(r=>r.name.includes(q)||shortName(r.name)===q);if(row){state.area=row.province;state.district=shortName(row.name);renderAll();focusSelectedMapRegion();document.getElementById("regional").scrollIntoView({behavior:"smooth"});return;}$("aptSearch").value=q;renderValuation(asyncSeq);document.getElementById("valuation").scrollIntoView({behavior:"smooth"});});
