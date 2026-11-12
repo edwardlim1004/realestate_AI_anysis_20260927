@@ -8,7 +8,7 @@
 <script src="dashboard-v1/region-boundaries.js" defer></script>
 <script src="dashboard-v1/map-navigation.js?v=20261031-zoom2" defer></script>
 <script src="dashboard-v1/app.js?v=20261108-history1" defer></script>
-<script src="dashboard-v1/metro-history.js?v=20261110-1" defer></script>
+<script src="dashboard-v1/metro-history.js?v=20261112-review1" defer></script>
 <style>.metro-mode .layout{display:none}.metro-mode .filters>label,.metro-mode .filters>select,.metro-mode #applyFilter,.metro-mode #globalScopeNote,.metro-mode .tools>input,.metro-mode #updatedAt{display:none}#metroHistory[hidden]{display:none}#metroHistory .sectionline{flex-wrap:wrap;gap:10px}#metroHistory .tbl td{white-space:normal}#topRegionTabs{flex-wrap:wrap}</style>
 </head><body>
 <div class="app">
@@ -36,15 +36,15 @@
 <label class="filterlabel" for="periodSelect">가격기준</label><select id="periodSelect" class="select"><option value="complete">최신 완결월</option><option value="provisional">현재월(잠정)</option></select>
 <label class="filterlabel" for="typeSelect">거래유형</label><select id="typeSelect" class="select"><option value="sale">매매</option><option value="jeonse">전세</option><option value="monthly">월세</option></select>
 <button id="applyFilter" class="action primary">적용</button>
-<span class="small" id="globalScopeNote">서울 25개 구</span>
+<button class="action" data-open-history>과거~현재 월별 실거래</button><span class="small" id="globalScopeNote">서울 25개 구</span>
 </div>
 <section class="panel" id="metroHistory" hidden aria-labelledby="metroHeading">
-<div class="panelhead teal"><span id="metroHeading">광역시 월별 실거래</span><span class="headtag">국토교통부 저장자료</span></div><div class="panelbody">
-<div class="sectionline"><label>시군구 <select class="select" id="metroDistrict"></select></label><label>거래유형 <select class="select" id="metroType"><option value="sale">매매</option><option value="jeonse">전세</option><option value="monthly">월세</option></select></label><label>시작월 <input class="input" id="metroFrom" type="month" value="2006-01"></label><label>종료월 <input class="input" id="metroTo" type="month"></label><button class="action" id="metroDownload">월별 CSV 다운로드</button></div>
+<div class="panelhead teal"><span id="metroHeading">전 지역 월별 실거래</span><span class="headtag">국토교통부 저장자료</span></div><div class="panelbody">
+<div class="sectionline"><label>지역 <select class="select" id="metroCity"><option value="seoul">서울</option><option value="gyeonggi">경기</option><option value="daejeon">대전</option><option value="busan">부산</option><option value="daegu">대구</option><option value="gwangju">광주</option></select></label><label>시군구 <select class="select" id="metroDistrict"></select></label><label>거래유형 <select class="select" id="metroType"><option value="sale">매매</option><option value="jeonse">전세</option><option value="monthly">월세</option></select></label><label>시작월 <input class="input" id="metroFrom" type="month" value="2006-01"></label><label>종료월 <input class="input" id="metroTo" type="month"></label><button class="action" id="metroDownload">월별 CSV 다운로드</button><button class="action" id="metroClose">분석 대시보드로 돌아가기</button></div>
 <p class="note" id="metroHistoryStatus" role="status"></p><div class="canvasbox" style="height:300px"><canvas id="metroHistoryChart" aria-label="월별 매매·전세·월세 가격 추이"></canvas></div>
 <p class="note">매매 2006년 1월부터 · 전월세 2011년 1월부터 현재월까지. 가격·행수는 전용 80~90㎡ 기준입니다. 누락월은 연결하거나 0원으로 대체하지 않습니다. 중위가격은 거래된 단지 구성에 영향을 받으며 가격지수가 아닙니다. 월세 보증금과 임대료는 각각의 중위값입니다. 동일 반복행은 보존하며 확정 고유 거래 건수가 아닙니다.</p>
 <div class="table-scroll" style="max-height:330px"><table class="tbl"><thead><tr><th>계약월</th><th>가격 / 보증금 (만원)</th><th>월 임대료 (만원)</th><th>원본 행수 (80~90㎡)</th><th>자료 상태</th></tr></thead><tbody id="metroMonthlyRows"></tbody></table></div>
-<h3>실거래 상세 · 선택월 및 가장 가까운 과거 기록</h3><div class="sectionline"><label>계약월 <select id="metroContractMonth" class="select"></select></label><input id="metroContractSearch" class="input" type="search" aria-label="광역시 계약 검색" placeholder="단지·법정동·지번 (공개 표본 내)"></div><p id="metroContractsStatus" class="note" role="status"></p>
+<h3>실거래 상세 · 선택월 및 가장 가까운 과거 기록</h3><div class="sectionline"><label>계약월 <select id="metroContractMonth" class="select"></select></label><input id="metroContractSearch" class="input" type="search" aria-label="과거 계약 검색" placeholder="단지·법정동·지번 (공개 표본 내)"></div><p id="metroContractsStatus" class="note" role="status"></p>
 <div class="table-scroll" style="max-height:340px"><table class="tbl"><thead><tr><th>계약일</th><th>단지·주소</th><th>전용면적</th><th>층</th><th>계약금액</th></tr></thead><tbody id="metroContractRows"></tbody></table></div>
 <p class="note">최신 일치 기록이 없으면 조회기간 안의 이전 공개 표본으로 이동하며 실제 계약일을 표시합니다. 과거 가격은 현재 시세가 아닙니다. 지역 점수·위험모형·지도 및 5년 가치평가는 이 월별 실거래 자료와 별도입니다.</p></div></section>
 <div class="layout">
@@ -77,7 +77,7 @@
 </div></section>
 <section class="panel" id="transactions" aria-labelledby="transTitle"><div class="panelhead teal"><span class="number">▣</span><span id="transTitle">실거래 상세 · 주소·계약내용</span><span class="headtag" id="transactionRegion">지역 선택</span></div>
 <div class="panelbody">
-<div class="trade-type-buttons" role="group" aria-label="실거래 거래유형"><button type="button" data-trade-type="sale" aria-pressed="true">매매</button><button type="button" data-trade-type="jeonse" aria-pressed="false">전세</button><button type="button" data-trade-type="monthly" aria-pressed="false">월세</button></div>
+<button class="action" data-open-history style="margin-bottom:10px">과거~현재 월별 실거래 조회 ↗</button><div class="trade-type-buttons" role="group" aria-label="실거래 거래유형"><button type="button" data-trade-type="sale" aria-pressed="true">매매</button><button type="button" data-trade-type="jeonse" aria-pressed="false">전세</button><button type="button" data-trade-type="monthly" aria-pressed="false">월세</button></div>
 <div class="sectionline"><input class="input" id="tradeSearch" type="search" placeholder="아파트명·법정동·지번 검색"><span class="small" id="tradeStatus">공식 공개 거래자료 연결 확인 중…</span></div>
 <div class="table-scroll" style="max-height:265px;margin-top:9px"><table class="tbl"><thead><tr><th>계약일</th><th>단지·주소</th><th>전용면적</th><th>층</th><th id="tradePriceHeader">매매가격</th></tr></thead><tbody id="tradeRows"></tbody></table></div>
 <div class="note" id="tradeLimit" style="margin-top:8px">수집·공개된 범위만 표시하며, 수집되지 않은 거래를 임의로 생성하지 않습니다.</div>

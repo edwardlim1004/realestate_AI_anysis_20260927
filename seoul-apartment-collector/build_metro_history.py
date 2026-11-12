@@ -3,11 +3,12 @@ Each district is atomic and cached by per-month source hash; missing and empty d
 """
 from concurrent.futures import ThreadPoolExecutor
 from collections import defaultdict
-import csv, gzip, io, json, statistics
+import argparse, csv, gzip, io, json, statistics
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import collect, metro_queue
-from regions import METRO_REGIONS, CODE_ALIASES
+from regions import METRO_REGIONS, CODE_ALIASES, SEOUL, CURRENT_GYEONGGI, DAEJEON
+HISTORY_REGIONS={"seoul":SEOUL,"gyeonggi":CURRENT_GYEONGGI,"daejeon":DAEJEON,**METRO_REGIONS}
 from archive_reader import VerifiedArchiveReader
 from build_metro_summary import summarize
 from build_public_trade_details import public_row
@@ -53,7 +54,7 @@ def build_district(city, code, aliases, files, reader):
             if all(k in files for k in keys) and previous.get('digest')==metro_queue.fingerprint(files,keys):
                 months[ym][kind]=previous
             else:months[ym][kind]=month_record(aliases,ym,kind,files,reader)
-    payload={'schema':VERSION,'city':city,'code':code,'name':METRO_REGIONS[city].get(code,METRO_REGIONS[city][aliases[0]]),
+    payload={'schema':VERSION,'city':city,'code':code,'name':HISTORY_REGIONS[city].get(code,HISTORY_REGIONS[city][aliases[0]]),
         'updated_at_kst':datetime.now(ZoneInfo('Asia/Seoul')).isoformat(timespec='seconds'),
         'start':'200601','end':end,'area_m2':[80,90],'units':'만원','months':dict(sorted(months.items()))}
     OUT.mkdir(parents=True,exist_ok=True)
@@ -63,8 +64,13 @@ def build_district(city, code, aliases, files, reader):
     return {'code':code,'name':payload['name'],'file':path.name,'status':'ready'}
 
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--city",choices=list(HISTORY_REGIONS))
+    parser.add_argument("--workers",type=int,default=8)
+    args=parser.parse_args()
+    selected={args.city:HISTORY_REGIONS[args.city]} if args.city else METRO_REGIONS
     files=metro_queue.manifest();jobs=[]
-    for city,codes in METRO_REGIONS.items():
+    for city,codes in selected.items():
         groups=defaultdict(list)
         for code in codes:groups[CODE_ALIASES.get(code,code)].append(code)
         jobs.extend((city,code,aliases) for code,aliases in groups.items())
@@ -74,13 +80,13 @@ def main():
             item=build_district(city,code,aliases,files,VerifiedArchiveReader())
             print(city,code,'ready',flush=True)
         except Exception as e:
-            item={'code':code,'name':METRO_REGIONS[city].get(code,code),'status':'error','error':type(e).__name__}
+            item={'code':code,'name':HISTORY_REGIONS[city].get(code,code),'status':'error','error':type(e).__name__}
             print(city,code,type(e).__name__,flush=True)
         return city,item
-    output={'schema':VERSION,'generated_kst':collect.today().isoformat(),'cities':{c:[] for c in METRO_REGIONS}}
-    with ThreadPoolExecutor(max_workers=12) as pool:
+    output={'schema':VERSION,'generated_kst':collect.today().isoformat(),'cities':{c:[] for c in selected}}
+    with ThreadPoolExecutor(max_workers=max(1,min(args.workers,12))) as pool:
         for city,item in pool.map(run,jobs):output['cities'][city].append(item)
-    collect.save_json(OUT/'index.json',output)
+    collect.save_json(OUT/(f'index-{args.city}.json' if args.city else 'index.json'),output)
     if any(i['status']=='error' for items in output['cities'].values() for i in items):raise SystemExit('Incomplete history; inspect index.json')
 
 if __name__=='__main__':main()
