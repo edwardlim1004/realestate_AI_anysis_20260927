@@ -290,8 +290,10 @@ def notify(mode,storage=None,refresh=None,send=send_to_me):
     if issue is not None:
         record_sent_comment(issue)
         print("KAKAO_COMPLETE: one-time message sent and GitHub issue marked")
-    else:
+    elif mode=="test":
         print("KAKAO_TEST: message accepted by Kakao API")
+    elif mode=="history5y":
+        print("KAKAO_COMPLETE: five-year history message accepted by Kakao API")
     return "sent"
 
 
