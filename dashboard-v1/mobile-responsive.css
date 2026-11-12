@@ -1,3 +1,8 @@
+.trade-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.trade-tools .input{max-width:280px;min-width:180px}
+.trade-tools .select{min-height:40px}
+.trade-more{display:block;width:100%;margin:10px 0 4px;padding:10px 12px;border:1px solid #bad0e7;border-radius:9px;background:#f5f9ff;color:#174a79;font-weight:800;cursor:pointer}
+.trade-more[hidden]{display:none}
 /* Mobile layout: same dashboard state, reorganized for touch and narrow screens. */
 .mobile-nav{display:none}
 @media(max-width:700px){
@@ -24,6 +29,11 @@
   #applyFilter{grid-column:1;min-height:42px}
   #globalScopeNote{grid-column:2;text-align:right;line-height:1.4}
 
+  #transactions .trade-tools{display:grid;grid-template-columns:minmax(0,1fr) 148px;gap:8px}
+  #transactions .trade-tools .input{width:100%;max-width:none;min-width:0;min-height:42px}
+  #transactions .trade-tools .select{width:100%;min-width:0;min-height:42px}
+  #transactions #tradeStatus{grid-column:1/-1;line-height:1.4}
+  #transactions .table-scroll{max-height:55vh!important}
   .layout{display:flex;flex-direction:column;gap:12px}
   .layout>.column{display:contents}
   #regional-map{order:1}
