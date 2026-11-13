@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "snapshot_date_kst": "2026-11-01",
+  "source_commit": "97c031906243d7124a7bb658848f9672cdf584fd",
+  "warning": "This is a human-readable evidence snapshot, not a deployment or promotion control; approval is never inferred from this JSON.",
+  "models": {
+    "macro_historical": {
+      "mode": "OPERATING_REFERENCE",
+      "operational_integration": true,
+      "approved_for_new_promotion": false,
+      "data_as_of": "2026-Q2 (KOR composite latest)",
+      "evidence_paths": [
+        "risk-data/risk_summary.json"
+      ],
+      "note": "3/4 historical national percentile; 43.1 is not probability of a Seoul price decline."
+    },
+    "liquidity": {
+      "mode": "SHADOW_VALIDATION",
+      "operational_integration": false,
+      "approved_for_new_promotion": false,
+      "data_as_of": "2026-10-27 validation report",
+      "evidence_paths": [
+        "risk-data/liquidity/validation.json",
+        "risk-data/liquidity/backtest.json"
+      ],
+      "note": "6/9 gates PASS; predictive OOS FAIL, insufficient real vintages, human review not approved."
+    },
+    "gsadf": {
+      "mode": "WAITING_DATA",
+      "operational_integration": false,
+      "approved_for_new_promotion": false,
+      "data_as_of": "2026-11-01 repository review",
+      "evidence_paths": [
+        "gsadf/README.md",
+        "risk-data/risk_summary.json"
+      ],
+      "note": "Monte Carlo workflow exists; no independent result confirmation for composite promotion."
+    },
+    "har": {
+      "mode": "WAITING_DATA",
+      "operational_integration": false,
+      "approved_for_new_promotion": false,
+      "data_as_of": "2026-11-01 PR #18 Draft",
+      "evidence_paths": [
+        "risk-data/risk_summary.json"
+      ],
+      "note": "Standalone research implementation proposed in unmerged Draft PR #18; avoid declaring validated current forecast."
+    },
+    "long_term_value": {
+      "mode": "BUILD_FAILURE_OBSERVED",
+      "operational_integration": false,
+      "approved_for_new_promotion": false,
+      "data_as_of": "2026-10-31 action failure",
+      "evidence_paths": [
+        "long-term-value/README.md",
+        "long-term-value/build_snapshots.py"
+      ],
+      "note": "Last inspected build failed to read or validate R2 sale CSV across Seoul 25 districts. Existing displayed files may persist; no claim of latest refresh."
+    },
+    "daejeon_four_axis": {
+      "mode": "RESEARCH_ONLY",
+      "operational_integration": false,
+      "approved_for_new_promotion": false,
+      "data_as_of": "2026-09 region cutoff",
+      "evidence_paths": [
+        "dashboard-v1/data/daejeon-regions.json"
+      ],
+      "note": "5 districts, four-axis within-Daejeon reference; not directly comparable with Seoul/Gyeonggi and not downside probability."
+    },
+    "auction": {
+      "mode": "PROTOTYPE",
+      "operational_integration": false,
+      "approved_for_new_promotion": false,
+      "data_as_of": "2026-11-01 README review",
+      "evidence_paths": [
+        "bossauction-lab/README.md"
+      ],
+      "note": "Map/search prototype, no verified national realtime court/Onbid feed or legal-rights automation."
+    }
+  }
+}

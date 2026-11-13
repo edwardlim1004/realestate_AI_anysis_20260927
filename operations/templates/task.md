@@ -1,0 +1,16 @@
+# 작업패킷 (task_id별 고정)
+- task_id / module / GitHub issue:
+- 요청일 / 작업자(모델·버전) / 독립 검증자(모델·버전):
+- 기준 main commit SHA / 격리 브랜치:
+- 목표 / 제외 범위 / 원본 보존 대상:
+- 변경 허용 파일 목록 / 공유 의존성 / 비밀정보 및 개인정보 검토:
+- 원천 출처·접근조건·관측일·발표일·수집일·단위·원자료 및 파생 해시:
+- 가설 / 벤치마크 / 사전 OOS·강건성 기준 / 실패·중단 조건:
+- 분석 방법 및 no-lookahead 검증 / 실제 빈티지 확보 여부:
+- 예상 비용·실제 비용 / 재시도 한도:
+- 실행된 테스트 명령·결과·실패 로그 / NOT_RUN 목록:
+- 독립 재현·반론·남은 위험:
+- 배포 및 백업/롤백 계획 / 변경 영향 요약:
+- 단계: PLANNED/IMPLEMENTED/TESTED/INDEPENDENTLY_VERIFIED/USER_APPROVED/RELEASED/MONITORED/HOLD/FAILED
+- 승인 대상과 범위 / 사용자 승인 증거 / 승인한 commit+데이터 지문 / 만료조건:
+- main 병합 여부 / Pages 배포 여부 / 운영 확인 여부:
