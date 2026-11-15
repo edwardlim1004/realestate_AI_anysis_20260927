@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>신NSI × 서울 아파트 하방위험 | 연구모듈</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;color-scheme:light;--ink:#19283a;--muted:#56657a;--line:#dfe5eb}*{box-sizing:border-box}
+body{margin:0;background:#f7f9fb;color:var(--ink)}main{max-width:1050px;margin:0 auto;padding:30px 18px 60px}
+header{display:flex;align-items:center;gap:16px;justify-content:space-between;flex-wrap:wrap}
+h1{font-size:clamp(22px,4vw,32px);margin:0}h2{font-size:19px;margin:0 0 16px}p{line-height:1.65;color:var(--muted)}
+.pill{border:1px solid #b5bdc8;padding:8px 12px;border-radius:20px;font-size:13px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0}
+.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0;overflow-wrap:anywhere}
+.metric{font-size:25px;font-weight:750;margin:12px 0 6px}.caption{font-size:13px;color:var(--muted)}
+.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:680px}
+th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}th{color:var(--muted)}
+footer{font-size:13px;color:var(--muted);line-height:1.6;margin-top:26px}
+a{color:#245f9c}code{font-size:12px}
+@media(max-width:650px){main{padding:18px 12px 38px}.grid{grid-template-columns:1fr}.panel{padding:18px}}
+</style></head><body><main>
+<header><div><div class="caption">부동산 AI 프로젝트 / 독립 실험모듈</div><h1>신NSI × 서울 아파트 하방위험</h1></div><span id="status" class="pill">자료 확인 중</span></header>
+<p>한국은행 新뉴스심리지수가 서울 아파트가격 하락에 선행하는지를 검정합니다. <strong>검증 전에는 종합위험 점수에 반영하지 않습니다.</strong></p>
+<div class="grid">
+  <section class="panel"><div class="caption">종합위험 점수 편입</div><div class="metric" id="composite">차단</div><div class="caption">승인·빈티지 검증 전 자동 승격 불가</div></section>
+  <section class="panel"><div class="caption">실제 표본외 검증</div><div class="metric" id="evidence">자료 대기</div><div class="caption">공식 NSI·서울 가격·통제변수 필요</div></section>
+  <section class="panel"><div class="caption">실시간 예측 검증</div><div class="metric">미검증</div><div class="caption">공식 공표일·과거 빈티지 필요</div></section>
+</div>
+<section class="panel"><h2>기존변수 대비 신NSI의 증분 예측력</h2>
+<div class="tablewrap"><table><thead><tr><th>예측구간</th><th>OOS 개수</th><th>기준 RMSE</th><th>신NSI RMSE</th><th>개선율</th><th>검증 상태</th></tr></thead><tbody id="results">
+<tr><td>1개월</td><td colspan="5">실제 자료가 준비되지 않았습니다.</td></tr>
+<tr><td>3개월</td><td colspan="5">실제 자료가 준비되지 않았습니다.</td></tr>
+<tr><td>6개월</td><td colspan="5">실제 자료가 준비되지 않았습니다.</td></tr>
+</tbody></table></div></section>
+<section class="panel" style="margin-top:15px"><h2>검정 방법</h2>
+<p>가격변화율 AR(1·2), 실질금리(t−5), 초과유동성(t−10), KOSPI(t−1)를 기준으로 신NSI(t−1) 수준·변화량을 추가합니다. 같은 예측 기원과 표본으로 1·3·6개월 전망을 비교하며, 학습 구간에 예측 대상 기간이 섞이지 않도록 embargo를 적용합니다.</p>
+<p>한국은행 연구는 신NSI의 소비자심리 1개월·기업심리 2개월 선행성을 확인했으나 <strong>서울 아파트가격 선행성을 검증하지는 않았습니다.</strong></p>
+</section>
+<footer><a href="../../risk-data/news-sentiment/summary.json">원시 검증상태 JSON</a> · <a href="https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=11064365&menuNo=200433" rel="noopener">한국은행 이슈노트 2026-21</a> · 이 화면은 연구용이며 투자 권유가 아닙니다.</footer>
+</main><script>
+(async function(){
+  try{
+    const response=await fetch("../../risk-data/news-sentiment/summary.json",{cache:"no-store"});
+    if(!response.ok)throw Error("summary unavailable");
+    const data=await response.json();
+    document.getElementById("status").textContent=data.mode||"상태 미확인";
+    document.getElementById("composite").textContent=data.compositeEligible?"검증 필요":"차단";
+    const rows=Object.entries(data.horizons||{}).sort((a,b)=>Number(a[0])-Number(b[0]));
+    if(!rows.length)return;
+    document.getElementById("evidence").textContent=rows.some(([_,x])=>x.status==="RETROSPECTIVE_ONLY")?"소급검증만":"표본 부족";
+    function cell(v){const td=document.createElement("td");td.textContent=(v===null||v===undefined)?"—":String(v);return td}
+    const tbody=document.getElementById("results");tbody.replaceChildren();
+    for(const [months,x] of rows){
+      const tr=document.createElement("tr");
+      for(const value of [months+"개월",x.forecastCount??0,x.baseline?.rmse,x.withNSI?.rmse,x.rmseReductionPct===undefined?"—":x.rmseReductionPct+"%",x.status])tr.appendChild(cell(value));
+      tbody.appendChild(tr);
+    }
+  }catch(err){document.getElementById("status").textContent="검증상태 수집 오류"}
+})();
+</script></body></html>
