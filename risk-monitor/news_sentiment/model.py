@@ -17,7 +17,7 @@ from pathlib import Path
 import numpy as np
 
 HORIZONS = (1, 3, 6)
-BASE_FIELDS = ("price_momentum", "real_rate", "excess_liquidity", "kospi_return")
+BASE_FIELDS = ("price_momentum_lag1", "price_momentum_lag2", "real_rate_lag5", "excess_liquidity_lag10", "kospi_return_lag1")
 NSI_FIELDS = ("new_nsi", "nsi_change")
 MIN_TRAIN = 60
 MIN_OOS = 24
@@ -87,30 +87,34 @@ def build_observations(
     start = min(price)
     end = max(price)
     rows = []
-    month = month_add(start, 2)
+    month = month_add(start, 11)
     while month_add(month, horizon - 1) <= end:
         prev, before = month_add(month, -1), month_add(month, -2)
         target_end = month_add(month, horizon - 1)
-        if not all(key in price for key in (before, prev, target_end)):
+        older = month_add(month, -3)
+        rate_lag = month_add(month, -5)
+        liquidity_lag = month_add(month, -10)
+        if not all(key in price for key in (older, before, prev, target_end)):
             month = month_add(month, 1)
             continue
-        if prev not in control or prev not in nsi or before not in nsi:
+        if not all(key in control for key in (prev, rate_lag, liquidity_lag)) or prev not in nsi or before not in nsi:
             month = month_add(month, 1)
             continue
         if use_expected and "expected_nsi" not in nsi[prev]:
             month = month_add(month, 1)
             continue
+        p_older = price[older]["price_index"]
         p0 = price[before]["price_index"]
         p1 = price[prev]["price_index"]
         p_end = price[target_end]["price_index"]
-        if min(p0, p1, p_end) <= 0:
+        if min(p_older, p0, p1, p_end) <= 0:
             raise ValueError("Price indices must be positive")
-        controls = control[prev]
         base = (
             math.log(p1 / p0),
-            controls["real_rate"],
-            controls["excess_liquidity"],
-            controls["kospi_return"],
+            math.log(p0 / p_older),
+            control[rate_lag]["real_rate"],
+            control[liquidity_lag]["excess_liquidity"],
+            control[prev]["kospi_return"],
         )
         more = (nsi[prev]["new_nsi"], nsi[prev]["new_nsi"] - nsi[before]["new_nsi"])
         if use_expected:
