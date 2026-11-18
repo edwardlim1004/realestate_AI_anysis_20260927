@@ -170,6 +170,41 @@ def _dm_pvalue(loss_improvement: np.ndarray, horizon: int) -> float | None:
     return round(math.erfc(abs(z) / math.sqrt(2)), 6)
 
 
+def _clark_west_one_sided_pvalue(actual: np.ndarray, base: np.ndarray,
+                                 augmented: np.ndarray, horizon: int) -> float | None:
+    """Nested-model adjusted forecast comparison with Bartlett HAC on h−1 lags.
+
+    Positive adjusted improvement favors the augmented forecast. This uses a
+    normal asymptotic approximation and still requires held-out confirmation.
+    """
+    adjustment = (actual - base) ** 2 - (actual - augmented) ** 2 + (base - augmented) ** 2
+    n = len(adjustment)
+    if n < 12:
+        return None
+    centered = adjustment - adjustment.mean()
+    long_var = float(centered @ centered) / n
+    for lag in range(1, min(horizon, n)):
+        cov = float(centered[lag:] @ centered[:-lag]) / n
+        long_var += 2 * (1 - lag / horizon) * cov
+    if long_var <= 1e-16:
+        return None
+    z = float(adjustment.mean()) / math.sqrt(long_var / n)
+    return round(0.5 * math.erfc(z / math.sqrt(2)), 6)
+
+
+def _holm_adjust(p_values: dict[str, float | None]) -> dict[str, float | None]:
+    """Holm step-down FWER adjustment across available hypotheses."""
+    finite = sorted(((k, p) for k, p in p_values.items() if p is not None and 0 <= p <= 1),
+                    key=lambda item: item[1])
+    result = {k: None for k in p_values}
+    running = 0.0
+    total = len(finite)
+    for idx, (k, p) in enumerate(finite):
+        running = max(running, min(1.0, p * (total - idx)))
+        result[k] = round(running, 6)
+    return result
+
+
 def evaluate(observations: list[Observation], horizon: int, min_train: int = MIN_TRAIN) -> dict:
     actual, base_predictions, nsi_predictions, forecast_months = [], [], [], []
     # A label may train the model only if its entire horizon ends before
@@ -200,10 +235,11 @@ def evaluate(observations: list[Observation], horizon: int, min_train: int = MIN
     reduction = (1 - augmented["rmse"] / baseline["rmse"]) * 100 if baseline["rmse"] else None
     improvements = (y - b) ** 2 - (y - n) ** 2
     p = _dm_pvalue(improvements, horizon)
+    cw_p = _clark_west_one_sided_pvalue(y, b, n, horizon)
     baseline_fpr, nsi_fpr = baseline["falsePositiveRate"], augmented["falsePositiveRate"]
     gates = {
         "rmseReductionAtLeast3Pct": reduction is not None and reduction >= 3,
-        "hacPValueBelow005": p is not None and p < 0.05,
+        "clarkWestOneSidedPBelow005": cw_p is not None and cw_p < 0.05,
         "noFprDeteriorationOver5pp": (
             baseline_fpr is not None and nsi_fpr is not None and nsi_fpr - baseline_fpr <= 0.05
         ),
@@ -217,6 +253,7 @@ def evaluate(observations: list[Observation], horizon: int, min_train: int = MIN
         "baseline": baseline, "withNSI": augmented,
         "rmseReductionPct": round(reduction, 3) if reduction is not None else None,
         "dieBoldMarianoHacApproxPValue": p,
+        "clarkWestOneSidedHacApproxPValue": cw_p,
         "researchGates": gates,
         "researchGatesAllPass": all(gates.values()),
         "readyForProduction": False,
@@ -249,6 +286,18 @@ def run(prices: Path, nsi_path: Path, controls: Path) -> dict:
             str(h): evaluate(build_observations(p, n, c, h), h)
             for h in HORIZONS
         }
+        # Multiple-horizon candidate testing is exploratory; keep a Holm-adjusted
+        # familywise p-value alongside the nominal nested-model p-value.
+        corrected = _holm_adjust({
+            h: result.get("clarkWestOneSidedHacApproxPValue") for h, result in results.items()
+        })
+        for h, corrected_p in corrected.items():
+            if results[h].get("status") == "RETROSPECTIVE_ONLY":
+                results[h]["clarkWestHolmPValue"] = corrected_p
+                results[h]["researchGates"]["holmAdjustedCWBelow005"] = (
+                    corrected_p is not None and corrected_p < 0.05
+                )
+                results[h]["researchGatesAllPass"] = all(results[h]["researchGates"].values())
         if expected_available:
             results_expected = {
                 str(h): evaluate(build_observations(p, n, c, h, use_expected=True), h)
