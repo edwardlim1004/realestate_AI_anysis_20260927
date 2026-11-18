@@ -22,8 +22,8 @@
 - 목적변수: 서울 아파트 공식 가격지수의 향후 1·3·6개월 **누적 로그수익률**; 부가 검정은 수익률 음수 여부.
 - 월별 `t` 예측 시 `t-1` 이전 설명변수만 사용하고, `t-1`의 가격지수부터 `t+h-1`까지의 미래 변화를 목표로 한다.
 - 매월 확대하는 expanding-window Ridge 회귀. 고정 규제강도 10. 학습셋은 결과 관측 종료월 < 예측월인 표본만 허용하여 **수평선 누출(embargo)** 방지. 표준화 통계도 학습셋에서만 산출한다.
-- 지표: 기준/증강 RMSE, MAE, 하락 재현율, 오경보율, 방향 정확도, 겹치는 수익률의 HAC(대역폭 h-1) Diebold-Mariano 근사 검정.
-- 연구상 사전 판정 기준: 1) OOS 24개월 이상, 2) 하락월 12건 이상, 3) RMSE 3% 이상 감소, 4) DM 근사 p<0.05, 5) 오경보율 5%p 초과 악화 없음. 이 **탐색적 기준**을 만족해도 자동 종합점수 승격 금지.
+- 지표: 기준/증강 RMSE, MAE, 하락 재현율, 오경보율, 방향 정확도, 겹치는 수익률의 HAC(대역폭 h-1) Diebold-Mariano 근사 검정(설명용)과 **중첩 예측모형용 Clark–West 단측 HAC 근사 검정**. 1·3·6개월 탐색의 family-wise 다중검정은 Holm 보정.
+- 연구상 사전 판정 기준: 1) OOS 24개월 이상, 2) 하락월 12건 이상, 3) RMSE 3% 이상 감소, 4) Clark–West 단측 HAC p<0.05 및 1·3·6개월 Holm 보정 p<0.05, 5) 오경보율 5%p 초과 악화 없음. 이 **탐색적 기준**을 만족해도 자동 종합점수 승격 금지.
 
 ## 입력 계약 (3개 공식 출처 검증 CSV)
 
@@ -72,3 +72,29 @@ python -m unittest discover -s risk-monitor/news_sentiment/tests -p 'test_*.py' 
 - `tests/test_model.py`: 피처 시점·embargo·누락·사전 격리·연속성 회귀 테스트.
 - `risk-data/news-sentiment/summary.json`: 초기 데이터 부재 상태. 메인 점수와 분리.
 - `.github/workflows/test-new-nsi.yml`: PR 연구모듈 CI. 배포/데이터 수집/메인 수정 없음.
+
+## 2026-11-19 데이터 수집·입력 준비 추가 (PR #41)
+
+- **BOK 원자료 자동 발견:** `ecos_nsi_discovery.py --mode catalog`가 ECOS `StatisticTableList`를 확인하고 '뉴스심리지수' 통계표 후보를 찾는다. `--mode items --table-code <검증된코드>`로 `StatisticItemList`의 월간 항목코드·공표기간·단위를 조사한다. 구NSI와 신NSI가 동일 코드 내 갱신된 경우 연구자가 2026년 9월 방법 변경과 소급기간을 확인하기 전에는 그대로 합치지 않는다. **아직 한국은행 계열코드 및 항목코드를 공식 확인하지 못했다.**
+- **명시적 승인 후 수집:** `ecos_nsi_discovery.py --mode export --approval-json path/to/approved.json`으로만 월별 CSV를 추출한다. 검토자·승인날짜·한국은행 원문 링크·신NSI 산식버전·소급산출 여부가 없는 승인 계약은 실패한다. 전체 수집건수 불일치나 통계표코드·항목코드 불일치도 즉시 중단한다. `new_nsi.provenance.json`에 원본지문을 남기고 `pitVerified=false`로 기록한다.
+- **서울 아파트 가격지수:** 한국부동산원 정식 월간 시계열의 서울/아파트/매매 **지수** 원본을 내려받고, `prepare_reb_price.py --reb-csv ORIGINAL.csv --approval-json approved-reb.json --month-column ... --price-column ...`로 변환한다. 180개월 미만·월결측·중복·기준연도 변경과 혼동되는 급격한 단절·평균매매가격 혼합은 차단한다.
+- **공표시차 사전검증:** `publication_audit.py --release-calendar release_dates.csv --start 2015-01 --end 2026-10 --output research-data/nsi/pit-calendar.json`을 실행한다. `release_dates.csv`는 `series,month,first_published_date` 컬럼을 갖는다. 월 t의 **20일 KST**에 발행하는 예측을 가정하고 (t−1)월 서울지수와 신NSI가 실제 공표되었는지 점검한다. **공표 달력 검증만 통과해도 원시 발표 당시의 '값'을 담은 빈티지 기록 없이는 fullPITVerified=false이다.**
+- **민감 자료 보호:** `.gitignore`가 `research-data/nsi/*.csv|*.json` 및 연구 성능증거 원본을 공개 Git에 올리지 않도록 막는다. API키는 `ECOS_API_KEY` 환경변수/Actions Secret에서만 읽는다.
+- **지표 분리:** `risk-monitor/leading_indicators/`에 17개 후보를 `CANDIDATE_PRIORITY / CANDIDATE_SECONDARY / CONTROL_ONLY / QUARANTINED`로 나누고, 표본외·PIT·오경보 기준을 충족한 결과만 '사용자 검토 후보'로 남긴다. 통합위험 계산 경로는 변경되지 않는다.
+
+### 바로 실행 가능한 단계
+
+```bash
+python -m unittest discover -s risk-monitor/news_sentiment/tests -p 'test_*.py' -v
+python -m unittest discover -s risk-monitor/leading_indicators/tests -p 'test_*.py' -v
+export ECOS_API_KEY="<발급받은API키>" # 터미널/서버 secret에서만, 저장소 commit 금지
+python risk-monitor/news_sentiment/ecos_nsi_discovery.py --mode catalog
+# 후보 STAT_CODE를 확인한 뒤:
+# python risk-monitor/news_sentiment/ecos_nsi_discovery.py --mode items --table-code VERIFIED_STAT_CODE
+# 공식 원본을 검토하고 승인 계약을 작성한 경우에만 export 실행
+python risk-monitor/leading_indicators/review_candidates.py
+```
+
+### 실증 검증이 남는 이유
+
+2026년 9월에 새로운 방법론으로 처음 공식 발표된 신NSI는 2026년 11월 현재 실시간 운영기간이 수개월에 불과하다. **2026년 이전 소급 NSI로 검증한 2008·2020·2022 구간은 사후 재현이며, 당시 공개되어 있던 지표를 사용한 실시간 OOS 검증으로 주장할 수 없다.** 공식 원자료의 버전과 재수정 빈티지 확보 이전에 1·3·6개월 실전 예측의 통계적 유의성을 확정할 수 없다. 향후 새로운 전망 기원을 고정해 1/3/6개월 평가를 누적하고, 기존 ARIMAX 모형과 각 후보의 증분 예측력·오경보를 재검증해야 한다.
