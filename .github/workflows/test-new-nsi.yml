@@ -1,0 +1,40 @@
+name: Validate New NSI Research (Shadow Only)
+
+on:
+  pull_request:
+    paths:
+      - "risk-monitor/news_sentiment/**"
+      - "risk-data/news-sentiment/**"
+      - ".github/workflows/test-new-nsi.yml"
+      - "risk-monitor/leading_indicators/**"
+      - "risk-data/leading-indicators/**"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  research-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install minimal statistical dependency
+        run: python -m pip install "numpy>=1.26,<3"
+      - name: Run isolated research model tests
+        run: python -m unittest discover -s risk-monitor/news_sentiment/tests -p 'test_*.py' -v
+      - name: Validate candidate registry and quarantine decisions
+        run: python -m unittest discover -s risk-monitor/leading_indicators/tests -p 'test_*.py' -v
+      - name: Verify absent official inputs fail closed
+        shell: bash
+        run: |
+          tmpfile="$(mktemp)"
+          python risk-monitor/news_sentiment/run_research.py \
+            --price /tmp/nsi-absent-price.csv \
+            --nsi /tmp/nsi-absent-nsi.csv \
+            --controls /tmp/nsi-absent-control.csv \
+            --output "$tmpfile"
+          python -c 'import json,sys; s=json.load(open(sys.argv[1])); assert s["mode"]=="SHADOW_WAITING_DATA" and s["compositeEligible"] is False and s["publicScore"] is None' "$tmpfile"

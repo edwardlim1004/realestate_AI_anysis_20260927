@@ -1,0 +1,195 @@
+{
+  "schemaVersion": "1.0",
+  "policy": "EVIDENCE_BEFORE_PROMOTION; NEVER_CHANGE_COMPOSITE; KEEP_ALL_REJECTIONS_AUDITABLE",
+  "horizonMonths": [
+    1,
+    3,
+    6
+  ],
+  "decisionThresholds": {
+    "minOutOfSamplePredictions": 36,
+    "minDownturnEvents": 12,
+    "minRmseReductionPct": 3,
+    "maxDMHacPValue": 0.05,
+    "maxFalsePositiveRateIncreasePp": 5,
+    "requiredEvidence": [
+      "sourceIdentified",
+      "vintagesAvailable",
+      "noLookaheadPassed",
+      "baselineComparable",
+      "dataContinuityPassed"
+    ]
+  },
+  "indicators": [
+    {
+      "id": "BOK_HOUSE_PRICE_EXPECTATIONS_CSI",
+      "name": "한국은행 주택가격전망CSI",
+      "role": "CANDIDATE_PRIORITY",
+      "frequency": "M",
+      "source": "BOK ECOS",
+      "url": "https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=10091925&menuNo=200433",
+      "hypothesis": "주택가격 기대는 실제 가격변화에 선행할 수 있음; CSI 발표일 포함 OOS 검증",
+      "issue": "전국 심리이며 지역별 시차·정책 내생성 주의"
+    },
+    {
+      "id": "KRIHS_HOUSING_SENTIMENT",
+      "name": "국토연구원 주택시장 소비심리지수",
+      "role": "CANDIDATE_PRIORITY",
+      "frequency": "M",
+      "source": "KRIHS",
+      "url": "https://kremap.krihs.re.kr/",
+      "hypothesis": "서울 수요 심리 변화를 가격보다 먼저 포착",
+      "issue": "전국/수도권/서울 계열 혼합 금지; 조사기준 변화"
+    },
+    {
+      "id": "BOK_NEW_NSI",
+      "name": "한국은행 신뉴스심리지수",
+      "role": "CANDIDATE_PRIORITY",
+      "frequency": "W/M",
+      "source": "BOK ECOS",
+      "url": "https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=11064365&menuNo=200433",
+      "hypothesis": "경제뉴스 기대 변화가 서울 주택가격 모멘텀보다 선행할 수 있음",
+      "issue": "2026년 9월 신규산식; 과거 소급생성 여부와 기존 NSI 코드 재사용 확인"
+    },
+    {
+      "id": "BOK_EXPECTED_NSI",
+      "name": "미래 전망 뉴스심리지수",
+      "role": "CANDIDATE_PRIORITY",
+      "frequency": "W/M",
+      "source": "BOK research",
+      "url": "https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=11064365&menuNo=200433",
+      "hypothesis": "미래 뉴스심리가 현재 뉴스보다 강한 예측력 가능",
+      "issue": "외부 시계열 제공 여부 미확인; 모델 연구자료만 있을 수 있음"
+    },
+    {
+      "id": "SEOUL_TRANSACTION_TURNOVER",
+      "name": "서울 아파트 거래회전율",
+      "role": "CANDIDATE_PRIORITY",
+      "frequency": "M",
+      "source": "MOLIT/REB",
+      "url": "https://www.data.go.kr/data/3050988/fileData.do",
+      "hypothesis": "거래량 급감이 가격 하락보다 선행하는가",
+      "issue": "계약일 기준 신고지연, 재고 주택수 분모, 정책충격 보정 필수"
+    },
+    {
+      "id": "JEONSE_SALES_GAP",
+      "name": "전세-매매 가격 변화 격차",
+      "role": "CANDIDATE_SECONDARY",
+      "frequency": "M",
+      "source": "REB/KOSIS",
+      "url": "https://www.reb.or.kr/reb/cm/cntnts/cntntsView.do?cntntsId=1033&mi=10333",
+      "hypothesis": "임대료 하락 대비 매매가 고평가 및 수요 이탈",
+      "issue": "PIR/PTR 동일 위험축과 중복 및 전세 정책의 시차"
+    },
+    {
+      "id": "SEOUL_UNSOLD_COMPLETED",
+      "name": "서울 및 수도권 준공후 미분양",
+      "role": "CANDIDATE_SECONDARY",
+      "frequency": "M",
+      "source": "MOLIT",
+      "url": "https://www.molit.go.kr/",
+      "hypothesis": "완공 미분양 증가가 공급 압박 조기 경보",
+      "issue": "서울 표본이 적고 특정 공급 구역에 집중; 2026 부동산분석학회 구조변화 연구"
+    },
+    {
+      "id": "HOUSING_STARTS_PERMITS",
+      "name": "착공·인허가·입주 물량",
+      "role": "CANDIDATE_SECONDARY",
+      "frequency": "M",
+      "source": "MOLIT/KOSIS",
+      "url": "https://kosis.kr/",
+      "hypothesis": "중장기 공급 감소/증가가 임대·매매 위험으로 전이",
+      "issue": "착공~준공 시간차 크므로 1개월 선행 지표보다 6개월 이상 장기 검증 적합"
+    },
+    {
+      "id": "MORTGAGE_CREDIT_FLOW",
+      "name": "주택담보대출 증가율",
+      "role": "CANDIDATE_SECONDARY",
+      "frequency": "M",
+      "source": "BOK ECOS",
+      "url": "https://ecos.bok.or.kr/",
+      "hypothesis": "자금조달 변화와 주택 수요 압박 선행",
+      "issue": "기존 신용축 중복/정책변수 내생성"
+    },
+    {
+      "id": "CREDIT_SPREAD_CURVE",
+      "name": "회사채-국채 스프레드·장단기 역전",
+      "role": "CANDIDATE_SECONDARY",
+      "frequency": "M",
+      "source": "BOK/ECOS",
+      "url": "https://ecos.bok.or.kr/",
+      "hypothesis": "금융스트레스 선행 전이",
+      "issue": "기존 위험축 중복과 주택부문 특화도 낮음"
+    },
+    {
+      "id": "KOSPI",
+      "name": "KOSPI 수익률",
+      "role": "CONTROL_ONLY",
+      "frequency": "M",
+      "source": "KRX/BOK",
+      "url": "https://ecos.bok.or.kr/",
+      "hypothesis": "기존 논문 기준모형 통제",
+      "issue": "증분 신규 선행지표로 중복 계상 금지"
+    },
+    {
+      "id": "REAL_RATE",
+      "name": "국고채3년 실질금리",
+      "role": "CONTROL_ONLY",
+      "frequency": "M",
+      "source": "BOK/KOSIS",
+      "url": "https://ecos.bok.or.kr/",
+      "hypothesis": "기존 논문 기준모형 t-5",
+      "issue": "기존 모형 및 금리축과 중복"
+    },
+    {
+      "id": "EXCESS_LIQUIDITY",
+      "name": "Marshall K HP 갭",
+      "role": "CONTROL_ONLY",
+      "frequency": "M",
+      "source": "BOK/GDP",
+      "url": "https://ecos.bok.or.kr/",
+      "hypothesis": "기존 논문 기준모형 t-10",
+      "issue": "one-sided HP, GDP 분모, 원계열/계절조정과 소급 수정"
+    },
+    {
+      "id": "RAW_FIVE_YEAR_DISTRICT_MEAN",
+      "name": "실거래 단순평균 가격을 장기 시계열로 사용하는 방식",
+      "role": "QUARANTINED",
+      "frequency": "M",
+      "source": "project data.js",
+      "url": "https://github.com/edwardlim1004/realestate_AI_anysis_20260927",
+      "hypothesis": "동일 면적·단지 미통제일 때 종속변수 왜곡",
+      "issue": "표본구성 이동/5년 미만 장기검증; 정제 전 모델 입력 금지"
+    },
+    {
+      "id": "OLD_NSI_MIXED_WITH_NEW",
+      "name": "구NSI와 신NSI 무표기 연속연결",
+      "role": "QUARANTINED",
+      "frequency": "M",
+      "source": "BOK",
+      "url": "https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=11064365&menuNo=200433",
+      "hypothesis": "상이한 산식의 인위적 이음매가 예측 신호로 오인",
+      "issue": "연속성·소급산출 근거 확인 전 금지"
+    },
+    {
+      "id": "TWO_SIDED_HP_REALTIME",
+      "name": "미래 관측 포함 양방향 HP 유동성갭",
+      "role": "QUARANTINED",
+      "frequency": "M",
+      "source": "research",
+      "url": "https://www.bis.org/publ/work114.htm",
+      "hypothesis": "양방향 필터는 과거 시점에 미래 자료를 사용",
+      "issue": "실시간 선행지표 사용 금지"
+    },
+    {
+      "id": "UNRELEASED_REVISIONS",
+      "name": "사후수정 자료를 당시 공표치로 간주",
+      "role": "QUARANTINED",
+      "frequency": "M",
+      "source": "research",
+      "url": "https://ecos.bok.or.kr/",
+      "hypothesis": "수정 공표치를 원빈티지로 혼동",
+      "issue": "PIT 통과 전 무효"
+    }
+  ]
+}
