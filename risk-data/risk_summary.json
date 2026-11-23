@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAtUTC": "2026-11-20T04:14:34+00:00",
+  "generatedAtUTC": "2026-11-23T03:41:42+00:00",
   "latestRawPeriod": "2026-Q3",
   "method": {
     "normalization": "expanding historical percentile, minimum 20 quarters",
@@ -1734,7 +1734,7 @@
     "JPN": {
       "name": "일본",
       "composite": {
-        "score": 80.4,
+        "score": 80.1,
         "state": "RED",
         "coverage": "3/4",
         "latestPeriod": "2026-Q1",
@@ -1749,7 +1749,7 @@
           "value": {
             "PIR_LTA": {
               "score": 74.1,
-              "value": 88.2812,
+              "value": 88.2806,
               "sourceKey": "OECD|AHP|HPI_YDH_AVG|JPN|Q|2025-Q4",
               "period": "2025-Q4"
             },
@@ -1797,12 +1797,12 @@
         },
         "momentum": {
           "label": "실질가격 모멘텀",
-          "score": 85.2,
+          "score": 84.3,
           "status": "OK",
           "value": {
             "REAL_HPI_YOY": {
-              "score": 85.2,
-              "value": 2.3533,
+              "score": 84.3,
+              "value": 2.348,
               "sourceKey": "OECD|AHP|RHP|JPN|Q|2025-Q4",
               "period": "2025-Q4"
             }
@@ -2501,11 +2501,11 @@
         },
         {
           "period": "2024-Q1",
-          "score": 70.1,
+          "score": 70.5,
           "state": "AMBER",
           "valuation": 83.3,
           "credit": 71.7,
-          "momentum": 55.4
+          "momentum": 56.4
         },
         {
           "period": "2024-Q2",
@@ -2525,11 +2525,11 @@
         },
         {
           "period": "2024-Q4",
-          "score": 69.0,
+          "score": 68.7,
           "state": "AMBER",
           "valuation": 80.5,
           "credit": 66.8,
-          "momentum": 59.6
+          "momentum": 58.7
         },
         {
           "period": "2025-Q1",
@@ -2557,19 +2557,19 @@
         },
         {
           "period": "2025-Q4",
-          "score": 80.4,
+          "score": 80.1,
           "state": "RED",
           "valuation": 86.2,
           "credit": 69.9,
-          "momentum": 85.2
+          "momentum": 84.3
         },
         {
           "period": "2026-Q1",
-          "score": 80.4,
+          "score": 80.1,
           "state": "RED",
           "valuation": 86.2,
           "credit": 69.7,
-          "momentum": 85.2
+          "momentum": 84.3
         }
       ]
     },
@@ -2597,7 +2597,7 @@
             },
             "PTR_LTA": {
               "score": 64.9,
-              "value": 130.8785,
+              "value": 130.8651,
               "sourceKey": "OECD|AHP|HPI_RPI_AVG|GBR|Q|2026-Q2",
               "period": "2026-Q2"
             }
@@ -3375,9 +3375,9 @@
         },
         {
           "period": "2025-Q1",
-          "score": 37.3,
+          "score": 37.5,
           "state": "GREEN",
-          "valuation": 67.0,
+          "valuation": 67.5,
           "credit": 8.8,
           "momentum": 36.2
         },
@@ -3658,7 +3658,7 @@
   },
   "update": {
     "startPeriodRequested": "2023-Q1",
-    "insertedOrRevised": 0,
+    "insertedOrRevised": 38,
     "providerWarnings": [],
     "policy": "No file rewrite when official values and generated outputs are unchanged."
   }
