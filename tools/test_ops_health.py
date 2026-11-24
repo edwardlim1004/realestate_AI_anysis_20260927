@@ -24,10 +24,14 @@ class OpsHealthTests(unittest.TestCase):
         self.assertEqual(report["status"], "REVIEW")
 
     def test_latest_workflow_failure_requires_action(self):
-        runs = [{"name": "Seoul Gyeonggi and Daejeon Apartment Collector (Safe)",
-                 "status": "completed", "conclusion": "failure", "id": 12,
-                 "created_at": "2026-11-19T22:00:00Z",
-                 "html_url": "https://github.com/example/repo/actions/runs/12"}]
+        runs = [{
+            "name": "Seoul Gyeonggi and Daejeon Apartment Collector (Safe)",
+            "status": "completed",
+            "conclusion": "failure",
+            "id": 12,
+            "created_at": "2026-11-19T22:00:00Z",
+            "html_url": "https://github.com/example/repo/actions/runs/12",
+        }]
         report = assess(self.status, self.quality, runs, self.today)
         self.assertEqual(report["status"], "ACTION_REQUIRED")
         self.assertTrue(any("Latest run failed" in issue for issue in report["incidents"]))
@@ -44,13 +48,45 @@ class OpsHealthTests(unittest.TestCase):
 
     def test_no_failure_when_latest_recovered(self):
         runs = [
-            {"name": "Build Metro Monthly History", "status": "completed",
-             "conclusion": "failure", "created_at": "2026-11-19T20:00:00Z"},
-            {"name": "Build Metro Monthly History", "status": "completed",
-             "conclusion": "success", "created_at": "2026-11-19T22:00:00Z"},
+            {
+                "name": "Build Metro Monthly History",
+                "status": "completed",
+                "conclusion": "failure",
+                "created_at": "2026-11-19T20:00:00Z",
+            },
+            {
+                "name": "Build Metro Monthly History",
+                "status": "completed",
+                "conclusion": "success",
+                "created_at": "2026-11-19T22:00:00Z",
+            },
         ]
         report = assess(self.status, self.quality, runs, self.today)
         self.assertFalse(any("Latest run failed" in issue for issue in report["incidents"]))
+
+    def test_boolean_scope_counts_are_invalid(self):
+        self.status["total_completed_scopes"] = True
+        report = assess(self.status, self.quality, [], self.today)
+        self.assertEqual(report["status"], "ACTION_REQUIRED")
+        self.assertIn("Collector scope totals missing/invalid", report["incidents"])
+
+    def test_negative_scope_count_is_invalid(self):
+        self.status["total_completed_scopes"] = -1
+        report = assess(self.status, self.quality, [], self.today)
+        self.assertEqual(report["status"], "ACTION_REQUIRED")
+        self.assertIn("Collector scope totals missing/invalid", report["incidents"])
+
+    def test_malformed_run_payload_is_rejected(self):
+        with self.assertRaises(ValueError):
+            assess(self.status, self.quality, [{"created_at": None}], self.today)
+
+    def test_report_identifies_pinned_main_commit(self):
+        report = assess(
+            self.status, self.quality, [], self.today,
+            source_commit="a" * 40,
+        )
+        self.assertEqual(report["evidence_source"]["branch"], "main")
+        self.assertEqual(report["evidence_source"]["commit"], "a" * 40)
 
 
 if __name__ == "__main__":
