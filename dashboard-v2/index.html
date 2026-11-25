@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="서울·경기·대전·부산·대구·광주 아파트 실거래 실제 데이터 대시보드">
+<title>6개 권역 실거래 대시보드 · ver2.0</title>
+<link rel="stylesheet" href="styles.css?v=20261125-v2.1">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+<script src="../data.js" defer></script>
+<script src="app.js?v=20261125-v2.1" defer></script>
+</head><body>
+<div class="shell">
+<aside class="sidebar"><a class="brand" href="../">⌂ 부동산 AI 분석</a><nav><a class="on" href="#dashboard">▣ 6개 권역 실거래</a><a href="#history">◷ 5년 시계열</a><a href="#contracts">▤ 계약 상세</a><a href="#quality">◉ 자료 범위·검증</a></nav><div class="side-note">검증되지 않은 값은 추정하지 않습니다. 권역별 비교 산식과 자료 기간을 함께 표시합니다.</div><div class="versions"><b>버전 선택</b><a class="current" href="../">ver2.0 · 현재</a><a href="../ver1/">ver1.0 · 이전 버전</a><a href="../ver0/">ver0.0 · 과거 버전</a></div></aside>
+<main id="dashboard">
+<header class="top"><div><div class="eyebrow">실거래 공개자료 기반 · 6개 광역권</div><h1>서울 · 경기 · 대전 · 부산 · 대구 · 광주</h1><p>실거래 가격 추이와 계약내역을 한 화면에서 조회합니다. 검증되지 않은 점수는 표시하지 않습니다.</p></div><div class="top-right"><span class="version-chip">ver2.0 현재</span><span id="asOf" class="asof">자료 확인 중</span></div></header>
+<section class="filters" aria-label="자료 선택"><div class="city-tabs" id="cityTabs"><button data-city="seoul" class="active">서울</button><button data-city="gyeonggi">경기</button><button data-city="daejeon">대전</button><button data-city="busan">부산</button><button data-city="daegu">대구</button><button data-city="gwangju">광주</button></div><label>시군구<select id="district"><option value="">전체 권역</option></select></label><div class="kind-tabs" id="kindTabs"><button data-kind="sale" class="active">매매</button><button data-kind="jeonse">전세</button><button data-kind="monthly">월세</button></div><label>시작월<input id="from" type="month"></label><label>종료월<input id="to" type="month"></label><button id="apply" class="apply">조회</button></section>
+<section class="summary" id="summary"></section>
+<section class="content-grid">
+<article class="card chart-card" id="history"><div class="card-head"><div><h2>월별 실거래 가격 추이</h2><p id="chartSubtitle">권역과 거래유형을 선택하세요</p></div><span id="rangeBadge" class="badge">최근 5년</span></div><div class="chart-wrap"><canvas id="historyChart" aria-label="월별 실제 거래 중위가격"></canvas><div id="emptyChart" class="empty" hidden>선택한 지역·유형의 공개 월별 가격 통계가 아직 연결되지 않았습니다.</div></div><p class="data-note" id="chartNote"></p></article>
+<article class="card region-card"><div class="card-head"><div><h2>권역 내 시군구</h2><p id="regionSub">실제 최신 완결월 자료</p></div><span id="regionCount" class="badge">—</span></div><div class="table-scroll"><table><thead><tr><th>시군구</th><th>최근 가격</th><th>거래 표본</th><th>자료기간</th></tr></thead><tbody id="districtRows"></tbody></table></div><p class="data-note" id="priceFootnote"></p></article>
+</section>
+<section class="card" id="contracts"><div class="card-head contract-head"><div><h2>실제 계약 상세</h2><p id="contractNote">선택 시군구의 최근 공개 내역</p></div><input type="search" id="aptSearch" placeholder="아파트명·법정동 검색"></div><div class="table-scroll contracts-scroll"><table><thead><tr><th>계약일</th><th>단지 · 주소</th><th>전용면적</th><th>층</th><th id="amountHeader">거래금액</th></tr></thead><tbody id="contractRows"><tr><td colspan="5">자료를 조회 중입니다.</td></tr></tbody></table></div></section>
+<section class="card quality" id="quality"><div class="card-head"><div><h2>데이터 범위와 검증 상태</h2><p>자료가 없는 기간은 0으로 채우지 않고 공백으로 둡니다.</p></div><span id="qualityBadge" class="badge">검증 중</span></div><div id="qualityText" class="quality-grid"></div><div class="source-note" id="sourceNote"></div></section>
+<footer>공공 실거래 원자료를 집계한 참고 화면입니다. 중위값은 거래 단지·면적 구성에 영향을 받으며 가격지수나 미래 예측값이 아닙니다. 자료 기준월과 산출방식이 다른 권역의 수치를 단순 순위로 비교하지 않습니다. <a href="../ver1/">이전 ver1.0</a> · <a href="../ver0/">ver0.0</a></footer>
+</main></div></body></html>
