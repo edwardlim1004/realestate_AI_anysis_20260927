@@ -5,7 +5,7 @@
 ## 자료
 - 목표는 한국부동산원 공동주택 실거래가격지수의 서울 아파트 매매 지수를 전국 CPI로 조정한 뒤 구한 미래 누적 수익률. 2006-01~2026-08 동결본. [실거래 통계](https://www.reb.or.kr/r-one/portal/stat/easyStatPage/A_2024_00178.do).
 - [서울 아파트 매매 조사 지수](https://www.reb.or.kr/r-one/portal/stat/easyStatPage/A_2024_00045.do) 및 [전세 조사 지수](https://www.reb.or.kr/r-one/portal/stat/easyStatPage/A_2024_00050.do) 2003-11~2026-10. [월세 조사 지수](https://www.reb.or.kr/r-one/portal/stat/easyStatPage/A_2024_00055.do) 및 [월세 통합 지수](https://www.reb.or.kr/r-one/portal/stat/easyStatPage/A_2024_00054.do) 2015-06~2026-10. 순수 월세 분류 지수를 모형 입력으로 사용하고 월세 통합은 추출본에 보존했다. 매매·전세 격차는 같은 조사 계열의 최근 3개월 로그 상승률 차이다.
-- 주담대 금리 및 서울 거래량은 R-ONE 보존본. 실질 주담대금리는 명목금리에서 전국 CPI 전년비를 뺀 사후 물가조정 지표다. 실질 M2는 전국 ECOS 보존본을 CPI로 조정한 12개월 로그 성장률. 신용 상환부담은 BIS 한국 민간 비금융부문 부채 상환비율(DSR)로 개별 주택담보대출 규제 DSR과 정의가 다르다. PIR은 OECD 한국 장기평균 대비 가격/소득 지수다.
+- 주담대 금리 및 서울 거래량은 R-ONE 보존본. 실질 주담대금리는 명목금리에서 전국 CPI 전년비를 뺀 사후 물가조정 지표다. 실질 M2는 전국 ECOS 보존본을 CPI로 조정한 12개월 로그 성장률. 신용 상환부담은 BIS 한국 가계부문 부채 상환비율(DSR, Q.KR.H)로 개별 주택담보대출 규제 DSR과 정의가 다르다. PIR은 OECD 한국 장기평균 대비 가격/소득 지수다.
 - 월별 지연 가정은 REB 실거래 모멘텀·임대 지수 2개월, 거래량·주담대·M2 3개월, 분기 신용갭·DSR·PIR 6개월. 최초 공표 빈티지는 미확보 상태다.
 
 ## 검증
