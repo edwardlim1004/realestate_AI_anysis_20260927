@@ -2,7 +2,7 @@
 const fs=require("node:fs"),path=require("node:path"),vm=require("node:vm"),assert=require("node:assert/strict");
 const ROOT=path.resolve(__dirname,"../.."),load=p=>fs.readFileSync(path.join(ROOT,p),"utf8");
 const parse=p=>{const s=load(p);return JSON.parse(s.slice(s.indexOf("=")+1,s.lastIndexOf(";")))};
-const html=load("index.html"),dom={};
+const html=load("ver1/index.html"),dom={};
 class Node{
  constructor(id,dataset={}){this.id=id;this.dataset=dataset;this.innerHTML="";this.textContent="";this.value=({historyMetric:"all",macroMetric:"credit",mapMetric:"composite",periodSelect:"complete",typeSelect:"sale"})[id]||"";this.options=Array.from({length:8},()=>({textContent:""}));this.hidden=false;this.disabled=false;this.events={};this.classList={toggle(){}};this.attrs={};}
  addEventListener(evt,fn){this.events[evt]=fn;}

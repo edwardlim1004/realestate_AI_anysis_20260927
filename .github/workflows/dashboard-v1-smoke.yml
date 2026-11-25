@@ -3,16 +3,20 @@ on:
   push:
     paths:
       - "index.html"
+      - "ver1/**"
       - "ver0/**"
       - "dashboard-v1/**"
+      - "dashboard-v2/**"
       - "data.js"
       - "risk-data.js"
       - ".github/workflows/dashboard-v1-smoke.yml"
   pull_request:
     paths:
       - "index.html"
+      - "ver1/**"
       - "ver0/**"
       - "dashboard-v1/**"
+      - "dashboard-v2/**"
       - "data.js"
       - "risk-data.js"
   workflow_dispatch:

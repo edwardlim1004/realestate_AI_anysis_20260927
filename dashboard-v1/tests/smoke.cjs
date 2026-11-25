@@ -3,7 +3,7 @@ const fs=require("node:fs"),path=require("node:path"),vm=require("node:vm"),asse
 const root=path.resolve(__dirname,"../..");
 const MapNavigation=require("../map-navigation.js");
 const read=p=>fs.readFileSync(path.join(root,p),"utf8");
-const html=read("index.html"),legacy=read("ver0/index.html"),app=read("dashboard-v1/app.js"),boundaries=read("dashboard-v1/region-boundaries.js");
+const html=read("ver1/index.html"),legacy=read("ver0/index.html"),app=read("dashboard-v1/app.js"),boundaries=read("dashboard-v1/region-boundaries.js");
 const parsed=s=>JSON.parse(s.slice(s.indexOf("=")+1,s.lastIndexOf(";")));
 const data=parsed(read("data.js")),risk=parsed(read("risk-data.js")),geo=parsed(boundaries);
 assert.match(html,/ver0\//);assert.match(html,/dashboard-v1\/app.js/);assert.match(html,/dashboard-v1\/map-navigation.js/);
