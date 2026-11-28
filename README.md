@@ -143,3 +143,12 @@ python -m http.server 8000
 - IMF Global Financial Stability Report, April 2019, chapter 2
 
 정확한 URL과 사용 위치는 `risk-data/source_registry.csv`가 기준입니다.
+
+
+## 서울 아파트 하방위험 연구 모듈 (독립 검토)
+
+- 메인 화면의 **서울 하방위험 연구** 메뉴와 [독립 연구 대시보드](har-research/)에서 연다.
+- 장기 월별 가격 이력, 실거래 기반 하위 5% 예측, 기존 금융모형 대 동시 스트레스 후보, 6·12·36개월 전망, 동일 평가기간 점수표를 별도 연구 화면에 제공한다.
+- [선행지표 확장 검증 화면](har-research/leading-indicators/)은 전세·월세·금융 후보의 선택형 역사 비교를 제공한다.
+- 검토용 결과는 RESEARCH ONLY이며 본 대시보드 위험 점수·종합축과 연결하지 않는다. 최초 발표 빈티지 검증, 최근 5년 결측률, 변수별 독립 기여도와 점 예측 RMSE·MAE/하락 방향 적중률은 추가 검증이 필요한 항목으로 구분한다.
+- [모형·데이터·검증 방법 및 제한](har-research/README.md)에서 목표변수, 입력지표, 학습시차와 남은 검증 과제를 확인한다.
