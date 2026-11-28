@@ -2,15 +2,37 @@
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="서울·경기·대전·부산·대구·광주 아파트 실거래 실제 데이터 대시보드">
 <title>6개 권역 실거래 대시보드 · ver2.0</title>
-<link rel="stylesheet" href="styles.css?v=20261125-v2.1">
+<link rel="stylesheet" href="styles.css?v=20261128-v2.2">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
 <script src="../data.js" defer></script>
 <script src="app.js?v=20261125-v2.1" defer></script>
 </head><body>
 <div class="shell">
-<aside class="sidebar"><a class="brand" href="../">⌂ 부동산 AI 분석</a><nav><a class="on" href="#dashboard">▣ 6개 권역 실거래</a><a href="#history">◷ 5년 시계열</a><a href="#contracts">▤ 계약 상세</a><a href="#quality">◉ 자료 범위·검증</a></nav><div class="side-note">검증되지 않은 값은 추정하지 않습니다. 권역별 비교 산식과 자료 기간을 함께 표시합니다.</div><div class="versions"><b>버전 선택</b><a class="current" href="../">ver2.0 · 현재</a><a href="../ver1/">ver1.0 · 이전 버전</a><a href="../ver0/">ver0.0 · 과거 버전</a></div></aside>
+<aside class="sidebar">
+  <a class="brand" href="../">⌂ 부동산 AI 분석</a>
+  <nav aria-label="주요 메뉴">
+    <a class="on" href="#dashboard">▣ 대시보드</a>
+    <a href="#history">◇ 지역 분석</a>
+    <a href="../ver1/#valuation">▥ 아파트 분석 <span class="nav-origin">ver1</span></a>
+    <a href="../ver1/#risk">▤ 하방위험 분석 <span class="nav-origin">ver1</span></a>
+    <a href="../ver1/#regional-map">▱ 지도 보기 <span class="nav-origin">ver1</span></a>
+    <a href="#contracts">◷ 실거래 상세</a>
+    <a href="../ver1/#economy">◉ 데이터·거시지표 <span class="nav-origin">ver1</span></a>
+    <a href="../long-term-value/">∑ 5년 평가모형</a>
+    <a href="../liquidity-research/">≋ 유동성 연구</a>
+  </nav>
+  <div class="side-note">실거래 데이터는 ver2.0에서, 검증 중인 기존 분석 기능은 ver1.0 모듈에서 이어서 볼 수 있습니다.</div>
+  <div class="versions"><b>버전 바로가기</b><a class="current" href="./">ver2.0 · 새 대시보드</a><a href="../ver1/">ver1.0 · 이전 기능</a><a href="../ver0/">ver0.0 · 과거 화면</a></div>
+</aside>
 <main id="dashboard">
 <header class="top"><div><div class="eyebrow">실거래 공개자료 기반 · 6개 광역권</div><h1>서울 · 경기 · 대전 · 부산 · 대구 · 광주</h1><p>실거래 가격 추이와 계약내역을 한 화면에서 조회합니다. 검증되지 않은 점수는 표시하지 않습니다.</p></div><div class="top-right"><span class="version-chip">ver2.0 현재</span><span id="asOf" class="asof">자료 확인 중</span></div></header>
+<section class="legacy-bridge" aria-label="이전 분석 기능 이어보기">
+  <div class="legacy-copy"><strong>ver1.0에서 쓰던 분석 기능도 계속 이용할 수 있습니다</strong><span>새 실거래 자료와 기존 지도·위험·평가 모듈을 한 메뉴에서 찾아가세요.</span></div>
+  <a href="../ver1/#regional-map">지도·지역 분석 <small>ver1 모듈 ↗</small></a>
+  <a href="../ver1/#risk">하방위험·거시지표 <small>ver1 모듈 ↗</small></a>
+  <a href="../long-term-value/">5년 단지 평가 <small>평가 화면 ↗</small></a>
+  <a href="../liquidity-research/">유동성 연구 <small>연구 화면 ↗</small></a>
+</section>
 <section class="filters" aria-label="자료 선택"><div class="city-tabs" id="cityTabs"><button data-city="seoul" class="active">서울</button><button data-city="gyeonggi">경기</button><button data-city="daejeon">대전</button><button data-city="busan">부산</button><button data-city="daegu">대구</button><button data-city="gwangju">광주</button></div><label>시군구<select id="district"><option value="">전체 권역</option></select></label><div class="kind-tabs" id="kindTabs"><button data-kind="sale" class="active">매매</button><button data-kind="jeonse">전세</button><button data-kind="monthly">월세</button></div><label>시작월<input id="from" type="month"></label><label>종료월<input id="to" type="month"></label><button id="apply" class="apply">조회</button></section>
 <section class="summary" id="summary"></section>
 <section class="content-grid">
