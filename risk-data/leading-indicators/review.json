@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "1.0",
+  "moduleId": "KOR_SEOUL_HOUSING_LEADING_INDICATORS",
+  "mode": "RESEARCH_ONLY",
+  "compositeEligible": false,
+  "publicCompositeScore": null,
+  "indicatorCount": 17,
+  "indicators": [
+    {
+      "id": "BOK_HOUSE_PRICE_EXPECTATIONS_CSI",
+      "name": "한국은행 주택가격전망CSI",
+      "registryBucket": "CANDIDATE_PRIORITY",
+      "decision": "AWAITING_EVIDENCE",
+      "reason": "전국 심리이며 지역별 시차·정책 내생성 주의",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "KRIHS_HOUSING_SENTIMENT",
+      "name": "국토연구원 주택시장 소비심리지수",
+      "registryBucket": "CANDIDATE_PRIORITY",
+      "decision": "AWAITING_EVIDENCE",
+      "reason": "전국/수도권/서울 계열 혼합 금지; 조사기준 변화",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "BOK_NEW_NSI",
+      "name": "한국은행 신뉴스심리지수",
+      "registryBucket": "CANDIDATE_PRIORITY",
+      "decision": "AWAITING_EVIDENCE",
+      "reason": "2026년 9월 신규산식; 과거 소급생성 여부와 기존 NSI 코드 재사용 확인",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "BOK_EXPECTED_NSI",
+      "name": "미래 전망 뉴스심리지수",
+      "registryBucket": "CANDIDATE_PRIORITY",
+      "decision": "AWAITING_EVIDENCE",
+      "reason": "외부 시계열 제공 여부 미확인; 모델 연구자료만 있을 수 있음",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "SEOUL_TRANSACTION_TURNOVER",
+      "name": "서울 아파트 거래회전율",
+      "registryBucket": "CANDIDATE_PRIORITY",
+      "decision": "AWAITING_EVIDENCE",
+      "reason": "계약일 기준 신고지연, 재고 주택수 분모, 정책충격 보정 필수",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "JEONSE_SALES_GAP",
+      "name": "전세-매매 가격 변화 격차",
+      "registryBucket": "CANDIDATE_SECONDARY",
+      "decision": "AWAITING_EVIDENCE",
+      "reason": "PIR/PTR 동일 위험축과 중복 및 전세 정책의 시차",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "SEOUL_UNSOLD_COMPLETED",
+      "name": "서울 및 수도권 준공후 미분양",
+      "registryBucket": "CANDIDATE_SECONDARY",
+      "decision": "AWAITING_EVIDENCE",
+      "reason": "서울 표본이 적고 특정 공급 구역에 집중; 2026 부동산분석학회 구조변화 연구",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "HOUSING_STARTS_PERMITS",
+      "name": "착공·인허가·입주 물량",
+      "registryBucket": "CANDIDATE_SECONDARY",
+      "decision": "AWAITING_EVIDENCE",
+      "reason": "착공~준공 시간차 크므로 1개월 선행 지표보다 6개월 이상 장기 검증 적합",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "MORTGAGE_CREDIT_FLOW",
+      "name": "주택담보대출 증가율",
+      "registryBucket": "CANDIDATE_SECONDARY",
+      "decision": "AWAITING_EVIDENCE",
+      "reason": "기존 신용축 중복/정책변수 내생성",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "CREDIT_SPREAD_CURVE",
+      "name": "회사채-국채 스프레드·장단기 역전",
+      "registryBucket": "CANDIDATE_SECONDARY",
+      "decision": "AWAITING_EVIDENCE",
+      "reason": "기존 위험축 중복과 주택부문 특화도 낮음",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "KOSPI",
+      "name": "KOSPI 수익률",
+      "registryBucket": "CONTROL_ONLY",
+      "decision": "RESEARCH_HOLD",
+      "reason": "증분 신규 선행지표로 중복 계상 금지",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "REAL_RATE",
+      "name": "국고채3년 실질금리",
+      "registryBucket": "CONTROL_ONLY",
+      "decision": "RESEARCH_HOLD",
+      "reason": "기존 모형 및 금리축과 중복",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "EXCESS_LIQUIDITY",
+      "name": "Marshall K HP 갭",
+      "registryBucket": "CONTROL_ONLY",
+      "decision": "RESEARCH_HOLD",
+      "reason": "one-sided HP, GDP 분모, 원계열/계절조정과 소급 수정",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "RAW_FIVE_YEAR_DISTRICT_MEAN",
+      "name": "실거래 단순평균 가격을 장기 시계열로 사용하는 방식",
+      "registryBucket": "QUARANTINED",
+      "decision": "QUARANTINE_RESEARCH_ONLY",
+      "reason": "표본구성 이동/5년 미만 장기검증; 정제 전 모델 입력 금지",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "OLD_NSI_MIXED_WITH_NEW",
+      "name": "구NSI와 신NSI 무표기 연속연결",
+      "registryBucket": "QUARANTINED",
+      "decision": "QUARANTINE_RESEARCH_ONLY",
+      "reason": "연속성·소급산출 근거 확인 전 금지",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "TWO_SIDED_HP_REALTIME",
+      "name": "미래 관측 포함 양방향 HP 유동성갭",
+      "registryBucket": "QUARANTINED",
+      "decision": "QUARANTINE_RESEARCH_ONLY",
+      "reason": "실시간 선행지표 사용 금지",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    },
+    {
+      "id": "UNRELEASED_REVISIONS",
+      "name": "사후수정 자료를 당시 공표치로 간주",
+      "registryBucket": "QUARANTINED",
+      "decision": "QUARANTINE_RESEARCH_ONLY",
+      "reason": "PIT 통과 전 무효",
+      "compositeEligible": false,
+      "promotionPermitted": false
+    }
+  ],
+  "policy": "Initial registry snapshot: no empirical performance evidence; zero signals promoted."
+}

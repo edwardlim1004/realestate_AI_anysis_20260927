@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "1.0",
+  "moduleId": "KOR_NEW_NSI_SEOUL_HOUSING",
+  "mode": "SHADOW_WAITING_DATA",
+  "publicScore": null,
+  "compositeEligible": false,
+  "realTimeForecastVerified": false,
+  "asOfEvidence": "RETROSPECTIVE_NO_POINT_IN_TIME_VINTAGES",
+  "horizons": {},
+  "missingInputs": [
+    "research-data/nsi/seoul_price.csv",
+    "research-data/nsi/new_nsi.csv",
+    "research-data/nsi/controls.csv"
+  ],
+  "researchEvidence": "BOK Issue Note 2026-21 confirms leading correlation for CCSI/BSI, NOT Seoul apartment prices",
+  "sourceUrl": "https://www.bok.or.kr/portal/bbs/P0002353/view.do?nttId=11064365&menuNo=200433",
+  "lastReviewed": "2026-11-16"
+}
