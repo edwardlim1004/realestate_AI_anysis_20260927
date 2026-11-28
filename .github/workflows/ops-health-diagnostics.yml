@@ -1,0 +1,50 @@
+name: Read-only Operations Health Diagnostic
+on:
+  pull_request:
+    paths:
+      - tools/ops_health.py
+      - tools/test_ops_health.py
+      - .github/workflows/ops-health-diagnostics.yml
+  workflow_dispatch:
+  schedule:
+    - cron: "17 0,6,12,18 * * *" # approximately 09:17 / 15:17 / 21:17 / 03:17 KST
+permissions:
+  contents: read
+  actions: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Read-only diagnostic unit tests
+        run: python -m unittest tools/test_ops_health.py -v
+      - name: Read workflow and data-quality evidence without changing production
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python tools/ops_health.py --output reports/ops-health.json
+      - name: Preserve machine-readable diagnostic report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: operations-health-${{ github.run_id }}
+          path: reports/ops-health.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Flag confirmed existing incidents after report is preserved
+        if: github.event_name != 'pull_request'
+        run: |
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+          p = Path("reports/ops-health.json")
+          if not p.exists():
+              raise SystemExit("Health report not produced")
+          status = json.loads(p.read_text(encoding="utf-8"))["status"]
+          if status in ("ACTION_REQUIRED", "UNKNOWN"):
+              raise SystemExit(f"Operations diagnostic requires review: {status}")
+          print("Operations diagnostic:", status)
+          PY
